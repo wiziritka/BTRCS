@@ -773,8 +773,8 @@ func _on_game_created() -> void:
 	if Globals.get_setting_bool("broadcast"):
 		($BroadcastTimer as Timer).start()
 		($UpdateBroadcastTimer as Timer).start()
-		_broadcast_lobby_id = Globals.get_string("player_name", "Server").hash() \
-				* OS.get_unique_id().hash() + OS.get_process_id()
+		_broadcast_lobby_id = absi(Globals.get_string("player_name", "Server").hash()
+				* OS.get_unique_id().hash() + OS.get_process_id())
 		_broadcast_lobby_id %= 256
 		_do_broadcast()
 	if not Globals.headless:

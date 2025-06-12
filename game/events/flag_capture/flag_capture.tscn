@@ -1,10 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://biauwlgys7ce4"]
+[gd_scene load_steps=17 format=3 uid="uid://biauwlgys7ce4"]
 
 [ext_resource type="PackedScene" uid="uid://d3nsak46hbo2c" path="res://game/events/common/event.tscn" id="1_geta0"]
 [ext_resource type="Script" uid="uid://xyoklife3c7x" path="res://game/events/flag_capture/flag_capture.gd" id="2_xtwto"]
 [ext_resource type="PackedScene" uid="uid://ceigdilgx3wae" path="res://game/events/flag_capture/flag_capture_player.tscn" id="3_whopm"]
 [ext_resource type="Script" uid="uid://dixx0hylxdvcp" path="res://game/events/flag_capture/flag_capture_ui.gd" id="3_xkawu"]
 [ext_resource type="Script" uid="uid://dnjymc8wmp3tm" path="res://game/events/flag_capture/flag_zone.gd" id="5_whopm"]
+[ext_resource type="PackedScene" uid="uid://cyudg7uces0wb" path="res://game/events/flag_capture/flag/blue_flag.tscn" id="6_ae5hp"]
+[ext_resource type="PackedScene" uid="uid://cc2mkoa1fingr" path="res://game/events/flag_capture/flag/red_flag.tscn" id="7_2vmqf"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_wnvha"]
 viewport_path = NodePath("UI/MinimapViewport")
@@ -563,6 +565,9 @@ area_color = Color(0, 0, 1, 0.25098)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FlagZoneBlue" index="0"]
 shape = SubResource("CircleShape2D_vg1f0")
+
+[node name="ResourcePreloaderFlagCapture" type="ResourcePreloader" parent="." index="16"]
+resources = [PackedStringArray("blue_flag", "red_flag"), [ExtResource("6_ae5hp"), ExtResource("7_2vmqf")]]
 
 [connection signal="local_player_created" from="." to="." method="_on_local_player_created"]
 [connection signal="timeout" from="MatchTimer" to="." method="_on_match_timer_timeout"]

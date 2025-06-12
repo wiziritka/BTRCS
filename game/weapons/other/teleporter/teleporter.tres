@@ -9,7 +9,7 @@ rarity = 3
 id = "teleporter"
 stats = Dictionary[String, String]({
 "ammo_total": "2",
-"distance": "6",
+"distance": "5.5",
 "reload_time": "15"
 })
 damage_text = "Телепортирует"

@@ -9,6 +9,8 @@ extends AnimatableBody2D
 @export var damping := 200.0
 ## Направление снаряда.
 var direction: Vector2
+## Команда игрока, бросившего гранату.
+var team: int
 
 var _current_speed: float
 var _exploded := false

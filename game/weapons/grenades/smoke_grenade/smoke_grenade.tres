@@ -22,7 +22,7 @@ description = "Диаметр облака дыма: [color=red]{diameter} бл.
 Количество: [color=blue]{ammo_total} шт.[/color]
 Перезарядка: [color=blue]{reload_time} с[/color]
 
-Граната, позволяющая быстро скрыть свою позицию в облаке дыма."
+Граната, позволяющая скрыть свою позицию в облаке дыма. Не оказывает влияния на противников."
 scene_path = "uid://c5swv4a3luh8f"
 image_path = "uid://blxo5eej36ufg"
 spawnable_scenes_paths = Array[String](["uid://3cta5u3qtmvj"])

@@ -104,6 +104,7 @@ func _shoot(throw_direction := Vector2.ZERO) -> void:
 		var spread: float = deg_to_rad(_calculate_spread())
 		projectile.direction = throw_direction.normalized().rotated(randf_range(-spread, spread))
 		projectile.speed *= minf(throw_direction.length(), 1.0)
+		projectile.team = player.team
 		_customize_projectile(projectile)
 		projectile.name += str(randi())
 		_projectiles_parent.add_child(projectile)

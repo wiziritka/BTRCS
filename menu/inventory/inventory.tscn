@@ -98,7 +98,6 @@ popup/item_4/text = "События"
 popup/item_4/id = 4
 
 [node name="WeaponsFilter" type="OptionButton" parent="PanelContainer/VBoxContainer/Main/Selection/Filters"]
-visible = false
 layout_mode = 2
 selected = 0
 item_count = 5

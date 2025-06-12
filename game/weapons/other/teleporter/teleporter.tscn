@@ -161,7 +161,7 @@ tracks/5/keys = {
 
 [sub_resource type="Animation" id="Animation_rmo4a"]
 resource_name = "Use0"
-length = 0.3
+length = 0.35
 step = 0.05
 tracks/0/type = "audio"
 tracks/0/imported = false
@@ -229,7 +229,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_vrh83"]
 resource_name = "Use1"
-length = 0.3
+length = 0.35
 step = 0.05
 tracks/0/type = "audio"
 tracks/0/imported = false
@@ -297,7 +297,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_1pom7"]
 resource_name = "Use2"
-length = 0.3
+length = 0.35
 step = 0.05
 tracks/0/type = "audio"
 tracks/0/imported = false
@@ -379,11 +379,11 @@ radius = 76.0
 
 [node name="Teleporter" type="Node2D"]
 script = ExtResource("1_cvmrr")
-teleport_distance = 960.0
+teleport_distance = 880.0
 ammo_per_load = 0
 ammo_total = 2
 speed_multiplier_when_current = 0.97
-aim_camera_distance = 240.0
+aim_camera_distance = 220.0
 shoot_on_joystick_release = true
 metadata/_custom_type_script = "uid://btu7i28e5iysh"
 

@@ -49,7 +49,7 @@ const DEFAULT_PORT: int = 7415
 const LISTEN_PORT: int = 7414
 ## Базовое время, определяющее через сколько соединение должно быть прервано (в мс).
 ## За подробностями - [method ENetPacketPeer.set_timeout].
-const BASE_TIMEOUT: int = 1500
+const BASE_TIMEOUT: int = 2000
 ## Максимальное число клиентов. Используется при создании сервера.
 const MAX_CLIENTS: int = 11 # Ещё один чтобы успешно отклонять.
 ## Максимальная длина имени игрока.

@@ -14,8 +14,8 @@ var _spawn_counter_red: int = 0
 var _spawn_counter_blue: int = 0
 var _time_remained: int
 
-var _red_flag_scene: PackedScene = preload("uid://cc2mkoa1fingr")
-var _blue_flag_scene: PackedScene = preload("uid://cyudg7uces0wb")
+var _red_flag_scene: PackedScene = load("uid://cc2mkoa1fingr")
+var _blue_flag_scene: PackedScene = load("uid://cyudg7uces0wb")
 
 @onready var _spawn_points_red: Array[Node] = $Map/SpawnPoints0.get_children()
 @onready var _spawn_points_blue: Array[Node] = $Map/SpawnPoints1.get_children()

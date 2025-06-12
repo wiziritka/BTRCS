@@ -2,7 +2,7 @@ extends Control
 
 
 var _hide_locked := false
-var _type_to_list := ItemsDB.Item.EVENT
+var _type_to_list := ItemsDB.Item.WEAPON
 var _weapon_type_filter := Weapon.Type.INVALID # все
 var _skins_line_filter: int = -1 # все
 var _event_map_filter: int = -1 # пока никакое
@@ -15,7 +15,6 @@ var _selected_item_idx: int = -1
 
 func _ready() -> void:
 	(%Description as CanvasItem).hide()
-	(%OnlyUnlocked as CanvasItem).hide()
 	
 	for skins_line: SkinsLineData in Globals.items_db.skins_lines:
 		(%Filters/SkinsFilter as OptionButton).add_item(skins_line.name)
