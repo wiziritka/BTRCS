@@ -145,7 +145,7 @@ func setup_settings() -> void:
 	set_setting_bool("broadcast", get_setting_bool("broadcast", true))
 	# Игра
 	set_setting_bool("minimap", get_setting_bool("minimap", true))
-	set_setting_bool("debug_info", get_setting_bool("debug_info", false))
+	set_setting_bool("debug_info", get_setting_bool("debug_info", OS.is_debug_build()))
 	set_setting_bool("chat_in_game", get_setting_bool("chat_in_game", true))
 	set_setting_bool("vibration", get_setting_bool("vibration", false))
 	set_setting_bool("aim_dodge", get_setting_bool("aim_dodge", false))

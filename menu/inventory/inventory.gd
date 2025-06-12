@@ -190,21 +190,21 @@ func _on_main_filter_item_selected(index: int) -> void:
 	
 	match index:
 		0:
-			_type_to_list = ItemsDB.Item.EVENT
-		1:
-			_type_to_list = ItemsDB.Item.SKIN
-			(%Filters/SkinsFilter as CanvasItem).show()
-			(%OnlyUnlocked as CanvasItem).show()
-		2:
-			_type_to_list = ItemsDB.Item.SKILL
-			(%OnlyUnlocked as CanvasItem).show()
-		3:
 			_type_to_list = ItemsDB.Item.WEAPON
 			(%Filters/WeaponsFilter as CanvasItem).show()
 			(%OnlyUnlocked as CanvasItem).show()
-		4:
+		1:
+			_type_to_list = ItemsDB.Item.SKILL
+			(%OnlyUnlocked as CanvasItem).show()
+		2:
+			_type_to_list = ItemsDB.Item.SKIN
+			(%Filters/SkinsFilter as CanvasItem).show()
+			(%OnlyUnlocked as CanvasItem).show()
+		3:
 			_type_to_list = ItemsDB.Item.SKINS_LINE
 			(%OnlyUnlocked as CanvasItem).show()
+		4:
+			_type_to_list = ItemsDB.Item.EVENT
 	
 	_update_items_grid()
 

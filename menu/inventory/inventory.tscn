@@ -86,15 +86,15 @@ layout_mode = 2
 selected = 0
 allow_reselect = true
 item_count = 5
-popup/item_0/text = "События"
+popup/item_0/text = "Оружия"
 popup/item_0/id = 0
-popup/item_1/text = "Скины"
+popup/item_1/text = "Навыки"
 popup/item_1/id = 1
-popup/item_2/text = "Навыки"
+popup/item_2/text = "Скины"
 popup/item_2/id = 2
-popup/item_3/text = "Оружия"
+popup/item_3/text = "Линейки скинов"
 popup/item_3/id = 3
-popup/item_4/text = "Линейки скинов"
+popup/item_4/text = "События"
 popup/item_4/id = 4
 
 [node name="WeaponsFilter" type="OptionButton" parent="PanelContainer/VBoxContainer/Main/Selection/Filters"]

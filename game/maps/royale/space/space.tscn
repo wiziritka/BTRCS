@@ -1,7 +1,8 @@
-[gd_scene load_steps=28 format=4 uid="uid://cbmb8arq01pl8"]
+[gd_scene load_steps=29 format=4 uid="uid://cbmb8arq01pl8"]
 
 [ext_resource type="PackedScene" uid="uid://c4157ddj75w7o" path="res://game/events/royale/base_map.tscn" id="1_5erqo"]
 [ext_resource type="AudioStream" uid="uid://dpdrqash4lyw2" path="res://game/locations/space/music.ogg" id="2_2n7ht"]
+[ext_resource type="Script" uid="uid://mre2smglj1wk" path="res://game/maps/royale/space/space.gd" id="2_fsg8k"]
 [ext_resource type="Texture2D" uid="uid://ccit1ha8122h0" path="res://game/locations/space/background.png" id="2_p6x1d"]
 [ext_resource type="TileSet" uid="uid://bbtp28pgym4wy" path="res://game/locations/space/tiles/tile_set.tres" id="3_x1q66"]
 [ext_resource type="Shader" uid="uid://cqxut0urqm01l" path="res://game/locations/space/change_color.gdshader" id="5_h260c"]
@@ -256,6 +257,8 @@ _data = {
 }
 
 [node name="Map" instance=ExtResource("1_5erqo")]
+script = ExtResource("2_fsg8k")
+background_color = Color(0.481201, 0, 0.84375, 1)
 custom_tracks = Array[AudioStream]([ExtResource("2_2n7ht")])
 
 [node name="MinimapTiles" parent="Minimap" index="0"]
@@ -394,20 +397,13 @@ position = Vector2(3, 1506)
 position = Vector2(-4, -1680)
 
 [node name="BackgroundParallax" type="Parallax2D" parent="." index="6"]
+visibility_layer = 4
 z_index = -6
 scroll_scale = Vector2(0.2, 0.2)
 repeat_size = Vector2(2560, 1440)
 repeat_times = 2
 
-[node name="SimpleBackground" type="ColorRect" parent="BackgroundParallax" index="0"]
-visibility_layer = 8
-offset_right = 2560.0
-offset_bottom = 1440.0
-mouse_filter = 2
-color = Color(0.413717, 0.113678, 0.582031, 1)
-
-[node name="Background" type="Sprite2D" parent="BackgroundParallax" index="1"]
-visibility_layer = 4
+[node name="Background" type="Sprite2D" parent="BackgroundParallax" index="0"]
 texture_repeat = 2
 scale = Vector2(2, 2)
 texture = ExtResource("2_p6x1d")

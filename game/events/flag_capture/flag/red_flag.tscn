@@ -11,7 +11,7 @@ texture = ExtResource("2_4m2ke")
 [node name="Visual" parent="Minimap/MinimapMarker" index="0"]
 self_modulate = Color(1, 0, 0, 1)
 
-[node name="ReturnTimerProgress" parent="." index="4"]
+[node name="TimerProgress" parent="." index="4"]
 self_modulate = Color(1, 0, 0, 1)
 
 [node name="Marker" parent="ScreenMarker/Visual" index="0"]

@@ -45,11 +45,11 @@ enum State {
 }
 ## Порт для подключения по умолчанию.
 const DEFAULT_PORT: int = 7415
+## Порт, через который ищутся игры по локальной сети.
+const LISTEN_PORT: int = 7414
 ## Базовое время, определяющее через сколько соединение должно быть прервано (в мс).
 ## За подробностями - [method ENetPacketPeer.set_timeout].
 const BASE_TIMEOUT: int = 1500
-## Порт, через который ищутся игры по локальной сети.
-const LISTEN_PORT: int = 7414
 ## Максимальное число клиентов. Используется при создании сервера.
 const MAX_CLIENTS: int = 11 # Ещё один чтобы успешно отклонять.
 ## Максимальная длина имени игрока.
@@ -60,7 +60,7 @@ const LOCAL_IP_PREFIXES: Array[String] = [
 	"10.",
 ]
 
-## Максимальное число игроков, превысив которое, сервер начнёт отклонять соединения.
+## Максимальное число игроков, превысив которое сервер начнёт отклонять соединения.
 ## Задаётся лобби на основе выбранного события. Не имеет эффекта на клиентах.
 var max_players: int = 10
 ## Текущее состояние игры.
@@ -93,6 +93,7 @@ func _physics_process(_delta: float) -> void:
 			and multiplayer.multiplayer_peer.get_connection_status() \
 			!= MultiplayerPeer.CONNECTION_CONNECTED \
 			and not state in [State.CONNECTING, State.CLOSED]:
+		push_warning("Peer disconnected, closing.")
 		close()
 	
 	multiplayer.poll()

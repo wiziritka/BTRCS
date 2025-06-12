@@ -368,6 +368,7 @@ _data = {
 }
 
 [node name="PotatoCannon" instance=ExtResource("1_7pnph")]
+shoot_interval = 0.55
 to_aim_time = 0.25
 projectile_scene = ExtResource("2_1iw8o")
 spread_base = 2.0

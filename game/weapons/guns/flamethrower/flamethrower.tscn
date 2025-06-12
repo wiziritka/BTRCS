@@ -429,6 +429,9 @@ position = Vector2(222, -15)
 [node name="Aim" parent="ShootPoint" index="0"]
 points = PackedVector2Array(0, 0, 960, 0)
 
+[node name="Outline" parent="ShootPoint/Aim" index="2"]
+points = PackedVector2Array(0, 0, 960, 0)
+
 [node name="AnimationPlayer" parent="." index="3"]
 libraries = {
 &"": SubResource("AnimationLibrary_sp6sa")

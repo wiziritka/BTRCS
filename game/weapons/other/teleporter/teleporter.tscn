@@ -11,7 +11,7 @@
 
 [sub_resource type="Animation" id="Animation_6ye5t"]
 resource_name = "Equip"
-length = 0.6
+length = 0.5
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -20,7 +20,7 @@ tracks/0/path = NodePath("Base:z_index")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [-1, 0]
@@ -32,7 +32,7 @@ tracks/1/path = NodePath("Base:position")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.6),
+"times": PackedFloat32Array(0, 0.25, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(-28, -43), Vector2(74, -31), Vector2(4, 4)]
@@ -44,7 +44,7 @@ tracks/2/path = NodePath("Base:rotation")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.6),
+"times": PackedFloat32Array(0, 0.25, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [-2.10191, -0.287773, 0.435151]
@@ -161,7 +161,7 @@ tracks/5/keys = {
 
 [sub_resource type="Animation" id="Animation_rmo4a"]
 resource_name = "Use0"
-length = 0.6
+length = 0.3
 step = 0.05
 tracks/0/type = "audio"
 tracks/0/imported = false
@@ -185,10 +185,10 @@ tracks/1/path = NodePath("Base/Buttons/Button0:instance_shader_parameters/power"
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [0.0, 0.5, 0.5, 0.0]
+"values": [0.0, 0.5, 0.0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -197,7 +197,7 @@ tracks/2/path = NodePath("Base/Buttons/Button1:instance_shader_parameters/power"
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.0, 0.0, 0.5, 0.0]
@@ -229,7 +229,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_vrh83"]
 resource_name = "Use1"
-length = 0.6
+length = 0.3
 step = 0.05
 tracks/0/type = "audio"
 tracks/0/imported = false
@@ -253,10 +253,10 @@ tracks/1/path = NodePath("Base/Buttons/Button2:instance_shader_parameters/power"
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [0.0, 0.5, 0.5, 0.0]
+"values": [0.0, 0.5, 0.0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -265,7 +265,7 @@ tracks/2/path = NodePath("Base/Buttons/Button0:instance_shader_parameters/power"
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.0, 0.0, 0.5, 0.0]
@@ -297,7 +297,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_1pom7"]
 resource_name = "Use2"
-length = 0.6
+length = 0.3
 step = 0.05
 tracks/0/type = "audio"
 tracks/0/imported = false
@@ -321,10 +321,10 @@ tracks/1/path = NodePath("Base/Buttons/Button1:instance_shader_parameters/power"
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [0.0, 0.5, 0.5, 0.0]
+"values": [0.0, 0.5, 0.0]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -333,7 +333,7 @@ tracks/2/path = NodePath("Base/Buttons/Button2:instance_shader_parameters/power"
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.2, 0.25, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.0, 0.0, 0.5, 0.0]
@@ -379,10 +379,11 @@ radius = 76.0
 
 [node name="Teleporter" type="Node2D"]
 script = ExtResource("1_cvmrr")
+teleport_distance = 960.0
 ammo_per_load = 0
 ammo_total = 2
 speed_multiplier_when_current = 0.97
-aim_camera_distance = 200.0
+aim_camera_distance = 240.0
 shoot_on_joystick_release = true
 metadata/_custom_type_script = "uid://btu7i28e5iysh"
 

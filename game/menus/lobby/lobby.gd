@@ -77,6 +77,7 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.peer_connected.connect(_on_peer_connected)
 	hide()
+	process_mode = Node.PROCESS_MODE_DISABLED
 	
 	selected_event = Globals.get_int("selected_event")
 	selected_maps = Globals.get_variant("selected_maps", [] as Array[int])
@@ -765,6 +766,7 @@ func _on_client_timer_timeout(id: int) -> void:
 
 func _on_game_created() -> void:
 	show()
+	process_mode = Node.PROCESS_MODE_INHERIT
 	(%ControlButtons/ConnectedToIP as CanvasItem).hide()
 	(%ControlButtons/ViewIP as CanvasItem).show()
 	players.clear()
@@ -782,6 +784,7 @@ func _on_game_created() -> void:
 
 func _on_game_joined() -> void:
 	show()
+	process_mode = Node.PROCESS_MODE_INHERIT
 	(%AdminPanel as CanvasItem).hide()
 	(%ClientHint as CanvasItem).show()
 	(%ControlButtons/ConnectedToIP as CanvasItem).show()
@@ -796,6 +799,7 @@ func _on_game_joined() -> void:
 
 func _on_game_closed() -> void:
 	hide()
+	process_mode = Node.PROCESS_MODE_DISABLED
 	_item_selector.hide()
 	
 	if not ($BroadcastTimer as Timer).is_stopped():
@@ -817,10 +821,12 @@ func _on_game_closed() -> void:
 func _on_game_started() -> void:
 	_hide_countdown()
 	hide()
+	process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func _on_game_ended() -> void:
 	show()
+	process_mode = Node.PROCESS_MODE_INHERIT
 	if multiplayer.is_server():
 		($BroadcastTimer as Timer).start()
 		($UpdateBroadcastTimer as Timer).start()

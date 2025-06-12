@@ -223,11 +223,11 @@ spawn_limit = 10
 
 [node name="ProjectilesSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../Projectiles")
-spawn_limit = 100
+spawn_limit = 200
 
 [node name="OtherSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../Other")
-spawn_limit = 50
+spawn_limit = 100
 
 [node name="Camera" type="Camera2D" parent="."]
 process_physics_priority = -1

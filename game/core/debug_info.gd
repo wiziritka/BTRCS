@@ -9,10 +9,11 @@ var _last_ping: int
 
 
 func _ready() -> void:
-	if not Globals.get_setting_bool("debug_info") and not OS.is_debug_build():
+	if not Globals.get_setting_bool("debug_info"):
 		hide()
-		process_mode = Node.PROCESS_MODE_DISABLED
-		return
+		if not OS.is_debug_build():
+			process_mode = Node.PROCESS_MODE_DISABLED
+			return
 	
 	if OS.is_debug_build():
 		Performance.add_custom_monitor(&"Network/Ping", get.bind(&"_last_ping"))

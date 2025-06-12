@@ -31,7 +31,7 @@ hit_vfx_scene = ExtResource("3_3d77g")
 damage = 16
 
 [node name="Timer" parent="." index="0"]
-wait_time = 2.0
+wait_time = 1.6
 
 [node name="MultiplayerSynchronizer" parent="." index="1"]
 replication_interval = 0.15

@@ -108,18 +108,21 @@ func _cleanup_address(address: String) -> String:
 
 func _on_game_created() -> void:
 	hide()
+	process_mode = Node.PROCESS_MODE_DISABLED
 	_udp.stop()
 	print_verbose("Listening stopped.")
 
 
 func _on_game_joined() -> void:
 	hide()
+	process_mode = Node.PROCESS_MODE_DISABLED
 	_udp.stop()
 	print_verbose("Listening stopped.")
 
 
 func _on_game_closed() -> void:
 	show()
+	process_mode = Node.PROCESS_MODE_INHERIT
 	_udp.listen(Game.LISTEN_PORT)
 	print_verbose("Listening restarted.")
 
