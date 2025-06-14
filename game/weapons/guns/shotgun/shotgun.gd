@@ -12,7 +12,6 @@ func _physics_process(delta: float) -> void:
 
 
 func reload() -> void:
-	_reloading = true
 	_turn_tween = create_tween()
 	_turn_tween.tween_property(self, ^":rotation", 0.0, to_aim_time)
 	block_shooting()
@@ -20,11 +19,10 @@ func reload() -> void:
 	
 	var anim_name: StringName = await _anim.animation_finished
 	if anim_name != &"StartReload":
-		_reloading = false
-		_interrupting_reload = false
 		unblock_shooting()
 		return
 	
+	_reloading = true
 	while ammo != ammo_per_load and ammo_in_stock > 0:
 		_anim.play(&"Reload")
 		anim_name = await _anim.animation_finished
@@ -40,16 +38,15 @@ func reload() -> void:
 		if _interrupting_reload:
 			break
 	
-	_anim.play(&"EndReload")
-	anim_name = await _anim.animation_finished
 	_reloading = false
 	_interrupting_reload = false
+	_anim.play(&"EndReload")
+	anim_name = await _anim.animation_finished
 	if anim_name != &"EndReload":
 		unblock_shooting()
 		return
 	
 	_anim.play(&"PostReload")
-	
 	_turn_tween = create_tween()
 	_turn_tween.tween_property(self, ^":rotation", _calculate_aim_angle(), to_aim_time)
 	await _turn_tween.finished

@@ -31,6 +31,8 @@ var _turn_tween: Tween
 @onready var _throw_pivot: Marker2D = $ThrowPivot
 @onready var _ammo_parent: Marker2D = $Ammo
 
+@onready var _interrupt_reload_margin_timer: Timer = $InterruptReloadMarginTimer
+
 @onready var _aim: Line2D = $ThrowPivot/ThrowPoint/Aim
 @onready var _aim_spread_left: Line2D = $ThrowPivot/ThrowPoint/Aim/SpreadLeft
 @onready var _aim_spread_right: Line2D = $ThrowPivot/ThrowPoint/Aim/SpreadRight
@@ -56,8 +58,8 @@ func _physics_process(delta: float) -> void:
 	_throw_timer -= delta
 	if player.is_local() and can_reload() and ammo <= 0:
 		player.try_reload_weapon()
-	if multiplayer.is_server() and _reloading \
-			and player.player_input.shooting and not _interrupting_reload:
+	if multiplayer.is_server() and _reloading and player.player_input.shooting \
+			and not _interrupting_reload and _interrupt_reload_margin_timer.is_stopped():
 		_interrupt_reload.rpc(ammo)
 
 
@@ -139,6 +141,7 @@ func _ammo_changed(in_stock: bool) -> void:
 
 func reload() -> void:
 	_reloading = true
+	_interrupt_reload_margin_timer.start()
 	block_shooting()
 	
 	while ammo != ammo_per_load and ammo_in_stock > 0:
@@ -153,6 +156,7 @@ func reload() -> void:
 		if anim_name != &"Reload":
 			_reloading = false
 			_interrupting_reload = false
+			_interrupt_reload_margin_timer.stop()
 			current_ammo.hide()
 			unblock_shooting()
 			return

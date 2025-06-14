@@ -25,13 +25,13 @@ func _on_line_edit_text_changed(new_text: String) -> void:
 		_label.text = "Что я тебе сделал?("
 	elif new_text == "i'm blue":
 		_label.add_theme_color_override(&"font_color", Color.BLUE)
-		_label.text = "Дабудидай"
+		_label.text = "Дабуди-дабудай"
 	elif new_text in ["dead circle", "666", "die"]:
 		_label.text = "DIEEEEEEEEE"
 		($CanvasModulate as CanvasItem).show()
 	elif new_text in ["блять", "сука"] or new_text.contains("хуй") or new_text.contains("пизд") \
-			or new_text.begins_with("еб") or new_text.contains("хуё") or new_text.contains("хуе") \
-			or new_text.contains("пидр") or new_text.contains("пидор"):
+			or new_text.contains("пидор") or new_text.contains("хуё") or new_text.contains("пидр") \
+			or new_text.contains("хуе") or new_text.begins_with("еб") or new_text.begins_with("ёб"):
 		_label.text = "Нехорошо материться!"
 	elif new_text == "разраб клоун":
 		(%LineEdit as LineEdit).text = "Сам такой!"

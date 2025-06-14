@@ -51,3 +51,8 @@ width = 52.0
 default_color = Color(0, 0, 0, 0.188235)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="InterruptReloadMarginTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.5
+one_shot = true

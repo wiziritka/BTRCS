@@ -206,7 +206,7 @@ player_scenes = Array[PackedScene]([ExtResource("2_i4nrm")])
 tracks = Array[AudioStream]([ExtResource("3_w1x71"), ExtResource("4_t8n0q")])
 metadata/_custom_type_script = "uid://ciktx11hqv3ox"
 
-[node name="Entities" type="Node2D" parent="."]
+[node name="Entities" type="Node2D" parent="." groups=["EntitiesParent"]]
 physics_interpolation_mode = 1
 
 [node name="Projectiles" type="Node2D" parent="." groups=["ProjectilesParent"]]
@@ -475,6 +475,7 @@ libraries = {
 [node name="MinimapViewport" type="SubViewport" parent="UI"]
 physics_interpolation_mode = 2
 disable_3d = true
+transparent_bg = true
 gui_disable_input = true
 canvas_cull_mask = 4293918722
 size = Vector2i(256, 256)

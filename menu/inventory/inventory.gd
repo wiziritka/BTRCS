@@ -22,6 +22,12 @@ func _ready() -> void:
 	_update_items_grid()
 
 
+func _notification(what: int) -> void:
+	match what:
+		NOTIFICATION_WM_GO_BACK_REQUEST when visible:
+			_on_quit_pressed()
+
+
 func _update_items_grid() -> void:
 	if _type_to_list == ItemsDB.Item.WEAPON and _weapon_type_filter != Weapon.Type.INVALID:
 		_items_grid.list_weapons_by_type(_weapon_type_filter, -1, _hide_locked)

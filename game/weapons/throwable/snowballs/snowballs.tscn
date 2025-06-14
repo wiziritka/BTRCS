@@ -91,3 +91,6 @@ position = Vector2(96, 0)
 libraries = {
 &"": SubResource("AnimationLibrary_008ih")
 }
+
+[node name="InterruptReloadMarginTimer" parent="." index="3"]
+wait_time = 0.6

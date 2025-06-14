@@ -770,6 +770,9 @@ func _on_game_created() -> void:
 	(%ControlButtons/ConnectedToIP as CanvasItem).hide()
 	(%ControlButtons/ViewIP as CanvasItem).show()
 	players.clear()
+	if not Globals.headless:
+		_register_new_player.rpc_id(MultiplayerPeer.TARGET_PEER_SERVER,
+				Globals.get_string("player_name"))
 	if Globals.get_setting_bool("broadcast"):
 		($BroadcastTimer as Timer).start()
 		($UpdateBroadcastTimer as Timer).start()
@@ -777,9 +780,6 @@ func _on_game_created() -> void:
 				* OS.get_unique_id().hash() + OS.get_process_id())
 		_broadcast_lobby_id %= 256
 		_do_broadcast()
-	if not Globals.headless:
-		_register_new_player.rpc_id(MultiplayerPeer.TARGET_PEER_SERVER,
-				Globals.get_string("player_name"))
 
 
 func _on_game_joined() -> void:

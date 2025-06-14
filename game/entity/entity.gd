@@ -51,7 +51,7 @@ const MIN_SAFE_DISTANCE := 80.0
 const WRONG_POSITION_ROLLBACK_TIME := 0.04
 ## Это значение делится на безопасную дистанцию, и результат используется в интерполяции сущности
 ## к положению на сервере. Используется при корректировке движения сущности на клиентах.
-const SAFE_DISTANCE_LERP := 7.0
+const SAFE_DISTANCE_LERP := 8.0
 
 ## Базовая скорость сущности.
 @export var speed := 640.0
