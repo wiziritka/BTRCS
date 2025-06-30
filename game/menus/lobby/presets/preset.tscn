@@ -110,6 +110,7 @@ size = Vector2i(400, 136)
 unresizable = true
 always_on_top = true
 ok_button_text = "Переименовать"
+dialog_hide_on_ok = false
 cancel_button_text = "Отмена"
 
 [node name="NameEdit" type="LineEdit" parent="RenameDialog"]
@@ -125,7 +126,6 @@ offset_right = 168.0
 offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
-placeholder_text = "Новое имя..."
 alignment = 1
 max_length = 20
 
@@ -134,4 +134,5 @@ max_length = 20
 [connection signal="pressed" from="Main/Buttons/Rename" to="." method="_on_rename_pressed"]
 [connection signal="pressed" from="Main/Buttons/Delete" to="." method="_on_delete_pressed"]
 [connection signal="pressed" from="Empty/Add" to="." method="_on_add_pressed"]
+[connection signal="canceled" from="RenameDialog" to="RenameDialog" method="hide"]
 [connection signal="confirmed" from="RenameDialog" to="." method="_on_rename_dialog_confirmed"]

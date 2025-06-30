@@ -116,6 +116,7 @@ func _on_load_pressed() -> void:
 
 func _on_rename_pressed() -> void:
 	(%NameEdit as LineEdit).clear()
+	(%NameEdit as LineEdit).placeholder_text = "Новое имя..."
 	($RenameDialog as Window).title = 'Переименовывание "%s"' \
 			% Globals.get_string("preset_%d_name" % idx)
 	($RenameDialog as Window).popup_centered()
@@ -129,5 +130,12 @@ func _on_delete_pressed() -> void:
 
 
 func _on_rename_dialog_confirmed() -> void:
-	Globals.set_string("preset_%d_name" % idx, Utils.strip_string((%NameEdit as LineEdit).text))
+	var new_name: String = Utils.strip_string((%NameEdit as LineEdit).text)
+	if new_name.is_empty():
+		(%NameEdit as LineEdit).clear()
+		(%NameEdit as LineEdit).placeholder_text = "Недопустимое имя!"
+		return
+	
+	Globals.set_string("preset_%d_name" % idx, new_name)
 	(%PresetName as Label).text = Globals.get_string("preset_%d_name" % idx)
+	($RenameDialog as Window).hide()

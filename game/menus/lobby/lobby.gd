@@ -804,6 +804,7 @@ func _on_game_closed() -> void:
 	hide()
 	process_mode = Node.PROCESS_MODE_DISABLED
 	_item_selector.hide()
+	($PresetManager as Window).hide()
 	
 	if not ($BroadcastTimer as Timer).is_stopped():
 		($BroadcastTimer as Timer).stop()
