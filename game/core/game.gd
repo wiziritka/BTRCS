@@ -502,7 +502,8 @@ func _authenticate_callback(peer: int, data: PackedByteArray) -> void:
 		_scene_multiplayer.send_auth(peer, PackedByteArray([FailReason.BANNED]))
 		print_verbose("Rejecting %d: banned." % peer)
 		return
-	if multiplayer.get_peers().size() + int(not Globals.headless) + 1 > max_players:
+	if multiplayer.get_peers().size() + int(not Globals.headless) + 1 > max_players \
+			and Globals.get_setting_bool("reject_players"):
 		_scene_multiplayer.send_auth(peer, PackedByteArray([FailReason.FULL_ROOM]))
 		print_verbose("Rejecting %d: full room." % peer)
 		return

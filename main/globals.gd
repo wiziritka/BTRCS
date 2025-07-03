@@ -128,13 +128,7 @@ func quit(restart := false, args := PackedStringArray()) -> void:
 func setup_settings() -> void:
 	var override_file := ConfigFile.new()
 	override_file.load("user://engine_settings.cfg")
-	var shader_cache: bool = ProjectSettings.get_setting_with_override(
-			&"rendering/shader_compiler/shader_cache/enabled")
-	override_file.set_value("rendering",
-			"shader_compiler/shader_cache/enabled", shader_cache)
-	override_file.set_value("rendering",
-			"shader_compiler/shader_cache/enabled.mobile", shader_cache)
-	override_file.save("user://engine_settings.cfg")
+	# TODO: вернуть выбор отрисовщика
 	
 	# Основное
 	set_setting_bool("check_updates", get_setting_bool("check_updates", true))
@@ -143,6 +137,7 @@ func setup_settings() -> void:
 	# Сеть
 	set_setting_bool("upnp", get_setting_bool("upnp", false))
 	set_setting_bool("broadcast", get_setting_bool("broadcast", true))
+	set_setting_bool("reject_players", get_setting_bool("reject_players", false))
 	# Игра
 	set_setting_bool("minimap", get_setting_bool("minimap", true))
 	set_setting_bool("debug_info", get_setting_bool("debug_info", OS.is_debug_build()))

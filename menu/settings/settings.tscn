@@ -29,9 +29,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jwkxy")
 help_messages = Array[String](["Удаляет все загруженные ранее патчи. Если \"проверять и загружать патчи\" включено, они будут снова загружены при запуске игры.
-После применения игра будет перезапущена.", "Включает шейдерный кэш, призванный убрать просадки кадров при компиляции шейдеров. Рекомендуется отключить на телефонах, если вы испытываете падения игры.
-Изменения будут применены после перезапуска игры.", "Включает вибрацию при получении и нанесении урона.", "Очищает шейдерный кэш.
-После применения игра будет перезапущена.", "Устанавливает ограничение количества кадров в секунду. Не может превышать частоту обновления экрана.", "Настраивает направление переката.
+После применения игра будет перезапущена.", "Если включено, попытки присоединения к комнате будут отклоняться, если количество подключённых игроков равно или превышает максимум текущего события.", "Включает вибрацию при получении и нанесении урона.", "", "Устанавливает ограничение количества кадров в секунду. Не может превышать частоту обновления экрана.", "Настраивает направление переката.
 Движение - перекат будет выполняться в сторону (последнего) движения.
 Прицел - перекат будет выполняться в сторону прицела.", "Настраивает тип управления.
 Касания - управления джойстиками и кнопками на экране. Предназначено для управления на телефонах.
@@ -140,7 +138,7 @@ text = "Игра"
 icon = ExtResource("2_wsc6q")
 alignment = 0
 
-[node name="Video" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/Sections"]
+[node name="Graphics" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/Sections"]
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_xsh6l")
@@ -330,7 +328,6 @@ text = "Удалить все данные"
 icon = ExtResource("12_g4yas")
 
 [node name="Network" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -355,6 +352,32 @@ layout_mode = 2
 size_flags_horizontal = 2
 
 [node name="Help" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/Broadcast/Setting"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+icon = ExtResource("1_xh6xh")
+expand_icon = true
+
+[node name="RejectPlayers" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/RejectPlayers"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_type_variation = &"HeaderSmall"
+text = "Строгий максимум игроков"
+vertical_alignment = 1
+
+[node name="Setting" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/RejectPlayers"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RejectPlayersCheck" type="CheckButton" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/RejectPlayers/Setting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="Help" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/RejectPlayers/Setting"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 icon = ExtResource("1_xh6xh")
@@ -405,6 +428,7 @@ theme_type_variation = &"HeaderSmall"
 vertical_alignment = 1
 
 [node name="Game" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -573,15 +597,15 @@ layout_mode = 2
 icon = ExtResource("1_xh6xh")
 expand_icon = true
 
-[node name="Video" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections"]
+[node name="Graphics" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Fullscreen" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video"]
+[node name="Fullscreen" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/Fullscreen"]
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/Fullscreen"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -589,26 +613,26 @@ theme_type_variation = &"HeaderSmall"
 text = "Полный экран"
 vertical_alignment = 1
 
-[node name="Setting" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/Fullscreen"]
+[node name="Setting" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/Fullscreen"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="FullscreenCheck" type="CheckButton" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/Fullscreen/Setting"]
+[node name="FullscreenCheck" type="CheckButton" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/Fullscreen/Setting"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
 
-[node name="Help" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/Fullscreen/Setting"]
+[node name="Help" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/Fullscreen/Setting"]
 visible = false
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 icon = ExtResource("1_xh6xh")
 expand_icon = true
 
-[node name="MaxFPS" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video"]
+[node name="MaxFPS" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/MaxFPS"]
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/MaxFPS"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -616,11 +640,11 @@ theme_type_variation = &"HeaderSmall"
 text = "Ограничение FPS"
 vertical_alignment = 1
 
-[node name="Setting" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/MaxFPS"]
+[node name="Setting" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/MaxFPS"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="FPSSlider" type="HSlider" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/MaxFPS/Setting"]
+[node name="FPSSlider" type="HSlider" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/MaxFPS/Setting"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -632,7 +656,7 @@ step = 10.0
 value = 130.0
 allow_lesser = true
 
-[node name="FPSValue" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/MaxFPS/Setting"]
+[node name="FPSValue" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/MaxFPS/Setting"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
@@ -642,16 +666,16 @@ text = "Нет"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Help" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/MaxFPS/Setting"]
+[node name="Help" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/MaxFPS/Setting"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 icon = ExtResource("1_xh6xh")
 expand_icon = true
 
-[node name="LowGraphics" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video"]
+[node name="LowGraphics" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/LowGraphics"]
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/LowGraphics"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -659,58 +683,16 @@ theme_type_variation = &"HeaderSmall"
 text = "Упрощённая графика"
 vertical_alignment = 1
 
-[node name="Setting" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/LowGraphics"]
+[node name="Setting" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/LowGraphics"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LowGraphicsCheck" type="CheckButton" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/LowGraphics/Setting"]
+[node name="LowGraphicsCheck" type="CheckButton" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/LowGraphics/Setting"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
 
-[node name="Help" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/LowGraphics/Setting"]
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-icon = ExtResource("1_xh6xh")
-expand_icon = true
-
-[node name="ShaderCache" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/ShaderCache"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_type_variation = &"HeaderSmall"
-text = "Шейдерный кэш"
-vertical_alignment = 1
-
-[node name="Setting" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/ShaderCache"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ShaderCacheCheck" type="CheckButton" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/ShaderCache/Setting"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 2
-
-[node name="Help" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/ShaderCache/Setting"]
-custom_minimum_size = Vector2(48, 0)
-layout_mode = 2
-icon = ExtResource("1_xh6xh")
-expand_icon = true
-
-[node name="ClearCache" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video"]
-layout_mode = 2
-alignment = 1
-
-[node name="ClearShaderCache" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/ClearCache"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Очистить шейдерный кэш"
-icon = ExtResource("12_g4yas")
-
-[node name="Help" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/ClearCache"]
+[node name="Help" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/LowGraphics/Setting"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 icon = ExtResource("1_xh6xh")
@@ -1260,7 +1242,7 @@ visible = false
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/Sections/General" to="." method="show_section" binds= ["General"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/Sections/Network" to="." method="show_section" binds= ["Network"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/Sections/Game" to="." method="show_section" binds= ["Game"]]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/Sections/Video" to="." method="show_section" binds= ["Video"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/Sections/Graphics" to="." method="show_section" binds= ["Video"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/Sections/Sound" to="." method="show_section" binds= ["Sound"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/Sections/Controls" to="." method="show_section" binds= ["Controls"]]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/CheckUpdates/Setting/UpdatesCheck" to="." method="_on_updates_check_toggled"]
@@ -1278,6 +1260,8 @@ visible = false
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions2/DeleteData" to="ResetDataDialog" method="popup_centered"]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/Broadcast/Setting/BroadcastCheck" to="." method="_on_broadcast_check_toggled"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/Broadcast/Setting/Help" to="." method="show_help" binds= [14]]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/RejectPlayers/Setting/RejectPlayersCheck" to="." method="_on_reject_players_check_toggled"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/RejectPlayers/Setting/Help" to="." method="show_help" binds= [1]]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/UPNP/Setting/UPNPCheck" to="." method="_on_upnp_check_toggled"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/UPNP/Setting/Help" to="." method="show_help" binds= [10]]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Game/ShowMinimap/Setting/ShowMinimapCheck" to="." method="_on_show_minimap_check_toggled"]
@@ -1290,16 +1274,12 @@ visible = false
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Game/DodgeDirection/Setting/Help" to="." method="show_help" binds= [5]]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Game/Advices/Setting/AdvicesCheck" to="." method="_on_advices_check_toggled"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Game/Advices/Setting/Help" to="." method="show_help" binds= [2]]
-[connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/Fullscreen/Setting/FullscreenCheck" to="." method="_on_fullscreen_check_toggled"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/Fullscreen/Setting/Help" to="." method="show_help" binds= [1]]
-[connection signal="value_changed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/MaxFPS/Setting/FPSSlider" to="." method="_on_fps_slider_value_changed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/MaxFPS/Setting/Help" to="." method="show_help" binds= [4]]
-[connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/LowGraphics/Setting/LowGraphicsCheck" to="." method="_on_low_graphics_check_toggled"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/LowGraphics/Setting/Help" to="." method="show_help" binds= [15]]
-[connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/ShaderCache/Setting/ShaderCacheCheck" to="." method="_on_shader_cache_check_toggled"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/ShaderCache/Setting/Help" to="." method="show_help" binds= [1]]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/ClearCache/ClearShaderCache" to="." method="_on_clear_shader_cache_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Video/ClearCache/Help" to="." method="show_help" binds= [3]]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/Fullscreen/Setting/FullscreenCheck" to="." method="_on_fullscreen_check_toggled"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/Fullscreen/Setting/Help" to="." method="show_help" binds= [1]]
+[connection signal="value_changed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/MaxFPS/Setting/FPSSlider" to="." method="_on_fps_slider_value_changed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/MaxFPS/Setting/Help" to="." method="show_help" binds= [4]]
+[connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/LowGraphics/Setting/LowGraphicsCheck" to="." method="_on_low_graphics_check_toggled"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/LowGraphics/Setting/Help" to="." method="show_help" binds= [15]]
 [connection signal="value_changed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/MasterVolume/Setting/MasterVolumeSlider" to="." method="_on_master_volume_slider_value_changed"]
 [connection signal="value_changed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/MusicVolume/Setting/MusicVolumeSlider" to="." method="_on_music_volume_slider_value_changed"]
 [connection signal="value_changed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/SFXVolume/Setting/SFXVolumeSlider" to="." method="_on_sfx_volume_slider_value_changed"]

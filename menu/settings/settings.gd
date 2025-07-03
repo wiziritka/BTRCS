@@ -19,6 +19,8 @@ func _ready() -> void:
 	(%PatchesCheck as BaseButton).set_pressed_no_signal(Globals.get_setting_bool("check_patches"))
 	# Сеть
 	(%BroadcastCheck as BaseButton).set_pressed_no_signal(Globals.get_setting_bool("broadcast"))
+	(%RejectPlayersCheck as BaseButton).set_pressed_no_signal(
+			Globals.get_setting_bool("reject_players"))
 	(%UPNPCheck as BaseButton).set_pressed_no_signal(Globals.get_setting_bool("upnp"))
 	_on_upnp_check_toggled((%UPNPCheck as BaseButton).button_pressed)
 	# Игра
@@ -29,9 +31,6 @@ func _ready() -> void:
 	(%VibrationCheck as BaseButton).set_pressed_no_signal(Globals.get_setting_bool("vibration"))
 	(%AdvicesCheck as BaseButton).set_pressed_no_signal(Globals.get_setting_bool("advices"))
 	# Графика
-	var shader_cache: bool = \
-			_override_file.get_value("rendering", "shader_compiler/shader_cache/enabled")
-	(%ShaderCacheCheck as BaseButton).set_pressed_no_signal(shader_cache)
 	(%LowGraphicsCheck as BaseButton).set_pressed_no_signal(
 			Globals.get_setting_bool("low_graphics"))
 	(%FullscreenCheck as BaseButton).set_pressed_no_signal(Globals.get_setting_bool("fullscreen"))
@@ -231,6 +230,10 @@ func _on_broadcast_check_toggled(toggled_on: bool) -> void:
 	Globals.set_setting_bool("broadcast", toggled_on)
 
 
+func _on_reject_players_check_toggled(toggled_on: bool) -> void:
+	Globals.set_setting_bool("reject_players", toggled_on)
+
+
 func _on_upnp_check_toggled(toggled_on: bool) -> void:
 	Globals.set_setting_bool("upnp", toggled_on)
 	(%UPNPStatus.get_parent() as CanvasItem).visible = toggled_on
@@ -281,21 +284,6 @@ func _on_fps_slider_value_changed(value: float) -> void:
 func _on_low_graphics_check_toggled(toggled_on: bool) -> void:
 	Globals.set_setting_bool("low_graphics", toggled_on)
 	Globals.apply_settings()
-
-
-func _on_shader_cache_check_toggled(toggled_on: bool) -> void:
-	_override_file.set_value("rendering", "shader_compiler/shader_cache/enabled", toggled_on)
-	_override_file.set_value("rendering", "shader_compiler/shader_cache/enabled.mobile", toggled_on)
-	_override_file.set_value("rendering", "rendering_device/pipeline_cache/enable", toggled_on)
-	_override_file.set_value("rendering",
-			"rendering_device/pipeline_cache/enable.mobile", toggled_on)
-	_override_file.save("user://engine_settings.cfg")
-
-
-func _on_clear_shader_cache_pressed() -> void:
-	remove_recursive("user://shader_cache")
-	remove_recursive("user://vulkan")
-	Globals.quit(true)
 #endregion
 
 
