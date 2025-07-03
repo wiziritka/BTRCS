@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwtddg0cmagg1"
-path="res://.godot/imported/chat_send.png-1cab96321e3dae7c2857277a205cdd40.ctex"
+uid="uid://d14nbphg5o3a"
+path="res://.godot/imported/chat.png-9b24d6f9b0b3f1f560b07ed2e2cb521f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/events/common/chat/chat_send.png"
-dest_files=["res://.godot/imported/chat_send.png-1cab96321e3dae7c2857277a205cdd40.ctex"]
+source_file="res://game/ui/chat/chat.png"
+dest_files=["res://.godot/imported/chat.png-9b24d6f9b0b3f1f560b07ed2e2cb521f.ctex"]
 
 [params]
 

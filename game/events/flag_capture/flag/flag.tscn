@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bdupyqf5qxbsn" path="res://game/events/flag_capture/flag/flag.gd" id="1_nr771"]
 [ext_resource type="Texture2D" uid="uid://c63ivlmcoucnj" path="res://game/events/flag_capture/flag/minimap_flag.png" id="2_nr771"]
 [ext_resource type="Texture2D" uid="uid://dfgdeiexpgkbi" path="res://game/events/flag_capture/flag/timer.png" id="3_jsgb6"]
-[ext_resource type="PackedScene" uid="uid://bppm7xaf2v7ti" path="res://game/events/common/screen_marker/screen_marker.tscn" id="4_m7w11"]
+[ext_resource type="PackedScene" uid="uid://bppm7xaf2v7ti" path="res://game/ui/screen_marker/screen_marker.tscn" id="4_m7w11"]
 [ext_resource type="Texture2D" uid="uid://clm45yn1rangi" path="res://game/events/flag_capture/flag/flag_marker.png" id="5_uuplo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nr771"]

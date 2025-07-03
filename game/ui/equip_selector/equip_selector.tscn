@@ -1,0 +1,371 @@
+[gd_scene load_steps=3 format=3 uid="uid://mlbaavhyud5j"]
+
+[ext_resource type="Script" uid="uid://bp1xq77n83bjo" path="res://game/ui/equip_selector/equip_selector.gd" id="1_ex6i3"]
+[ext_resource type="Script" uid="uid://cq43botg0qg0m" path="res://menu/items_grid/items_grid.gd" id="2_5y7db"]
+
+[node name="EquipSelector" type="HBoxContainer"]
+offset_right = 788.0
+offset_bottom = 128.0
+alignment = 1
+script = ExtResource("1_ex6i3")
+metadata/_custom_type_script = "uid://bp1xq77n83bjo"
+
+[node name="Skin" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Type" type="Label" parent="Skin"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Скин"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Name" type="Label" parent="Skin"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 4
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="RarityFill" type="ColorRect" parent="Skin"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChangeSkin" type="Button" parent="Skin"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="LightWeapon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Type" type="Label" parent="LightWeapon"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Лёгкое оружие"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Name" type="Label" parent="LightWeapon"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 4
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="RarityFill" type="ColorRect" parent="LightWeapon"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChangeLightWeapon" type="Button" parent="LightWeapon"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="HeavyWeapon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Type" type="Label" parent="HeavyWeapon"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Тяжёлое оружие"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Name" type="Label" parent="HeavyWeapon"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 4
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="RarityFill" type="ColorRect" parent="HeavyWeapon"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChangeHeavyWeapon" type="Button" parent="HeavyWeapon"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="SupportWeapon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Type" type="Label" parent="SupportWeapon"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Оружие поддержки"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Name" type="Label" parent="SupportWeapon"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 4
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="RarityFill" type="ColorRect" parent="SupportWeapon"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChangeSupportWeapon" type="Button" parent="SupportWeapon"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="MeleeWeapon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Type" type="Label" parent="MeleeWeapon"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Ближнее оружие"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Name" type="Label" parent="MeleeWeapon"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 4
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="RarityFill" type="ColorRect" parent="MeleeWeapon"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChangeMeleeWeapon" type="Button" parent="MeleeWeapon"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="Skill" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Type" type="Label" parent="Skill"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 12
+text = "Навык"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Name" type="Label" parent="Skill"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/line_spacing = -2
+theme_override_constants/outline_size = 4
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="RarityFill" type="ColorRect" parent="Skill"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChangeSkill" type="Button" parent="Skill"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="ItemSelector" type="Window" parent="."]
+auto_translate_mode = 1
+size = Vector2i(408, 440)
+visible = false
+transient = true
+exclusive = true
+unresizable = true
+
+[node name="Background" type="ColorRect" parent="ItemSelector"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ItemSelector"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ItemSelector/MarginContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="ItemsGrid" type="GridContainer" parent="ItemSelector/MarginContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 3
+script = ExtResource("2_5y7db")
+metadata/_custom_type_script = "uid://cq43botg0qg0m"
+
+[connection signal="pressed" from="Skin/ChangeSkin" to="." method="_on_change_skin_pressed"]
+[connection signal="pressed" from="LightWeapon/ChangeLightWeapon" to="." method="_on_change_light_weapon_pressed"]
+[connection signal="pressed" from="HeavyWeapon/ChangeHeavyWeapon" to="." method="_on_change_heavy_weapon_pressed"]
+[connection signal="pressed" from="SupportWeapon/ChangeSupportWeapon" to="." method="_on_change_support_weapon_pressed"]
+[connection signal="pressed" from="MeleeWeapon/ChangeMeleeWeapon" to="." method="_on_change_melee_weapon_pressed"]
+[connection signal="pressed" from="Skill/ChangeSkill" to="." method="_on_change_skill_pressed"]
+[connection signal="close_requested" from="ItemSelector" to="ItemSelector" method="hide"]
+[connection signal="item_selected" from="ItemSelector/MarginContainer/ScrollContainer/ItemsGrid" to="." method="_on_item_selected"]

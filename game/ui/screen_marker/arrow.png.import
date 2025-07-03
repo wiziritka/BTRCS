@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d14nbphg5o3a"
-path="res://.godot/imported/chat.png-300777ecd233631ef4260a7f605be70c.ctex"
+uid="uid://ddlttnxfabmn5"
+path="res://.godot/imported/arrow.png-98a6d3ebf2d1181c46a7e230633a3b35.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/events/common/chat/chat.png"
-dest_files=["res://.godot/imported/chat.png-300777ecd233631ef4260a7f605be70c.ctex"]
+source_file="res://game/ui/screen_marker/arrow.png"
+dest_files=["res://.godot/imported/arrow.png-98a6d3ebf2d1181c46a7e230633a3b35.ctex"]
 
 [params]
 

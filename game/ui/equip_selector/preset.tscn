@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://22gvgr7d4eml"]
 
-[ext_resource type="Script" uid="uid://b26i3vhrlgj7l" path="res://game/menus/lobby/presets/preset.gd" id="1_n85t5"]
+[ext_resource type="Script" uid="uid://b26i3vhrlgj7l" path="res://game/ui/equip_selector/preset.gd" id="1_n85t5"]
 [ext_resource type="Texture2D" uid="uid://bs0jb0hstf3sl" path="res://menu/theme/icons/save.png" id="6_6dufu"]
 [ext_resource type="Texture2D" uid="uid://c74mu171kvbph" path="res://menu/theme/icons/load.png" id="7_ndeyw"]
 [ext_resource type="Texture2D" uid="uid://ndobp7p586tx" path="res://menu/theme/icons/edit.png" id="8_r0bg3"]

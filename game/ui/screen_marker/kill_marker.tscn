@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://blhm6uka1p287"]
 
-[ext_resource type="PackedScene" uid="uid://bppm7xaf2v7ti" path="res://game/events/common/screen_marker/screen_marker.tscn" id="1_m4fcy"]
-[ext_resource type="Texture2D" uid="uid://bjao0ts7vbr57" path="res://game/events/common/screen_marker/kill_marker.png" id="2_cjxir"]
-[ext_resource type="AudioStream" uid="uid://su3faiy5qwuj" path="res://game/events/common/screen_marker/kill.wav" id="3_benaf"]
+[ext_resource type="PackedScene" uid="uid://bppm7xaf2v7ti" path="res://game/ui/screen_marker/screen_marker.tscn" id="1_m4fcy"]
+[ext_resource type="Texture2D" uid="uid://bjao0ts7vbr57" path="res://game/ui/screen_marker/kill_marker.png" id="2_cjxir"]
+[ext_resource type="AudioStream" uid="uid://su3faiy5qwuj" path="res://game/ui/screen_marker/kill.wav" id="3_benaf"]
 
 [sub_resource type="Animation" id="Animation_uv8e6"]
 resource_name = "Marker"

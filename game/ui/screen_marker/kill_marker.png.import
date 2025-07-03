@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddlttnxfabmn5"
-path="res://.godot/imported/arrow.png-5586badd48c928bf531f8b648f0760c2.ctex"
+uid="uid://bjao0ts7vbr57"
+path="res://.godot/imported/kill_marker.png-9f1ab3b57b08a1c2827fde74f9e23135.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/events/common/screen_marker/arrow.png"
-dest_files=["res://.godot/imported/arrow.png-5586badd48c928bf531f8b648f0760c2.ctex"]
+source_file="res://game/ui/screen_marker/kill_marker.png"
+dest_files=["res://.godot/imported/kill_marker.png-9f1ab3b57b08a1c2827fde74f9e23135.ctex"]
 
 [params]
 

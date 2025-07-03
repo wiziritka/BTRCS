@@ -208,24 +208,37 @@ func _loading_init() -> void:
 	_load_status_label.text = "Инициализация..."
 	_load_progress_bar.value = 0.0
 	
-	if "--help" in OS.get_cmdline_user_args():
-		print("Game specific arguments:")
-		print()
-		print("--upnp: Enables UPnP regardless of current settings.")
-		print("--disable-update-check: Disables update check and hides settings related to it.")
-		print("--console: Enables built-in console.")
-		print("--reset-window: Don't restore saved window state.")
-		print()
-		print("These arguments should be written after ++ or -- separator.")
-		print("You always can use engine arguments, such as --headless and --verbose.")
-		if OS.get_name() == "Windows":
-			print("Note: to use --console on Windows, you must launch game from *.console.exe \
-file, otherwise it will NOT function.")
-	
 	Globals.initialize()
 	if DisplayServer.get_name() == "headless":
 		print("Running in headless mode.")
 		Globals.headless = true
+	
+	if "--help" in OS.get_cmdline_user_args():
+		print("Game specific arguments:")
+		print()
+		print("--disable-update-check: Disables update check and hides settings related to it.")
+		print("--console: Enables built-in console.")
+		print("--reset-window: Don't restore saved window state.")
+		print("--override-setting <setting>=<value>: Overrides <setting> to <value>.")
+		print()
+		print("These arguments should be written after ++ or -- separator.")
+		print("You always can use engine arguments, such as --headless or --verbose.")
+		if OS.get_name() == "Windows":
+			print("Note: to use --console on Windows, you must launch game from *.console.exe \
+file, otherwise it will NOT function.")
+	
+	var override_next := false
+	for arg: String in OS.get_cmdline_user_args():
+		if override_next:
+			var slices: PackedStringArray = arg.split('=', false)
+			if slices.size() == 2:
+				Globals.set_setting_variant(slices[0], str_to_var(slices[1]))
+				print_verbose('Overriden setting "%s" with value "%s".' % slices)
+			else:
+				printerr("Incorrect override: expected setting=value, got %s instead." % arg)
+				override_next = arg == "--override-setting"
+		else:
+			override_next = arg == "--override-setting"
 	
 	_update_window_stretch_aspect()
 	get_window().size_changed.connect(_update_window_stretch_aspect)
@@ -492,7 +505,7 @@ func _loading_preload_resources() -> void:
 
 
 func _loading_upnp() -> void:
-	if not Globals.get_setting_bool("upnp") and not "--upnp" in OS.get_cmdline_user_args():
+	if not Globals.get_setting_bool("upnp"):
 		print_verbose("UPnP disabled.")
 		loading_stage_finished.emit.call_deferred(false)
 		return

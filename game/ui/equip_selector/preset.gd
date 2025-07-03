@@ -1,7 +1,7 @@
 extends PanelContainer
 
 @export var idx: int
-@onready var _lobby: Lobby = owner.owner # PresetManager тоже сцена
+var equip_selector: EquipSelector
 
 func _ready() -> void:
 	($RenameDialog as AcceptDialog).register_text_enter(%NameEdit as LineEdit)
@@ -84,34 +84,34 @@ func _validate_preset() -> void:
 func _on_add_pressed() -> void:
 	Globals.set_string("preset_%d_name" % idx, "Предустановка %d" % idx)
 	Globals.set_variant("preset_%d_data" % idx, [
-		_lobby.selected_skill,
-		_lobby.selected_light_weapon,
-		_lobby.selected_heavy_weapon,
-		_lobby.selected_support_weapon,
-		_lobby.selected_melee_weapon,
+		equip_selector.selected_skill,
+		equip_selector.selected_light_weapon,
+		equip_selector.selected_heavy_weapon,
+		equip_selector.selected_support_weapon,
+		equip_selector.selected_melee_weapon,
 	] as Array[String])
 	_show_data()
 
 
 func _on_save_pressed() -> void:
 	Globals.set_variant("preset_%d_data" % idx, [
-		_lobby.selected_skill,
-		_lobby.selected_light_weapon,
-		_lobby.selected_heavy_weapon,
-		_lobby.selected_support_weapon,
-		_lobby.selected_melee_weapon,
+		equip_selector.selected_skill,
+		equip_selector.selected_light_weapon,
+		equip_selector.selected_heavy_weapon,
+		equip_selector.selected_support_weapon,
+		equip_selector.selected_melee_weapon,
 	] as Array[String])
 	_show_data()
 
 
 func _on_load_pressed() -> void:
 	var data: Array[String] = Globals.get_variant("preset_%d_data" % idx, [] as Array[String])
-	_lobby.selected_skill = data[0]
-	_lobby.selected_light_weapon = data[1]
-	_lobby.selected_heavy_weapon = data[2]
-	_lobby.selected_support_weapon = data[3]
-	_lobby.selected_melee_weapon = data[4]
-	_lobby.update_selected()
+	equip_selector.selected_skill = data[0]
+	equip_selector.selected_light_weapon = data[1]
+	equip_selector.selected_heavy_weapon = data[2]
+	equip_selector.selected_support_weapon = data[3]
+	equip_selector.selected_melee_weapon = data[4]
+	equip_selector.update_selected()
 
 
 func _on_rename_pressed() -> void:

@@ -82,8 +82,6 @@ func _ready() -> void:
 			%LoadedTracks.add_child(label)
 	
 	# Скрытие настроек
-	if "--upnp" in OS.get_cmdline_user_args():
-		(%UPNPCheck.get_parent().get_parent() as CanvasItem).hide()
 	if not OS.has_feature("pc"):
 		(%FullscreenCheck.get_parent().get_parent() as CanvasItem).hide()
 	if not OS.has_feature("mobile"):

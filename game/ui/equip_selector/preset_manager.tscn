@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://y56j4fgei867"]
+[gd_scene load_steps=3 format=3 uid="uid://y56j4fgei867"]
 
-[ext_resource type="PackedScene" uid="uid://22gvgr7d4eml" path="res://game/menus/lobby/presets/preset.tscn" id="2_o4wte"]
+[ext_resource type="Script" uid="uid://bp73lu2fkjjcx" path="res://game/ui/equip_selector/preset_manager.gd" id="1_271df"]
+[ext_resource type="PackedScene" uid="uid://22gvgr7d4eml" path="res://game/ui/equip_selector/preset.tscn" id="2_o4wte"]
 
 [node name="PresetManager" type="Window"]
 auto_translate_mode = 1
@@ -9,6 +10,7 @@ size = Vector2i(480, 540)
 transient = true
 exclusive = true
 unresizable = true
+script = ExtResource("1_271df")
 
 [node name="Background" type="ColorRect" parent="."]
 anchors_preset = 15

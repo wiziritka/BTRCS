@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxfbd3rsxniec"
-path="res://.godot/imported/hit_marker.png-6e7176611a4e30d3975646bd1008ecf3.ctex"
+uid="uid://dwtddg0cmagg1"
+path="res://.godot/imported/chat_send.png-051515ba76f9a1a35623a343659b67fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/events/common/screen_marker/hit_marker.png"
-dest_files=["res://.godot/imported/hit_marker.png-6e7176611a4e30d3975646bd1008ecf3.ctex"]
+source_file="res://game/ui/chat/chat_send.png"
+dest_files=["res://.godot/imported/chat_send.png-051515ba76f9a1a35623a343659b67fa.ctex"]
 
 [params]
 
