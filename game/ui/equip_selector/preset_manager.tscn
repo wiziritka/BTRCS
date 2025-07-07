@@ -5,6 +5,7 @@
 
 [node name="PresetManager" type="Window"]
 auto_translate_mode = 1
+oversampling_override = 1.0
 title = "Предустановки экипировки"
 size = Vector2i(480, 540)
 transient = true
@@ -42,7 +43,7 @@ alignment = 1
 layout_mode = 2
 idx = 1
 
-[node name="NameEdit" parent="VBoxContainer/ScrollContainer/PresetsContainer/Preset/RenameDialog" index="3"]
+[node name="NameEdit" parent="VBoxContainer/ScrollContainer/PresetsContainer/Preset/RenameDialog" index="2"]
 offset_left = 32.0
 offset_top = 16.0
 offset_right = 368.0
@@ -52,7 +53,7 @@ offset_bottom = 63.0
 layout_mode = 2
 idx = 2
 
-[node name="NameEdit" parent="VBoxContainer/ScrollContainer/PresetsContainer/Preset2/RenameDialog" index="3"]
+[node name="NameEdit" parent="VBoxContainer/ScrollContainer/PresetsContainer/Preset2/RenameDialog" index="2"]
 offset_left = 32.0
 offset_top = 16.0
 offset_right = 368.0
@@ -62,7 +63,7 @@ offset_bottom = 63.0
 layout_mode = 2
 idx = 3
 
-[node name="NameEdit" parent="VBoxContainer/ScrollContainer/PresetsContainer/Preset3/RenameDialog" index="3"]
+[node name="NameEdit" parent="VBoxContainer/ScrollContainer/PresetsContainer/Preset3/RenameDialog" index="2"]
 offset_left = 32.0
 offset_top = 16.0
 offset_right = 368.0
@@ -72,7 +73,7 @@ offset_bottom = 63.0
 layout_mode = 2
 idx = 4
 
-[node name="NameEdit" parent="VBoxContainer/ScrollContainer/PresetsContainer/Preset4/RenameDialog" index="3"]
+[node name="NameEdit" parent="VBoxContainer/ScrollContainer/PresetsContainer/Preset4/RenameDialog" index="2"]
 offset_left = 32.0
 offset_top = 16.0
 offset_right = 368.0
@@ -82,7 +83,7 @@ offset_bottom = 63.0
 layout_mode = 2
 idx = 5
 
-[node name="NameEdit" parent="VBoxContainer/ScrollContainer/PresetsContainer/Preset5/RenameDialog" index="3"]
+[node name="NameEdit" parent="VBoxContainer/ScrollContainer/PresetsContainer/Preset5/RenameDialog" index="2"]
 offset_left = 32.0
 offset_top = 16.0
 offset_right = 368.0

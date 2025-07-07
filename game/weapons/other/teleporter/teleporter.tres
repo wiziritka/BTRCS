@@ -23,5 +23,4 @@ description = "[color=deep_sky_blue]Телепортирует[/color]
 Это устройство, основанное на новейших технологиях, позволяет безопасно телепортироваться на небольшое расстояние."
 scene_path = "uid://cjunrr6nv2rhr"
 image_path = "uid://c7v3ww10d2rps"
-spawnable_scenes_paths = Array[String]([])
 metadata/_custom_type_script = "uid://55g8njvkg07g"

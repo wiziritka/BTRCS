@@ -22,5 +22,4 @@ description = "Урон/с: [color=red]{dps}[/color]
 Быстрый и длинный клинок, отражающий цвет твоей команды."
 scene_path = "uid://bm8ppjrpqe84c"
 image_path = "uid://8ff7tf8ct5pg"
-spawnable_scenes_paths = Array[String]([])
 metadata/_custom_type_script = "uid://55g8njvkg07g"

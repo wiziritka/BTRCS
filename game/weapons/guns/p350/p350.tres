@@ -5,7 +5,6 @@
 [resource]
 script = ExtResource("1_cx1jm")
 name = "P350"
-rarity = 0
 id = "p350"
 stats = Dictionary[String, String]({
 "ammo_per_load": "13",
@@ -14,8 +13,6 @@ stats = Dictionary[String, String]({
 "dps": "38",
 "reload_time": "2.3"
 })
-damage_text = "Урон/с: {dps}"
-ammo_text = "{ammo_per_load}/{ammo_total}"
 description = "Урон/с: [color=red]{dps}[/color]
 Урон/снаряд: [color=red]{damage}[/color]
 

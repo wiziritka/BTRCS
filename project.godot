@@ -26,8 +26,8 @@ config/quit_on_go_back=false
 config/features=PackedStringArray("4.5", "GL Compatibility")
 run/low_processor_mode_sleep_usec=15625
 boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="uid://cnhr3mam8tof1"
-config/icon="uid://do6xmprf0cjv1"
+boot_splash/image="uid://b1iaj66vouvfm"
+config/icon="uid://cgwxgslknbdvk"
 boot_splash/minimum_display_time=666
 
 [audio]

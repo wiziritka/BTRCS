@@ -9,7 +9,6 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [node name="Particles" type="CPUParticles2D" parent="."]
 position = Vector2(-48, 0)
-emitting = false
 amount = 1
 texture = ExtResource("1_e3ilg")
 lifetime = 0.5

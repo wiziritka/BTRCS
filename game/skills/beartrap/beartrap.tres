@@ -15,7 +15,6 @@ stats = Dictionary[String, String]({
 "slow_duration": "5"
 })
 brief_description = "Урон: {damage}, обездвиживает"
-usage_text = "{count} исп./{cooldown} с"
 description = "[color=deep_sky_blue]Устанавливает невидимую ловушку, обездвиживающую и замедляющую противника при контакте[/color]
 Урон: [color=red]{damage}[/color]
 Длительность обездвиживания: [color=red]{immobility_duration} с[/color]

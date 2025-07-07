@@ -13,7 +13,6 @@ stats = Dictionary[String, String]({
 "duration": "0.45"
 })
 brief_description = "Уклонение от снарядов"
-usage_text = "{count} исп./{cooldown} с"
 description = "[color=deep_sky_blue]Выполняет перекат, во время которого игрок неуязвим[/color]
 Длительность переката: [color=red]{duration} с[/color]
 
@@ -23,5 +22,4 @@ description = "[color=deep_sky_blue]Выполняет перекат, во вр
 Простой, но очень мощный навык, позволяющий сохранить большое количество ОЗ."
 scene_path = "uid://cubicepjijo6d"
 image_path = "uid://ctg2ax1bhhg3c"
-spawnable_scenes_paths = Array[String]([])
 metadata/_custom_type_script = "uid://iwsanxyoxs5s"

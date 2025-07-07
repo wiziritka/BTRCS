@@ -8,6 +8,6 @@ fractal_octaves = 1
 width = 160
 height = 160
 generate_mipmaps = false
+noise = SubResource("FastNoiseLite_egjar")
 seamless = true
 seamless_blend_skirt = 0.6
-noise = SubResource("FastNoiseLite_egjar")

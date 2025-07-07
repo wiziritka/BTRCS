@@ -15,7 +15,6 @@ stats = Dictionary[String, String]({
 "slowdown": "30"
 })
 brief_description = "Защищает и замедляет"
-usage_text = "{count} исп./{cooldown} с"
 description = "[color=deep_sky_blue]Защищает и замедляет[/color]
 Снижение урона: [color=red]{protection}%[/color]
 Замедление: [color=red]{slowdown}%[/color]
@@ -27,5 +26,4 @@ description = "[color=deep_sky_blue]Защищает и замедляет[/colo
 Простой навык, защищающий и замедляющий владельца на некоторое время."
 scene_path = "uid://6sr74a0jyc1d"
 image_path = "uid://cmd21ogr3yfxb"
-spawnable_scenes_paths = Array[String]([])
 metadata/_custom_type_script = "uid://iwsanxyoxs5s"

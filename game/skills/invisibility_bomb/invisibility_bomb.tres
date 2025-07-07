@@ -13,7 +13,6 @@ stats = Dictionary[String, String]({
 "duration": "3"
 })
 brief_description = "Делает невидимым"
-usage_text = "{count} исп./{cooldown} с"
 description = "[color=deep_sky_blue]Делает игрока невидимым[/color]
 Длительность: [color=red]{duration} с[/color]
 
@@ -23,5 +22,4 @@ description = "[color=deep_sky_blue]Делает игрока невидимым
 Этот навык позволяет незаметно подкрадываться к врагам и наносить внезапные удары."
 scene_path = "uid://cm8g3yu8l3tdi"
 image_path = "uid://eamtcxi63dmo"
-spawnable_scenes_paths = Array[String]([])
 metadata/_custom_type_script = "uid://iwsanxyoxs5s"

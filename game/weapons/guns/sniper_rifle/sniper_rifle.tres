@@ -15,7 +15,6 @@ stats = Dictionary[String, String]({
 "reload_time": "3.1"
 })
 damage_text = "Урон: {damage}"
-ammo_text = "{ammo_per_load}/{ammo_total}"
 description = "Урон/с: [color=red]{dps}[/color]
 Урон/снаряд: [color=red]{damage}[/color]
 [color=deep_sky_blue]Имеет функцию прицеливания[/color]

@@ -9,7 +9,6 @@ script = ExtResource("2_070ub")
 name = "Захват флага"
 brief_description = "Принеси флаг противника на свою базу!"
 min_players = 4
-max_players = 10
 players_divider = 2
 scene_path = "uid://biauwlgys7ce4"
 image_path = "uid://dmn8kaiaf67qv"

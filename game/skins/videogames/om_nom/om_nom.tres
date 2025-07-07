@@ -11,7 +11,6 @@ brief_description = "Это и есть Ам-Ням"
 custom_hurt_vfx = true
 custom_death_vfx = true
 custom_heal_vfx = true
-custom_blood_vfx = false
 custom_animations = true
 scene_path = "uid://by25lps52y7b8"
 image_path = "uid://d08238iolyyjq"

@@ -77,7 +77,7 @@ curve = SubResource("Curve2D_wb6xb")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
 position = Vector2(3080, -515)
-rotation = -0.231091
+rotation = -0.23109148
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Path2D/PathFollow2D"]
 rotation = 1.5708

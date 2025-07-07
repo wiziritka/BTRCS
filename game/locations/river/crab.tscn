@@ -109,7 +109,7 @@ curve = SubResource("Curve2D_yjvtt")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
 position = Vector2(16, -49)
-rotation = 0.0243419
+rotation = 0.024341805
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Path2D/PathFollow2D"]
 sprite_frames = SubResource("SpriteFrames_ih0ag")

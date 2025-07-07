@@ -12,7 +12,6 @@ stats = Dictionary[String, String]({
 "damage": "23",
 "dps": "115"
 })
-damage_text = "Урон/с: {dps}"
 ammo_text = "Не ограничено"
 description = "Урон/с: [color=red]{dps}[/color]
 Урон/удар: [color=red]{damage}[/color]
@@ -22,5 +21,4 @@ description = "Урон/с: [color=red]{dps}[/color]
 Мощное ближнее оружие с впечатляющим уроном, однако достаточно громкое."
 scene_path = "uid://dqptp3tatgmn"
 image_path = "uid://t8yuooskcmnw"
-spawnable_scenes_paths = Array[String]([])
 metadata/_custom_type_script = "uid://55g8njvkg07g"

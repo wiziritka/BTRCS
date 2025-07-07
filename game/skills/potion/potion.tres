@@ -5,7 +5,6 @@
 [resource]
 script = ExtResource("1_dkhs1")
 name = "Целебное зелье"
-rarity = 0
 id = "potion"
 stats = Dictionary[String, String]({
 "cooldown": "50",
@@ -13,7 +12,6 @@ stats = Dictionary[String, String]({
 "heals": "50"
 })
 brief_description = "Исцеляет {heals} ОЗ"
-usage_text = "{count} исп./{cooldown} с"
 description = "[color=deep_sky_blue]Исцеляет[/color]
 Количество исцеления: [color=red]{heals} ОЗ[/color]
 
@@ -23,5 +21,4 @@ description = "[color=deep_sky_blue]Исцеляет[/color]
 Простейшее зелье исцеления, все ещё способное помочь в трудные моменты."
 scene_path = "uid://w86u3a024aw3"
 image_path = "uid://mgk0jafbvi4h"
-spawnable_scenes_paths = Array[String]([])
 metadata/_custom_type_script = "uid://iwsanxyoxs5s"

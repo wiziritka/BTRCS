@@ -15,7 +15,6 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 z_index = 1
 
 [node name="Snowflakes" type="CPUParticles2D" parent="."]
-emitting = false
 amount = 3
 texture = ExtResource("1_fe8gk")
 lifetime = 0.5
@@ -33,7 +32,6 @@ scale_amount_curve = SubResource("Curve_ws5q0")
 color_ramp = SubResource("Gradient_8r80f")
 
 [node name="Snow" type="CPUParticles2D" parent="."]
-emitting = false
 amount = 3
 texture = ExtResource("2_xdmhi")
 lifetime = 0.5

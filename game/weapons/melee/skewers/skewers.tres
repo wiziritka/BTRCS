@@ -12,7 +12,6 @@ stats = Dictionary[String, String]({
 "damage": "35/30/50",
 "dps": "96"
 })
-damage_text = "Урон/с: {dps}"
 ammo_text = "{ammo_total}"
 description = "[color=deep_sky_blue]Атакуют комбо-ударами[/color]
 Урон/с: [color=red]{dps}[/color]
@@ -23,5 +22,4 @@ description = "[color=deep_sky_blue]Атакуют комбо-ударами[/co
 Пара шампуров, на которые можно насаживать не только шашлык, но и противников."
 scene_path = "uid://s0jt56dbe0kn"
 image_path = "uid://cn4fb8vl4k33j"
-spawnable_scenes_paths = Array[String]([])
 metadata/_custom_type_script = "uid://55g8njvkg07g"

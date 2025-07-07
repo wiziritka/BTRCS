@@ -16,7 +16,6 @@ stats = Dictionary[String, String]({
 "speed_boost": "25"
 })
 brief_description = "Усиливает на {duration} c"
-usage_text = "{count} исп./{cooldown} с"
 description = "[color=deep_sky_blue]Усиливает игрока[/color]
 Длительность: [color=red]{duration} с[/color]
 Увеличение скорости: [color=red]{speed_boost}%[/color]
@@ -29,5 +28,4 @@ description = "[color=deep_sky_blue]Усиливает игрока[/color]
 Этот энергетик полностью легален даже для игроков-подростков."
 scene_path = "uid://bhlky5iu0nax1"
 image_path = "uid://c1jwuybk58v2w"
-spawnable_scenes_paths = Array[String]([])
 metadata/_custom_type_script = "uid://iwsanxyoxs5s"

@@ -60,7 +60,7 @@ curve = SubResource("Curve2D_wb6xb")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
 position = Vector2(2616, -139)
-rotation = -0.297208
+rotation = -0.29720834
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Path2D/PathFollow2D"]
 scale = Vector2(2, 2)

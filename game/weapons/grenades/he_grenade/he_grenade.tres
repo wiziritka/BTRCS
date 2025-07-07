@@ -5,7 +5,6 @@
 [resource]
 script = ExtResource("1_25gnn")
 name = "Осколочная граната"
-rarity = 0
 id = "he_grenade"
 stats = Dictionary[String, String]({
 "ammo_total": "3",

@@ -12,5 +12,5 @@ fractal_gain = 0.76
 width = 160
 height = 160
 generate_mipmaps = false
-color_ramp = SubResource("Gradient_fo5nm")
 noise = SubResource("FastNoiseLite_56hxu")
+color_ramp = SubResource("Gradient_fo5nm")

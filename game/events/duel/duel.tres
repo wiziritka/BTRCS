@@ -10,9 +10,7 @@
 script = ExtResource("2_sni41")
 name = "Дуэль"
 brief_description = "Сразись с противником 1 на 1!"
-min_players = 2
 max_players = 2
-players_divider = 1
 scene_path = "uid://u5a0m6y2qb4l"
 image_path = "uid://l44s4pxkj2mk"
 maps = Array[ExtResource("1_5npr2")]([ExtResource("2_a3s3w"), ExtResource("3_88dxv"), ExtResource("4_1rrf0")])

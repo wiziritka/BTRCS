@@ -10,7 +10,6 @@ point_count = 3
 
 [node name="Particles" type="CPUParticles2D" parent="."]
 z_index = 1
-emitting = false
 amount = 4
 texture = ExtResource("1_jqpto")
 lifetime = 0.4
