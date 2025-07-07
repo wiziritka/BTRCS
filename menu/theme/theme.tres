@@ -1,14 +1,18 @@
-[gd_resource type="Theme" load_steps=53 format=3 uid="uid://bbeb6tjpfk7sg"]
+[gd_resource type="Theme" load_steps=57 format=3 uid="uid://bbeb6tjpfk7sg"]
 
 [ext_resource type="Texture2D" uid="uid://b477qiraadl1y" path="res://menu/theme/textures/panel.svg" id="1_xws5c"]
 [ext_resource type="Texture2D" uid="uid://blcr2cbti1c5d" path="res://menu/theme/textures/tick_on.svg" id="2_t7j08"]
 [ext_resource type="Texture2D" uid="uid://daejvrss7wnft" path="res://menu/theme/textures/tick_on_disabled.svg" id="3_hq4mw"]
 [ext_resource type="Texture2D" uid="uid://ds7qcafp868hu" path="res://menu/theme/textures/tick_off.svg" id="3_wqc4x"]
 [ext_resource type="Texture2D" uid="uid://pknncm4fk3j4" path="res://menu/theme/textures/check_on.svg" id="4_k2uds"]
+[ext_resource type="Texture2D" uid="uid://cqsea18in014y" path="res://menu/theme/textures/radio_checked.svg" id="4_pn4mq"]
+[ext_resource type="Texture2D" uid="uid://bixhx7p8y4rxk" path="res://menu/theme/textures/radio_checked_disabled.svg" id="5_6prtn"]
 [ext_resource type="Texture2D" uid="uid://dvmrdt0n68ksr" path="res://menu/theme/textures/check_off.svg" id="5_elv3h"]
 [ext_resource type="Texture2D" uid="uid://c210vah1kc84v" path="res://menu/theme/textures/tick_off_disabled.svg" id="5_mswou"]
 [ext_resource type="Texture2D" uid="uid://bepstswixoyf1" path="res://menu/theme/textures/grabber.svg" id="6_k2uds"]
+[ext_resource type="Texture2D" uid="uid://dl7ynyk8x2qf" path="res://menu/theme/textures/radio_unchecked.svg" id="6_vk2mo"]
 [ext_resource type="Texture2D" uid="uid://bqf2ht0lj03so" path="res://menu/theme/textures/check_on_disabled.svg" id="7_8xcpw"]
+[ext_resource type="Texture2D" uid="uid://do8d1ljv51jol" path="res://menu/theme/textures/radio_unchecked_disabled.svg" id="7_asegl"]
 [ext_resource type="Texture2D" uid="uid://d0beijvisaueb" path="res://menu/theme/textures/check_off_disabled.svg" id="9_s1bdq"]
 [ext_resource type="Texture2D" uid="uid://dmbuumy7narj3" path="res://menu/theme/textures/grabber_disabled.svg" id="11_pn4mq"]
 [ext_resource type="Texture2D" uid="uid://dkr1bnaxny0hm" path="res://menu/theme/textures/dropdown.svg" id="11_t7j08"]
@@ -272,6 +276,10 @@ Button/styles/normal = SubResource("StyleBoxTexture_gfqqs")
 Button/styles/pressed = SubResource("StyleBoxTexture_jeaw0")
 CheckBox/icons/checked = ExtResource("2_t7j08")
 CheckBox/icons/checked_disabled = ExtResource("3_hq4mw")
+CheckBox/icons/radio_checked = ExtResource("4_pn4mq")
+CheckBox/icons/radio_checked_disabled = ExtResource("5_6prtn")
+CheckBox/icons/radio_unchecked = ExtResource("6_vk2mo")
+CheckBox/icons/radio_unchecked_disabled = ExtResource("7_asegl")
 CheckBox/icons/unchecked = ExtResource("3_wqc4x")
 CheckBox/icons/unchecked_disabled = ExtResource("5_mswou")
 CheckBox/styles/disabled = SubResource("StyleBoxEmpty_k2uds")

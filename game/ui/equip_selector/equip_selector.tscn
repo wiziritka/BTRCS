@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://bp1xq77n83bjo" path="res://game/ui/equip_selector/equip_selector.gd" id="1_ex6i3"]
 [ext_resource type="Script" uid="uid://cq43botg0qg0m" path="res://menu/items_grid/items_grid.gd" id="2_5y7db"]
 
-[node name="EquipSelector" type="HBoxContainer"]
+[node name="EquipSelector" type="GridContainer"]
 offset_right = 788.0
 offset_bottom = 128.0
-alignment = 1
+columns = 6
 script = ExtResource("1_ex6i3")
 metadata/_custom_type_script = "uid://bp1xq77n83bjo"
 

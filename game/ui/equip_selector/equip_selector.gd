@@ -1,5 +1,5 @@
 class_name EquipSelector
-extends HBoxContainer
+extends GridContainer
 
 ## Интерфейс выбора экипировки.
 ##
