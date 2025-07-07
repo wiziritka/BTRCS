@@ -8,6 +8,10 @@
 
 config_version=5
 
+[accessibility]
+
+general/accessibility_support=2
+
 [application]
 
 config/name="Circle Shot"
@@ -19,7 +23,7 @@ config/custom_user_dir_name="circle-shot"
 config/project_settings_override="user://engine_settings.cfg"
 config/auto_accept_quit=false
 config/quit_on_go_back=false
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.5", "GL Compatibility")
 run/low_processor_mode_sleep_usec=15625
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="uid://cnhr3mam8tof1"
@@ -53,6 +57,13 @@ window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=4
+
+[editor_overrides]
+
+editors/animation/default_animation_step=0.05
+text_editor/completion/add_string_name_literals=true
+text_editor/completion/add_node_path_literals=true
+text_editor/completion/add_type_hints=true
 
 [editor_plugins]
 

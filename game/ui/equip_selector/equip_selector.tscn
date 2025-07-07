@@ -61,7 +61,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-flat = true
+theme_type_variation = &"FlatButton"
 
 [node name="LightWeapon" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(128, 128)
@@ -114,7 +114,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-flat = true
+theme_type_variation = &"FlatButton"
 
 [node name="HeavyWeapon" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(128, 128)
@@ -166,7 +166,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-flat = true
+theme_type_variation = &"FlatButton"
 
 [node name="SupportWeapon" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(128, 128)
@@ -219,7 +219,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-flat = true
+theme_type_variation = &"FlatButton"
 
 [node name="MeleeWeapon" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(128, 128)
@@ -272,7 +272,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-flat = true
+theme_type_variation = &"FlatButton"
 
 [node name="Skill" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(128, 128)
@@ -325,7 +325,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-flat = true
+theme_type_variation = &"FlatButton"
 
 [node name="ItemSelector" type="Window" parent="."]
 auto_translate_mode = 1

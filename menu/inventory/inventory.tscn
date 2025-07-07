@@ -131,6 +131,7 @@ text = "Только разблокированные"
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
+follow_focus = true
 horizontal_scroll_mode = 0
 
 [node name="ItemsGrid" type="GridContainer" parent="PanelContainer/VBoxContainer/Main/Selection/ScrollContainer"]

@@ -9,13 +9,11 @@ rarity = 1
 id = "deagle"
 stats = Dictionary[String, String]({
 "ammo_per_load": "7",
-"ammo_total": "35",
+"ammo_total": "28",
 "damage": "24",
 "dps": "42",
 "reload_time": "2.4"
 })
-damage_text = "Урон/с: {dps}"
-ammo_text = "{ammo_per_load}/{ammo_total}"
 description = "Урон/с: [color=red]{dps}[/color]
 Урон/снаряд: [color=red]{damage}[/color]
 

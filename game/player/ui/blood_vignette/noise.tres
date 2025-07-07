@@ -6,5 +6,5 @@ noise_type = 2
 [resource]
 height = 288
 generate_mipmaps = false
-seamless = true
 noise = SubResource("FastNoiseLite_egjar")
+seamless = true
