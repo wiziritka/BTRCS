@@ -71,6 +71,9 @@ func _find_ips() -> void:
 			dialog_text += "Глобальный IP-адрес UPnP: %s" % Globals.upnp.get_external_ip()
 		dialog_text += '\n'
 	
+	if _http_request.get_http_client_status() != HTTPClient.STATUS_DISCONNECTED:
+		return
+	
 	var error: Error = _http_request.request("https://ipv4.icanhazip.com/")
 	if error != OK:
 		push_warning("Quiry global IP: can't create request. Error: %s." % error_string(error))

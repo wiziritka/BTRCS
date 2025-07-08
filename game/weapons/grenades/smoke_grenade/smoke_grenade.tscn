@@ -221,7 +221,7 @@ position = Vector2(-32, -32)
 [node name="ThrowPoint" parent="ThrowPivot" index="0"]
 position = Vector2(104, 0)
 
-[node name="ThrowTimer" parent="." index="2"]
+[node name="ReloadTimer" parent="." index="2"]
 wait_time = 12.0
 
 [node name="AnimationPlayer" parent="." index="3"]

@@ -67,9 +67,9 @@ func _ready() -> void:
 	set_block_signals(false)
 
 
-## Производит выстрел.[br]
+## Производит выстрел. Предоставленные аргументы будут переданы в [method _shoot].[br]
 ## [b]Примечание[/b]: этот метод должен вызываться только на сервере.
-func shoot(args := []) -> void:
+func shoot(...args: Array) -> void:
 	if not multiplayer.is_server():
 		push_error("Unexpected call on client.")
 		return

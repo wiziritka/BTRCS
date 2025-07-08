@@ -17,6 +17,7 @@ enum Status {
 }
 ## Текущий статус UPnP.
 var status := Status.INACTIVE
+
 var _forwarded_port: int = -1
 var _task_id: int = -1
 var _upnp := UPNP.new()
@@ -30,18 +31,6 @@ func _ready() -> void:
 	timer.name = &"UpdateTimer"
 	timer.autostart = true
 	add_child(timer)
-
-
-## Завершает UPnP.
-func finalize() -> void:
-	if not WorkerThreadPool.is_task_completed(_task_id):
-		WorkerThreadPool.wait_for_task_completion(_task_id)
-	
-	if _forwarded_port > 0:
-		for device: UPNPDevice in _upnp_devices:
-			device.delete_port_mapping(_forwarded_port)
-		print_verbose("UPnP: devices port %d forwarding deleted." % _forwarded_port)
-		_forwarded_port = 0
 
 
 ## Ищет устройства UPnP в локальной сети.
@@ -58,7 +47,7 @@ func discover() -> void:
 	_task_id = WorkerThreadPool.add_task(_discover_task)
 
 
-## Пытается открыть порт [param port].
+## Пытается открыть порт под номером [param port].
 func forward_port(port: int) -> void:
 	if status != Status.ACTIVE:
 		push_error("UPnP: not active to forward ports.")
@@ -74,11 +63,22 @@ func forward_port(port: int) -> void:
 func get_external_ip() -> String:
 	if status != Status.ACTIVE:
 		push_error("UPnP: querying external IP failed: not active.")
+		return ""
 	return _upnp_devices[0].query_external_address()
 
 
+## Завершает UPnP.
+func finalize() -> void:
+	if not WorkerThreadPool.is_task_completed(_task_id):
+		WorkerThreadPool.wait_for_task_completion(_task_id)
+	
+	if _forwarded_port > 0:
+		_delete_port_forwardings()
+		_forwarded_port = -1
+
+
 func _discover_task() -> void:
-	var err: UPNP.UPNPResult = _upnp.discover(2000, 2, "") as UPNP.UPNPResult
+	var err := _upnp.discover(3000, 2, "") as UPNP.UPNPResult
 	
 	if err != UPNP.UPNP_RESULT_SUCCESS:
 		push_error("UPnP: discover failed with error %d. Ensure UPnP is enabled on your router."
@@ -106,13 +106,11 @@ func _discover_task() -> void:
 
 func _forward_port_task(port: int) -> void:
 	if _forwarded_port > 0:
-		for device: UPNPDevice in _upnp_devices:
-			device.delete_port_mapping(_forwarded_port)
-		print_verbose("UPnP: port %d forwarding deleted." % _forwarded_port)
+		_delete_port_forwardings()
 	
 	var errors: Array[String]
 	for i: int in _upnp_devices.size():
-		var err: UPNP.UPNPResult = _upnp_devices[i].add_port_mapping(port, port, str(port) + " for "
+		var err := _upnp_devices[i].add_port_mapping(port, port, str(port) + " for "
 				+ str(ProjectSettings.get_setting("application/config/name"))) as UPNP.UPNPResult
 		if err != UPNP.UPNP_RESULT_SUCCESS:
 			errors.append("UPnP: device %d port %d forward failed with error %d." % [i, port, err])
@@ -120,6 +118,7 @@ func _forward_port_task(port: int) -> void:
 	if errors.size() == _upnp_devices.size():
 		for error: String in errors:
 			push_error(error)
+		push_error("UPnP: all devices failed to forward port.")
 		set_deferred(&"_forwarded_port", -1)
 		set_deferred(&"status", Status.INACTIVE)
 		status_changed.emit.call_deferred(status)
@@ -129,12 +128,37 @@ func _forward_port_task(port: int) -> void:
 		print_verbose(error)
 	print_verbose("UPnP: forwarded port %d on %d devices." % [
 		port,
-		_upnp_devices.size() - errors.size()
+		_upnp_devices.size() - errors.size(),
 	])
 	
 	set_deferred(&"_forwarded_port", port)
 	set_deferred(&"status", Status.ACTIVE)
 	status_changed.emit.call_deferred(status)
+
+
+func _delete_port_forwardings() -> void:
+	var errors: Array[String]
+	for i: int in _upnp_devices.size():
+		var err := _upnp_devices[i].delete_port_mapping(_forwarded_port) as UPNP.UPNPResult
+		if err != UPNP.UPNP_RESULT_SUCCESS:
+			errors.append("UPnP: device %d port %d forward deletion failed with error %d." % [
+				i,
+				_forwarded_port,
+				err,
+			])
+	
+	if errors.size() == _upnp_devices.size():
+		for error: String in errors:
+			push_error(error)
+		push_error("UPnP: all devices failed to delete port forward.")
+		return
+	
+	for error: String in errors:
+		print_verbose(error)
+	print_verbose("UPnP: port %d forwarding deleted on %d devices." % [
+		_forwarded_port,
+		_upnp_devices.size() - errors.size(),
+	])
 
 
 func _on_update_timer_timeout() -> void:

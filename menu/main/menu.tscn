@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://4wb77emq8t5p"]
+[gd_scene load_steps=13 format=3 uid="uid://4wb77emq8t5p"]
 
 [ext_resource type="Script" uid="uid://6mjcp2pfoqs6" path="res://menu/main/menu.gd" id="1_6hvox"]
 [ext_resource type="Texture2D" uid="uid://drssc5o2ehjq" path="res://main/logo.png" id="1_m6h1l"]
@@ -12,12 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://b0j3g7rkerkdm" path="res://menu/theme/icons/help.png" id="7_aw44p"]
 [ext_resource type="PackedScene" uid="uid://cuewsvjjnyl40" path="res://menu/main/name_dialog.tscn" id="10_yw6bl"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="12_k1ro1"]
-
-[sub_resource type="InputEventAction" id="InputEventAction_k1ro1"]
-action = &"ui_cancel"
-
-[sub_resource type="Shortcut" id="Shortcut_wm4e1"]
-events = [SubResource("InputEventAction_k1ro1")]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -151,8 +145,6 @@ offset_top = 16.0
 offset_right = -16.0
 offset_bottom = 72.0
 grow_horizontal = 0
-shortcut = SubResource("Shortcut_wm4e1")
-shortcut_in_tooltip = false
 icon = ExtResource("12_k1ro1")
 
 [node name="NameDialog" parent="." instance=ExtResource("10_yw6bl")]

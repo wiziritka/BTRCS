@@ -6,6 +6,8 @@ var current_idx: int = 0
 func _ready() -> void:
 	if not Globals.get_setting_bool("advices"):
 		queue_free()
+		return
+	
 	advices.shuffle()
 	update_advice()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://yfpyfv6boyao"]
+[gd_scene load_steps=17 format=3 uid="uid://yfpyfv6boyao"]
 
 [ext_resource type="PackedScene" uid="uid://d3nsak46hbo2c" path="res://game/events/common/event.tscn" id="1_5uf7s"]
 [ext_resource type="Script" uid="uid://btgre7bv1b6d3" path="res://game/events/royale/royale.gd" id="2_d2r5a"]
@@ -139,6 +139,18 @@ _data = {
 &"Victory": SubResource("Animation_knbec")
 }
 
+[sub_resource type="InputEventAction" id="InputEventAction_vu7pc"]
+action = &"move_left"
+
+[sub_resource type="Shortcut" id="Shortcut_0ce5t"]
+events = [SubResource("InputEventAction_vu7pc")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_og6sw"]
+action = &"move_right"
+
+[sub_resource type="Shortcut" id="Shortcut_scmca"]
+events = [SubResource("InputEventAction_og6sw")]
+
 [node name="Event" instance=ExtResource("1_5uf7s")]
 script = ExtResource("2_d2r5a")
 heal_box_spawn_interval_base = 10.0
@@ -254,6 +266,8 @@ grow_vertical = 0
 
 [node name="Previous" type="Button" parent="UI/Main/SpectatorMenu" index="0"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_0ce5t")
+shortcut_in_tooltip = false
 icon = ExtResource("7_oyafe")
 
 [node name="Spectating" type="VBoxContainer" parent="UI/Main/SpectatorMenu" index="1"]
@@ -279,6 +293,8 @@ vertical_alignment = 1
 
 [node name="Next" type="Button" parent="UI/Main/SpectatorMenu" index="2"]
 layout_mode = 2
+shortcut = SubResource("Shortcut_scmca")
+shortcut_in_tooltip = false
 icon = ExtResource("8_ub7jk")
 
 [node name="Title" parent="UI/Intro" index="1"]

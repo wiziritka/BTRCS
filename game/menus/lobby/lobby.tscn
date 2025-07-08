@@ -76,7 +76,7 @@ grow_vertical = 2
 texture = ExtResource("2_8bvc3")
 stretch_mode = 6
 
-[node name="Panels" type="HBoxContainer" parent="."]
+[node name="Main" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -90,32 +90,35 @@ offset_bottom = 211.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Lobby" type="PanelContainer" parent="Panels"]
+[node name="Panels" type="HBoxContainer" parent="Main"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panels/Lobby"]
+[node name="Lobby" type="PanelContainer" parent="Main/Panels"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Panels/Lobby/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/Panels/Lobby"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Main/Panels/Lobby/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"HeaderMedium"
 text = "Игроки в комнате:"
 
-[node name="Panel" type="PanelContainer" parent="Panels/Lobby/VBoxContainer"]
+[node name="Panel" type="PanelContainer" parent="Main/Panels/Lobby/VBoxContainer"]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 
-[node name="PlayersContainer" type="GridContainer" parent="Panels/Lobby/VBoxContainer/Panel"]
+[node name="PlayersContainer" type="GridContainer" parent="Main/Panels/Lobby/VBoxContainer/Panel"]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 2
 
-[node name="Environment" type="HBoxContainer" parent="Panels/Lobby/VBoxContainer"]
+[node name="Environment" type="HBoxContainer" parent="Main/Panels/Lobby/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Event" type="TextureRect" parent="Panels/Lobby/VBoxContainer/Environment"]
+[node name="Event" type="TextureRect" parent="Main/Panels/Lobby/VBoxContainer/Environment"]
 unique_name_in_owner = true
 self_modulate = Color(0.752941, 0.752941, 0.752941, 1)
 custom_minimum_size = Vector2(392, 80)
@@ -123,7 +126,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 expand_mode = 1
 
-[node name="Container" type="VBoxContainer" parent="Panels/Lobby/VBoxContainer/Environment/Event"]
+[node name="Container" type="VBoxContainer" parent="Main/Panels/Lobby/VBoxContainer/Environment/Event"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -131,7 +134,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Name" type="Label" parent="Panels/Lobby/VBoxContainer/Environment/Event/Container"]
+[node name="Name" type="Label" parent="Main/Panels/Lobby/VBoxContainer/Environment/Event/Container"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -140,7 +143,7 @@ theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Description" type="Label" parent="Panels/Lobby/VBoxContainer/Environment/Event/Container"]
+[node name="Description" type="Label" parent="Main/Panels/Lobby/VBoxContainer/Environment/Event/Container"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -148,7 +151,7 @@ theme_override_constants/outline_size = 4
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="Map" type="TextureRect" parent="Panels/Lobby/VBoxContainer/Environment"]
+[node name="Map" type="TextureRect" parent="Main/Panels/Lobby/VBoxContainer/Environment"]
 unique_name_in_owner = true
 self_modulate = Color(0.752941, 0.752941, 0.752941, 1)
 custom_minimum_size = Vector2(392, 80)
@@ -156,7 +159,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 expand_mode = 1
 
-[node name="Container" type="VBoxContainer" parent="Panels/Lobby/VBoxContainer/Environment/Map"]
+[node name="Container" type="VBoxContainer" parent="Main/Panels/Lobby/VBoxContainer/Environment/Map"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -164,7 +167,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Name" type="Label" parent="Panels/Lobby/VBoxContainer/Environment/Map/Container"]
+[node name="Name" type="Label" parent="Main/Panels/Lobby/VBoxContainer/Environment/Map/Container"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -173,7 +176,7 @@ theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Description" type="Label" parent="Panels/Lobby/VBoxContainer/Environment/Map/Container"]
+[node name="Description" type="Label" parent="Main/Panels/Lobby/VBoxContainer/Environment/Map/Container"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -181,86 +184,86 @@ theme_override_constants/outline_size = 4
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="EquipSelector" parent="Panels/Lobby/VBoxContainer" instance=ExtResource("3_es10a")]
+[node name="EquipSelector" parent="Main/Panels/Lobby/VBoxContainer" instance=ExtResource("3_es10a")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ClientHint" type="Label" parent="Panels/Lobby/VBoxContainer"]
+[node name="ClientHint" type="Label" parent="Main/Panels/Lobby/VBoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Начать игру может только админ."
 horizontal_alignment = 1
 
-[node name="AdminPanel" type="HBoxContainer" parent="Panels/Lobby/VBoxContainer"]
+[node name="AdminPanel" type="HBoxContainer" parent="Main/Panels/Lobby/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
-[node name="StartEvent" type="Button" parent="Panels/Lobby/VBoxContainer/AdminPanel"]
+[node name="StartEvent" type="Button" parent="Main/Panels/Lobby/VBoxContainer/AdminPanel"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Начать!"
 icon = ExtResource("2_6xr3g")
 
-[node name="ChangeEvent" type="Button" parent="Panels/Lobby/VBoxContainer/AdminPanel"]
+[node name="ChangeEvent" type="Button" parent="Main/Panels/Lobby/VBoxContainer/AdminPanel"]
 layout_mode = 2
 text = "Сменить событие..."
 icon = ExtResource("3_pddfd")
 
-[node name="ChangeMap" type="Button" parent="Panels/Lobby/VBoxContainer/AdminPanel"]
+[node name="ChangeMap" type="Button" parent="Main/Panels/Lobby/VBoxContainer/AdminPanel"]
 layout_mode = 2
 text = "Сменить карту..."
 icon = ExtResource("4_4kry5")
 
-[node name="Countdown" type="Label" parent="Panels/Lobby/VBoxContainer"]
+[node name="Countdown" type="Label" parent="Main/Panels/Lobby/VBoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Начало через 3..."
 horizontal_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Panels/Lobby/VBoxContainer/Countdown"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Main/Panels/Lobby/VBoxContainer/Countdown"]
 libraries = {
 &"": SubResource("AnimationLibrary_8ughs")
 }
 
-[node name="ControlButtons" type="HBoxContainer" parent="Panels/Lobby/VBoxContainer"]
+[node name="ControlButtons" type="HBoxContainer" parent="Main/Panels/Lobby/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Chat" type="Button" parent="Panels/Lobby/VBoxContainer/ControlButtons"]
+[node name="Chat" type="Button" parent="Main/Panels/Lobby/VBoxContainer/ControlButtons"]
 layout_mode = 2
 size_flags_horizontal = 0
 toggle_mode = true
 icon = ExtResource("2_wjeu5")
 
-[node name="Presets" type="Button" parent="Panels/Lobby/VBoxContainer/ControlButtons"]
+[node name="Presets" type="Button" parent="Main/Panels/Lobby/VBoxContainer/ControlButtons"]
 layout_mode = 2
 size_flags_horizontal = 0
 icon = ExtResource("7_8ughs")
 
-[node name="ConnectedToIP" type="LinkButton" parent="Panels/Lobby/VBoxContainer/ControlButtons"]
+[node name="ConnectedToIP" type="LinkButton" parent="Main/Panels/Lobby/VBoxContainer/ControlButtons"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 text = "Подключён к "
 underline = 1
 
-[node name="ViewIP" type="Button" parent="Panels/Lobby/VBoxContainer/ControlButtons"]
+[node name="ViewIP" type="Button" parent="Main/Panels/Lobby/VBoxContainer/ControlButtons"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 6
 text = "Просмотреть IP-адреса..."
 icon = ExtResource("7_f0cv5")
 
-[node name="Leave" type="Button" parent="Panels/Lobby/VBoxContainer/ControlButtons"]
+[node name="Leave" type="Button" parent="Main/Panels/Lobby/VBoxContainer/ControlButtons"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Выйти"
 icon = ExtResource("3_cwg7d")
 
-[node name="Chat" type="PanelContainer" parent="Panels"]
+[node name="Chat" type="PanelContainer" parent="Main/Panels"]
 auto_translate_mode = 2
 visible = false
 self_modulate = Color(1, 1, 1, 0.878431)
@@ -272,10 +275,10 @@ chat_button_path = NodePath("../Lobby/VBoxContainer/ControlButtons/Chat")
 metadata/_custom_type_script = "uid://c5wn8p7yq48wc"
 metadata/_edit_use_anchors_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panels/Chat"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/Panels/Chat"]
 layout_mode = 2
 
-[node name="Messages" type="RichTextLabel" parent="Panels/Chat/VBoxContainer"]
+[node name="Messages" type="RichTextLabel" parent="Main/Panels/Chat/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -283,58 +286,49 @@ scroll_following = true
 meta_underlined = false
 hint_underlined = false
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panels/Chat/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Main/Panels/Chat/VBoxContainer"]
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="Panels/Chat/VBoxContainer/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="Main/Panels/Chat/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Сообщение..."
 max_length = 80
 context_menu_enabled = false
 
-[node name="Send" type="TextureButton" parent="Panels/Chat/VBoxContainer/HBoxContainer"]
+[node name="Send" type="TextureButton" parent="Main/Panels/Chat/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 texture_normal = ExtResource("4_6keib")
 ignore_texture_size = true
 stretch_mode = 4
 
-[node name="Advices" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -320.0
-offset_top = -136.0
-offset_right = 320.0
-offset_bottom = -8.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="Advices" type="PanelContainer" parent="Main"]
+custom_minimum_size = Vector2(640, 128)
+layout_mode = 2
+size_flags_horizontal = 4
 script = ExtResource("12_es10a")
 advices = Array[String](["Снежки являются отличным дополнением к оружию ближнего боя.", "Определить место, куда прицеливается снайпер, можно по красной точке.", "Дымовая граната способна тушить огонь.", "Через дымовую завесу нельзя прицеливаться со снайперской винтовки.", "Не знаешь, кто находится за дымовой завесой? Брось туда осколочную гранату, и, возможно, тебе не придётся узнавать.", "Светошумовая граната гораздо слабее ослепляет товарищей.", "Коктейль Молотова очень эффективен в закрытых местностях.", "Ты не можешь нанести урон товарищам, даже если очень хочется.", "Телепортатор позволяет перемещаться за стенки, что может сильно помочь в закрытых местностях.", "Целебное зелье полезнее всего там, где ты не возрождаешься после смерти.", "Алмазная пуля работает с любым оружием.", "Бомба невидимости доставит противнику неприятности в битвах 1 на 1.", "Перекат защищает от любых опасностей, кроме продолжительного урона от эффектов.", "В зависимости от текущего оружия скорость игрока может меняться. Например, ходить с ножом быстрее, чем с пистолетом.", "Чем дольше стреляешь из огнестрельного оружия, тем больше разброс пуль и отдача, так что делай перерывы между стрельбой.", "Разброс снарядов может повышаться во время ходьбы.", "Если во время схватки у тебя закончились патроны в магазине, то быстрее будет переключиться на другое оружие, чем ждать перезарядку.", "Держись за укрытиями, если твоё оружие сейчас перезаряжается.", "Ты можешь прервать перезарядку бросаемого оружия или дробовика, нажав кнопку стрельбы.", "Все гранаты отскакивают от стен, кроме коктейля Молотова.", "Энергетик может помочь повернуть ход игры в сторону твоей команды.", "Если ты подключил мышку и клавиатуру к телефону, то можно использовать их, поменяв тип управления в настройках на \"Клавиатура + Мышь\".", "На ПК можно быстро переключать полноэкранный режим определённой клавишей (по умолчанию F11).", "Не нравится играть тремя пальцами? Ты можешь поменять способ стрельбы в настройках управления.", "Используй Circle Shot Launcher для удобного управления разными версиями игры.", "Следить за новостями о разработке можно в Telegram-канале, найти ссылку можно в Меню > Об игре.", "Некоторые карты имеют уникальный саундтрек.", "Ты можешь поменять расположение кнопок управления в настройках, если вариант по умолчанию тебя не устраивает.", "Ты можешь назначить действиям другие клавиши для своего удобства.", "Если в Командном бою твоя команда лидирует по счёту и осталось мало времени, то лучшим вариантом будет отступление.", "В Захвате флага многое значит распределение ролей среди участников команды.", "Двигайся зигзагом, так в тебя будет сложнее попасть.", "Не нравятся эти советы? Ты можешь скрыть их в настройках."])
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Advices"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/Advices"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Advices/VBoxContainer"]
+[node name="Title" type="Label" parent="Main/Advices/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"HeaderSmall"
 text = "СОВЕТ"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Advices/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Main/Advices/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Previous" type="Button" parent="Advices/VBoxContainer/HBoxContainer"]
+[node name="Previous" type="Button" parent="Main/Advices/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 icon = ExtResource("13_yfygw")
 
-[node name="Advice" type="Label" parent="Advices/VBoxContainer/HBoxContainer"]
+[node name="Advice" type="Label" parent="Main/Advices/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
@@ -345,18 +339,18 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Next" type="Button" parent="Advices/VBoxContainer/HBoxContainer"]
+[node name="Next" type="Button" parent="Main/Advices/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 icon = ExtResource("14_mgd0l")
 
-[node name="SwitchTimer" type="Timer" parent="Advices"]
+[node name="SwitchTimer" type="Timer" parent="Main/Advices"]
 wait_time = 10.0
 one_shot = true
 
 [node name="PresetManager" parent="." instance=ExtResource("13_jqaxo")]
 visible = false
-equip_selector_path = NodePath("../Panels/Lobby/VBoxContainer/EquipSelector")
+equip_selector_path = NodePath("../../../../../../../../../../../../../../../../../../../../../../VBoxContainer/Panels/Lobby/VBoxContainer/EquipSelector")
 
 [node name="ViewIPDialog" type="AcceptDialog" parent="."]
 title = "Твои IP-адреса"
@@ -379,19 +373,19 @@ wait_time = 10.0
 wait_time = 3.0
 one_shot = true
 
-[connection signal="pressed" from="Panels/Lobby/VBoxContainer/AdminPanel/StartEvent" to="." method="_on_start_event_pressed"]
-[connection signal="pressed" from="Panels/Lobby/VBoxContainer/AdminPanel/ChangeEvent" to="." method="_on_change_event_pressed"]
-[connection signal="pressed" from="Panels/Lobby/VBoxContainer/AdminPanel/ChangeMap" to="." method="_on_change_map_pressed"]
-[connection signal="toggled" from="Panels/Lobby/VBoxContainer/ControlButtons/Chat" to="Panels/Chat" method="_on_chat_toggled"]
-[connection signal="pressed" from="Panels/Lobby/VBoxContainer/ControlButtons/Presets" to="PresetManager" method="popup_centered"]
-[connection signal="pressed" from="Panels/Lobby/VBoxContainer/ControlButtons/ConnectedToIP" to="." method="_on_connected_to_ip_pressed"]
-[connection signal="pressed" from="Panels/Lobby/VBoxContainer/ControlButtons/ViewIP" to="ViewIPDialog" method="popup_centered"]
-[connection signal="pressed" from="Panels/Lobby/VBoxContainer/ControlButtons/Leave" to="." method="_on_leave_pressed"]
-[connection signal="text_submitted" from="Panels/Chat/VBoxContainer/HBoxContainer/LineEdit" to="Panels/Chat" method="send_message" unbinds=1]
-[connection signal="pressed" from="Panels/Chat/VBoxContainer/HBoxContainer/Send" to="Panels/Chat" method="send_message"]
-[connection signal="pressed" from="Advices/VBoxContainer/HBoxContainer/Previous" to="Advices" method="_on_previous_pressed"]
-[connection signal="pressed" from="Advices/VBoxContainer/HBoxContainer/Next" to="Advices" method="_on_next_pressed"]
-[connection signal="timeout" from="Advices/SwitchTimer" to="Advices" method="_on_switch_timer_timeout"]
+[connection signal="pressed" from="Main/Panels/Lobby/VBoxContainer/AdminPanel/StartEvent" to="." method="_on_start_event_pressed"]
+[connection signal="pressed" from="Main/Panels/Lobby/VBoxContainer/AdminPanel/ChangeEvent" to="." method="_on_change_event_pressed"]
+[connection signal="pressed" from="Main/Panels/Lobby/VBoxContainer/AdminPanel/ChangeMap" to="." method="_on_change_map_pressed"]
+[connection signal="toggled" from="Main/Panels/Lobby/VBoxContainer/ControlButtons/Chat" to="Main/Panels/Chat" method="_on_chat_toggled"]
+[connection signal="pressed" from="Main/Panels/Lobby/VBoxContainer/ControlButtons/Presets" to="PresetManager" method="popup_centered"]
+[connection signal="pressed" from="Main/Panels/Lobby/VBoxContainer/ControlButtons/ConnectedToIP" to="." method="_on_connected_to_ip_pressed"]
+[connection signal="pressed" from="Main/Panels/Lobby/VBoxContainer/ControlButtons/ViewIP" to="ViewIPDialog" method="popup_centered"]
+[connection signal="pressed" from="Main/Panels/Lobby/VBoxContainer/ControlButtons/Leave" to="." method="_on_leave_pressed"]
+[connection signal="text_submitted" from="Main/Panels/Chat/VBoxContainer/HBoxContainer/LineEdit" to="Main/Panels/Chat" method="send_message" unbinds=1]
+[connection signal="pressed" from="Main/Panels/Chat/VBoxContainer/HBoxContainer/Send" to="Main/Panels/Chat" method="send_message"]
+[connection signal="pressed" from="Main/Advices/VBoxContainer/HBoxContainer/Previous" to="Main/Advices" method="_on_previous_pressed"]
+[connection signal="pressed" from="Main/Advices/VBoxContainer/HBoxContainer/Next" to="Main/Advices" method="_on_next_pressed"]
+[connection signal="timeout" from="Main/Advices/SwitchTimer" to="Main/Advices" method="_on_switch_timer_timeout"]
 [connection signal="about_to_popup" from="ViewIPDialog" to="ViewIPDialog" method="_on_about_to_popup"]
 [connection signal="custom_action" from="ViewIPDialog" to="ViewIPDialog" method="_on_custom_action"]
 [connection signal="request_completed" from="ViewIPDialog/HTTPRequest" to="ViewIPDialog" method="_on_request_completed"]

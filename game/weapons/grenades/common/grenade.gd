@@ -25,7 +25,7 @@ var _no_ammo := false
 @onready var _anim: AnimationPlayer = $AnimationPlayer
 @onready var _throw_point: Marker2D = $ThrowPivot/ThrowPoint
 @onready var _throw_pivot: Marker2D = $ThrowPivot
-@onready var _reload_timer: Timer = $ThrowTimer
+@onready var _reload_timer: Timer = $ReloadTimer
 
 @onready var _aim: Line2D = $ThrowPivot/ThrowPoint/Aim
 @onready var _aim_outline: Line2D = $ThrowPivot/ThrowPoint/Aim/Outline
@@ -56,7 +56,7 @@ func _process(_delta: float) -> void:
 func _physics_process(_delta: float) -> void:
 	if can_shoot() and multiplayer.is_server() and player.player_input.shooting \
 			and ammo_in_stock > 0 and not _reloading:
-		shoot([player.player_input.aim_direction])
+		shoot(player.player_input.aim_direction)
 
 
 func _make_current() -> void:
@@ -152,7 +152,7 @@ func _customize_projectile(_projectile: GrenadeProjectile) -> void:
 	pass
 
 
-func _on_throw_timer_timeout() -> void:
+func _on_reload_timer_timeout() -> void:
 	_reloading = false
 	if ammo_in_stock > 0:
 		unblock_shooting()

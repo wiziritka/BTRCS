@@ -27,7 +27,7 @@ func _physics_process(delta: float) -> void:
 	_shoot_timer -= delta
 	if multiplayer.is_server() and can_shoot() \
 			and player.player_input.shooting and _shoot_timer <= 0.0:
-		shoot([player.player_input.aim_direction])
+		shoot(player.player_input.aim_direction)
 
 
 func _shoot(direction := Vector2.RIGHT) -> void:

@@ -29,7 +29,7 @@ func _physics_process(_delta: float) -> void:
 	if can_shoot() and multiplayer.is_server() and player.player_input.shooting \
 			and ammo_in_stock > 0 and not _reloading:
 		_update_casts()
-		shoot([not _collision_check.is_colliding() and not _border_check.is_colliding()])
+		shoot(not _collision_check.is_colliding() and not _border_check.is_colliding())
 
 
 func _initialize() -> void:
