@@ -41,7 +41,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ebg44"]
 _data = {
 &"RESET": SubResource("Animation_otbqe"),
-&"Rotation": SubResource("Animation_ya4yh")
+&"rotation": SubResource("Animation_ya4yh")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_otbqe"]
@@ -62,7 +62,7 @@ texture = ExtResource("2_fa608")
 libraries = {
 &"": SubResource("AnimationLibrary_ebg44")
 }
-autoplay = "Rotation"
+autoplay = "rotation"
 
 [node name="ShapeDetector" type="ShapeCast2D" parent="." index="4"]
 position = Vector2(-80, 0)

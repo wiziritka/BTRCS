@@ -12,7 +12,7 @@ func _start_effect() -> void:
 		($Down as CanvasItem).show()
 		negative = true
 	elif multiplier < 1.0:
-		($Bubble/AnimationPlayer as AnimationPlayer).play(&"Shield")
+		($Bubble/AnimationPlayer as AnimationPlayer).play(&"shield")
 
 
 func _end_effect() -> void:

@@ -76,24 +76,24 @@ func _shoot() -> void:
 	var current_ammo: Node2D = _ammo_parent.get_child(ammo - 1)
 	var current_ammo_anim: AnimationPlayer = current_ammo.get_node(^"AnimationPlayer")
 	
-	var throw_anim: Animation = current_ammo_anim.get_animation(&"Throw")
+	var throw_anim: Animation = current_ammo_anim.get_animation(&"pre_throw")
 	throw_anim.track_set_key_value(0, 1, current_ammo.to_local(_throw_pivot.global_position))
-	current_ammo_anim.play(&"Throw")
+	current_ammo_anim.play(&"pre_throw")
 	var anim_name: StringName = await current_ammo_anim.animation_finished
-	if anim_name != &"Throw":
+	if anim_name != &"pre_throw":
 		return
 	
 	player.block_turning()
 	var angle: float = player.player_input.aim_direction.angle()
-	var post_throw_anim: Animation = current_ammo_anim.get_animation(&"PostThrow")
+	var post_throw_anim: Animation = current_ammo_anim.get_animation(&"throw")
 	post_throw_anim.track_set_key_value(0, 0, current_ammo.to_local(_throw_pivot.global_position))
 	post_throw_anim.track_set_key_value(0, 1, current_ammo.to_local(_throw_point.global_position))
 	var parent_angle: float = _ammo_parent.rotation + current_ammo.rotation
 	post_throw_anim.track_set_key_value(1, 1, _calculate_aim_angle() - parent_angle)
-	current_ammo_anim.play(&"PostThrow")
+	current_ammo_anim.play(&"throw")
 	anim_name = await current_ammo_anim.animation_finished
 	player.unblock_turning()
-	if anim_name != &"PostThrow":
+	if anim_name != &"throw":
 		return
 	
 	ammo -= 1
@@ -103,7 +103,7 @@ func _shoot() -> void:
 
 
 func _make_current() -> void:
-	_anim.play(&"Equip")
+	_anim.play(&"equip")
 	block_shooting()
 	await _anim.animation_finished
 	unblock_shooting()
@@ -150,10 +150,10 @@ func reload() -> void:
 		
 		current_ammo.show()
 		current_ammo.rotation = 0.0
-		current_ammo_anim.play(&"Reload")
+		current_ammo_anim.play(&"reload")
 		current_ammo_anim.advance(0.0)
 		var anim_name: StringName = await current_ammo_anim.animation_finished
-		if anim_name != &"Reload":
+		if anim_name != &"reload":
 			_reloading = false
 			_interrupting_reload = false
 			_interrupt_reload_margin_timer.stop()

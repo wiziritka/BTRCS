@@ -3,6 +3,21 @@
 [ext_resource type="Texture2D" uid="uid://wm8moju7dymj" path="res://game/skins/videogames/om_nom/vfx/om_nom_sleeping.png" id="1_b4x4h"]
 [ext_resource type="AudioStream" uid="uid://bqxw6v8ap6xph" path="res://game/skins/videogames/om_nom/vfx/death.wav" id="2_nc8ge"]
 
+[sub_resource type="Animation" id="Animation_tu46t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_mknms"]
 resource_name = "Death"
 length = 2.2
@@ -49,25 +64,10 @@ tracks/2/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_tu46t"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kxlu3"]
 _data = {
-&"Death": SubResource("Animation_mknms"),
-&"RESET": SubResource("Animation_tu46t")
+&"RESET": SubResource("Animation_tu46t"),
+&"death": SubResource("Animation_mknms")
 }
 
 [node name="SleepingDeathVfx" type="Node2D"]
@@ -85,4 +85,4 @@ bus = &"SFX"
 libraries = {
 &"": SubResource("AnimationLibrary_kxlu3")
 }
-autoplay = "Death"
+autoplay = "death"

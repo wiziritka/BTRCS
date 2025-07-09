@@ -18,6 +18,21 @@
 [ext_resource type="Texture2D" uid="uid://c1rotus1aunmr" path="res://menu/theme/icons/left.png" id="13_yfygw"]
 [ext_resource type="Texture2D" uid="uid://ix82y4qydhql" path="res://menu/theme/icons/right.png" id="14_mgd0l"]
 
+[sub_resource type="Animation" id="Animation_5k1w6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Начало через 3..."]
+}
+
 [sub_resource type="Animation" id="Animation_dja87"]
 resource_name = "Countdown"
 length = 3.0
@@ -35,25 +50,10 @@ tracks/0/keys = {
 "values": ["Начало через 3...", "Начало через 3..", "Начало через 3.", "Начало через 2...", "Начало через 2..", "Начало через 2.", "Начало через 1...", "Начало через 1..", "Начало через 1.", "Начинаем!"]
 }
 
-[sub_resource type="Animation" id="Animation_5k1w6"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:text")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": ["Начало через 3..."]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8ughs"]
 _data = {
-&"Countdown": SubResource("Animation_dja87"),
-&"RESET": SubResource("Animation_5k1w6")
+&"RESET": SubResource("Animation_5k1w6"),
+&"countdown": SubResource("Animation_dja87")
 }
 
 [node name="Lobby" type="Control"]

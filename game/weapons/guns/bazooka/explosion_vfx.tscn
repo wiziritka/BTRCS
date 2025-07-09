@@ -3,6 +3,21 @@
 [ext_resource type="Script" uid="uid://b2ghun2kqwwnn" path="res://game/weapons/guns/bazooka/explosion_vfx.gd" id="1_57jy1"]
 [ext_resource type="Texture2D" uid="uid://oo1m3cl80hy3" path="res://game/weapons/guns/bazooka/explosion.png" id="1_fn7x4"]
 
+[sub_resource type="Animation" id="Animation_57jy1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
 [sub_resource type="Animation" id="Animation_iks2p"]
 resource_name = "Explosion"
 length = 0.4
@@ -34,25 +49,10 @@ tracks/1/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_57jy1"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fn7x4"]
 _data = {
-&"Explosion": SubResource("Animation_iks2p"),
-&"RESET": SubResource("Animation_57jy1")
+&"RESET": SubResource("Animation_57jy1"),
+&"explosion": SubResource("Animation_iks2p")
 }
 
 [node name="ExplosionVfx" type="Node2D"]
@@ -72,4 +72,4 @@ vframes = 2
 libraries = {
 &"": SubResource("AnimationLibrary_fn7x4")
 }
-autoplay = "Explosion"
+autoplay = "explosion"

@@ -21,7 +21,7 @@ func _ready() -> void:
 	reset_physics_interpolation()
 	_current_speed = speed
 	($Grenade/AnimationPlayer as AnimationPlayer).play(
-			&"Rotation" if direction.x > 0.0 else &"InvertedRotation")
+			&"rotation" if direction.x > 0.0 else &"inverted_rotation")
 
 
 func _physics_process(delta: float) -> void:

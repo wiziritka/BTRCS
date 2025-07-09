@@ -413,7 +413,7 @@ func _on_player_health_changed(old_value: int, new_value: int) -> void:
 	_health_text.text = "%d/%d" % [_health_bar.value, _health_bar.max_value]
 	
 	if new_value < old_value:
-		_tint_anim.play(&"Hurt")
+		_tint_anim.play(&"hurt")
 		if is_instance_valid(_health_immediate_bar_tween):
 			_health_immediate_bar_tween.kill()
 		_health_immediate_bar_tween = create_tween()
@@ -450,7 +450,7 @@ func _on_player_health_changed(old_value: int, new_value: int) -> void:
 
 func _on_player_died(_who: int) -> void:
 	($Controller as CanvasItem).hide()
-	_tint_anim.play(&"Death")
+	_tint_anim.play(&"death")
 	if _vibration_enabled:
 		Input.vibrate_handheld(MAX_VIBRATION_DURATION_MS, MAX_VIBRATION_AMPLITUDE)
 

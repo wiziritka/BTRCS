@@ -22,7 +22,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_a8m6p"]
-resource_name = "Searching"
+resource_name = "searching"
 length = 1.2
 loop_mode = 1
 step = 0.05
@@ -42,7 +42,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_er3ru"]
 _data = {
 &"RESET": SubResource("Animation_btwkk"),
-&"Searching": SubResource("Animation_a8m6p")
+&"searching": SubResource("Animation_a8m6p")
 }
 
 [node name="ConnectLocalMenu" type="Control"]
@@ -160,7 +160,7 @@ vertical_alignment = 1
 libraries = {
 &"": SubResource("AnimationLibrary_er3ru")
 }
-autoplay = "Searching"
+autoplay = "searching"
 
 [node name="ConnectAddress" type="HBoxContainer" parent="Base/Margin/VBox"]
 layout_mode = 2

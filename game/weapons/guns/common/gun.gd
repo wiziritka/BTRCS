@@ -89,14 +89,14 @@ func _initialize() -> void:
 
 func _make_current() -> void:
 	block_shooting()
-	_anim.play(&"Equip")
+	_anim.play(&"equip")
 	
 	var anim_name: StringName = await _anim.animation_finished
-	if anim_name != &"Equip":
+	if anim_name != &"equip":
 		unblock_shooting()
 		return
 	
-	_anim.play(&"PostEquip")
+	_anim.play(&"post_equip")
 	_turn_tween = create_tween()
 	_turn_tween.tween_property(self, ^":rotation", _calculate_aim_angle(), to_aim_time)
 	await _turn_tween.finished
@@ -126,7 +126,7 @@ func _shoot() -> void:
 	_shoot_timer = shoot_interval
 	
 	ammo -= ammo_per_shot
-	_anim.play(&"Shoot")
+	_anim.play(&"shoot")
 	_anim.seek(0.0)
 	if multiplayer.is_server():
 		_create_projectile()
@@ -162,22 +162,22 @@ func _can_reload() -> bool:
 
 
 func _player_disarmed() -> void:
-	if _anim.is_playing() and _anim.current_animation != &"Equip": # нет смысла пропускать
+	if _anim.is_playing() and _anim.current_animation != &"equip": # нет смысла пропускать
 		_anim.play(&"RESET")
 
 
 func reload() -> void:
 	_turn_tween = create_tween()
 	_turn_tween.tween_property(self, ^":rotation", 0.0, to_aim_time)
-	_anim.play(&"Reload")
+	_anim.play(&"reload")
 	block_shooting()
 	
 	var anim_name: StringName = await _anim.animation_finished
-	if anim_name != &"Reload":
+	if anim_name != &"reload":
 		unblock_shooting()
 		return
 	
-	_anim.play(&"PostReload")
+	_anim.play(&"post_reload")
 	_turn_tween = create_tween()
 	_turn_tween.tween_property(self, ^":rotation", _calculate_aim_angle(), to_aim_time)
 	

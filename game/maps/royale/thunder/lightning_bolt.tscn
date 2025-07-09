@@ -173,7 +173,7 @@ tracks/6/use_blend = true
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qji2t"]
 _data = {
 &"RESET": SubResource("Animation_mqut8"),
-&"Strike": SubResource("Animation_sfshw")
+&"strike": SubResource("Animation_sfshw")
 }
 
 [node name="LightningBolt" type="Node2D"]
@@ -199,7 +199,7 @@ disabled = true
 libraries = {
 &"": SubResource("AnimationLibrary_qji2t")
 }
-autoplay = "Strike"
+autoplay = "strike"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false

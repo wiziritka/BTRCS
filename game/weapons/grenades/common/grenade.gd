@@ -61,7 +61,7 @@ func _physics_process(_delta: float) -> void:
 
 func _make_current() -> void:
 	if ammo_in_stock > 0 and not _reloading:
-		_anim.play(&"Equip")
+		_anim.play(&"equip")
 		block_shooting()
 		await _anim.animation_finished
 		unblock_shooting()
@@ -77,20 +77,20 @@ func _shoot(throw_direction := Vector2.ZERO) -> void:
 	player.block_turning()
 	player.visual.scale.x = -1.0 if throw_direction.x < 0.0 else 1.0
 	_throw_pivot.rotation = _calculate_aim_angle(throw_direction)
-	_anim.play(&"Throw")
+	_anim.play(&"pre_throw")
 	var anim_name: StringName = await _anim.animation_finished
-	if anim_name != &"Throw":
+	if anim_name != &"pre_throw":
 		player.unblock_turning()
 		unblock_shooting()
 		return
 	
-	var animation: Animation = _anim.get_animation(&"PostThrow")
+	var animation: Animation = _anim.get_animation(&"throw")
 	animation.track_set_key_value(0, 0, _throw_pivot.position)
 	animation.track_set_key_value(0, 1, to_local(_throw_point.global_position))
-	_anim.play(&"PostThrow")
+	_anim.play(&"throw")
 	anim_name = await _anim.animation_finished
 	player.unblock_turning()
-	if anim_name != &"PostThrow":
+	if anim_name != &"throw":
 		unblock_shooting()
 		return
 	
@@ -117,13 +117,13 @@ func _can_reload() -> bool:
 
 
 func _player_disarmed() -> void:
-	if _anim.is_playing() and _anim.current_animation != &"Equip": # нет смысла пропускать
+	if _anim.is_playing() and _anim.current_animation != &"equip": # нет смысла пропускать
 		_anim.pause()
 	_reload_timer.paused = true
 
 
 func _player_armed() -> void:
-	if _anim.current_animation != &"Equip":
+	if _anim.current_animation != &"equip":
 		_anim.play()
 	_reload_timer.paused = false
 

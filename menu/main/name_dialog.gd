@@ -37,7 +37,7 @@ func _on_line_edit_text_changed(new_text: String) -> void:
 		(%LineEdit as LineEdit).text = "Сам такой!"
 		($AnimationPlayer as AnimationPlayer).play(&"RESET")
 	elif new_text.begins_with("разраб"):
-		($AnimationPlayer as AnimationPlayer).play(&"Developer")
+		($AnimationPlayer as AnimationPlayer).play(&"developer")
 	elif new_text in easter_eggs:
 		_label.text = easter_eggs[new_text]
 	else:

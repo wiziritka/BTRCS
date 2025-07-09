@@ -35,6 +35,21 @@ size = Vector2(192, 96)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x4djl"]
 size = Vector2(120, 120)
 
+[sub_resource type="Animation" id="Animation_koxqv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_j6hmo"]
 resource_name = "Death"
 length = 2.0
@@ -67,26 +82,11 @@ tracks/0/keys = {
 "values": [Color(1, 0, 0, 0), Color(1, 0, 0, 0.188235), Color(1, 0, 0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_koxqv"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 0, 0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_e0ahq"]
 _data = {
-&"Death": SubResource("Animation_j6hmo"),
-&"Hurt": SubResource("Animation_42oh0"),
-&"RESET": SubResource("Animation_koxqv")
+&"RESET": SubResource("Animation_koxqv"),
+&"death": SubResource("Animation_j6hmo"),
+&"hurt": SubResource("Animation_42oh0")
 }
 
 [node name="PlayerUI" type="Control"]

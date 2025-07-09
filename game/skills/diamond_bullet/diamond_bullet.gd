@@ -22,7 +22,7 @@ func _process(_delta: float) -> void:
 
 
 func _use() -> void:
-	($ActiveMarker/AnimationPlayer as AnimationPlayer).play(&"Active")
+	($ActiveMarker/AnimationPlayer as AnimationPlayer).play(&"active")
 	player.player_input.shooting_started.connect(_on_player_shooting_started, CONNECT_ONE_SHOT)
 	block_cooldown()
 

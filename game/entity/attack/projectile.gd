@@ -44,7 +44,7 @@ func _destroy(where: Vector2) -> void:
 		sd.enabled = false
 	
 	if hit_vfx_scene:
-		var vfx_parent: Node = get_tree().get_first_node_in_group(&"VfxParent")
+		var vfx_parent: Node = get_tree().get_first_node_in_group(&"vfx_parent")
 		if is_instance_valid(vfx_parent):
 			var vfx: Node2D = hit_vfx_scene.instantiate()
 			vfx.position = where

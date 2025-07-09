@@ -10,7 +10,7 @@ extends Skill
 
 func _use() -> void:
 	block_cooldown()
-	($AnimationPlayer as AnimationPlayer).play(&"Use")
+	($AnimationPlayer as AnimationPlayer).play(&"use")
 	
 	if multiplayer.is_server():
 		player.add_effect.rpc(Effect.DEFENSE_CHANGE, duration, [1.0 - protection])

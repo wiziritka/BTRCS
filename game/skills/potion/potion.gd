@@ -8,7 +8,7 @@ func _use() -> void:
 	var use_effect: Node2D = _use_effect_scene.instantiate()
 	player.visual.add_child(use_effect)
 	if player.is_local():
-		(use_effect.get_node(^"Tint/AnimationPlayer") as AnimationPlayer).play(&"Tint")
+		(use_effect.get_node(^"Tint/AnimationPlayer") as AnimationPlayer).play(&"tint")
 	
 	block_cooldown()
 	player.block_weapon_usage()

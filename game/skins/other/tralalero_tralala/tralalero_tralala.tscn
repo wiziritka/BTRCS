@@ -6,9 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://coe11gdiu3s8m" path="res://game/skins/other/tralalero_tralala/leg_right.png" id="4_8gqpl"]
 [ext_resource type="Texture2D" uid="uid://bqpeuw68s75n2" path="res://game/skins/other/tralalero_tralala/leg_middle.png" id="5_u8e3p"]
 
-[sub_resource type="Animation" id="Animation_5f0h7"]
-resource_name = "Idle"
-loop_mode = 1
+[sub_resource type="Animation" id="Animation_r2byj"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -46,8 +45,9 @@ tracks/2/keys = {
 "values": [0.0]
 }
 
-[sub_resource type="Animation" id="Animation_r2byj"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_5f0h7"]
+resource_name = "Idle"
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -128,9 +128,9 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1mtkd"]
 _data = {
-&"Idle": SubResource("Animation_5f0h7"),
 &"RESET": SubResource("Animation_r2byj"),
-&"Walk": SubResource("Animation_hkh8d")
+&"idle": SubResource("Animation_5f0h7"),
+&"walk": SubResource("Animation_hkh8d")
 }
 
 [node name="TralaleroTralala" type="Sprite2D"]
@@ -168,5 +168,5 @@ region_rect = Rect2(56, 144, 48, 64)
 libraries = {
 &"": SubResource("AnimationLibrary_1mtkd")
 }
-autoplay = "Idle"
-blend_times = [&"Idle", &"Walk", 0.3, &"Walk", &"Idle", 0.3]
+autoplay = "idle"
+blend_times = [&"idle", &"walk", 0.3, &"walk", &"idle", 0.3]

@@ -80,7 +80,7 @@ tracks/5/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_fgkox"]
-resource_name = "Use"
+resource_name = "use"
 length = 1.75
 step = 0.05
 tracks/0/type = "value"
@@ -159,7 +159,7 @@ tracks/5/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xl8vo"]
 _data = {
 &"RESET": SubResource("Animation_j7yjg"),
-&"Use": SubResource("Animation_fgkox")
+&"use": SubResource("Animation_fgkox")
 }
 
 [node name="UseEffect" type="Node2D"]
@@ -179,4 +179,4 @@ offset = Vector2(-1, 41)
 libraries = {
 &"": SubResource("AnimationLibrary_xl8vo")
 }
-autoplay = "Use"
+autoplay = "use"

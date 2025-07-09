@@ -15,18 +15,18 @@ func reload() -> void:
 	_turn_tween = create_tween()
 	_turn_tween.tween_property(self, ^":rotation", 0.0, to_aim_time)
 	block_shooting()
-	_anim.play(&"StartReload")
+	_anim.play(&"start_reload")
 	
 	var anim_name: StringName = await _anim.animation_finished
-	if anim_name != &"StartReload":
+	if anim_name != &"start_reload":
 		unblock_shooting()
 		return
 	
 	_reloading = true
 	while ammo != ammo_per_load and ammo_in_stock > 0:
-		_anim.play(&"Reload")
+		_anim.play(&"reload")
 		anim_name = await _anim.animation_finished
-		if anim_name != &"Reload":
+		if anim_name != &"reload":
 			_reloading = false
 			_interrupting_reload = false
 			unblock_shooting()
@@ -40,13 +40,13 @@ func reload() -> void:
 	
 	_reloading = false
 	_interrupting_reload = false
-	_anim.play(&"EndReload")
+	_anim.play(&"end_reload")
 	anim_name = await _anim.animation_finished
-	if anim_name != &"EndReload":
+	if anim_name != &"end_reload":
 		unblock_shooting()
 		return
 	
-	_anim.play(&"PostReload")
+	_anim.play(&"post_reload")
 	_turn_tween = create_tween()
 	_turn_tween.tween_property(self, ^":rotation", _calculate_aim_angle(), to_aim_time)
 	await _turn_tween.finished

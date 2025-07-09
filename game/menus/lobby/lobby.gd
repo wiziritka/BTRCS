@@ -349,7 +349,7 @@ func _show_countdown() -> void:
 	else:
 		(%ClientHint as CanvasItem).hide()
 	(%Countdown as CanvasItem).show()
-	(%Countdown/AnimationPlayer as AnimationPlayer).play(&"Countdown")
+	(%Countdown/AnimationPlayer as AnimationPlayer).play(&"countdown")
 
 
 @rpc("call_local", "reliable", "authority", 1)

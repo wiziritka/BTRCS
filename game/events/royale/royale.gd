@@ -95,7 +95,7 @@ func equip_weapon(to: int) -> void:
 	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
 		push_error("This method must be called only by server.")
 		return
-	for player: Player in get_tree().get_nodes_in_group(&"Player"):
+	for player: Player in get_tree().get_nodes_in_group(&"player"):
 		if player.id == to:
 			player.set_weapon(Weapon.Type.ADDITIONAL, weapon_data)
 			break

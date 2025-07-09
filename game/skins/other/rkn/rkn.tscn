@@ -40,7 +40,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_c72xr"]
 _data = {
 &"RESET": SubResource("Animation_gfrao"),
-&"TrueSide": SubResource("Animation_s3uvg")
+&"true_side": SubResource("Animation_s3uvg")
 }
 
 [node name="Rkn" type="Sprite2D"]

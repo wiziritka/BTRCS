@@ -5,7 +5,7 @@ extends GrenadeProjectile
 @export var shake_max_distance := 3200.0
 
 func _explode() -> void:
-	($Explosion/AnimationPlayer as AnimationPlayer).play(&"Explode")
+	($Explosion/AnimationPlayer as AnimationPlayer).play(&"explode")
 	var camera: SmartCamera = get_viewport().get_camera_2d()
 	var multiplier: float = maxf(
 			0.0, (shake_max_distance - global_position.distance_to(camera.global_position)) 

@@ -52,7 +52,7 @@ func _process(_delta: float) -> void:
 ## [b]Внимание[/b]: этот метод - [b]корутина[/b], так что Вам необходимо подождать его с помощью
 ## [code]await[/code].
 func load_event(event_idx: int, map_idx: int) -> Event:
-	_anim.play(&"StartLoad")
+	_anim.play(&"start_load")
 	_status_text.text = "Загрузка события и карты..."
 	_requested_paths.clear()
 	_loaded_paths.clear()
@@ -160,7 +160,7 @@ func preload_equip(skins: Array[int], skills: Array[int],
 
 ## Завершает загрузку, а именно анимацию.
 func finish_load(success: bool) -> void:
-	_anim.play(&"EndLoad")
+	_anim.play(&"end_load")
 	if success:
 		_status_text.text = "Готово!"
 		print_verbose("Load finished.")

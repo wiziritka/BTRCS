@@ -41,13 +41,13 @@ func _shoot(direction := Vector2.RIGHT, combo: int = 0) -> void:
 	_shoot_timer = shoot_interval
 	match combo:
 		0:
-			_anim.play(&"Attack")
+			_anim.play(&"attack")
 			_attack.damage = damage
 		1:
-			_anim.play(&"AttackSecond")
+			_anim.play(&"attack_second")
 			_attack.damage = damage_second
 		2:
-			_anim.play(&"AttackBoth")
+			_anim.play(&"attack_both")
 			_attack.damage = damage_both
 	_anim.seek(0.0)
 	block_shooting()

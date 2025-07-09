@@ -13,9 +13,9 @@ func _exit_tree() -> void:
 
 
 func _explode() -> void:
-	($AnimationPlayer as AnimationPlayer).play(&"Explode")
+	($AnimationPlayer as AnimationPlayer).play(&"explode")
 	($AnimationPlayer as AnimationPlayer).advance(0.0) # Мгновенно показываем спрайт взрыва
-	var event: Event = get_tree().get_first_node_in_group(&"Event")
+	var event: Event = get_tree().get_first_node_in_group(&"event")
 	if ($VisibleOnScreenNotifier2D as VisibleOnScreenNotifier2D).is_on_screen():
 		if event.local_team != ($Explosion/Attack as Attack).team \
 				and is_instance_valid(event.local_player):
@@ -32,9 +32,9 @@ func _explode() -> void:
 			await get_tree().process_frame
 			var screen: Image = get_viewport().get_texture().get_image()
 			($Stun/Effect/Texture as TextureRect).texture = ImageTexture.create_from_image(screen)
-			($Stun/AnimationPlayer as AnimationPlayer).play(&"Stun")
+			($Stun/AnimationPlayer as AnimationPlayer).play(&"stun")
 		else:
-			($Stun/AnimationPlayer as AnimationPlayer).play(&"FriendlyStun")
+			($Stun/AnimationPlayer as AnimationPlayer).play(&"friendly_stun")
 
 
 func unmute() -> void:

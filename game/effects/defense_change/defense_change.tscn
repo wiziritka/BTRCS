@@ -89,7 +89,7 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4dol4"]
 _data = {
 &"RESET": SubResource("Animation_kf2xq"),
-&"Shield": SubResource("Animation_khg5p")
+&"shield": SubResource("Animation_khg5p")
 }
 
 [sub_resource type="Gradient" id="Gradient_54yo5"]

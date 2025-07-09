@@ -9,16 +9,16 @@ func set_flags(red: int, blue: int) -> void:
 
 func show_winner(team: int) -> void:
 	if team < 0:
-		($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"Draw")
+		($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"draw")
 		return
-	($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"Victory")
+	($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"victory")
 	($Main/GameEnd/Team as Label).text = "Красная" if team == 0 else "Синяя"
 	($Main/GameEnd/Team as Control).add_theme_color_override(&"font_color",
 			Entity.TEAM_COLORS[team])
 
 
 func show_flag_captured(blue: bool) -> void:
-	($Main/FlagCaptured/AnimationPlayer as AnimationPlayer).play(&"FlagCaptured")
+	($Main/FlagCaptured/AnimationPlayer as AnimationPlayer).play(&"flag_captured")
 	($Main/FlagCaptured/AnimationPlayer as AnimationPlayer).seek(0.0)
 	($Main/FlagCaptured/Team as Label).text = "Синих" if blue else "Красных"
 	($Main/FlagCaptured/Team as Control).add_theme_color_override(&"font_color",

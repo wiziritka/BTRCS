@@ -105,7 +105,7 @@ rotation = -3.53943
 position = Vector2(-1393, 2570)
 rotation = -1.17572
 
-[node name="AntiFire" type="Area2D" parent="." index="6" groups=["AntiFire"]]
+[node name="AntiFire" type="Area2D" parent="." index="6" groups=["anti_fire"]]
 collision_layer = 128
 collision_mask = 0
 monitoring = false

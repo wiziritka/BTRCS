@@ -9,11 +9,11 @@ func _initialize() -> void:
 
 
 func _on_round_started() -> void:
-	_anim.play(&"Dance")
+	_anim.play(&"dance")
 
 
 func _on_round_ended(team_won: int) -> void:
 	if team_won == 0:
-		_anim.play(&"RedWon")
+		_anim.play(&"red_won")
 	else:
-		_anim.play(&"BlueWon")
+		_anim.play(&"blue_won")

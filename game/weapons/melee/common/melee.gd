@@ -32,7 +32,7 @@ func _physics_process(delta: float) -> void:
 
 func _shoot(direction := Vector2.RIGHT) -> void:
 	_shoot_timer = shoot_interval
-	_anim.play(&"Attack")
+	_anim.play(&"attack")
 	_anim.seek(0.0)
 	block_shooting()
 	player.block_turning()
@@ -54,14 +54,14 @@ func _make_current() -> void:
 	_attack.damage = damage
 	
 	block_shooting()
-	_anim.play(&"Equip")
+	_anim.play(&"equip")
 	
 	var anim_name: StringName = await _anim.animation_finished
-	if anim_name != &"Equip":
+	if anim_name != &"equip":
 		unblock_shooting()
 		return
 	
-	_anim.play(&"PostEquip")
+	_anim.play(&"post_equip")
 	_turn_tween = create_tween()
 	_turn_tween.tween_property(self, ^":rotation", _calculate_aim_angle(), to_aim_time)
 	await _turn_tween.finished
@@ -80,7 +80,7 @@ func _unmake_current() -> void:
 
 
 func _player_disarmed() -> void:
-	if _anim.is_playing() and _anim.current_animation != &"Equip": # нет смысла пропускать
+	if _anim.is_playing() and _anim.current_animation != &"equip": # нет смысла пропускать
 		_anim.play(&"RESET")
 
 

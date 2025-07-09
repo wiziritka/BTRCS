@@ -20,7 +20,7 @@ var _in_single_mode := false
 func _shoot() -> void:
 	super()
 	if _in_single_mode:
-		_anim.play(&"SingleShot")
+		_anim.play(&"single_shot")
 	else:
 		if not _shooting_sfx.playing:
 			_shooting_sfx.play()

@@ -27,7 +27,7 @@ properties/4/path = NodePath(".:server_velocity")
 properties/4/spawn = false
 properties/4/replication_mode = 1
 
-[node name="Entity" type="CharacterBody2D" groups=["Entity"]]
+[node name="Entity" type="CharacterBody2D" groups=["entity"]]
 collision_layer = 2
 collision_mask = 19
 motion_mode = 1

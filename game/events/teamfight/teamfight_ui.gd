@@ -21,9 +21,9 @@ func show_winner(team_won: int) -> void:
 	
 	(get_parent() as Event).end_event(team_won == (get_parent() as Event).local_team)
 	if team_won < 0:
-		($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"Draw")
+		($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"draw")
 		return
-	($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"Victory")
+	($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"victory")
 	($Main/GameEnd/Team as Label).text = "Красная" if team_won == 0 else "Синяя"
 	($Main/GameEnd/Team as Control).add_theme_color_override(&"font_color",
 			Entity.TEAM_COLORS[team_won])

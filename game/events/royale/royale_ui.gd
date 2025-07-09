@@ -27,7 +27,7 @@ func show_winner(winner: int, winner_name: String) -> void:
 		(get_parent() as Event).end_event(true)
 	else:
 		($Main/GameEnd as Label).text = "ПОБЕДИТЕЛЬ: %s" % winner_name
-	($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"Victory")
+	($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"victory")
 	($Main/SpectatorMenu as CanvasItem).hide()
 	print_verbose("Winner: %s." % winner_name)
 
@@ -40,7 +40,7 @@ func kill_player(which: int, killer: int = -1) -> void:
 	if Globals.headless:
 		return
 	
-	_alive_players.assign(get_tree().get_nodes_in_group(&"Player"))
+	_alive_players.assign(get_tree().get_nodes_in_group(&"player"))
 	for player: Player in _alive_players:
 		if player.id == which:
 			_alive_players.erase(player)
@@ -62,7 +62,7 @@ func show_defeat() -> void:
 	if _ended:
 		return
 	($Main/GameEnd as Label).text = "ПОРАЖЕНИЕ!"
-	($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"Defeat")
+	($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"defeat")
 	($Main/SpectatorMenu as CanvasItem).show()
 
 

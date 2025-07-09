@@ -58,6 +58,10 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=4
 
+[editor]
+
+script/search_in_file_extensions=PackedStringArray("gd", "gdshader", "tscn")
+
 [editor_overrides]
 
 editors/animation/default_animation_step=0.05
@@ -85,7 +89,7 @@ import/fbx2gltf/enabled=false
 
 [global_group]
 
-AntiFire="Can extinguish fire. Must be Area2D."
+anti_fire="Can extinguish fire. Must be Area2D."
 
 [gui]
 

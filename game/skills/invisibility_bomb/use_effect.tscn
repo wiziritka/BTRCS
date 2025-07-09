@@ -123,7 +123,7 @@ tracks/4/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tweey"]
 _data = {
 &"RESET": SubResource("Animation_lsqcc"),
-&"UseEffect": SubResource("Animation_vjva6")
+&"use": SubResource("Animation_vjva6")
 }
 
 [node name="UseEffect" type="Node2D"]
@@ -137,4 +137,4 @@ texture = ExtResource("1_ib0px")
 libraries = {
 &"": SubResource("AnimationLibrary_tweey")
 }
-autoplay = "UseEffect"
+autoplay = "use"

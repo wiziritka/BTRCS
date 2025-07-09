@@ -21,7 +21,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_lxxie"]
-resource_name = "Rotation"
+resource_name = "rotation"
 length = 15.0
 loop_mode = 1
 tracks/0/type = "value"
@@ -40,7 +40,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_y61wy"]
 _data = {
 &"RESET": SubResource("Animation_qohxh"),
-&"Rotation": SubResource("Animation_lxxie")
+&"rotation": SubResource("Animation_lxxie")
 }
 
 [node name="BigMeteor" type="StaticBody2D"]
@@ -65,4 +65,4 @@ shape = SubResource("CircleShape2D_fsg8k")
 libraries = {
 &"": SubResource("AnimationLibrary_y61wy")
 }
-autoplay = "Rotation"
+autoplay = "rotation"

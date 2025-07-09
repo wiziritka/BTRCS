@@ -5,10 +5,10 @@ extends Attack
 @export var slowdown_multiplier := 0.7
 
 func _ready() -> void:
-	if (get_tree().get_first_node_in_group(&"Event") as Event).local_team == team:
-		($AnimationPlayer as AnimationPlayer).play(&"PlaceFriendly")
+	if (get_tree().get_first_node_in_group(&"event") as Event).local_team == team:
+		($AnimationPlayer as AnimationPlayer).play(&"place_friendly")
 	else:
-		($AnimationPlayer as AnimationPlayer).play(&"Place")
+		($AnimationPlayer as AnimationPlayer).play(&"place")
 
 
 func _deal_damage(entity: Entity, amount: int) -> int:
@@ -21,10 +21,10 @@ func _deal_damage(entity: Entity, amount: int) -> int:
 
 @rpc("reliable", "authority", "call_local", 5)
 func _show_trapped(at_position: Vector2) -> void:
-	($AnimationPlayer as AnimationPlayer).play(&"Trapped")
+	($AnimationPlayer as AnimationPlayer).play(&"trapped")
 	position = at_position
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == &"Trapped" and multiplayer.is_server():
+	if anim_name == &"trapped" and multiplayer.is_server():
 		queue_free()

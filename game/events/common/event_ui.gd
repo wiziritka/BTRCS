@@ -46,7 +46,7 @@ func _notification(what: int) -> void:
 
 
 func show_intro() -> void:
-	($Intro/AnimationPlayer as AnimationPlayer).play(&"Intro")
+	($Intro/AnimationPlayer as AnimationPlayer).play(&"intro")
 	($Intro/AnimationPlayer as AnimationPlayer).advance(0.0) # костыль
 
 

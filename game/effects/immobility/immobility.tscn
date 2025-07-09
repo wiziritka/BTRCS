@@ -4,6 +4,21 @@
 [ext_resource type="Script" uid="uid://col2idqdcvxc" path="res://game/effects/immobility/immobility.gd" id="2_auqey"]
 [ext_resource type="Texture2D" uid="uid://jitjn6q3h08n" path="res://game/effects/immobility/lock.png" id="3_xukhq"]
 
+[sub_resource type="Animation" id="Animation_avlf5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Lock:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_5mski"]
 resource_name = "Lock"
 length = 2.0
@@ -22,25 +37,10 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.752941)]
 }
 
-[sub_resource type="Animation" id="Animation_avlf5"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Lock:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g6jt4"]
 _data = {
-&"Lock": SubResource("Animation_5mski"),
-&"RESET": SubResource("Animation_avlf5")
+&"RESET": SubResource("Animation_avlf5"),
+&"lock": SubResource("Animation_5mski")
 }
 
 [node name="Immobility" instance=ExtResource("1_hdr7a")]
@@ -56,4 +56,4 @@ texture = ExtResource("3_xukhq")
 libraries = {
 &"": SubResource("AnimationLibrary_g6jt4")
 }
-autoplay = "Lock"
+autoplay = "lock"

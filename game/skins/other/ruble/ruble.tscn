@@ -7,8 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://c1qhrnuorldh0" path="res://game/skins/other/ruble/up_heal_vfx.tscn" id="4_0142f"]
 [ext_resource type="Texture2D" uid="uid://dahg8i0tk3jd3" path="res://game/skins/other/ruble/yesyesyes.png" id="4_dt7l5"]
 
-[sub_resource type="Animation" id="Animation_2a87r"]
-resource_name = "Nonono"
+[sub_resource type="Animation" id="Animation_60cq1"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -16,10 +16,10 @@ tracks/0/path = NodePath("Nonono:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0005, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -34,8 +34,8 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_60cq1"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_2a87r"]
+resource_name = "Nonono"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -43,10 +43,10 @@ tracks/0/path = NodePath("Nonono:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.0005, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -90,9 +90,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_50mhi"]
 _data = {
-&"Nonono": SubResource("Animation_2a87r"),
 &"RESET": SubResource("Animation_60cq1"),
-&"Yesyesyes": SubResource("Animation_xhtr6")
+&"nonono": SubResource("Animation_2a87r"),
+&"yesyesyes": SubResource("Animation_xhtr6")
 }
 
 [node name="Ruble" type="Sprite2D"]

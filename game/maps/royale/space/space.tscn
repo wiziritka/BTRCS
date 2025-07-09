@@ -17,8 +17,23 @@ shader_parameter/change_to = Color(1, 0, 0, 1)
 shader = ExtResource("5_h260c")
 shader_parameter/change_to = Color(1, 0, 1, 1)
 
+[sub_resource type="Animation" id="Animation_kru3a"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Walls:material:shader_parameter/change_to")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_h260c"]
-resource_name = "Color"
+resource_name = "color"
 length = 20.0
 loop_mode = 1
 step = 1.0
@@ -47,25 +62,10 @@ tracks/1/keys = {
 "values": [Color(1, 0, 1, 1), Color(1, 0, 0, 1), Color(0, 0, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_kru3a"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Walls:material:shader_parameter/change_to")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 0, 1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fsg8k"]
 _data = {
-&"Color": SubResource("Animation_h260c"),
-&"RESET": SubResource("Animation_kru3a")
+&"RESET": SubResource("Animation_kru3a"),
+&"color": SubResource("Animation_h260c")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kru3a"]
@@ -431,7 +431,7 @@ tile_set = ExtResource("3_x1q66")
 libraries = {
 &"": SubResource("AnimationLibrary_fsg8k")
 }
-autoplay = "Color"
+autoplay = "color"
 
 [node name="Core" type="StaticBody2D" parent="." index="8"]
 z_index = -2

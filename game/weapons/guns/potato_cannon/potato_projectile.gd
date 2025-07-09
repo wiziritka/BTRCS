@@ -16,7 +16,7 @@ func _process_hit(where: Vector2, what: Entity) -> void:
 	rotation = direction.angle()
 	position = where + (remainder + bounce_margin) * direction
 	
-	var vfx_parent: Node = get_tree().get_first_node_in_group(&"VfxParent")
+	var vfx_parent: Node = get_tree().get_first_node_in_group(&"vfx_parent")
 	if is_instance_valid(vfx_parent):
 		var vfx: Node2D = hit_vfx_scene.instantiate()
 		vfx.position = where

@@ -5,6 +5,21 @@
 [ext_resource type="Texture2D" uid="uid://tgykndvggm2o" path="res://main/loading_splash.png" id="2_wlqd8"]
 [ext_resource type="Texture2D" uid="uid://dsk1f63d31ahx" path="res://main/splash.png" id="4_iryjb"]
 
+[sub_resource type="Animation" id="Animation_i4btj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_32sky"]
 resource_name = "Begin"
 length = 0.3
@@ -52,27 +67,12 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_i4btj"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5apas"]
 _data = {
-&"Begin": SubResource("Animation_32sky"),
-&"Black": SubResource("Animation_10d34"),
-&"End": SubResource("Animation_er3m0"),
-&"RESET": SubResource("Animation_i4btj")
+&"RESET": SubResource("Animation_i4btj"),
+&"begin": SubResource("Animation_32sky"),
+&"black": SubResource("Animation_10d34"),
+&"end": SubResource("Animation_er3m0")
 }
 
 [sub_resource type="Animation" id="Animation_utteb"]
@@ -158,7 +158,7 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_s0b2o"]
 _data = {
 &"RESET": SubResource("Animation_utteb"),
-&"SplashScreen": SubResource("Animation_nes4c")
+&"splash_screen": SubResource("Animation_nes4c")
 }
 
 [node name="Main" type="Node"]
@@ -231,7 +231,7 @@ vertical_alignment = 1
 libraries = {
 &"": SubResource("AnimationLibrary_5apas")
 }
-autoplay = "Black"
+autoplay = "black"
 
 [node name="SplashScreen" type="Control" parent="."]
 visible = false
@@ -273,6 +273,6 @@ texture = ExtResource("4_iryjb")
 libraries = {
 &"": SubResource("AnimationLibrary_s0b2o")
 }
-autoplay = "SplashScreen"
+autoplay = "splash_screen"
 
 [connection signal="animation_finished" from="SplashScreen/AnimationPlayer" to="." method="_start_load" unbinds=1]

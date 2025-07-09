@@ -5,7 +5,7 @@ extends Node
 ##
 ## Базовый класс для всех событий в игре. Досутп к нему можно получить через
 ## [member Game.event] (только для неигровой части) или через
-## [code](get_tree().get_first_node_in_group(&"Event") as Event)[/code].
+## [code](get_tree().get_first_node_in_group(&"event") as Event)[/code].
 
 ## Издаётся, когда событие началось (т. е. после вызова [method _finish_start).
 signal started
@@ -175,10 +175,10 @@ func freeze_players() -> void:
 		push_error("This method must be called only by server.")
 		return
 	
-	get_tree().call_group(&"Player", &"block_weapon_usage")
-	get_tree().call_group(&"Player", &"make_immobile")
-	get_tree().call_group(&"Player", &"make_immune")
-	get_tree().call_group(&"Player", &"block_turning")
+	get_tree().call_group(&"player", &"block_weapon_usage")
+	get_tree().call_group(&"player", &"make_immobile")
+	get_tree().call_group(&"player", &"make_immune")
+	get_tree().call_group(&"player", &"block_turning")
 
 
 ## Заканчивает событие и возвращает в лобби.[br]
@@ -210,9 +210,9 @@ func _start() -> void:
 	
 	_finish_start()
 	if multiplayer.is_server():
-		get_tree().call_group(&"Player", &"unblock_weapon_usage")
-		get_tree().call_group(&"Player", &"unmake_immobile")
-		get_tree().call_group(&"Player", &"unblock_turning")
+		get_tree().call_group(&"player", &"unblock_weapon_usage")
+		get_tree().call_group(&"player", &"unmake_immobile")
+		get_tree().call_group(&"player", &"unblock_turning")
 	else:
 		local_player.unblock_weapon_usage()
 		local_player.unmake_immobile()

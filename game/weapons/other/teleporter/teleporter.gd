@@ -39,7 +39,7 @@ func _initialize() -> void:
 func _shoot(success := false) -> void:
 	if not success:
 		block_shooting()
-		_anim.play(&"Fail")
+		_anim.play(&"fail")
 		await _anim.animation_finished
 		unblock_shooting()
 		return
@@ -49,9 +49,9 @@ func _shoot(success := false) -> void:
 		destination = player.position + player.player_input.aim_direction * teleport_distance
 	
 	block_shooting()
-	_anim.play("Use%d" % (randi() % 3))
+	_anim.play("use%d" % (randi() % 3))
 	var anim_name: StringName = await _anim.animation_finished
-	if not anim_name.begins_with("Use"):
+	if not anim_name.begins_with("use"):
 		unblock_shooting()
 		return
 	
@@ -60,7 +60,7 @@ func _shoot(success := false) -> void:
 		player.teleport_to.rpc(destination)
 		_show_teleport_vfx.rpc(destination)
 	
-	_anim.play(&"PostUse")
+	_anim.play(&"post_use")
 	
 	_buttons.modulate = Color.WEB_GRAY
 	ammo_in_stock -= 1
@@ -69,7 +69,7 @@ func _shoot(success := false) -> void:
 
 
 func _make_current() -> void:
-	_anim.play(&"Equip")
+	_anim.play(&"equip")
 	if ammo_in_stock > 0 and not _reloading:
 		block_shooting()
 		await _anim.animation_finished
@@ -87,7 +87,7 @@ func _can_reload() -> bool:
 
 func _player_disarmed() -> void:
 	# нет смысла пропускать
-	if _anim.is_playing() and not _anim.current_animation in [&"Equip", &"PostUse"]:
+	if _anim.is_playing() and not _anim.current_animation in [&"equip", &"post_use"]:
 		_anim.play(&"RESET")
 	_reload_timer.paused = true
 
@@ -113,7 +113,7 @@ func get_ammo_text() -> String:
 func _show_teleport_vfx(where: Vector2) -> void:
 	var teleport_vfx: Node2D = _teleport_vfx_scene.instantiate()
 	teleport_vfx.position = where
-	get_tree().get_first_node_in_group(&"VfxParent").add_child(teleport_vfx)
+	get_tree().get_first_node_in_group(&"vfx_parent").add_child(teleport_vfx)
 
 
 func _update_casts() -> void:

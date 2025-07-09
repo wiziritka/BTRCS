@@ -221,7 +221,7 @@ tracks/8/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_y0pnw"]
 _data = {
 &"RESET": SubResource("Animation_mxr47"),
-&"Use": SubResource("Animation_mkska")
+&"use": SubResource("Animation_mkska")
 }
 
 [sub_resource type="Animation" id="Animation_yfi2a"]
@@ -283,7 +283,7 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uogv3"]
 _data = {
 &"RESET": SubResource("Animation_yfi2a"),
-&"Tint": SubResource("Animation_fik3q")
+&"tint": SubResource("Animation_fik3q")
 }
 
 [node name="UseEffect" type="Node2D"]
@@ -293,7 +293,7 @@ show_behind_parent = true
 libraries = {
 &"": SubResource("AnimationLibrary_y0pnw")
 }
-autoplay = "Use"
+autoplay = "use"
 
 [node name="Bottle" type="Sprite2D" parent="."]
 position = Vector2(29, 24)

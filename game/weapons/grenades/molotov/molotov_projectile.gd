@@ -33,7 +33,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _explode() -> void:
-	($Explosion/AnimationPlayer as AnimationPlayer).play(&"Explode")
+	($Explosion/AnimationPlayer as AnimationPlayer).play(&"explode")
 	var camera: SmartCamera = get_viewport().get_camera_2d()
 	var multiplier: float = maxf(
 			0.0, (shake_max_distance - global_position.distance_to(camera.global_position)) 
@@ -43,5 +43,5 @@ func _explode() -> void:
 
 
 func _on_extinguish_area_area_entered(area: Area2D) -> void:
-	if area.is_in_group(&"AntiFire"):
+	if area.is_in_group(&"anti_fire"):
 		($Explosion/AnimationPlayer as AnimationPlayer).seek(7.45)

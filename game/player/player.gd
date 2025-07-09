@@ -43,7 +43,7 @@ var _blocked_weapon_usage_counter: int = 0
 @onready var camera_target: Marker2D = $CameraTarget
 
 @onready var _weapons: Node2D = $Visual/Weapons
-@onready var _event: Event = get_tree().get_first_node_in_group(&"Event")
+@onready var _event: Event = get_tree().get_first_node_in_group(&"event")
 
 
 func _ready() -> void:

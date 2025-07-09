@@ -61,7 +61,7 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8p3c7"]
 _data = {
 &"RESET": SubResource("Animation_efgpv"),
-&"Use": SubResource("Animation_b4dkh")
+&"use": SubResource("Animation_b4dkh")
 }
 
 [node name="Shield" type="Node2D"]

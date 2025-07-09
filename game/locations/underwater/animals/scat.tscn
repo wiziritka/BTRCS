@@ -66,7 +66,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6vh21"]
 _data = {
 &"RESET": SubResource("Animation_t6aua"),
-&"Scat": SubResource("Animation_kblyk")
+&"scat": SubResource("Animation_kblyk")
 }
 
 [node name="Scat" type="Node2D"]
@@ -91,4 +91,4 @@ root_node = NodePath("../Path2D")
 libraries = {
 &"": SubResource("AnimationLibrary_6vh21")
 }
-autoplay = "Scat"
+autoplay = "scat"
