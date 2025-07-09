@@ -46,7 +46,7 @@ func _shoot(success := false) -> void:
 	
 	var destination: Vector2
 	if multiplayer.is_server():
-		destination = player.position + player.player_input.aim_direction * teleport_distance
+		destination = player.position + player.entity_input.aim_direction * teleport_distance
 	
 	block_shooting()
 	_anim.play("use%d" % (randi() % 3))
@@ -118,11 +118,11 @@ func _show_teleport_vfx(where: Vector2) -> void:
 
 func _update_casts() -> void:
 	_collision_check.global_position = player.global_position \
-			+ player.player_input.aim_direction * teleport_distance
+			+ player.entity_input.aim_direction * teleport_distance
 	_collision_check.force_shapecast_update()
 	
 	_border_check.global_position = player.global_position
-	_border_check.target_position = player.player_input.aim_direction * teleport_distance
+	_border_check.target_position = player.entity_input.aim_direction * teleport_distance
 	_border_check.force_raycast_update()
 
 

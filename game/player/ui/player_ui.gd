@@ -284,18 +284,17 @@ func _unhandled_keyboard_and_mouse_input(event: InputEvent) -> void:
 
 
 func _process_touch_input_method(delta: float) -> void:
-	var direction: Vector2 = _move_joystick.output
-	_player.entity_input.direction = _move_joystick.output
+	_player.entity_input.move_direction = _move_joystick.output
 	
 	if not _aim_joystick.output.is_zero_approx():
 		var aim: Vector2 = _aim_joystick.output
-		_player.player_input.aim_direction = aim.normalized() * MIN_AIM_DIRECTION_LENGTH + \
+		_player.entity_input.aim_direction = aim.normalized() * MIN_AIM_DIRECTION_LENGTH + \
 				aim * (1.0 - MIN_AIM_DIRECTION_LENGTH)
 		_player.player_input.showing_aim = true
-		_player.player_input.turn_with_aim = true
+		_player.entity_input.turn_with_aim = true
 	else:
 		_player.player_input.showing_aim = false
-		_player.player_input.turn_with_aim = false
+		_player.entity_input.turn_with_aim = false
 	
 	if not _joystick_fire:
 		_player.player_input.shooting = _shoot_area.is_pressed()
@@ -311,12 +310,12 @@ func _process_touch_input_method(delta: float) -> void:
 
 
 func _process_keyboard_and_mouse_input_method() -> void:
-	_player.entity_input.direction = Vector2(
+	_player.entity_input.move_direction = Vector2(
 			int(_moving_right) - int(_moving_left),
 			int(_moving_down) - int(_moving_up)
 	).normalized()
 	if Input.is_action_pressed(&"sneak"):
-		_player.entity_input.direction *= _sneak_multiplier
+		_player.entity_input.move_direction *= _sneak_multiplier
 	
 	_player.player_input.shooting = _shooting
 	_player.player_input.showing_aim = _showing_aim or _always_show_aim
@@ -326,14 +325,14 @@ func _process_keyboard_and_mouse_input_method() -> void:
 		var mouse_distance: float = mouse_pos.length()
 		if mouse_distance > _aim_deadzone:
 			# Умножаем направление в зависимости от расстояния курсора от центра.
-			_player.player_input.aim_direction = mouse_pos.normalized() * (
+			_player.entity_input.aim_direction = mouse_pos.normalized() * (
 					(clampf(mouse_distance, _aim_deadzone, _aim_max_zone) - _aim_deadzone)
 					/ _aim_zone * (1.0 - MIN_AIM_DIRECTION_LENGTH) + MIN_AIM_DIRECTION_LENGTH
 			)
 		else:
-			_player.player_input.aim_direction = _player.player_input.aim_direction.normalized() \
+			_player.entity_input.aim_direction = _player.entity_input.aim_direction.normalized() \
 					* MIN_AIM_DIRECTION_LENGTH
-	_player.player_input.turn_with_aim = _follow_mouse or _showing_aim
+	_player.entity_input.turn_with_aim = _follow_mouse or _showing_aim
 
 
 func _update_skill() -> void:

@@ -175,7 +175,7 @@ func _do_shoot(current_ammo: int, args := []) -> void:
 	await _shoot.callv(args)
 
 
-func _calculate_aim_angle(aim_direction: Vector2 = player.player_input.aim_direction) -> float:
+func _calculate_aim_angle(aim_direction: Vector2 = player.entity_input.aim_direction) -> float:
 	aim_direction.x = absf(aim_direction.x)
 	return aim_direction.angle()
 

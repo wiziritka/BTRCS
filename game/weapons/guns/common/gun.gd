@@ -218,9 +218,9 @@ func _create_projectile() -> void:
 	projectile.position = _shoot_point.global_position
 	projectile.damage_multiplier = player.damage_multiplier
 	var spread: float = _calculate_spread()
-	projectile.rotation = player.player_input.aim_direction.angle() \
+	projectile.rotation = player.entity_input.aim_direction.angle() \
 			+ deg_to_rad(randf_range(-spread, spread)) \
-			+ deg_to_rad(_calculate_recoil()) * signf(player.player_input.aim_direction.x)
+			+ deg_to_rad(_calculate_recoil()) * signf(player.entity_input.aim_direction.x)
 	projectile.team = player.team
 	projectile.who = player.id
 	projectile.name += str(randi())

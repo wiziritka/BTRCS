@@ -89,12 +89,6 @@ func _process(_delta: float) -> void:
 		camera_target.position = Vector2.ZERO
 
 
-func _physics_process(delta: float) -> void:
-	super(delta)
-	if can_turn():
-		visual.scale.x = -1.0 if player_input.aim_direction.x < 0.0 else 1.0
-
-
 ## Меняет оружие на тип [param to].[br]
 ## [b]Примечание[/b]: этот метод должен вызываться только сервером и только как RPC.
 @rpc("call_local", "reliable", "authority", 5)

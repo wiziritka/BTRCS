@@ -44,7 +44,7 @@ func _process(_delta: float) -> void:
 		_aim_spread_right.rotation_degrees = spread
 		
 		# Вычисление длины пути гранаты через формулу по физике xD
-		var speed_multiplier: float = player.player_input.aim_direction.length()
+		var speed_multiplier: float = player.entity_input.aim_direction.length()
 		var time: float = minf(projectile_speed * speed_multiplier / projectile_damping,
 				projectile_explosion_time)
 		var distance: float = projectile_speed * time * speed_multiplier \
@@ -56,7 +56,7 @@ func _process(_delta: float) -> void:
 func _physics_process(_delta: float) -> void:
 	if can_shoot() and multiplayer.is_server() and player.player_input.shooting \
 			and ammo_in_stock > 0 and not _reloading:
-		shoot(player.player_input.aim_direction)
+		shoot(player.entity_input.aim_direction)
 
 
 func _make_current() -> void:

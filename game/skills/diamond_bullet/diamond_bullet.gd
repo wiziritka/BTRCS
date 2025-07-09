@@ -14,7 +14,7 @@ extends Skill
 func _process(_delta: float) -> void:
 	if player.is_local() \
 			and player.player_input.shooting_started.is_connected(_on_player_shooting_started):
-		_aim.rotation = player.player_input.aim_direction.angle()
+		_aim.rotation = player.entity_input.aim_direction.angle()
 		_aim.visible = player.player_input.showing_aim
 		
 		_spread_left.rotation_degrees = -_calculate_spread()
@@ -46,10 +46,10 @@ func _on_player_shooting_started() -> void:
 	if multiplayer.is_server():
 		var projectile: Projectile = projectile_scene.instantiate()
 		projectile.position = player.position + 64 * Vector2.from_angle(
-				player.player_input.aim_direction.angle())
+				player.entity_input.aim_direction.angle())
 		projectile.damage_multiplier = player.damage_multiplier
 		var spread: float = deg_to_rad(_calculate_spread())
-		projectile.rotation = player.player_input.aim_direction.angle() \
+		projectile.rotation = player.entity_input.aim_direction.angle() \
 				+ randf_range(-spread, spread)
 		projectile.team = player.team
 		projectile.who = player.id

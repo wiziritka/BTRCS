@@ -65,9 +65,9 @@ func _create_projectile() -> void:
 		var projectile: Projectile = projectile_scene.instantiate()
 		projectile.position = _shoot_point.global_position
 		projectile.damage_multiplier = player.damage_multiplier
-		projectile.rotation = player.player_input.aim_direction.angle() \
+		projectile.rotation = player.entity_input.aim_direction.angle() \
 				+ deg_to_rad(_calculate_spread() * (-1 + 2.0 / (buckshot_in_shot - 1) * i)) \
-				+ deg_to_rad(_calculate_recoil()) * signf(player.player_input.aim_direction.x)
+				+ deg_to_rad(_calculate_recoil()) * signf(player.entity_input.aim_direction.x)
 		projectile.team = player.team
 		projectile.who = player.id
 		projectile.name += str(randi())

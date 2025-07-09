@@ -126,7 +126,7 @@ func _physics_process(delta: float) -> void:
 	velocity = knockback
 	var self_velocity := Vector2.ZERO
 	if not is_immobile():
-		self_velocity = entity_input.direction * speed * speed_multiplier
+		self_velocity = entity_input.move_direction * speed * speed_multiplier
 	velocity += self_velocity
 	move_and_slide()
 	
@@ -145,8 +145,8 @@ func _physics_process(delta: float) -> void:
 			position = position.lerp(server_position,
 					clampf(SAFE_DISTANCE_LERP / safe_distance, delta, 1.0))
 	
-	if not is_zero_approx(self_velocity.x) and can_turn():
-		visual.scale.x = -1.0 if self_velocity.x < 0.0 else 1.0
+	if can_turn():
+		visual.scale.x = -1.0 if entity_input.aim_direction.x < 0.0 else 1.0
 
 
 ## Телепортирует сущность в точку [param destination].

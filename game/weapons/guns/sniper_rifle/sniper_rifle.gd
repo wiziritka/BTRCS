@@ -113,7 +113,7 @@ func _calculate_aim_target_position() -> Vector2:
 	var ratio: float = (_aim_ray.get_collision_point() - _aim_ray.global_position).length() \
 			/ absf(_aim_ray.position.x - _end_aim.position.x) if _aim_ray.is_colliding() else 1.0
 	return _aim_ray.global_position.lerp(_end_aim.global_position,
-			minf(player.player_input.aim_direction.length(), ratio))
+			minf(player.entity_input.aim_direction.length(), ratio))
 
 
 func _on_camera_target_changed(new_target: Node2D, camera: SmartCamera) -> void:

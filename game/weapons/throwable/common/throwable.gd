@@ -84,7 +84,7 @@ func _shoot() -> void:
 		return
 	
 	player.block_turning()
-	var angle: float = player.player_input.aim_direction.angle()
+	var angle: float = player.entity_input.aim_direction.angle()
 	var post_throw_anim: Animation = current_ammo_anim.get_animation(&"throw")
 	post_throw_anim.track_set_key_value(0, 0, current_ammo.to_local(_throw_pivot.global_position))
 	post_throw_anim.track_set_key_value(0, 1, current_ammo.to_local(_throw_point.global_position))
