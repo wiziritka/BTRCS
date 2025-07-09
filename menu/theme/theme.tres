@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=57 format=3 uid="uid://bbeb6tjpfk7sg"]
+[gd_resource type="Theme" load_steps=58 format=3 uid="uid://bbeb6tjpfk7sg"]
 
 [ext_resource type="Texture2D" uid="uid://b477qiraadl1y" path="res://menu/theme/textures/panel.svg" id="1_xws5c"]
 [ext_resource type="Texture2D" uid="uid://blcr2cbti1c5d" path="res://menu/theme/textures/tick_on.svg" id="2_t7j08"]
@@ -26,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://bmk107fcsqeir" path="res://menu/theme/textures/window_close.svg" id="18_t7j08"]
 [ext_resource type="Texture2D" uid="uid://gmv55kbd6r21" path="res://menu/theme/textures/h_grabber.svg" id="21_hq4mw"]
 [ext_resource type="Texture2D" uid="uid://b07bjttu6sfjo" path="res://menu/theme/textures/scroll.svg" id="21_mswou"]
+[ext_resource type="FontFile" uid="uid://bh1k6rvqnvi0m" path="res://menu/theme/font.woff2" id="27_6prtn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o4so7"]
 content_margin_left = 32.0
@@ -251,6 +252,8 @@ expand_margin_right = 12.0
 expand_margin_bottom = 12.0
 
 [resource]
+default_font = ExtResource("27_6prtn")
+default_font_size = 16
 AcceptDialog/styles/panel = SubResource("StyleBoxFlat_o4so7")
 Button/colors/font_color = Color(0, 0, 0, 1)
 Button/colors/font_disabled_color = Color(0, 0, 0, 0.5)
@@ -318,10 +321,25 @@ HSlider/styles/grabber_area_highlight = SubResource("StyleBoxTexture_8xcpw")
 HSlider/styles/slider = SubResource("StyleBoxTexture_mnl67")
 HSplitContainer/icons/grabber = ExtResource("21_hq4mw")
 HeaderLarge/font_sizes/font_size = 28
+HeaderLargeOutlined/base_type = &"Label"
+HeaderLargeOutlined/colors/font_color = Color(1, 1, 1, 1)
+HeaderLargeOutlined/constants/outline_size = 4
+HeaderLargeOutlined/font_sizes/font_size = 28
 HeaderMedium/font_sizes/font_size = 24
+HeaderMediumOutlined/base_type = &"Label"
+HeaderMediumOutlined/colors/font_color = Color(1, 1, 1, 1)
+HeaderMediumOutlined/constants/outline_size = 4
+HeaderMediumOutlined/font_sizes/font_size = 24
 HeaderSmall/font_sizes/font_size = 20
+HeaderSmallOutlined/base_type = &"Label"
+HeaderSmallOutlined/colors/font_color = Color(1, 1, 1, 1)
+HeaderSmallOutlined/constants/outline_size = 4
+HeaderSmallOutlined/font_sizes/font_size = 20
 Label/colors/font_color = Color(0, 0, 0, 1)
 Label/constants/line_spacing = 0
+LabelOutlined/base_type = &"Label"
+LabelOutlined/colors/font_color = Color(1, 1, 1, 1)
+LabelOutlined/constants/outline_size = 4
 LineEdit/colors/font_color = Color(1, 1, 1, 1)
 LineEdit/styles/focus = SubResource("StyleBoxEmpty_8bhdh")
 LineEdit/styles/normal = SubResource("StyleBoxTexture_qmo60")

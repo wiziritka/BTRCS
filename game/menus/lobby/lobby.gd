@@ -53,7 +53,7 @@ var _player_entry_scene: PackedScene = preload("uid://dj0mx5ui2wu4n")
 
 @onready var _game: Game = get_parent()
 @onready var _players_container: GridContainer = %PlayersContainer
-@onready var _chat: Chat = $Panels/Chat
+@onready var _chat: Chat = $Main/Panels/Chat
 @onready var _countdown_timer: Timer = $CountdownTimer
 
 

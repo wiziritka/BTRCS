@@ -203,9 +203,7 @@ offset_right = 116.0
 offset_bottom = -108.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_type_variation = &"HeaderLarge"
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 6
+theme_type_variation = &"HeaderLargeOutlined"
 horizontal_alignment = 1
 
 [node name="GameEnd" type="Label" parent="UI/Main" index="10"]

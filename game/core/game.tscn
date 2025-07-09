@@ -164,8 +164,7 @@ offset_top = 8.0
 offset_bottom = 31.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 4
+theme_type_variation = &"LabelOutlined"
 text = "Загрузка..."
 horizontal_alignment = 1
 
@@ -187,8 +186,7 @@ offset_top = 24.0
 offset_right = -200.0
 offset_bottom = 48.0
 grow_horizontal = 0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 4
+theme_type_variation = &"LabelOutlined"
 text = "FPS: 60"
 horizontal_alignment = 1
 
@@ -202,8 +200,7 @@ offset_top = 56.0
 offset_right = -200.0
 offset_bottom = 80.0
 grow_horizontal = 0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 4
+theme_type_variation = &"LabelOutlined"
 text = "Пинг: 999 мс"
 horizontal_alignment = 1
 

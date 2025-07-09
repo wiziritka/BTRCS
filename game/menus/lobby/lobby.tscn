@@ -137,17 +137,14 @@ grow_vertical = 2
 [node name="Name" type="Label" parent="Main/Panels/Lobby/VBoxContainer/Environment/Event/Container"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 24
+theme_type_variation = &"HeaderMediumOutlined"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Description" type="Label" parent="Main/Panels/Lobby/VBoxContainer/Environment/Event/Container"]
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 4
+theme_type_variation = &"LabelOutlined"
 horizontal_alignment = 1
 vertical_alignment = 2
 
@@ -170,17 +167,14 @@ grow_vertical = 2
 [node name="Name" type="Label" parent="Main/Panels/Lobby/VBoxContainer/Environment/Map/Container"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 24
+theme_type_variation = &"HeaderMediumOutlined"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Description" type="Label" parent="Main/Panels/Lobby/VBoxContainer/Environment/Map/Container"]
 layout_mode = 2
 size_flags_vertical = 1
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 4
+theme_type_variation = &"LabelOutlined"
 horizontal_alignment = 1
 vertical_alignment = 2
 
@@ -350,7 +344,7 @@ one_shot = true
 
 [node name="PresetManager" parent="." instance=ExtResource("13_jqaxo")]
 visible = false
-equip_selector_path = NodePath("../../../../../../../../../../../../../../../../../../../../../../VBoxContainer/Panels/Lobby/VBoxContainer/EquipSelector")
+equip_selector_path = NodePath("../Main/Panels/Lobby/VBoxContainer/EquipSelector")
 
 [node name="ViewIPDialog" type="AcceptDialog" parent="."]
 title = "Твои IP-адреса"
