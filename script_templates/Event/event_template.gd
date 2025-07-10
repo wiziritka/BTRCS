@@ -34,7 +34,7 @@ _TS_return # пишите логику здесь
 _TS_#pass
 
 
-#func _player_killed(who: int, by: int) -> void:
+#func _player_killed(by: int, player: Player) -> void:
 _TS_#pass
 
 

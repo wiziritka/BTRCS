@@ -205,7 +205,7 @@ func _calculate_shoot_spread() -> float:
 
 
 func _calculate_walk_spread() -> float:
-	return spread_walk * clampf((player.entity_input.direction.length() - spread_walk_ratio)
+	return spread_walk * clampf((player.entity_input.move_direction.length() - spread_walk_ratio)
 			/ (1.0 - spread_walk_ratio), 0.0, 1.0)
 
 

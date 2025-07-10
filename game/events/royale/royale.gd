@@ -75,10 +75,10 @@ func _get_spawn_point(_id: int) -> Vector2:
 	return pos
 
 
-func _player_killed(who: int, by: int) -> void:
-	_alive_players.erase(who)
+func _player_killed(by: int, player: Player) -> void:
+	_alive_players.erase(player.id)
 	_royale_ui.set_alive_players.rpc(_alive_players.size())
-	_royale_ui.kill_player.rpc(who, by)
+	_royale_ui.kill_player.rpc(player.id, by)
 	_check_winner()
 
 
@@ -154,7 +154,7 @@ func _check_winner() -> void:
 	end.rpc()
 
 
-func _on_local_player_died(_who: int) -> void:
+func _on_local_player_died() -> void:
 	_royale_ui.show_defeat()
 
 

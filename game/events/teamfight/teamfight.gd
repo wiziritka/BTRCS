@@ -64,13 +64,13 @@ func _get_spawn_point(id: int) -> Vector2:
 	return pos
 
 
-func _player_killed(who: int, _by: int) -> void:
-	if players_teams[who] == 0:
+func _player_killed(_by: int, player: Player) -> void:
+	if players_teams[player.id] == 0:
 		blue_kills += 1
 	else:
 		red_kills += 1
 	_teamfight_ui.set_kills.rpc(red_kills, blue_kills)
-	_respawn_player(who)
+	_respawn_player(player.id)
 
 
 func _player_disconnected(_who: int) -> void:
@@ -115,7 +115,7 @@ func _on_local_player_died() -> void:
 
 
 func _on_local_player_created(player: Player) -> void:
-	player.died.connect(_on_local_player_died.unbind(1))
+	player.died.connect(_on_local_player_died)
 
 
 func _on_match_timer_timeout() -> void:

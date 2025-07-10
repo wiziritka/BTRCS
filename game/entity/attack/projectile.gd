@@ -12,10 +12,14 @@ extends Attack
 signal hit(where: Vector2, what: Entity)
 ## Издаётся, когда снаряд уничтожается.
 signal destroyed(where: Vector2)
+
 ## Скорость снаряда.
 @export var speed := 1280.0
 ## Эффект попадания снаряда.
 @export var hit_vfx_scene: PackedScene
+## Эффект попадания снаряда в стену.
+@export var hit_wall_vfx_scene: PackedScene
+
 ## Направление движения снаряда. Устанавливается в [method Node._ready] из [member Node2D.rotation].
 var direction: Vector2
 var _destroyed := false
@@ -31,8 +35,13 @@ func _physics_process(delta: float) -> void:
 	position += speed * direction * delta
 
 
+## Метод, уничтожающий снаряд и вызывающий сигнал [signal destroyed]. [param where] определяет
+## позицию, где будет отображён эффект уничтожения снаряда. [param wall] определяет, будет ли
+## показан эффект уничтожения снаряда при столкновении со стеной ([member hit_wall_vfx_scene])
+## или же с противником ([member hit_vfx_scene]).[br]
+## Рекомендуется на сервере вызывать этот метод как RPC, на клиенте - как обычный метод.
 @rpc("unreliable", "call_local", "authority", 5)
-func _destroy(where: Vector2) -> void:
+func destroy(where: Vector2, wall: bool) -> void:
 	if _destroyed:
 		return
 	
@@ -43,10 +52,11 @@ func _destroy(where: Vector2) -> void:
 	for sd: ShapeDetector in shape_detectors:
 		sd.enabled = false
 	
-	if hit_vfx_scene:
+	var vfx_scene: PackedScene = hit_wall_vfx_scene if wall else hit_vfx_scene
+	if vfx_scene:
 		var vfx_parent: Node = get_tree().get_first_node_in_group(&"vfx_parent")
 		if is_instance_valid(vfx_parent):
-			var vfx: Node2D = hit_vfx_scene.instantiate()
+			var vfx: Node2D = vfx_scene.instantiate()
 			vfx.position = where
 			vfx.rotation = rotation
 			vfx.scale.y = sign(scale.y)
@@ -58,11 +68,11 @@ func _destroy(where: Vector2) -> void:
 
 ## Метод для переопределения. Может использоваться для изменения логики при столкновении снаряда
 ## с чем-либо. По умолчанию снаряд просто уничтожается.
-func _process_hit(where: Vector2, _what: Entity) -> void:
+func _process_hit(where: Vector2, what: Entity) -> void:
 	if multiplayer.is_server():
-		_destroy.rpc(where)
+		destroy.rpc(where, not what)
 	else:
-		_destroy(where)
+		destroy(where, not what)
 
 
 func _on_detector_hit(where: Vector2, what: Entity) -> void:

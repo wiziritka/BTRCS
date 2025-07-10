@@ -33,7 +33,7 @@ func _can_use() -> bool:
 
 
 func _calculate_spread() -> float:
-	return spread_walk * clampf((player.entity_input.direction.length() - spread_walk_ratio)
+	return spread_walk * clampf((player.entity_input.move_direction.length() - spread_walk_ratio)
 			/ (1.0 - spread_walk_ratio), 0.0, 1.0) + spread_base
 
 

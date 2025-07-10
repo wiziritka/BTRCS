@@ -6,9 +6,9 @@ func _process_hit(where: Vector2, what: Entity) -> void:
 	var normal: Vector2 = ray_detectors[0].get_collision_normal()
 	if what or normal.is_zero_approx():
 		if multiplayer.is_server():
-			_destroy.rpc(where)
+			destroy.rpc(where, not what)
 		else:
-			_destroy(where)
+			destroy(where, not what)
 		return
 	
 	var remainder: float = where.distance_to(position)
@@ -18,6 +18,6 @@ func _process_hit(where: Vector2, what: Entity) -> void:
 	
 	var vfx_parent: Node = get_tree().get_first_node_in_group(&"vfx_parent")
 	if is_instance_valid(vfx_parent):
-		var vfx: Node2D = hit_vfx_scene.instantiate()
+		var vfx: Node2D = hit_wall_vfx_scene.instantiate()
 		vfx.position = where
 		vfx_parent.add_child(vfx)

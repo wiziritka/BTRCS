@@ -8,16 +8,14 @@ extends CharacterBody2D
 
 ## Издаётся, когда сущность меняет своё здоровье. В аргументах есть старое и новое здоровье.
 signal health_changed(old_value: int, new_value: int)
-## Издаётся при получении урона. [param by] содержит ID сущности, нанёсшей урон,
-## а [param who] содержит ID сущности, получившей урон (то есть этой).[br]
+## Издаётся при получении урона. [param by] содержит ID сущности, нанёсшей урон.[br]
 ## [b]Примечание[/b]: этот сигнал издаётся только на сервере.
-signal damaged(who: int, by: int)
-## Издаётся при смерти. [param by] содержит ID сущности, совершившей убийство,
-## а [param who] содержит ID умершей сущности (то есть этой).[br]
+signal damaged(by: int)
+## Издаётся при смерти. [param by] содержит ID сущности, совершившей убийство.[br]
 ## [b]Примечание[/b]: этот сигнал издаётся только на сервере.
-signal killed(who: int, by: int)
-## Издаётся при смерти. [param who] содержит ID умершей сущности (то есть этой).
-signal died(who: int)
+signal killed(by: int)
+## Издаётся при смерти.
+signal died
 ## Издаётся, когда сущность оказывается безоружна.
 signal disarmed
 ## Издаётся, когда сущность вновь может пользоваться оружием.
@@ -111,7 +109,7 @@ var _blocked_turning_counter: int = 0
 ## Родительский узел визуальной составляещей сущности.
 @onready var visual: Node2D = $Visual
 @onready var _effects: Node2D = $Effects
-@onready var _vfx_parent: Node2D = get_tree().get_first_node_in_group(&"VfxParent")
+@onready var _vfx_parent: Node2D = get_tree().get_first_node_in_group(&"vfx_parent")
 
 
 func _ready() -> void:
@@ -287,7 +285,7 @@ func set_health(health: int) -> void:
 						&"font_color", Color.RED)
 			_vfx_parent.add_child(numbers_vfx)
 		
-		died.emit(id)
+		died.emit()
 		current_health = 0
 		print_verbose("%s died." % name)
 		if multiplayer.is_server():
@@ -345,9 +343,9 @@ func damage(amount: int, by: int = -1) -> void:
 	var new_health: int = clampi(current_health - maxi(roundi(amount * defense_multiplier), 1),
 			0, max_health)
 	if new_health <= 0:
-		killed.emit(id, by)
+		killed.emit(by)
 	else:
-		damaged.emit(id, by)
+		damaged.emit(by)
 	set_health.rpc(new_health)
 
 

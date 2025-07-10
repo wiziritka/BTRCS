@@ -40,6 +40,7 @@ radius = 200.0
 script = ExtResource("2_7dcoq")
 speed = 2600.0
 hit_vfx_scene = ExtResource("3_jrmds")
+hit_wall_vfx_scene = ExtResource("3_jrmds")
 
 [node name="ShapeDetector" type="ShapeCast2D" parent="." index="0"]
 position = Vector2(-48, 0)

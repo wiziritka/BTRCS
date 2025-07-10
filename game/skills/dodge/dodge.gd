@@ -15,8 +15,8 @@ func _physics_process(delta: float) -> void:
 	if multiplayer.is_server():
 		if _aim_dodge:
 			_roll_direction = player.entity_input.aim_direction
-		elif not player.entity_input.direction.is_zero_approx():
-			_roll_direction = player.entity_input.direction
+		elif not player.entity_input.move_direction.is_zero_approx():
+			_roll_direction = player.entity_input.move_direction
 
 
 func get_use_args() -> Array:

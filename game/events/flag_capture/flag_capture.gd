@@ -72,8 +72,8 @@ func _get_spawn_point(id: int) -> Vector2:
 	return pos
 
 
-func _player_killed(who: int, _by: int) -> void:
-	_respawn_player(who)
+func _player_killed(_by: int, player: Player) -> void:
+	_respawn_player(player.id)
 
 
 func _player_disconnected(_id: int) -> void:
@@ -148,7 +148,7 @@ func _on_local_player_died() -> void:
 
 
 func _on_local_player_created(player: Player) -> void:
-	player.died.connect(_on_local_player_died.unbind(1))
+	player.died.connect(_on_local_player_died)
 
 
 func _on_match_timer_timeout() -> void:

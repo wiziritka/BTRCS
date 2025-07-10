@@ -447,7 +447,7 @@ func _on_player_health_changed(old_value: int, new_value: int) -> void:
 	_blood_vignette.visible = new_value < _health_bar.max_value * 0.34
 
 
-func _on_player_died(_who: int) -> void:
+func _on_player_died() -> void:
 	($Controller as CanvasItem).hide()
 	_tint_anim.play(&"death")
 	if _vibration_enabled:

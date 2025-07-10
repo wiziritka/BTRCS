@@ -53,6 +53,7 @@ slowdown_duration = 4.0
 speed_multiplier = 0.65
 speed = 2200.0
 hit_vfx_scene = ExtResource("3_ebg44")
+hit_wall_vfx_scene = ExtResource("3_ebg44")
 damage = 15
 
 [node name="Sprite2D" type="Sprite2D" parent="." index="0"]

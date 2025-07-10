@@ -111,8 +111,8 @@ func spawn_player(id: int) -> void:
 	_customize_player(player)
 	players[id] = player
 	$Entities.add_child(player)
-	player.damaged.connect(_on_player_damaged)
-	player.killed.connect(_on_player_killed)
+	player.damaged.connect(_on_player_damaged.bind(player))
+	player.killed.connect(_on_player_killed.bind(player))
 	player.tree_exiting.connect(_on_player_tree_exiting.bind(player))
 	if not was_started:
 		player.block_weapon_usage()
@@ -303,9 +303,9 @@ func _customize_player(_player: Player) -> void:
 	pass
 
 
-## Метод для переопределения. Вызывается на сервере при убийстве игрока. В [param _who]
-## содержится [member Entity.id] умершего игрока, в [param _by] - убийцы.
-func _player_killed(_who: int, _by: int) -> void:
+## Метод для переопределения. Вызывается на сервере при убийстве игрока. В [param _player]
+## содержится объект умершего игрока, в [param _by] - ID убийцы.
+func _player_killed(_by: int, _player: Player) -> void:
 	pass
 
 
@@ -315,33 +315,33 @@ func _player_disconnected(_id: int) -> void:
 	pass
 
 
-func _on_player_damaged(who: int, by: int) -> void:
+func _on_player_damaged(by: int, player: Player) -> void:
 	if by in players:
-		var hit_position: Vector2 = players[who].global_position
+		var hit_position: Vector2 = players[player.id].global_position
 		if not _queued_hits.any(func(hit: Hit) -> bool:
 				return hit.by == by and hit.where.is_equal_approx(hit_position)):
 			_queued_hits.append(Hit.new(by, hit_position, false))
 
 
-func _on_player_killed(who: int, by: int) -> void:
+func _on_player_killed(by: int, player: Player) -> void:
 	var message_text: String
 	if by > 0:
 		message_text = "[outline_size=4][color=#%s]%s[/color][/outline_size] убивает игрока \
 [outline_size=4][color=#%s]%s[/color][/outline_size]!" % [
 			Entity.TEAM_COLORS[players_teams[by]].to_html(false),
 			players_names[by],
-			Entity.TEAM_COLORS[players_teams[who]].to_html(false),
-			players_names[who],
+			Entity.TEAM_COLORS[players_teams[player.id]].to_html(false),
+			players_names[player.id],
 		]
 	else:
 		message_text = "[outline_size=4][color=#%s]%s[/color][/outline_size] умирает!" % [
-			Entity.TEAM_COLORS[players_teams[who]].to_html(false),
-			players_names[who],
+			Entity.TEAM_COLORS[players_teams[player.id]].to_html(false),
+			players_names[player.id],
 		]
 	_event_ui.chat.post_message.rpc("> " + message_text)
 	
 	if by in players:
-		var kill_position: Vector2 = players[who].global_position
+		var kill_position: Vector2 = player.global_position
 		var should_add := true
 		for hit: Hit in _queued_hits:
 			if hit.by == by and hit.where.is_equal_approx(kill_position):
@@ -351,8 +351,8 @@ func _on_player_killed(who: int, by: int) -> void:
 		if should_add:
 			_queued_hits.append(Hit.new(by, kill_position, true))
 	
-	_player_killed(who, by)
-	players.erase(who)
+	_player_killed(by, player)
+	players.erase(player.id)
 
 
 func _on_player_tree_exiting(player: Player) -> void:

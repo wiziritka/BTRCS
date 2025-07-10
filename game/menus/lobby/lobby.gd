@@ -47,6 +47,7 @@ var _udp_peers: Array[PacketPeerUDP]
 var _client_timers: Dictionary[int, Timer]
 var _player_entry_scene: PackedScene = preload("uid://dj0mx5ui2wu4n")
 
+## Ссылка на [EquipSelector].
 @onready var equip_selector: EquipSelector = %EquipSelector
 @onready var _item_selector: Window = %EquipSelector/ItemSelector
 @onready var _items_grid: ItemsGrid = %EquipSelector/%ItemsGrid

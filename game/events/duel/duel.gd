@@ -51,8 +51,8 @@ func _customize_player(player: Player) -> void:
 			player.equip_data[3] = -1
 
 
-func _player_killed(who: int, _by: int) -> void:
-	var team_won: int = 1 - players_teams[who]
+func _player_killed(_by: int, player: Player) -> void:
+	var team_won: int = 1 - players_teams[player.id]
 	if team_won == 1:
 		_blue_rounds_won += 1
 	else:

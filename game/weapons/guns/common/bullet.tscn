@@ -10,6 +10,7 @@
 script = ExtResource("1_fc6k8")
 speed = 2000.0
 hit_vfx_scene = ExtResource("2_jsg66")
+hit_wall_vfx_scene = ExtResource("2_jsg66")
 
 [node name="RayDetector" type="RayCast2D" parent="." index="0"]
 position = Vector2(-128, 0)
