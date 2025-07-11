@@ -2,32 +2,19 @@ class_name TeamfightUI
 extends EventUI
 
 
-@rpc("reliable", "call_local", "authority", 3)
 func set_kills(red: int, blue: int) -> void:
-	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
-		push_error("This method must be called only by server.")
-		return
-	
 	($Main/RedCount as Label).text = str(red)
 	($Main/BlueCount as Label).text = str(blue)
-	print_verbose("Score: %d - %d." % [red, blue])
 
 
-@rpc("reliable", "call_local", "authority", 3)
-func show_winner(team_won: int) -> void:
-	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
-		push_error("This method must be called only by server.")
-		return
-	
-	(get_parent() as Event).end_event(team_won == (get_parent() as Event).local_team)
-	if team_won < 0:
+func show_winner(team: int) -> void:
+	if team < 0:
 		($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"draw")
 		return
 	($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"victory")
-	($Main/GameEnd/Team as Label).text = "Красная" if team_won == 0 else "Синяя"
+	($Main/GameEnd/Team as Label).text = "Красная" if team == 0 else "Синяя"
 	($Main/GameEnd/Team as Control).add_theme_color_override(&"font_color",
-			Entity.TEAM_COLORS[team_won])
-	print_verbose("Team won: %d." % team_won)
+			Entity.TEAM_COLORS[team])
 
 
 func set_time(time: int) -> void:

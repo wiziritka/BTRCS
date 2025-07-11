@@ -31,7 +31,7 @@ var players_teams: Dictionary[int, int]
 var _players_skill_vars: Dictionary[int, Array]
 
 ## Ссылка на [EventUI].
-@onready var _event_ui: EventUI = $UI
+@onready var event_ui: EventUI = $UI
 
 
 func _ready() -> void:
@@ -39,7 +39,7 @@ func _ready() -> void:
 	if multiplayer.is_server():
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 		_setup()
-	_event_ui.show_intro()
+	event_ui.show_intro()
 
 
 func _local_player_created(player: Player) -> void:
@@ -52,7 +52,7 @@ func _local_player_created(player: Player) -> void:
 			local_player.block_turning()
 		var offset: float = (Time.get_ticks_msec() - created_ticks_msec) / 1000.0
 		($Camera as SmartCamera).pan_to_target(player.camera_target, maxf(4.0 - offset, 1.0))
-		_event_ui.seek_intro(offset)
+		event_ui.seek_intro(offset)
 
 
 ## Создаёт игрока с идентификатором [param id]. Если событие ещё не началось, то этот игрок будет
@@ -162,8 +162,8 @@ func _start() -> void:
 
 func _setup() -> void:
 	_make_teams()
-	_event_ui.chat.players_names = players_names
-	_event_ui.chat.players_teams = players_teams
+	event_ui.chat.players_names = players_names
+	event_ui.chat.players_teams = players_teams
 	for player_id: int in players_names:
 		spawn_player(player_id)
 	_finish_setup()
@@ -235,7 +235,7 @@ func _on_player_killed(by: int, player: Player) -> void:
 			Entity.TEAM_COLORS[players_teams[player.id]].to_html(false),
 			players_names[player.id],
 		]
-	_event_ui.chat.post_message.rpc("> " + message_text)
+	event_ui.chat.post_message.rpc("> " + message_text)
 	
 	_player_killed(by, player)
 
@@ -249,7 +249,7 @@ func _on_player_tree_exiting(player: Player) -> void:
 func _on_peer_disconnected(id: int) -> void:
 	var message_text: String = "[outline_size=4][color=#%s]%s[/color][/outline_size] отключается!" \
 			% [Entity.TEAM_COLORS[players_teams[id]].to_html(false), players_names[id]]
-	_event_ui.chat.post_message.rpc("> " + message_text)
+	event_ui.chat.post_message.rpc("> " + message_text)
 	if id in players:
 		players[id].queue_free()
 		players.erase(id)

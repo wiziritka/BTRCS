@@ -37,10 +37,13 @@ var _poison_smokes_scene: PackedScene = preload("uid://cr1m37xm3w88w")
 
 
 func _initialize() -> void:
-	_spawn_points.shuffle()
-	_heal_box_points.shuffle()
-	_ammo_box_points.shuffle()
-	_weapon_box_points.shuffle()
+	if multiplayer.is_server():
+		_spawn_points.shuffle()
+		_heal_box_points.shuffle()
+		_ammo_box_points.shuffle()
+		_weapon_box_points.shuffle()
+		_alive_players = players_names.keys()
+	_update_alive_players(players_names.keys(), 0, 0)
 
 
 func _finish_start() -> void:
@@ -49,15 +52,13 @@ func _finish_start() -> void:
 	var tween: Tween = smokes.create_tween()
 	tween.tween_property(smokes, ^":modulate", smokes.modulate, 0.3).from(Color.TRANSPARENT)
 	if multiplayer.is_server():
-		_alive_players = players_names.keys()
 		($HealBoxSpawnTimer as Timer).start(heal_box_spawn_interval_base
 				+ heal_box_spawn_interval_per_player * _alive_players.size())
 		($AmmoBoxSpawnTimer as Timer).start(ammo_box_spawn_interval_base
 				+ ammo_box_spawn_interval_per_player * _alive_players.size())
 		($WeaponBoxSpawnTimer as Timer).start(weapon_box_spawn_interval_base
 				+ weapon_box_spawn_interval_per_player * _alive_players.size())
-		_royale_ui.set_alive_players.rpc(_alive_players.size())
-		_check_winner()
+		_check_for_end()
 
 
 func _make_teams() -> void:
@@ -77,16 +78,14 @@ func _get_spawn_point(_id: int) -> Vector2:
 
 func _player_killed(by: int, player: Player) -> void:
 	_alive_players.erase(player.id)
-	_royale_ui.set_alive_players.rpc(_alive_players.size())
-	_royale_ui.kill_player.rpc(player.id, by)
-	_check_winner()
+	_update_alive_players.rpc(_alive_players, player.id, by)
+	_check_for_end()
 
 
 func _player_disconnected(id: int) -> void:
 	_alive_players.erase(id)
-	_royale_ui.set_alive_players.rpc(_alive_players.size())
-	_royale_ui.kill_player.rpc(id)
-	_check_winner()
+	_update_alive_players.rpc(_alive_players, id, 0)
+	_check_for_end()
 
 
 ## Устанавливает у игрока с ID [param to] оружие [member weapon_data].
@@ -99,6 +98,22 @@ func equip_weapon(to: int) -> void:
 		if player.id == to:
 			player.set_weapon(Weapon.Type.ADDITIONAL, weapon_data)
 			break
+
+
+@rpc("reliable", "call_local", "authority", 3)
+func _update_alive_players(alive_players: Array[int], died: int, killer: int) -> void:
+	print_verbose("Alive players: %s." % str(alive_players))
+	_royale_ui.set_alive_players(alive_players.size())
+	if died != 0:
+		_royale_ui.kill_player(alive_players, died, killer)
+
+
+@rpc("reliable", "call_local", "authority", 3)
+func _show_winner(winner: int, winner_name: String) -> void:
+	if winner == multiplayer.get_unique_id():
+		end_event(true)
+	print_verbose("Winner: %d." % winner)
+	_royale_ui.show_winner(winner == multiplayer.get_unique_id(), winner_name)
 
 
 func _spawn_heal_box() -> void:
@@ -138,12 +153,12 @@ func _spawn_weapon() -> void:
 		_weapon_box_points.shuffle()
 
 
-func _check_winner() -> void:
+func _check_for_end() -> void:
 	if _alive_players.size() != 1:
 		return
 	var winner_id: int = _alive_players[0]
 	var winner_name: String = players_names[winner_id]
-	_royale_ui.show_winner.rpc(winner_id, winner_name)
+	_show_winner.rpc(winner_id, winner_name)
 	freeze_players.rpc()
 	($HealBoxSpawnTimer as Timer).stop()
 	($AmmoBoxSpawnTimer as Timer).stop()
@@ -155,6 +170,7 @@ func _check_winner() -> void:
 
 
 func _on_local_player_died() -> void:
+	end_event(false)
 	_royale_ui.show_defeat()
 
 

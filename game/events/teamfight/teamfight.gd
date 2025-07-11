@@ -69,7 +69,7 @@ func _player_killed(_by: int, player: Player) -> void:
 		blue_kills += 1
 	else:
 		red_kills += 1
-	_teamfight_ui.set_kills.rpc(red_kills, blue_kills)
+	_update_kills.rpc(red_kills, blue_kills)
 	_respawn_player(player.id)
 
 
@@ -86,23 +86,44 @@ func _update_time(remained: int) -> void:
 	_teamfight_ui.set_time(remained)
 
 
+@rpc("reliable", "call_local", "authority", 3)
+func _update_kills(red: int, blue: int) -> void:
+	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
+		push_error("This method must be called only by server.")
+		return
+	red_kills = red
+	blue_kills = blue
+	_teamfight_ui.set_kills(red_kills, blue_kills)
+	print_verbose("Current score: %d - %d." % [red_kills, blue_kills])
+
+
+@rpc("reliable", "call_local", "authority", 3)
+func _show_winner(team: int) -> void:
+	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
+		push_error("This method must be called only by server.")
+		return
+	end_event(team == local_team)
+	_teamfight_ui.show_winner(team)
+	print_verbose("Team won: %d." % team)
+
+
 func _respawn_player(id: int) -> void:
 	await get_tree().create_timer(comeback_time, false).timeout
 	if _time_remained > 0 and id in players_names:
 		spawn_player(id)
 
 
-func _determine_winner() -> void:
+func _end_event() -> void:
 	if not players_teams.find_key(0): # Нет красных больше
-		_teamfight_ui.show_winner.rpc(1)
+		_show_winner.rpc(1)
 	elif not players_teams.find_key(1): # Нет синих больше
-		_teamfight_ui.show_winner.rpc(0)
+		_show_winner.rpc(0)
 	elif red_kills > blue_kills:
-		_teamfight_ui.show_winner.rpc(0)
+		_show_winner.rpc(0)
 	elif blue_kills > red_kills:
-		_teamfight_ui.show_winner.rpc(1)
+		_show_winner.rpc(1)
 	else:
-		_teamfight_ui.show_winner.rpc(-1)
+		_show_winner.rpc(-1)
 	freeze_players.rpc()
 	await get_tree().create_timer(6.5).timeout
 	cleanup()
@@ -123,4 +144,4 @@ func _on_match_timer_timeout() -> void:
 	_update_time.rpc(_time_remained)
 	if _time_remained <= 0:
 		($MatchTimer as Timer).stop()
-		_determine_winner()
+		_end_event()

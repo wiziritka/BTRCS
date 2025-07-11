@@ -1,53 +1,30 @@
 class_name RoyaleUI
 extends EventUI
 
-var _ended := false
 var _spectating_player: Player
 var _alive_players: Array[Player]
 
-@rpc("call_local", "reliable", "authority", 3)
 func set_alive_players(count: int) -> void:
-	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
-		push_error("This method must be called only by server.")
-		return
-	
 	($Main/PlayerCounter as Label).text = str(count)
-	print_verbose("Alive players: %d." % count)
 
 
-@rpc("reliable", "call_local", "authority", 3)
-func show_winner(winner: int, winner_name: String) -> void:
-	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
-		push_error("This method must be called only by server.")
-		return
-	
-	_ended = true
-	if winner == multiplayer.get_unique_id():
-		($Main/GameEnd as Label).text = "ТЫ ПОБЕДИЛ!!!"
-		(get_parent() as Event).end_event(true)
-	else:
-		($Main/GameEnd as Label).text = "ПОБЕДИТЕЛЬ: %s" % winner_name
+func show_winner(won: bool, winner_name: String) -> void:
+	($Main/GameEnd as Label).text = "ТЫ ПОБЕДИЛ!!!" if won else "ПОБЕДИТЕЛЬ: %s" % winner_name
 	($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"victory")
 	($Main/SpectatorMenu as CanvasItem).hide()
-	print_verbose("Winner: %s." % winner_name)
 
 
-@rpc("reliable", "call_local", "authority", 3)
-func kill_player(which: int, killer: int = -1) -> void:
-	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
-		push_error("This method must be called only by server.")
-		return
+func kill_player(alive_players: Array[int], which: int, killer: int) -> void:
 	if Globals.headless:
 		return
 	
-	_alive_players.assign(get_tree().get_nodes_in_group(&"player"))
-	for player: Player in _alive_players:
-		if player.id == which:
-			_alive_players.erase(player)
-			break
-	if _alive_players.is_empty() or which != _spectating_player.id:
+	_alive_players.clear()
+	for id: int in alive_players:
+		_alive_players.append(event.players[id])
+	if which != _spectating_player.id and _spectating_player.id in alive_players \
+			or _alive_players.is_empty():
 		return
-	if killer < 0:
+	if killer == 0:
 		_set_player_to_spectate(randi() % _alive_players.size())
 		return
 	for idx: int in _alive_players.size():
@@ -58,9 +35,6 @@ func kill_player(which: int, killer: int = -1) -> void:
 
 
 func show_defeat() -> void:
-	(get_parent() as Event).end_event(false)
-	if _ended:
-		return
 	($Main/GameEnd as Label).text = "ПОРАЖЕНИЕ!"
 	($Main/GameEnd/AnimationPlayer as AnimationPlayer).play(&"defeat")
 	($Main/SpectatorMenu as CanvasItem).show()

@@ -81,6 +81,8 @@ func _start_round() -> void:
 		return
 	
 	_duel_ui.start_round(_current_round)
+	print_verbose("Round %d started." % _current_round)
+	
 	var smokes: Node2D = _poison_smokes_scene.instantiate()
 	add_child(smokes)
 	var tween: Tween = smokes.create_tween()
@@ -99,7 +101,10 @@ func _end_round(win_team: int, winner: int, ends := false) -> void:
 		return
 	
 	_duel_ui.end_round(_current_round, win_team, winner, ends)
+	print_verbose("Round %d ended. Team won: %d." % [_current_round, win_team])
 	if ends:
+		print_verbose("Winner: %d." % winner)
+		end_event(winner == multiplayer.get_unique_id())
 		_current_round = 3
 	else:
 		_current_round += 1

@@ -7,8 +7,11 @@ extends CanvasLayer
 @export var messages_visible_limit: int = 4
 ## Время, в течении которого сообщения чата видно в предпросмотре.
 @export var messages_visible_time := 3.0
+
 ## Чат.
 @onready var chat: Chat = $Main/ChatPanel
+## Ссылка на [Event].
+@onready var event: Event = get_parent()
 @onready var _chat_button: Button = chat.get_node(chat.chat_button_path)
 
 
@@ -22,17 +25,17 @@ func _ready() -> void:
 		($Main/Chat as CanvasItem).hide()
 
 
-func _input(event: InputEvent) -> void:
+func _input(input_event: InputEvent) -> void:
 	if not _chat_button.visible:
 		return
-	if event.is_action_pressed(&"close_chat") and _chat_button.button_pressed:
+	if input_event.is_action_pressed(&"close_chat") and _chat_button.button_pressed:
 		_chat_button.button_pressed = false
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _unhandled_input(input_event: InputEvent) -> void:
 	if not _chat_button.visible:
 		return
-	if event.is_action_pressed(&"chat") and not _chat_button.button_pressed:
+	if input_event.is_action_pressed(&"chat") and not _chat_button.button_pressed:
 		_chat_button.button_pressed = true
 
 
@@ -42,11 +45,13 @@ func _notification(what: int) -> void:
 			($QuitDialog as Window).popup_centered()
 
 
+## Показывает заставку события.
 func show_intro() -> void:
 	($Intro/AnimationPlayer as AnimationPlayer).play(&"intro")
 	($Intro/AnimationPlayer as AnimationPlayer).advance(0.0) # костыль
 
 
+## Перемещает анимацию заставки события на указанное время.
 func seek_intro(at_time: float) -> void:
 	($Intro/AnimationPlayer as AnimationPlayer).seek(at_time)
 

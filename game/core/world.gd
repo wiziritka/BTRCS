@@ -32,6 +32,8 @@ var local_team: int = -1
 var cached_scenes: Array[PackedScene]
 ## Словарь формата <ID игрока> - <объект игрока>.
 var players: Dictionary[int, Player]
+## Словарь формата <ID сущности> - <объект сущности>.
+var entities: Dictionary[int, Entity]
 
 var _vibration_enabled: bool
 var _queued_hits: Array[Hit]
@@ -160,14 +162,18 @@ func _on_entities_child_entered_tree(node: Node) -> void:
 		return
 	entity.damaged.connect(_on_entity_damaged.bind(entity))
 	entity.killed.connect(_on_entity_killed.bind(entity))
+	entities[entity.id] = entity
 	if entity is Player:
 		players[entity.id] = entity
 
 
 func _on_entities_child_exiting_tree(node: Node) -> void:
-	var player := node as Player
-	if player:
-		players.erase(player.id)
+	var entity := node as Entity
+	if not entity:
+		return
+	entities.erase(entity.id)
+	if entity is Player:
+		players.erase(entity.id)
 
 
 class Hit:
