@@ -48,9 +48,9 @@ func reload() -> void:
 	
 	_anim.play(&"post_reload")
 	_turn_tween = create_tween()
-	_turn_tween.tween_property(self, ^":rotation", _calculate_aim_angle(), to_aim_time)
-	await _turn_tween.finished
+	_turn_tween.tween_method(_lerp_to_aim, 0.0, 1.0, to_aim_time)
 	
+	await _anim.animation_finished
 	unblock_shooting()
 
 

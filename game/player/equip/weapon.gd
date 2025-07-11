@@ -180,6 +180,10 @@ func _calculate_aim_angle(aim_direction: Vector2 = player.entity_input.aim_direc
 	return aim_direction.angle()
 
 
+func _lerp_to_aim(weight: float) -> void:
+	rotation = _calculate_aim_angle() * weight
+
+
 ## Метод для переопределения. Вызывается в момент инициализации.
 func _initialize() -> void:
 	pass

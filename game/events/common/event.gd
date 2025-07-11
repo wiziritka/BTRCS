@@ -1,95 +1,58 @@
 class_name Event
-extends Node
+extends World
 
 ## Основной узел события.
 ##
 ## Базовый класс для всех событий в игре. Досутп к нему можно получить через
-## [member Game.event] (только для неигровой части) или через
-## [code](get_tree().get_first_node_in_group(&"event") as Event)[/code].
+## [member Game.world] (только для неигровой части) или через
+## [code](get_tree().get_first_node_in_group(&"world") as Event)[/code].
 
 ## Издаётся, когда событие началось (т. е. после вызова [method _finish_start).
 signal started
 ## Издаётся, когда событие закончилось.
 signal ended
-## Издаётся, когда был установлен локальный игрок через [method set_local_player].
-signal local_player_created(player: Player)
-## Издаётся, когда была установлена команда локального игрока через [method set_local_team].
-signal local_team_set(team: int)
-
-## Интенсивность вибрации при нанесении урона.
-const HIT_VIBRATION_INTENSITY := 0.07
-## Длительность вибрации при нанесении урона.
-const HIT_VIBRATION_DURATION_MS: int = 100
-## Интенсивность вибрации при убийстве.
-const KILL_VIBRATION_INTENSITY := 0.15
-## Длительность вибрации при убийстве.
-const KILL_VIBRATION_DURATION_MS: int = 300
 
 ## Определяет максимум случайного расстояния от заданной точки появления.
 @export var spawn_point_randomness := 40.0
-## Сцены игроков для предзагрузки.
-@export var player_scenes: Array[PackedScene]
 ## Официальные треки.
 @export var tracks: Array[AudioStream]
 
-## Локальный игрок. Может быть [code]null[/code].
-var local_player: Player
-## Команда локального игрока.
-var local_team: int = -1
 ## Началось ли событие.
 var was_started := false
 ## Количество тиков в момент создания события. Используется для корректировки анимации начала.
 var created_ticks_msec: int
-## Список кэшированных сцен.
-var cached_scenes: Array[PackedScene]
 ## Словарь формата <ID игрока> - <массив данных об экипировке> (см. [member Player.equip_data]).
 var players_equip_data: Dictionary[int, Array]
 ## Словарь формата <ID игрока> - <имя игрока>.
 var players_names: Dictionary[int, String]
 ## Словарь формата <ID игрока> - <команда игрока>. Доступно только на сервере.
 var players_teams: Dictionary[int, int]
-## Словарь формата <ID игрока> - <объект игрока>.
-var players: Dictionary[int, Player]
-var _players_skill_vars: Dictionary[int, Array]
 
-var _vibration_enabled: bool
-var _queued_hits: Array[Hit]
-var _hit_marker_scene: PackedScene = load("uid://c2f0n1b5sfpdh")
-var _kill_marker_scene: PackedScene = load("uid://blhm6uka1p287")
+var _players_skill_vars: Dictionary[int, Array]
 
 ## Ссылка на [EventUI].
 @onready var _event_ui: EventUI = $UI
 
 
 func _ready() -> void:
-	Globals.main.menu_music.stream_paused = true
+	super()
 	if multiplayer.is_server():
 		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-		get_tree().process_frame.connect(_on_process_frame)
-	
-	_vibration_enabled = Globals.get_setting_bool("vibration")
-	if not Globals.get_setting_bool("chat_in_game"):
-		($UI/Main/Chat as CanvasItem).hide()
-	
-	var entities_spawner: MultiplayerSpawner = $EntitiesSpawner
-	for scene: PackedScene in player_scenes:
-		entities_spawner.add_spawnable_scene(scene.resource_path)
-	var projectiles_spawner: MultiplayerSpawner = $ProjectilesSpawner
-	for path: String in Globals.items_db.spawnable_projectiles_paths:
-		projectiles_spawner.add_spawnable_scene(path)
-	var other_spawner: MultiplayerSpawner = $OtherSpawner
-	for path: String in Globals.items_db.spawnable_other_paths:
-		other_spawner.add_spawnable_scene(path)
-	
-	_initialize()
-	if multiplayer.is_server():
 		_setup()
-	
 	_event_ui.show_intro()
 
 
-func _exit_tree() -> void:
-	Globals.main.menu_music.stream_paused = false
+func _local_player_created(player: Player) -> void:
+	if was_started:
+		($Camera as SmartCamera).pan_to_target(player.camera_target, 0.3)
+	else:
+		if not multiplayer.is_server():
+			local_player.block_weapon_usage()
+			local_player.make_immobile()
+			local_player.block_turning()
+		var offset: float = (Time.get_ticks_msec() - created_ticks_msec) / 1000.0
+		($Camera as SmartCamera).pan_to_target(player.camera_target, maxf(4.0 - offset, 1.0))
+		_event_ui.seek_intro(offset)
 
 
 ## Создаёт игрока с идентификатором [param id]. Если событие ещё не началось, то этот игрок будет
@@ -109,62 +72,13 @@ func spawn_player(id: int) -> void:
 		player.skill_vars = _players_skill_vars[id].duplicate()
 	player.name = "Player%d" % id
 	_customize_player(player)
-	players[id] = player
 	$Entities.add_child(player)
-	player.damaged.connect(_on_player_damaged.bind(player))
 	player.killed.connect(_on_player_killed.bind(player))
 	player.tree_exiting.connect(_on_player_tree_exiting.bind(player))
 	if not was_started:
 		player.block_weapon_usage()
 		player.make_immobile()
 		player.block_turning()
-
-
-## Задаёт локального игрока.
-func set_local_player(player: Player) -> void:
-	local_player = player
-	local_player_created.emit(player)
-	set_local_team(player.team)
-	
-	if was_started:
-		($Camera as SmartCamera).pan_to_target(player.camera_target, 0.3)
-	else:
-		if not multiplayer.is_server():
-			local_player.block_weapon_usage()
-			local_player.make_immobile()
-			local_player.block_turning()
-		var offset: float = (Time.get_ticks_msec() - created_ticks_msec) / 1000.0
-		($Camera as SmartCamera).pan_to_target(player.camera_target, maxf(4.0 - offset, 1.0))
-		_event_ui.seek_intro(offset)
-
-
-## Задаёт команду локального игрока.
-func set_local_team(team: int) -> void:
-	local_team = team
-	local_team_set.emit(team)
-
-
-## Заканчивает событие победой или поражением.
-func end_event(victory: bool) -> void:
-	($Music as AudioStreamPlayer).stop()
-	if victory:
-		($VictoryMusic as AudioStreamPlayer).play()
-	else:
-		($DefeatMusic as AudioStreamPlayer).play()
-
-
-## Уничтожает всех сущностей, все снаряды и остальные объекты, появляющиеся во время игры.[br]
-## [b]Примечание[/b]: этот метод должен вызываться только на сервере.
-func cleanup() -> void:
-	if not multiplayer.is_server():
-		push_error("Unexpected call on client.")
-		return
-	for entity: Node in $Entities.get_children():
-		entity.queue_free()
-	for projectile: Node in $Projectiles.get_children():
-		projectile.queue_free()
-	for other: Node in $Other.get_children():
-		other.queue_free()
 
 
 ## Останавливает, обезоруживает и делает неуязвимыми всех игроков.[br]
@@ -192,6 +106,29 @@ func end() -> void:
 	print_verbose("Event ended.")
 	ended.emit()
 	queue_free()
+
+
+## Заканчивает событие победой или поражением.
+func end_event(victory: bool) -> void:
+	($Music as AudioStreamPlayer).stop()
+	if victory:
+		($VictoryMusic as AudioStreamPlayer).play()
+	else:
+		($DefeatMusic as AudioStreamPlayer).play()
+
+
+## Уничтожает всех сущностей, все снаряды и остальные объекты, появляющиеся во время игры.[br]
+## [b]Примечание[/b]: этот метод должен вызываться только на сервере.
+func cleanup() -> void:
+	if not multiplayer.is_server():
+		push_error("Unexpected call on client.")
+		return
+	for entity: Node in $Entities.get_children():
+		entity.queue_free()
+	for projectile: Node in $Projectiles.get_children():
+		projectile.queue_free()
+	for other: Node in $Other.get_children():
+		other.queue_free()
 
 
 @rpc("call_local", "reliable", "authority", 3)
@@ -223,32 +160,6 @@ func _start() -> void:
 	print_verbose("Event started.")
 
 
-@rpc("reliable", "call_local", "authority", 6)
-func _register_hit(where: Vector2) -> void:
-	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
-		push_error("This method must be called only by server.")
-		return
-	
-	if _vibration_enabled:
-		Input.vibrate_handheld(HIT_VIBRATION_DURATION_MS, HIT_VIBRATION_INTENSITY)
-	var marker: Node2D = _hit_marker_scene.instantiate()
-	marker.position = where
-	$Vfx.add_child(marker)
-
-
-@rpc("reliable", "call_local", "authority", 6)
-func _register_kill(where: Vector2) -> void:
-	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
-		push_error("This method must be called only by server.")
-		return
-	
-	if _vibration_enabled:
-		Input.vibrate_handheld(KILL_VIBRATION_DURATION_MS, KILL_VIBRATION_INTENSITY)
-	var marker: Node2D = _kill_marker_scene.instantiate()
-	marker.position = where
-	$Vfx.add_child(marker)
-
-
 func _setup() -> void:
 	_make_teams()
 	_event_ui.chat.players_names = players_names
@@ -260,12 +171,6 @@ func _setup() -> void:
 	await get_tree().create_timer(5.0 - (Time.get_ticks_msec() - created_ticks_msec)
 			/ 1000.0, false).timeout
 	_start.rpc()
-
-
-## Метод для переопределения. Вызывается сразу после [method Node._ready] и на клиенте,
-## и на сервере.
-func _initialize() -> void:
-	pass
 
 
 ## Метод для переопределения. В нём требуется заполнить [member players_teams].
@@ -288,7 +193,7 @@ func _finish_start() -> void:
 ## Можно переопределить, чтобы возвращать другую сцену для определённого игрока. По умолчанию
 ## возвращает первую сцену в [member player_scenes].
 func _get_player_scene(_id: int) -> PackedScene:
-	return player_scenes[0]
+	return entity_scenes[0]
 
 
 ## Метод для переопределения. Он должен возвращать позицию появления для игрока с идентификатором
@@ -309,18 +214,10 @@ func _player_killed(_by: int, _player: Player) -> void:
 	pass
 
 
-## Метод для переопределения. Вызывается на сервере при отключении игрока. В [param _who]
-## содержится его [member Entity.id].
+## Метод для переопределения. Вызывается на сервере при отключении игрока. В [param _id]
+## содержится его ID.
 func _player_disconnected(_id: int) -> void:
 	pass
-
-
-func _on_player_damaged(by: int, player: Player) -> void:
-	if by in players:
-		var hit_position: Vector2 = players[player.id].global_position
-		if not _queued_hits.any(func(hit: Hit) -> bool:
-				return hit.by == by and hit.where.is_equal_approx(hit_position)):
-			_queued_hits.append(Hit.new(by, hit_position, false))
 
 
 func _on_player_killed(by: int, player: Player) -> void:
@@ -340,25 +237,12 @@ func _on_player_killed(by: int, player: Player) -> void:
 		]
 	_event_ui.chat.post_message.rpc("> " + message_text)
 	
-	if by in players:
-		var kill_position: Vector2 = player.global_position
-		var should_add := true
-		for hit: Hit in _queued_hits:
-			if hit.by == by and hit.where.is_equal_approx(kill_position):
-				hit.fatal = true
-				should_add = false
-				break
-		if should_add:
-			_queued_hits.append(Hit.new(by, kill_position, true))
-	
 	_player_killed(by, player)
-	players.erase(player.id)
 
 
 func _on_player_tree_exiting(player: Player) -> void:
 	if not player.id in players_names:
 		return
-	players.erase(player.id)
 	_players_skill_vars[player.id] = player.skill_vars
 
 
@@ -377,35 +261,3 @@ func _on_peer_disconnected(id: int) -> void:
 		end.rpc()
 		return
 	_player_disconnected(id)
-
-
-func _on_process_frame() -> void:
-	for hit: Hit in _queued_hits:
-		if hit.fatal:
-			_register_kill.rpc_id(hit.by, hit.where)
-		else:
-			_register_hit.rpc_id(hit.by, hit.where)
-	_queued_hits.clear()
-
-
-func _on_entities_spawner_spawned(node: Node) -> void:
-	var player := node as Player
-	if player:
-		players[player.id] = player
-
-
-func _on_entities_spawner_despawned(node: Node) -> void:
-	var player := node as Player
-	if player:
-		players.erase(player.id)
-
-
-class Hit:
-	var by: int
-	var where: Vector2
-	var fatal: bool
-	
-	func _init(by_value: int, where_value: Vector2, fatal_value: bool) -> void:
-		by = by_value
-		where = where_value
-		fatal = fatal_value

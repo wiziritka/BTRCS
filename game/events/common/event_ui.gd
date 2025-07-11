@@ -18,11 +18,8 @@ func _ready() -> void:
 		($QuitDialog as AcceptDialog).dialog_text += "\nВнимание: ты являешься ХОСТОМ! \
 В случае твоего выхода игра прервётся у ВСЕХ!"
 	
-	if Globals.get_setting_bool("minimap"):
-		($MinimapViewport as SubViewport).world_2d = get_viewport().find_world_2d()
-	else:
-		($MinimapViewport as SubViewport).render_target_update_mode = SubViewport.UPDATE_DISABLED
-		($Main/Minimap as CanvasItem).hide()
+	if not Globals.get_setting_bool("chat_in_game"):
+		($Main/Chat as CanvasItem).hide()
 
 
 func _input(event: InputEvent) -> void:

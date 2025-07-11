@@ -65,8 +65,8 @@ const LOCAL_IP_PREFIXES: Array[String] = [
 var max_players: int = 10
 ## Текущее состояние игры.
 var state := State.CLOSED
-## Ссылка на событие.
-var event: Event
+## Ссылка на мир.
+var world: World
 ## IP-адреса заблокированных игроков. Не имеет эффекта на клиентах.
 ## Сбрасывается после пересоздания комнаты.
 var banned_ips: Array[String]
@@ -197,9 +197,9 @@ func close() -> void:
 	
 	multiplayer.multiplayer_peer.close()
 	multiplayer.set_deferred(&"multiplayer_peer", null)
-	if is_instance_valid(event):
-		event.process_mode = Node.PROCESS_MODE_DISABLED # Чтобы _process не вызывались
-		event.queue_free()
+	if is_instance_valid(world):
+		world.process_mode = Node.PROCESS_MODE_DISABLED # Чтобы _process не вызывались
+		world.queue_free()
 		print_verbose("Event deleted.")
 	
 	if state != State.CONNECTING: # Комната ещё не создана, нечего закрывать
@@ -221,8 +221,8 @@ func load_event(event_idx: int, map_idx: int, player_name := "",
 		_players_equip_data.clear()
 		_players_names.clear()
 		($WaitPlayersTimer as Timer).start()
-	event = await _loader.load_event(event_idx, map_idx)
-	if not is_instance_valid(event):
+	world = await _loader.load_event(event_idx, map_idx)
+	if not is_instance_valid(world):
 		show_error("Ошибка при загрузке события! Отключаюсь.")
 		push_error("Loading failed. Disconnecting.")
 		if state != State.CLOSED:
@@ -322,7 +322,7 @@ func _preload_equip(skins: Array[int], skills: Array[int], weapons: Array[int]) 
 		if state != State.CLOSED:
 			close()
 		return
-	event.cached_scenes.append_array(equip_scenes)
+	world.cached_scenes.append_array(equip_scenes)
 	closed.connect(_loader.finish_load.bind(false), CONNECT_ONE_SHOT)
 	if multiplayer.is_server() and Globals.headless:
 		_players_not_ready.erase(MultiplayerPeer.TARGET_PEER_SERVER)
@@ -351,8 +351,9 @@ func _start_event(players_names: Dictionary[int, String], \
 		return
 	
 	print_verbose("Starting event...")
-	event.ended.connect(_on_event_ended)
 	closed.disconnect(_loader.finish_load)
+	var event: Event = world
+	event.ended.connect(_on_event_ended)
 	event.players_names = players_names
 	event.players_equip_data = players_equip_data
 	event.created_ticks_msec = Time.get_ticks_msec()
@@ -382,7 +383,7 @@ func _check_players_ready() -> void:
 			print_verbose("All players disconnected, returning to lobby.")
 			closed.disconnect(_loader.finish_load)
 			_loader.finish_load(true)
-			event.queue_free()
+			world.queue_free()
 			# Как будто всё хорошо
 			started.emit()
 			ended.emit()

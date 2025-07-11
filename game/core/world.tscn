@@ -1,0 +1,100 @@
+[gd_scene load_steps=8 format=3 uid="uid://bkvfj405l2gvw"]
+
+[ext_resource type="Script" uid="uid://cd58yrb8vkc1v" path="res://game/core/world.gd" id="1_3j1bh"]
+[ext_resource type="PackedScene" uid="uid://3l0k1cn63ahd" path="res://game/player/player.tscn" id="2_87d4e"]
+[ext_resource type="Script" uid="uid://pwgsdrt5sfqe" path="res://game/player/smart_camera.gd" id="5_jk2iw"]
+[ext_resource type="PackedScene" uid="uid://0wc72b0o2o11" path="res://game/player/ui/player_ui.tscn" id="7_0tx30"]
+[ext_resource type="PackedScene" uid="uid://c2f0n1b5sfpdh" path="res://game/ui/screen_marker/hit_marker.tscn" id="13_ka3gv"]
+[ext_resource type="PackedScene" uid="uid://blhm6uka1p287" path="res://game/ui/screen_marker/kill_marker.tscn" id="14_e8smu"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_u8vru"]
+viewport_path = NodePath("MinimapViewport")
+
+[node name="World" type="Node" groups=["world"]]
+script = ExtResource("1_3j1bh")
+entity_scenes = Array[PackedScene]([ExtResource("2_87d4e")])
+metadata/_custom_type_script = "uid://cd58yrb8vkc1v"
+
+[node name="Entities" type="Node2D" parent="." groups=["entities_parent"]]
+physics_interpolation_mode = 1
+
+[node name="Projectiles" type="Node2D" parent="." groups=["projectiles_parent"]]
+physics_interpolation_mode = 1
+
+[node name="Other" type="Node2D" parent="." groups=["other_parent"]]
+physics_interpolation_mode = 1
+
+[node name="Vfx" type="Node2D" parent="." groups=["vfx_parent"]]
+
+[node name="EntitiesSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Entities")
+spawn_limit = 10
+
+[node name="ProjectilesSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Projectiles")
+spawn_limit = 200
+
+[node name="OtherSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../Other")
+spawn_limit = 100
+
+[node name="Camera" type="Camera2D" parent="."]
+process_physics_priority = -1
+physics_interpolation_mode = 2
+zoom = Vector2(0.5, 0.5)
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+script = ExtResource("5_jk2iw")
+metadata/_custom_type_script = "uid://pwgsdrt5sfqe"
+
+[node name="MinimapRemote" type="RemoteTransform2D" parent="Camera"]
+remote_path = NodePath("../../MinimapViewport/Camera")
+update_rotation = false
+update_scale = false
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Main" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PlayerUI" parent="UI/Main" instance=ExtResource("7_0tx30")]
+layout_mode = 1
+
+[node name="Minimap" type="TextureRect" parent="UI/Main"]
+self_modulate = Color(1, 1, 1, 0.564706)
+texture_filter = 1
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 272.0
+offset_bottom = 272.0
+texture = SubResource("ViewportTexture_u8vru")
+
+[node name="MinimapViewport" type="SubViewport" parent="."]
+physics_interpolation_mode = 2
+disable_3d = true
+transparent_bg = true
+gui_disable_input = true
+canvas_cull_mask = 4293918722
+size = Vector2i(256, 256)
+
+[node name="Camera" type="Camera2D" parent="MinimapViewport"]
+zoom = Vector2(0.05, 0.05)
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+volume_db = -2.0
+bus = &"Music"
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [PackedStringArray("hit_marker", "kill_marker"), [ExtResource("13_ka3gv"), ExtResource("14_e8smu")]]
+
+[connection signal="local_player_created" from="." to="UI/Main/PlayerUI" method="_on_local_player_created"]
+[connection signal="child_entered_tree" from="Entities" to="." method="_on_entities_child_entered_tree"]
+[connection signal="child_exiting_tree" from="Entities" to="." method="_on_entities_child_exiting_tree"]

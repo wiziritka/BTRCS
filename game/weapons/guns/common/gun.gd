@@ -98,9 +98,9 @@ func _make_current() -> void:
 	
 	_anim.play(&"post_equip")
 	_turn_tween = create_tween()
-	_turn_tween.tween_property(self, ^":rotation", _calculate_aim_angle(), to_aim_time)
-	await _turn_tween.finished
+	_turn_tween.tween_method(_lerp_to_aim, 0.0, 1.0, to_aim_time)
 	
+	await _anim.animation_finished
 	unblock_shooting()
 
 
@@ -110,7 +110,6 @@ func _unmake_current() -> void:
 	if is_instance_valid(_recoil_timer_tween):
 		_recoil_timer_tween.kill()
 	if is_instance_valid(_turn_tween):
-		_turn_tween.finished.emit()
 		_turn_tween.kill()
 	
 	_spread_timer = 0.0
@@ -179,13 +178,13 @@ func reload() -> void:
 	
 	_anim.play(&"post_reload")
 	_turn_tween = create_tween()
-	_turn_tween.tween_property(self, ^":rotation", _calculate_aim_angle(), to_aim_time)
+	_turn_tween.tween_method(_lerp_to_aim, 0.0, 1.0, to_aim_time)
 	
 	var difference: int = min(ammo_per_load - ammo, ammo_in_stock)
 	ammo += difference
 	ammo_in_stock -= difference
 	
-	await _turn_tween.finished
+	await _anim.animation_finished
 	unblock_shooting()
 
 

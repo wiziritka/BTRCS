@@ -5,7 +5,7 @@ extends Attack
 @export var slowdown_multiplier := 0.7
 
 func _ready() -> void:
-	if (get_tree().get_first_node_in_group(&"event") as Event).local_team == team:
+	if (get_tree().get_first_node_in_group(&"world") as World).local_team == team:
 		($AnimationPlayer as AnimationPlayer).play(&"place_friendly")
 	else:
 		($AnimationPlayer as AnimationPlayer).play(&"place")

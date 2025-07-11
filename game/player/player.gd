@@ -43,7 +43,6 @@ var _blocked_weapon_usage_counter: int = 0
 @onready var camera_target: Marker2D = $CameraTarget
 
 @onready var _weapons: Node2D = $Visual/Weapons
-@onready var _event: Event = get_tree().get_first_node_in_group(&"event")
 
 
 func _ready() -> void:
@@ -52,8 +51,8 @@ func _ready() -> void:
 	($Name/Label as Label).text = player_name
 	($Name/Label as CanvasItem).self_modulate = TEAM_COLORS[team]
 	if is_local():
-		_event.set_local_player(self)
-		_event.set_local_team(team)
+		world.set_local_player(self)
+		world.set_local_team(team)
 		($ControlIndicator as CanvasItem).show()
 		($ControlIndicator as CanvasItem).self_modulate = TEAM_COLORS[team]
 		($AudioListener2D as AudioListener2D).make_current()
@@ -74,8 +73,8 @@ func _ready() -> void:
 	
 	($Minimap/MinimapMarker/Visual as CanvasItem).self_modulate = TEAM_COLORS[team]
 	await get_tree().process_frame # Ждём пока заработает VisibleOnScreenNotifier2D
-	_update_minimap_marker(_event.local_team)
-	_event.local_team_set.connect(_update_minimap_marker)
+	_update_minimap_marker(world.local_team)
+	world.local_team_set.connect(_update_minimap_marker)
 
 
 func _process(_delta: float) -> void:

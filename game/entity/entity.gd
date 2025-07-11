@@ -108,6 +108,9 @@ var _blocked_turning_counter: int = 0
 @onready var entity_input: EntityInput = $Input
 ## Родительский узел визуальной составляещей сущности.
 @onready var visual: Node2D = $Visual
+## Ссылка на [World].
+@onready var world: World = get_tree().get_first_node_in_group(&"world")
+
 @onready var _effects: Node2D = $Effects
 @onready var _vfx_parent: Node2D = get_tree().get_first_node_in_group(&"vfx_parent")
 
@@ -280,7 +283,7 @@ func set_health(health: int) -> void:
 			var numbers_vfx: Node2D = numbers_vfx_scene.instantiate()
 			numbers_vfx.position = position
 			(numbers_vfx.get_node(^"Label") as Label).text = str(current_health)
-			if is_local():
+			if team == world.local_team:
 				(numbers_vfx.get_node(^"Label") as Label).add_theme_color_override(
 						&"font_color", Color.RED)
 			_vfx_parent.add_child(numbers_vfx)

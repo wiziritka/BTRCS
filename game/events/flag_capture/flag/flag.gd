@@ -16,7 +16,7 @@ var _return_timer := 0.0
 var _drop_timer := 0.0
 
 @onready var _timer_progress: TextureProgressBar = $TimerProgress
-@onready var _event: FlagCapture = get_tree().get_first_node_in_group(&"event")
+@onready var _event: FlagCapture = get_tree().get_first_node_in_group(&"world")
 
 
 func _ready() -> void:

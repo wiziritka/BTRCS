@@ -210,7 +210,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.23),
 "transitions": PackedFloat32Array(-2, 1),
 "update": 0,
-"values": [6.07375, 0.0]
+"values": [-0.20943951023931956, 0.0]
 }
 
 [sub_resource type="Animation" id="Animation_5ogug"]

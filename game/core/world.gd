@@ -1,0 +1,181 @@
+class_name World
+extends Node
+
+## Основной узел игровой части.
+##
+## Базовый класс для игровой части. Досутп к нему можно получить через
+## [member Game.world] (только для неигровой части) или через
+## [code](get_tree().get_first_node_in_group(&"world") as World)[/code].
+
+## Издаётся, когда был установлен локальный игрок через [method set_local_player].
+signal local_player_created(player: Player)
+## Издаётся, когда была установлена команда локального игрока через [method set_local_team].
+signal local_team_set(team: int)
+
+## Интенсивность вибрации при нанесении урона.
+const HIT_VIBRATION_INTENSITY := 0.07
+## Длительность вибрации при нанесении урона.
+const HIT_VIBRATION_DURATION_MS: int = 100
+## Интенсивность вибрации при убийстве.
+const KILL_VIBRATION_INTENSITY := 0.15
+## Длительность вибрации при убийстве.
+const KILL_VIBRATION_DURATION_MS: int = 300
+
+## Сцены сущностей для предзагрузки.
+@export var entity_scenes: Array[PackedScene]
+
+## Локальный игрок. Может быть [code]null[/code].
+var local_player: Player
+## Команда локального игрока.
+var local_team: int = -1
+## Список кэшированных сцен.
+var cached_scenes: Array[PackedScene]
+## Словарь формата <ID игрока> - <объект игрока>.
+var players: Dictionary[int, Player]
+
+var _vibration_enabled: bool
+var _queued_hits: Array[Hit]
+var _hit_marker_scene: PackedScene = load("uid://c2f0n1b5sfpdh")
+var _kill_marker_scene: PackedScene = load("uid://blhm6uka1p287")
+
+
+func _ready() -> void:
+	Globals.main.menu_music.stream_paused = true
+	if multiplayer.is_server():
+		get_tree().process_frame.connect(_on_process_frame)
+	
+	_vibration_enabled = Globals.get_setting_bool("vibration")
+	if Globals.get_setting_bool("minimap"):
+		($MinimapViewport as SubViewport).world_2d = get_viewport().find_world_2d()
+	else:
+		($MinimapViewport as SubViewport).render_target_update_mode = SubViewport.UPDATE_DISABLED
+		($UI/Main/Minimap as CanvasItem).hide()
+	
+	var entities_spawner: MultiplayerSpawner = $EntitiesSpawner
+	for scene: PackedScene in entity_scenes:
+		entities_spawner.add_spawnable_scene(scene.resource_path)
+	var projectiles_spawner: MultiplayerSpawner = $ProjectilesSpawner
+	for path: String in Globals.items_db.spawnable_projectiles_paths:
+		projectiles_spawner.add_spawnable_scene(path)
+	var other_spawner: MultiplayerSpawner = $OtherSpawner
+	for path: String in Globals.items_db.spawnable_other_paths:
+		other_spawner.add_spawnable_scene(path)
+	
+	_initialize()
+
+
+func _exit_tree() -> void:
+	Globals.main.menu_music.stream_paused = false
+
+
+## Задаёт локального игрока.
+func set_local_player(player: Player) -> void:
+	local_player = player
+	local_player_created.emit(player)
+	set_local_team(player.team)
+	
+	_local_player_created(player)
+
+
+## Задаёт команду локального игрока.
+func set_local_team(team: int) -> void:
+	local_team = team
+	local_team_set.emit(team)
+
+
+@rpc("reliable", "call_local", "authority", 6)
+func _register_hit(where: Vector2) -> void:
+	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
+		push_error("This method must be called only by server.")
+		return
+	
+	if _vibration_enabled:
+		Input.vibrate_handheld(HIT_VIBRATION_DURATION_MS, HIT_VIBRATION_INTENSITY)
+	var marker: Node2D = _hit_marker_scene.instantiate()
+	marker.position = where
+	$Vfx.add_child(marker)
+
+
+@rpc("reliable", "call_local", "authority", 6)
+func _register_kill(where: Vector2) -> void:
+	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
+		push_error("This method must be called only by server.")
+		return
+	
+	if _vibration_enabled:
+		Input.vibrate_handheld(KILL_VIBRATION_DURATION_MS, KILL_VIBRATION_INTENSITY)
+	var marker: Node2D = _kill_marker_scene.instantiate()
+	marker.position = where
+	$Vfx.add_child(marker)
+
+
+## Метод для переопределения. Вызывается сразу после [method Node._ready] и на клиенте,
+## и на сервере.
+func _initialize() -> void:
+	pass
+
+
+## Метод для переопределения. Вызывается сразу после [method set_local_player]. Поведение по
+## умолчанию - камера перемещается к игроку.
+func _local_player_created(player: Player) -> void:
+	($Camera as SmartCamera).pan_to_target(player.camera_target, 0.3)
+
+
+func _on_entity_damaged(by: int, entity: Entity) -> void:
+	if by in players:
+		var hit_position: Vector2 = entity.global_position
+		if not _queued_hits.any(func(hit: Hit) -> bool:
+				return hit.by == by and hit.where.is_equal_approx(hit_position)):
+			_queued_hits.append(Hit.new(by, hit_position, false))
+
+
+func _on_entity_killed(by: int, entity: Entity) -> void:
+	if by in players:
+		var kill_position: Vector2 = entity.global_position
+		var should_add := true
+		for hit: Hit in _queued_hits:
+			if hit.by == by and hit.where.is_equal_approx(kill_position):
+				hit.fatal = true
+				should_add = false
+				break
+		if should_add:
+			_queued_hits.append(Hit.new(by, kill_position, true))
+	
+	if entity is Player:
+		players.erase(entity.id)
+
+
+func _on_process_frame() -> void:
+	for hit: Hit in _queued_hits:
+		if hit.fatal:
+			_register_kill.rpc_id(hit.by, hit.where)
+		else:
+			_register_hit.rpc_id(hit.by, hit.where)
+	_queued_hits.clear()
+
+
+func _on_entities_child_entered_tree(node: Node) -> void:
+	var entity := node as Entity
+	if not entity:
+		return
+	entity.damaged.connect(_on_entity_damaged.bind(entity))
+	entity.killed.connect(_on_entity_killed.bind(entity))
+	if entity is Player:
+		players[entity.id] = entity
+
+
+func _on_entities_child_exiting_tree(node: Node) -> void:
+	var player := node as Player
+	if player:
+		players.erase(player.id)
+
+
+class Hit:
+	var by: int
+	var where: Vector2
+	var fatal: bool
+	
+	func _init(by_value: int, where_value: Vector2, fatal_value: bool) -> void:
+		by = by_value
+		where = where_value
+		fatal = fatal_value

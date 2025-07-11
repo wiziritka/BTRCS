@@ -9,7 +9,7 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	if player.equip_data[6] != -1:
 		return
-	(get_tree().get_first_node_in_group(&"event") as Royale).equip_weapon.rpc(player.id)
+	(get_tree().get_first_node_in_group(&"world") as Royale).equip_weapon.rpc(player.id)
 	queue_free()
 
 
