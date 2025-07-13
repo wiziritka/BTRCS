@@ -49,6 +49,7 @@ func _ready() -> void:
 	_vibration_enabled = Globals.get_setting_bool("vibration")
 	if Globals.get_setting_bool("minimap"):
 		($MinimapViewport as SubViewport).world_2d = get_viewport().find_world_2d()
+		($UI/Main/Minimap as TextureRect).texture = ($MinimapViewport as SubViewport).get_texture()
 	else:
 		($MinimapViewport as SubViewport).render_target_update_mode = SubViewport.UPDATE_DISABLED
 		($UI/Main/Minimap as CanvasItem).hide()
@@ -160,6 +161,7 @@ func _on_entities_child_entered_tree(node: Node) -> void:
 	var entity := node as Entity
 	if not entity:
 		return
+	await node.ready
 	entity.damaged.connect(_on_entity_damaged.bind(entity))
 	entity.killed.connect(_on_entity_killed.bind(entity))
 	entities[entity.id] = entity

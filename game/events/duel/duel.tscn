@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://u5a0m6y2qb4l"]
+[gd_scene load_steps=11 format=3 uid="uid://u5a0m6y2qb4l"]
 
 [ext_resource type="PackedScene" uid="uid://d3nsak46hbo2c" path="res://game/events/common/event.tscn" id="1_k4cdx"]
 [ext_resource type="Script" uid="uid://bs0sbptlo8o08" path="res://game/events/duel/duel.gd" id="2_e8nkp"]
@@ -6,9 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://it2o6dxy7bxm" path="res://game/events/duel/round_light.png" id="6_weffi"]
 [ext_resource type="Texture2D" uid="uid://cuddy8wmbcol1" path="res://game/events/duel/round_heavy.png" id="7_leh4n"]
 [ext_resource type="Texture2D" uid="uid://bdvbqf2u7e463" path="res://game/events/duel/round_melee.png" id="8_ompgj"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_1sxaf"]
-viewport_path = NodePath("UI/MinimapViewport")
 
 [sub_resource type="Animation" id="Animation_ki4so"]
 length = 0.001
@@ -144,9 +141,6 @@ spawn_point_randomness = 0.0
 
 [node name="UI" parent="." index="8"]
 script = ExtResource("4_jj4yx")
-
-[node name="Minimap" parent="UI/Main" index="1"]
-texture = SubResource("ViewportTexture_1sxaf")
 
 [node name="Round0" type="TextureRect" parent="UI/Main" index="6"]
 modulate = Color(0.566406, 0.566406, 0.566406, 1)

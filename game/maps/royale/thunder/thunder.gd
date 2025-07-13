@@ -19,6 +19,6 @@ func _summon_ligtning_bolt(where: Vector2) -> void:
 
 func _on_lightning_bolt_timer_timeout() -> void:
 	# Зона где нет дыма
-	var game_zone: float = maxf(($"../PoisonSmokes/Right" as Node2D).position.x - 240.0, 0.0)
+	var game_zone: float = maxf(($"../PoisonSmokes/Right" as Node2D).global_position.x - 240.0, 0.0)
 	_summon_ligtning_bolt.rpc(
 			Vector2(randf_range(-game_zone, game_zone), randf_range(-game_zone, game_zone)))

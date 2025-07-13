@@ -11,10 +11,10 @@ func _process_hit(where: Vector2, what: Entity) -> void:
 			destroy(where, not what)
 		return
 	
-	var remainder: float = where.distance_to(position)
+	var remainder: float = where.distance_to(global_position)
 	direction = direction.bounce(normal)
 	rotation = direction.angle()
-	position = where + (remainder + bounce_margin) * direction
+	global_position = where + (remainder + bounce_margin) * direction
 	
 	var vfx_parent: Node = get_tree().get_first_node_in_group(&"vfx_parent")
 	if is_instance_valid(vfx_parent):

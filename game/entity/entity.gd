@@ -277,11 +277,11 @@ func set_health(health: int) -> void:
 	if health <= 0:
 		if death_vfx_scene:
 			var death_vfx: Node2D = death_vfx_scene.instantiate()
-			death_vfx.position = position
+			death_vfx.position = global_position
 			_vfx_parent.add_child(death_vfx)
 		if numbers_vfx_scene:
 			var numbers_vfx: Node2D = numbers_vfx_scene.instantiate()
-			numbers_vfx.position = position
+			numbers_vfx.position = global_position
 			(numbers_vfx.get_node(^"Label") as Label).text = str(current_health)
 			if team == world.local_team:
 				(numbers_vfx.get_node(^"Label") as Label).add_theme_color_override(
@@ -299,11 +299,11 @@ func set_health(health: int) -> void:
 	if health < current_health:
 		if hurt_vfx_scene:
 			var hurt_vfx: Node2D = hurt_vfx_scene.instantiate()
-			hurt_vfx.position = position
+			hurt_vfx.position = global_position
 			_vfx_parent.add_child(hurt_vfx)
 		if numbers_vfx_scene:
 			var numbers_vfx: Node2D = numbers_vfx_scene.instantiate()
-			numbers_vfx.position = position
+			numbers_vfx.position = global_position
 			(numbers_vfx.get_node(^"Label") as Label).text = str(current_health - health)
 			if is_local():
 				(numbers_vfx.get_node(^"Label") as Label).add_theme_color_override(
@@ -312,11 +312,11 @@ func set_health(health: int) -> void:
 	else: 
 		if heal_vfx_scene:
 			var heal_vfx: Node2D = heal_vfx_scene.instantiate()
-			heal_vfx.position = position
+			heal_vfx.position = global_position
 			_vfx_parent.add_child(heal_vfx)
 		if numbers_vfx_scene:
 			var numbers_vfx: Node2D = numbers_vfx_scene.instantiate()
-			numbers_vfx.position = position
+			numbers_vfx.position = global_position
 			(numbers_vfx.get_node(^"Label") as Label).text = str(health - current_health)
 			(numbers_vfx.get_node(^"Label") as Label).add_theme_color_override(
 					&"font_color", Color.GREEN)

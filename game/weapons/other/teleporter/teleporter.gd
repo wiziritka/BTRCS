@@ -46,7 +46,7 @@ func _shoot(success := false) -> void:
 	
 	var destination: Vector2
 	if multiplayer.is_server():
-		destination = player.position + player.entity_input.aim_direction * teleport_distance
+		destination = player.global_position + player.entity_input.aim_direction * teleport_distance
 	
 	block_shooting()
 	_anim.play("use%d" % (randi() % 3))
@@ -55,7 +55,7 @@ func _shoot(success := false) -> void:
 		unblock_shooting()
 		return
 	
-	_show_teleport_vfx(player.position)
+	_show_teleport_vfx(player.global_position)
 	if multiplayer.is_server():
 		player.teleport_to.rpc(destination)
 		_show_teleport_vfx.rpc(destination)

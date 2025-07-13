@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d3nsak46hbo2c"]
+[gd_scene load_steps=12 format=3 uid="uid://d3nsak46hbo2c"]
 
 [ext_resource type="PackedScene" uid="uid://bkvfj405l2gvw" path="res://game/core/world.tscn" id="1_6dq27"]
 [ext_resource type="Script" uid="uid://ciktx11hqv3ox" path="res://game/events/common/event.gd" id="1_kxt6o"]
@@ -8,8 +8,6 @@
 [ext_resource type="AudioStream" uid="uid://hs3bh8qllach" path="res://game/music/defeat.ogg" id="12_jddfk"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="13_j0bsh"]
 [ext_resource type="Texture2D" uid="uid://d14nbphg5o3a" path="res://game/ui/chat/chat.png" id="14_05fx8"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_acw1k"]
 
 [sub_resource type="Animation" id="Animation_atj0b"]
 length = 0.001
@@ -200,9 +198,6 @@ tracks = Array[AudioStream]([])
 
 [node name="UI" parent="." index="8"]
 script = ExtResource("4_10cmx")
-
-[node name="Minimap" parent="UI/Main" index="1"]
-texture = SubResource("ViewportTexture_acw1k")
 
 [node name="Leave" type="Button" parent="UI/Main" index="2"]
 layout_mode = 1
@@ -403,7 +398,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_ctugk")
 }
 
-[node name="QuitDialog" type="ConfirmationDialog" parent="UI" index="3"]
+[node name="QuitDialog" type="ConfirmationDialog" parent="UI" index="2"]
 title = "Покинуть игру?"
 size = Vector2i(280, 112)
 unresizable = true
@@ -417,6 +412,8 @@ bus = &"Music"
 stream = ExtResource("12_jddfk")
 bus = &"Music"
 
+[connection signal="toggled" from="UI/Main/Chat" to="UI" method="_on_chat_toggled"]
+[connection signal="toggled" from="UI/Main/Chat" to="UI/Main/ChatPanel" method="_on_chat_toggled"]
 [connection signal="message_posted" from="UI/Main/ChatPanel" to="UI" method="_on_message_posted"]
 [connection signal="text_submitted" from="UI/Main/ChatPanel/VBoxContainer/HBoxContainer/LineEdit" to="UI/Main/ChatPanel" method="send_message" unbinds=1]
 [connection signal="pressed" from="UI/Main/ChatPanel/VBoxContainer/HBoxContainer/Send" to="UI/Main/ChatPanel" method="send_message"]

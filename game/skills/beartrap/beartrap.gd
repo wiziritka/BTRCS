@@ -15,8 +15,7 @@ func _on_place_timer_timeout() -> void:
 	if not multiplayer.is_server():
 		return
 	var trap: Attack = trap_scene.instantiate()
-	trap.position = player.position
-	trap.position.y += 40
+	trap.position = player.global_position + Vector2.DOWN * 40
 	trap.team = player.team
 	trap.who = player.id
 	trap.damage_multiplier = player.damage_multiplier

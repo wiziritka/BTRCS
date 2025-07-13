@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bkvfj405l2gvw"]
+[gd_scene load_steps=7 format=3 uid="uid://bkvfj405l2gvw"]
 
 [ext_resource type="Script" uid="uid://cd58yrb8vkc1v" path="res://game/core/world.gd" id="1_3j1bh"]
 [ext_resource type="PackedScene" uid="uid://3l0k1cn63ahd" path="res://game/player/player.tscn" id="2_87d4e"]
@@ -6,9 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://0wc72b0o2o11" path="res://game/player/ui/player_ui.tscn" id="7_0tx30"]
 [ext_resource type="PackedScene" uid="uid://c2f0n1b5sfpdh" path="res://game/ui/screen_marker/hit_marker.tscn" id="13_ka3gv"]
 [ext_resource type="PackedScene" uid="uid://blhm6uka1p287" path="res://game/ui/screen_marker/kill_marker.tscn" id="14_e8smu"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_u8vru"]
-viewport_path = NodePath("MinimapViewport")
 
 [node name="World" type="Node" groups=["world"]]
 script = ExtResource("1_3j1bh")
@@ -75,7 +72,6 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = 272.0
 offset_bottom = 272.0
-texture = SubResource("ViewportTexture_u8vru")
 
 [node name="MinimapViewport" type="SubViewport" parent="."]
 physics_interpolation_mode = 2

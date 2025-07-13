@@ -36,8 +36,8 @@ func _initialize() -> void:
 		_spawn_counter_red = randi() % 5
 		_spawn_counter_blue = randi() % 5
 	
-	($FlagZoneRed as Node2D).position = _red_flag_spawn_point.position
-	($FlagZoneBlue as Node2D).position = _blue_flag_spawn_point.position
+	($FlagZoneRed as Node2D).global_position = _red_flag_spawn_point.global_position
+	($FlagZoneBlue as Node2D).global_position = _blue_flag_spawn_point.global_position
 
 
 func _make_teams() -> void:
@@ -121,7 +121,7 @@ func _respawn_player(id: int) -> void:
 func _spawn_flag(blue: bool) -> void:
 	var flag: Flag = (_blue_flag_scene if blue else _red_flag_scene).instantiate()
 	flag.name += str(randi())
-	flag.position = (_blue_flag_spawn_point if blue else _red_flag_spawn_point).position
+	flag.position = (_blue_flag_spawn_point if blue else _red_flag_spawn_point).global_position
 	$Other.add_child(flag)
 
 

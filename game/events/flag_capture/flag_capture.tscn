@@ -1,15 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://biauwlgys7ce4"]
+[gd_scene load_steps=15 format=3 uid="uid://biauwlgys7ce4"]
 
 [ext_resource type="PackedScene" uid="uid://d3nsak46hbo2c" path="res://game/events/common/event.tscn" id="1_geta0"]
 [ext_resource type="Script" uid="uid://xyoklife3c7x" path="res://game/events/flag_capture/flag_capture.gd" id="2_xtwto"]
-[ext_resource type="PackedScene" uid="uid://ceigdilgx3wae" path="res://game/events/flag_capture/flag_capture_player.tscn" id="3_whopm"]
 [ext_resource type="Script" uid="uid://dixx0hylxdvcp" path="res://game/events/flag_capture/flag_capture_ui.gd" id="3_xkawu"]
 [ext_resource type="Script" uid="uid://dnjymc8wmp3tm" path="res://game/events/flag_capture/flag_zone.gd" id="5_whopm"]
 [ext_resource type="PackedScene" uid="uid://cyudg7uces0wb" path="res://game/events/flag_capture/flag/blue_flag.tscn" id="6_ae5hp"]
 [ext_resource type="PackedScene" uid="uid://cc2mkoa1fingr" path="res://game/events/flag_capture/flag/red_flag.tscn" id="7_2vmqf"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_wnvha"]
-viewport_path = NodePath("UI/MinimapViewport")
 
 [sub_resource type="Animation" id="Animation_0668s"]
 resource_name = "RESET"
@@ -317,16 +313,12 @@ radius = 320.0
 script = ExtResource("2_xtwto")
 match_time = 240
 comeback_time = 5
-player_scenes = Array[PackedScene]([ExtResource("3_whopm")])
 
 [node name="OtherSpawner" parent="." index="6"]
 _spawnable_scenes = PackedStringArray("uid://cc2mkoa1fingr", "uid://cyudg7uces0wb")
 
 [node name="UI" parent="." index="8"]
 script = ExtResource("3_xkawu")
-
-[node name="Minimap" parent="UI/Main" index="1"]
-texture = SubResource("ViewportTexture_wnvha")
 
 [node name="Timer" type="Label" parent="UI/Main" index="6"]
 layout_mode = 1
@@ -534,9 +526,6 @@ text = "Принеси флаг противника на свою базу!"
 text = "Захвати как можно
 больше флагов!"
 
-[node name="Music" parent="." index="9"]
-volume_db = -3.0
-
 [node name="MatchTimer" type="Timer" parent="." index="12"]
 
 [node name="FlagZoneRed" type="Area2D" parent="." index="13"]
@@ -561,6 +550,9 @@ area_color = Color(0, 0, 1, 0.25098)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FlagZoneBlue" index="0"]
 shape = SubResource("CircleShape2D_vg1f0")
+
+[node name="Music" parent="." index="15"]
+volume_db = -3.0
 
 [node name="ResourcePreloaderFlagCapture" type="ResourcePreloader" parent="." index="16"]
 resources = [PackedStringArray("blue_flag", "red_flag"), [ExtResource("6_ae5hp"), ExtResource("7_2vmqf")]]

@@ -45,7 +45,7 @@ func _on_player_shooting_started() -> void:
 	($ActiveMarker/AnimationPlayer as AnimationPlayer).play(&"RESET")
 	if multiplayer.is_server():
 		var projectile: Projectile = projectile_scene.instantiate()
-		projectile.position = player.position + 64 * Vector2.from_angle(
+		projectile.position = player.global_position + 64 * Vector2.from_angle(
 				player.entity_input.aim_direction.angle())
 		projectile.damage_multiplier = player.damage_multiplier
 		var spread: float = deg_to_rad(_calculate_spread())

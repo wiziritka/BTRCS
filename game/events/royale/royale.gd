@@ -24,10 +24,10 @@ var _ammo_box_counter: int = 0
 var _weapon_box_counter: int = 0
 var _alive_players: Array[int]
 
-var _heal_box_scene: PackedScene = preload("uid://bysyaaj2r7stt")
-var _ammo_box_scene: PackedScene = preload("uid://bdtqr6mv231py")
-var _weapon_box_scene: PackedScene = preload("uid://bbfq36qds2oip")
-var _poison_smokes_scene: PackedScene = preload("uid://cr1m37xm3w88w")
+var _heal_box_scene: PackedScene = load("uid://bysyaaj2r7stt")
+var _ammo_box_scene: PackedScene = load("uid://bdtqr6mv231py")
+var _weapon_box_scene: PackedScene = load("uid://bbfq36qds2oip")
+var _poison_smokes_scene: PackedScene = load("uid://cr1m37xm3w88w")
 
 @onready var _spawn_points: Array[Node] = $Map/SpawnPoints.get_children()
 @onready var _heal_box_points: Array[Node] = $Map/HealPoints.get_children()

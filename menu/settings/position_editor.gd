@@ -22,7 +22,7 @@ func _on_parent_gui_input(event: InputEvent) -> void:
 	if sg and sg.index == touch_index:
 		_parent.global_position += sg.relative
 		var viewport_size: Vector2 = _parent.get_viewport_rect().size
-		var center_pos: Vector2 = _parent.position + _parent.size / 2
+		var center_pos: Vector2 = _parent.global_position + _parent.size / 2
 		if center_pos.y < viewport_size.y * 0.25:
 			if center_pos.x < viewport_size.x * 0.35:
 				_parent.set_anchors_preset(Control.PRESET_TOP_LEFT)

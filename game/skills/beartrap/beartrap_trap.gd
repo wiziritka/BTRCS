@@ -15,7 +15,7 @@ func _deal_damage(entity: Entity, amount: int) -> int:
 	entity.add_effect.rpc(Effect.IMMOBILITY, immobility_duration)
 	entity.add_effect.rpc(Effect.SPEED_CHANGE, slowdown_duration, [slowdown_multiplier])
 	($AreaDetector/CollisionShape2D as CollisionShape2D).disabled = true
-	_show_trapped.rpc(entity.position + Vector2.DOWN * 40)
+	_show_trapped.rpc(entity.global_position + Vector2.DOWN * 40)
 	return amount
 
 
