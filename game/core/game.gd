@@ -245,6 +245,22 @@ func load_event(event_idx: int, map_idx: int, player_name := "",
 	_send_player_data.rpc_id(MultiplayerPeer.TARGET_PEER_SERVER, player_name, equip_data)
 
 
+## Загружает мир по данному [param path] и [param map_id].
+func load_solo_world(path: String) -> void:
+	state = State.SOLO_LOADING
+	world = await _loader.load_world(path)
+	if not is_instance_valid(world):
+		show_error("Ошибка при загрузке мира!")
+		push_error("Loading failed.")
+		state = State.CLOSED
+		return
+	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+	add_child(world)
+	_loader.finish_load(true)
+	started.emit()
+	state = State.SOLO
+
+
 ## Показывает диалог с ошибкой.
 func show_error(error_text: String) -> void:
 	($ErrorDialog as AcceptDialog).dialog_text = error_text

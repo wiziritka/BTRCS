@@ -26,8 +26,7 @@ func _on_challenges_pressed() -> void:
 
 
 func _on_training_pressed() -> void:
-	pass
-	pass
+	_game.load_solo_world("uid://f6bay2nx1wy3")
 
 
 func _on_quit_pressed() -> void:

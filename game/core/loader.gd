@@ -103,9 +103,48 @@ func load_event(event_idx: int, map_idx: int) -> Event:
 	print_verbose("Done loading event.")
 	return event
 
+## Загружает мир по данному [param path]. Возвращает [World], если загрузка прошла удачно,
+## иначе возвращает [code]null[/code].[br]
+## [b]Внимание[/b]: этот метод - [b]корутина[/b], так что Вам необходимо подождать его с помощью
+## [code]await[/code].
+func load_world(path: String) -> World:
+	_anim.play(&"start_load")
+	_status_text.text = "Загрузка..."
+	_requested_paths.clear()
+	_loaded_paths.clear()
+	
+	print_verbose("Requesting load for world %s." % path)
+	var err: Error = ResourceLoader.load_threaded_request(
+			path, "", false, ResourceLoader.CACHE_MODE_REPLACE_DEEP)
+	if err != OK:
+		push_error("Load request for world %s failed with error: %s." % [
+			path,
+			error_string(err),
+		])
+		finish_load(false)
+		return null
+	_requested_paths.append(path)
+	
+	set_process(true)
+	var success: bool = await loaded
+	if not success:
+		push_error("Failed loading of world.")
+		finish_load(false)
+		return null
+	
+	print_verbose("Done loading resources.")
+	var world_scene: PackedScene = ResourceLoader.load_threaded_get(path)
+	var world: World = world_scene.instantiate()
+	
+	set_process(false)
+	_bar.value = 100.0
+	_status_text.text = "Загрузка завершена."
+	print_verbose("Done loading world.")
+	return world
+
 
 ## Предзагружает пушки по указанным в параметрах индексам. Возвращает список [PackedScene],
-## если загрузка прошла удачно, иначе возвращаемый этот список будет пуст.[br]
+## если загрузка прошла удачно, иначе возвращаемый список будет пуст.[br]
 ## [b]Внимание[/b]: этот метод - [b]корутина[/b], так что Вам необходимо подождать его с помощью
 ## [code]await[/code].
 func preload_equip(skins: Array[int], skills: Array[int],
