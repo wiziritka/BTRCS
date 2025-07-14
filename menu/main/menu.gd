@@ -22,6 +22,10 @@ func _notification(what: int) -> void:
 
 ## Проверяет наличие обновлений.
 func check_updates() -> void:
+	if "--disable-update-check" in OS.get_cmdline_user_args() \
+			or not Globals.get_setting_bool("check_updates"):
+		print_verbose("Updates check disabled.")
+		return
 	if not Globals.data_file:
 		print_verbose("Updates check failed: data is not available.")
 		return
@@ -30,10 +34,6 @@ func check_updates() -> void:
 		if not betas_checked or Globals.get_setting_bool("check_betas"):
 			print_verbose("Updates already checked.")
 			return
-	if "--disable-update-check" in OS.get_cmdline_user_args() \
-			or not Globals.get_setting_bool("check_updates"):
-		print_verbose("Updates check disabled.")
-		return
 	
 	Globals.data_file.set_value("versions", "checked", Globals.get_setting_bool("check_betas"))
 	var remote_version: String = Globals.data_file.get_value("versions", "stable", Globals.version)
@@ -74,8 +74,16 @@ func _is_version_newer_than(first: String, second: String) -> bool:
 	return first_splits.size() < second_splits.size()
 
 
+func _on_play_solo_pressed() -> void:
+	Globals.main.open_solo_game()
+
+
 func _on_play_network_pressed() -> void:
 	Globals.main.open_local_game()
+
+
+func _on_inventory_pressed() -> void:
+	Globals.main.open_screen(load("uid://c2x58lim4381g") as PackedScene)
 
 
 func _on_settings_pressed() -> void:
@@ -96,7 +104,3 @@ func _on_quit_pressed() -> void:
 
 func _on_rich_text_label_meta_clicked(meta: Variant) -> void:
 	OS.shell_open(str(meta))
-
-
-func _on_inventory_pressed() -> void:
-	Globals.main.open_screen(load("uid://c2x58lim4381g") as PackedScene)

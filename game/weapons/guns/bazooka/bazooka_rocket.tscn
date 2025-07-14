@@ -47,7 +47,7 @@ position = Vector2(-48, 0)
 shape = SubResource("CircleShape2D_jgst8")
 target_position = Vector2(100, 0)
 max_results = 1
-collision_mask = 3
+collision_mask = 75
 script = ExtResource("3_7dcoq")
 metadata/_custom_type_script = "uid://dfhhd4es3t3i"
 
@@ -70,7 +70,7 @@ metadata/_custom_type_script = "uid://bgvirlnion8wa"
 
 [node name="AreaDetector" type="Area2D" parent="Explosion" index="0"]
 collision_layer = 4
-collision_mask = 2
+collision_mask = 66
 monitorable = false
 script = ExtResource("5_jrmds")
 metadata/_custom_type_script = "uid://ccr5t8s5ui45t"

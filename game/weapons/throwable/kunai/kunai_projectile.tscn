@@ -18,7 +18,7 @@ offset = Vector2(32, -1)
 
 [node name="RayDetector" type="RayCast2D" parent="." index="3"]
 target_position = Vector2(96, 0)
-collision_mask = 11
+collision_mask = 75
 hit_from_inside = true
 script = ExtResource("3_k173f")
 metadata/_custom_type_script = "uid://bc7ffmlfu6nm7"

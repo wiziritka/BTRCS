@@ -75,10 +75,51 @@ tracks/4/keys = {
 "values": [false]
 }
 
-[sub_resource type="Animation" id="Animation_5u7gp"]
-resource_name = "PostEquip"
-length = 0.65
-step = 0.025
+[sub_resource type="Animation" id="Animation_6bemp"]
+resource_name = "Attack"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Saw:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(4, -3), Vector2(-6, -5), Vector2(-5, 7), Vector2(7, 5), Vector2(6, -7), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Saw:speed_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Attack/ShapeDetector:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_oth0h"]
+resource_name = "Equip"
+length = 0.25
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -86,10 +127,10 @@ tracks/0/path = NodePath("Saw:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.025, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2, 0.225, 0.25, 0.275, 0.3, 0.65),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(2, -6), Vector2(-1, -8), Vector2(1, -5), Vector2(-9, -2), Vector2(-8, 5), Vector2(-3, 6), Vector2(5, 1), Vector2(-1, -8), Vector2(1, -5), Vector2(-9, -2), Vector2(-8, 5), Vector2(-3, 6), Vector2(5, 1), Vector2(0, 0)]
+"values": [Vector2(-9, 11), Vector2(2, -6)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -98,26 +139,11 @@ tracks/1/path = NodePath("Saw:rotation")
 tracks/1/interp = 4
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.65),
+"times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [-0.373289, 0.0]
+"values": [0.568174, -0.373289]
 }
-tracks/2/type = "audio"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sfx")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"clips": [{
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource("3_tuafg")
-}],
-"times": PackedFloat32Array(0)
-}
-tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_tuafg"]
 resource_name = "Idle"
@@ -176,10 +202,10 @@ tracks/3/keys = {
 }
 tracks/3/use_blend = true
 
-[sub_resource type="Animation" id="Animation_oth0h"]
-resource_name = "Equip"
-length = 0.25
-step = 0.05
+[sub_resource type="Animation" id="Animation_5u7gp"]
+resource_name = "PostEquip"
+length = 0.65
+step = 0.025
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -187,10 +213,10 @@ tracks/0/path = NodePath("Saw:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.025, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2, 0.225, 0.25, 0.275, 0.3, 0.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(-9, 11), Vector2(2, -6)]
+"values": [Vector2(2, -6), Vector2(-1, -8), Vector2(1, -5), Vector2(-9, -2), Vector2(-8, 5), Vector2(-3, 6), Vector2(5, 1), Vector2(-1, -8), Vector2(1, -5), Vector2(-9, -2), Vector2(-8, 5), Vector2(-3, 6), Vector2(5, 1), Vector2(0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -199,52 +225,26 @@ tracks/1/path = NodePath("Saw:rotation")
 tracks/1/interp = 4
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25),
+"times": PackedFloat32Array(0, 0.65),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [0.568174, -0.373289]
+"values": [-0.373289, 0.0]
 }
-
-[sub_resource type="Animation" id="Animation_6bemp"]
-resource_name = "Attack"
-length = 0.25
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Saw:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(4, -3), Vector2(-6, -5), Vector2(-5, 7), Vector2(7, 5), Vector2(6, -7), Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Saw:speed_scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [2.0]
-}
-tracks/2/type = "value"
+tracks/2/type = "audio"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Attack/ShapeDetector:enabled")
+tracks/2/path = NodePath("Sfx")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_tuafg")
+}],
+"times": PackedFloat32Array(0)
 }
+tracks/2/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6bemp"]
 _data = {
@@ -286,7 +286,7 @@ enabled = false
 shape = SubResource("CircleShape2D_eqtrk")
 target_position = Vector2(116, 0)
 max_results = 1
-collision_mask = 3
+collision_mask = 75
 script = ExtResource("2_738d3")
 metadata/_custom_type_script = "uid://dfhhd4es3t3i"
 

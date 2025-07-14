@@ -727,7 +727,7 @@ metadata/_edit_group_ = true
 
 [node name="AreaDetector" type="Area2D" parent="Attack" index="0"]
 collision_layer = 4
-collision_mask = 2
+collision_mask = 66
 monitorable = false
 script = ExtResource("6_lx3vu")
 metadata/_custom_type_script = "uid://ccr5t8s5ui45t"

@@ -67,7 +67,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(192, 192)
 layout_mode = 2
 theme_override_constants/icon_max_width = 160
-disabled = true
 text = "Играть одному"
 icon = ExtResource("2_tkm62")
 icon_alignment = 1
@@ -214,6 +213,7 @@ unresizable = true
 ok_button_text = "Скачать"
 cancel_button_text = "Позже"
 
+[connection signal="pressed" from="ButtonsContainer/PlayButtonsContainer/PlaySolo" to="." method="_on_play_solo_pressed"]
 [connection signal="pressed" from="ButtonsContainer/PlayButtonsContainer/PlayNetwork" to="." method="_on_play_network_pressed"]
 [connection signal="pressed" from="ButtonsContainer/GameButtonsContainer/Inventory" to="." method="_on_inventory_pressed"]
 [connection signal="pressed" from="ButtonsContainer/MiscButtonsContainer/Settings" to="." method="_on_settings_pressed"]

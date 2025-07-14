@@ -85,6 +85,24 @@ func open_menu() -> void:
 
 
 ## Открывает игру с меню локальной игры. Закрывает всё остальное.
+func open_solo_game() -> void:
+	if is_instance_valid(game):
+		push_error("Game is already opened.")
+		return
+	
+	if is_instance_valid(menu):
+		menu.queue_free()
+	for screen: Node in screens:
+		screen.queue_free()
+	
+	var game_scene: PackedScene = load("uid://scqgxynxowrb")
+	game = game_scene.instantiate()
+	add_child(game)
+	game.init_solo()
+	print_verbose("Opened game with solo menu.")
+
+
+## Открывает игру с меню одиночной игры. Закрывает всё остальное.
 func open_local_game() -> void:
 	if is_instance_valid(game):
 		push_error("Game is already opened.")

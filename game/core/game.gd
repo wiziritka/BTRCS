@@ -5,7 +5,7 @@ extends Node
 ##
 ## Управляет сетью и переходами между состояниями игры. 
 
-## Издаётся, когда создаётся игра.
+## Издаётся при создании комнаты.
 signal created
 ## Издаётся при успешном подключении к игре.
 signal joined
@@ -113,8 +113,16 @@ func init_connect_local() -> void:
 	var menu_scene: PackedScene = load("uid://wgln4clkkuuk")
 	var menu: Control = menu_scene.instantiate()
 	add_child(menu)
-	print_verbose("Created connect_local_menu.")
+	print_verbose("Created connect local menu.")
 	_init_lobby()
+
+
+## Инициализирует меню одиночной игры.
+func init_solo() -> void:
+	var menu_scene: PackedScene = load("uid://behtxlo4s5s3")
+	var menu: Control = menu_scene.instantiate()
+	add_child(menu)
+	print_verbose("Created solo menu.")
 
 
 ## Создаёт сервер.
