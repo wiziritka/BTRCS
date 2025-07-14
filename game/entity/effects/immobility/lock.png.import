@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vqoi0oe2gk5d"
-path="res://.godot/imported/smoke.png-0ca76be9df28a259cdc5c4a20e349d48.ctex"
+uid="uid://jitjn6q3h08n"
+path="res://.godot/imported/lock.png-7eee51d46624465661d7d88f53fb2bdb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/effects/invisibility/smoke.png"
-dest_files=["res://.godot/imported/smoke.png-0ca76be9df28a259cdc5c4a20e349d48.ctex"]
+source_file="res://game/entity/effects/immobility/lock.png"
+dest_files=["res://.godot/imported/lock.png-7eee51d46624465661d7d88f53fb2bdb.ctex"]
 
 [params]
 

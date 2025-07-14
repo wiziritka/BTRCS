@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://dvb6a8p7615dy"]
 
-[ext_resource type="PackedScene" uid="uid://baoklmloqoop3" path="res://game/entity/effect.tscn" id="1_hdr7a"]
-[ext_resource type="Script" uid="uid://col2idqdcvxc" path="res://game/effects/immobility/immobility.gd" id="2_auqey"]
-[ext_resource type="Texture2D" uid="uid://jitjn6q3h08n" path="res://game/effects/immobility/lock.png" id="3_xukhq"]
+[ext_resource type="PackedScene" uid="uid://baoklmloqoop3" path="res://game/entity/effects/common/effect.tscn" id="1_hdr7a"]
+[ext_resource type="Script" uid="uid://col2idqdcvxc" path="res://game/entity/effects/immobility/immobility.gd" id="2_auqey"]
+[ext_resource type="Texture2D" uid="uid://jitjn6q3h08n" path="res://game/entity/effects/immobility/lock.png" id="3_xukhq"]
 
 [sub_resource type="Animation" id="Animation_avlf5"]
 length = 0.001

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bei3em235lcd5"
-path="res://.godot/imported/defense_down.png-d6f037d88dcf33cfb56e19f9fec04ab1.ctex"
+uid="uid://bebl5r6pq8sog"
+path="res://.godot/imported/stun_star.png-74f6a3e70c92a2024c3ea317cc75f3e2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/effects/defense_change/defense_down.png"
-dest_files=["res://.godot/imported/defense_down.png-d6f037d88dcf33cfb56e19f9fec04ab1.ctex"]
+source_file="res://game/entity/effects/stun/stun_star.png"
+dest_files=["res://.godot/imported/stun_star.png-74f6a3e70c92a2024c3ea317cc75f3e2.ctex"]
 
 [params]
 

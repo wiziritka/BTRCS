@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://504f5qbwvhhs"
-path="res://.godot/imported/damage_up.png-b9cf0b1c73c3ed97c623057371ed91a3.ctex"
+uid="uid://cblkss5pg17ev"
+path="res://.godot/imported/damage_down.png-8df01940a2c2f652048e17c212c90319.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/effects/damage_change/damage_up.png"
-dest_files=["res://.godot/imported/damage_up.png-b9cf0b1c73c3ed97c623057371ed91a3.ctex"]
+source_file="res://game/entity/effects/damage_change/damage_down.png"
+dest_files=["res://.godot/imported/damage_down.png-8df01940a2c2f652048e17c212c90319.ctex"]
 
 [params]
 

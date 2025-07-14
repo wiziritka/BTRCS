@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jitjn6q3h08n"
-path="res://.godot/imported/lock.png-c0c074132584f273494bf46045c810f5.ctex"
+uid="uid://504f5qbwvhhs"
+path="res://.godot/imported/damage_up.png-5f84bb03af985bbe5c96f0bd319ac4cc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/effects/immobility/lock.png"
-dest_files=["res://.godot/imported/lock.png-c0c074132584f273494bf46045c810f5.ctex"]
+source_file="res://game/entity/effects/damage_change/damage_up.png"
+dest_files=["res://.godot/imported/damage_up.png-5f84bb03af985bbe5c96f0bd319ac4cc.ctex"]
 
 [params]
 

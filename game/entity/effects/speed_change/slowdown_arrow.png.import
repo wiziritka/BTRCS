@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvmmclj7dbe2p"
-path="res://.godot/imported/poison_skull.png-48e7e4208ff9e0985404a6d2bb0720c1.ctex"
+uid="uid://cwxopkcr11xs2"
+path="res://.godot/imported/slowdown_arrow.png-f3672c76da7a410d9b62f125b1391f21.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/effects/poison/poison_skull.png"
-dest_files=["res://.godot/imported/poison_skull.png-48e7e4208ff9e0985404a6d2bb0720c1.ctex"]
+source_file="res://game/entity/effects/speed_change/slowdown_arrow.png"
+dest_files=["res://.godot/imported/slowdown_arrow.png-f3672c76da7a410d9b62f125b1391f21.ctex"]
 
 [params]
 

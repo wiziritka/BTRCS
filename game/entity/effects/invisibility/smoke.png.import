@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwxopkcr11xs2"
-path="res://.godot/imported/slowdown_arrow.png-441643117a65e0e1a9d660fa227317c0.ctex"
+uid="uid://vqoi0oe2gk5d"
+path="res://.godot/imported/smoke.png-af4379620937f1ec523fe593ca7ae04b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/effects/speed_change/slowdown_arrow.png"
-dest_files=["res://.godot/imported/slowdown_arrow.png-441643117a65e0e1a9d660fa227317c0.ctex"]
+source_file="res://game/entity/effects/invisibility/smoke.png"
+dest_files=["res://.godot/imported/smoke.png-af4379620937f1ec523fe593ca7ae04b.ctex"]
 
 [params]
 

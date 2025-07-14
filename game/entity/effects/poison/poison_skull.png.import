@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bebl5r6pq8sog"
-path="res://.godot/imported/stun_star.png-0fd62a51cfdbb898e068a589978ee9f5.ctex"
+uid="uid://dvmmclj7dbe2p"
+path="res://.godot/imported/poison_skull.png-19f6f45de7bdbd158f8faaa4207ad061.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/effects/stun/stun_star.png"
-dest_files=["res://.godot/imported/stun_star.png-0fd62a51cfdbb898e068a589978ee9f5.ctex"]
+source_file="res://game/entity/effects/poison/poison_skull.png"
+dest_files=["res://.godot/imported/poison_skull.png-19f6f45de7bdbd158f8faaa4207ad061.ctex"]
 
 [params]
 

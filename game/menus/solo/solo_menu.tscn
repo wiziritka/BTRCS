@@ -112,3 +112,6 @@ vertical_icon_alignment = 0
 expand_icon = true
 
 [connection signal="pressed" from="Base/Margin/VBox/Title/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Base/Margin/VBox/Buttons/Story" to="." method="_on_story_pressed"]
+[connection signal="pressed" from="Base/Margin/VBox/Buttons/Challenges" to="." method="_on_challenges_pressed"]
+[connection signal="pressed" from="Base/Margin/VBox/Buttons/Training" to="." method="_on_training_pressed"]

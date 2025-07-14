@@ -17,5 +17,18 @@ func _on_game_closed() -> void:
 	process_mode = Node.PROCESS_MODE_INHERIT
 
 
+func _on_story_pressed() -> void:
+	pass
+
+
+func _on_challenges_pressed() -> void:
+	pass
+
+
+func _on_training_pressed() -> void:
+	pass
+	pass
+
+
 func _on_quit_pressed() -> void:
 	Globals.main.open_menu()
