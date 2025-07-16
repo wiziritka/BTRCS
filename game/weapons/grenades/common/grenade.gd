@@ -107,7 +107,7 @@ func _shoot(throw_direction := Vector2.ZERO) -> void:
 		projectile.team = player.team
 		_customize_projectile(projectile)
 		projectile.name += str(randi())
-		_projectiles_parent.add_child(projectile)
+		_projectiles_parent.add_child(projectile, true)
 	
 	_unmake_current()
 

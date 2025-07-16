@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://m3oouj1lspki" path="res://game/player/ui/position_loader.gd" id="5_50mix"]
 [ext_resource type="Texture2D" uid="uid://ndobp7p586tx" path="res://menu/theme/icons/edit.png" id="5_hg74u"]
 [ext_resource type="Texture2D" uid="uid://bs0jb0hstf3sl" path="res://menu/theme/icons/save.png" id="8_gk1xf"]
-[ext_resource type="Texture2D" uid="uid://brcaom8n83yf2" path="res://menu/settings/icons/reset.png" id="9_p6t4g"]
+[ext_resource type="Texture2D" uid="uid://brcaom8n83yf2" path="res://menu/theme/icons/reset.png" id="9_p6t4g"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mu25c"]
 bg_color = Color(0.464844, 0, 0, 0.215686)

@@ -42,7 +42,7 @@ var _kill_marker_scene: PackedScene = load("uid://blhm6uka1p287")
 
 
 func _ready() -> void:
-	Globals.main.menu_music.stream_paused = true
+	Globals.main.menu_music.stop()
 	if multiplayer.is_server():
 		get_tree().process_frame.connect(_on_process_frame)
 	
@@ -68,7 +68,7 @@ func _ready() -> void:
 
 
 func _exit_tree() -> void:
-	Globals.main.menu_music.stream_paused = false
+	Globals.main.menu_music.play()
 
 
 ## Задаёт локального игрока.
@@ -84,6 +84,20 @@ func set_local_player(player: Player) -> void:
 func set_local_team(team: int) -> void:
 	local_team = team
 	local_team_set.emit(team)
+
+
+## Уничтожает всех сущностей, все снаряды и остальные объекты, появляющиеся во время игры.[br]
+## [b]Примечание[/b]: этот метод должен вызываться только на сервере.
+func cleanup() -> void:
+	if not multiplayer.is_server():
+		push_error("Unexpected call on client.")
+		return
+	for entity: Node in $Entities.get_children():
+		entity.queue_free()
+	for projectile: Node in $Projectiles.get_children():
+		projectile.queue_free()
+	for other: Node in $Other.get_children():
+		other.queue_free()
 
 
 @rpc("reliable", "call_local", "authority", 6)
@@ -164,6 +178,11 @@ func _on_entities_child_entered_tree(node: Node) -> void:
 	await node.ready
 	entity.damaged.connect(_on_entity_damaged.bind(entity))
 	entity.killed.connect(_on_entity_killed.bind(entity))
+	if entity.id < 0 and entity.id in entities:
+		var id: int = entity.id - 1
+		while id in entities:
+			id -= 1
+		entity.id = id
 	entities[entity.id] = entity
 	if entity is Player:
 		players[entity.id] = entity

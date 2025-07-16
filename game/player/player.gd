@@ -41,15 +41,16 @@ var _blocked_weapon_usage_counter: int = 0
 @onready var blood: CPUParticles2D = $Visual/Blood
 ## Узел с позицией для камеры.
 @onready var camera_target: Marker2D = $CameraTarget
-
-@onready var _weapons: Node2D = $Visual/Weapons
+## Родительский узел всех оружий. Используйте [method get_child] на нём с [enum Weapon.Type] в
+## качестве параметра, чтобы получить оружие нужного типа.
+@onready var weapons: Node2D = $Visual/Weapons
 
 
 func _ready() -> void:
 	super()
 	
-	($Name/Label as Label).text = player_name
-	($Name/Label as CanvasItem).self_modulate = TEAM_COLORS[team]
+	($Info/Name as Label).text = player_name
+	($Info/Name as CanvasItem).self_modulate = TEAM_COLORS[team]
 	if is_local():
 		world.set_local_player(self)
 		world.set_local_team(team)
@@ -72,6 +73,8 @@ func _ready() -> void:
 			Globals.items_db.weapons[equip_data[6]] if equip_data[6] >= 0 else null)
 	
 	($Minimap/MinimapMarker/Visual as CanvasItem).self_modulate = TEAM_COLORS[team]
+	_update_health_bar_visibility(world.local_team)
+	world.local_team_set.connect(_update_health_bar_visibility)
 	await get_tree().process_frame # Ждём пока заработает VisibleOnScreenNotifier2D
 	_update_minimap_marker(world.local_team)
 	world.local_team_set.connect(_update_minimap_marker)
@@ -129,21 +132,22 @@ func additional_button_weapon(args: Array) -> void:
 	print_verbose("%s used additional button." % name)
 
 
-## Восстанавливает [param percent] процентов боеприпасов на оружии типа [param type].
-## Округление происходит вверх.[br]
+## Восстанавливает [param ratio] боеприпасов на оружии типа [param type], где [param ratio] - 
+## значение от [code]0.0[/code] (не восстанавливать боеприпасы) до [code]1.0[/code] (восстанавливает
+## все боеприпасы). Округление происходит вверх.[br]
 ## [b]Примечание[/b]: этот метод должен вызываться только сервером и только как RPC.
 @rpc("call_local", "reliable", "authority", 5)
-func add_ammo_to_weapon(type: Weapon.Type, percent: float) -> void:
+func add_ammo_to_weapon(type: Weapon.Type, ratio: float) -> void:
 	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
 		push_error("This method must be called only by server.")
 		return
 	
-	var target_weapon: Weapon = _weapons.get_child(type)
+	var target_weapon: Weapon = weapons.get_child(type)
 	target_weapon.ammo_in_stock = mini(
-			target_weapon.ammo_in_stock + ceili(target_weapon.ammo_total * percent),
+			target_weapon.ammo_in_stock + ceili(target_weapon.ammo_total * ratio),
 			target_weapon.ammo_total - target_weapon.ammo_per_load
 	)
-	print_verbose("Added %f percent of ammo to weapon of type %d of %s." % [percent, type, name])
+	print_verbose("Added %f of ammo to weapon of type %d of %s." % [ratio, type, name])
 
 
 ## Использует навык.[br]
@@ -189,6 +193,7 @@ func set_skin(data: SkinData) -> void:
 	skin = skin_scene.instantiate()
 	$Visual/Skin.add_child(skin)
 	skin.initialize(self, data)
+	_on_health_changed(current_health, current_health) # обновить истекание кровью
 	equip_data[0] = data.idx_in_db if data.idx_in_db >= 0 else -2 # если нет в БД
 	skin_equipped.emit(data)
 	print_verbose("Skin %s with index %d on %s set." % [data.id, data.idx_in_db, name])
@@ -196,18 +201,18 @@ func set_skin(data: SkinData) -> void:
 
 ## Устанавливает оружие из [param data] типа [param type].
 func set_weapon(type: Weapon.Type, data: WeaponData) -> void:
-	var old_weapon: Node = _weapons.get_child(type)
+	var old_weapon: Node = weapons.get_child(type)
 	if old_weapon == current_weapon:
 		(old_weapon as Weapon).unmake_current()
 	# чтобы не мешало при возни с индексами и move_child
-	_weapons.remove_child(old_weapon)
+	weapons.remove_child(old_weapon)
 	old_weapon.queue_free()
 	
 	if not data:
 		var placeholder := Node.new()
 		placeholder.name = "NoWeapon%d" % type
-		_weapons.add_child(placeholder)
-		_weapons.move_child(placeholder, type)
+		weapons.add_child(placeholder)
+		weapons.move_child(placeholder, type)
 		equip_data[2 + type] = -1
 		weapon_equipped.emit(type, null)
 		print_verbose("Removed weapon with type %d on %s." % [type, name])
@@ -218,8 +223,8 @@ func set_weapon(type: Weapon.Type, data: WeaponData) -> void:
 	
 	var weapon_scene: PackedScene = load(data.scene_path)
 	var weapon: Weapon = weapon_scene.instantiate()
-	_weapons.add_child(weapon)
-	_weapons.move_child(weapon, type)
+	weapons.add_child(weapon)
+	weapons.move_child(weapon, type)
 	weapon.initialize(self, data)
 	equip_data[2 + type] = data.idx_in_db if data.idx_in_db >= 0 else -2 # если нет в БД
 	
@@ -344,7 +349,7 @@ func _request_use_skill() -> void:
 
 
 func _set_current_weapon(to: Weapon.Type) -> void:
-	current_weapon = _weapons.get_child(to) as Weapon
+	current_weapon = weapons.get_child(to) as Weapon
 	if current_weapon:
 		current_weapon.make_current()
 		current_weapon.ammo_changed.connect(_on_current_weapon_ammo_changed)
@@ -364,6 +369,10 @@ func _update_minimap_marker(local_team: int) -> void:
 		$Minimap/MinimapNotifier.set_block_signals(false)
 		($Minimap/MinimapMarker/Visual as CanvasItem).visible = \
 				($Minimap/MinimapNotifier as VisibleOnScreenNotifier2D).is_on_screen()
+
+
+func _update_health_bar_visibility(local_team: int) -> void:
+	($Info/HealthBar as CanvasItem).visible = team == local_team and not is_local()
 
 
 func _on_current_weapon_ammo_changed(_in_stock: bool) -> void:

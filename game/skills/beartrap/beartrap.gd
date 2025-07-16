@@ -19,6 +19,7 @@ func _on_place_timer_timeout() -> void:
 	trap.team = player.team
 	trap.who = player.id
 	trap.damage_multiplier = player.damage_multiplier
+	trap.name += str(randi())
 	_other_parent.add_child(trap, true)
 
 

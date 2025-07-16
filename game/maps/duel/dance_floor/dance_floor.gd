@@ -3,9 +3,12 @@ extends Map
 @onready var _anim: AnimationPlayer = $TileMapLayers/AnimationPlayer
 
 func _initialize() -> void:
-	var duel: Duel = event
-	duel.round_started.connect(_on_round_started)
-	duel.round_ended.connect(_on_round_ended)
+	if event:
+		var duel: Duel = event
+		duel.round_started.connect(_on_round_started)
+		duel.round_ended.connect(_on_round_ended)
+	else:
+		_on_round_started()
 
 
 func _on_round_started() -> void:

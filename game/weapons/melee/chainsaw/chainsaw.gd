@@ -19,5 +19,5 @@ func _shoot(_direction := Vector2.RIGHT) -> void:
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == &"attack":
+	if anim_name == &"post_equip":
 		_anim.play(&"idle")

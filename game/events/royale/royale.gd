@@ -121,7 +121,7 @@ func _spawn_heal_box() -> void:
 	var heal_box: Area2D = _heal_box_scene.instantiate()
 	heal_box.position = spawn_position
 	heal_box.name += str(randi())
-	$Other.add_child(heal_box)
+	$Other.add_child(heal_box, true)
 	_heal_box_counter += 1
 	if _heal_box_counter == _heal_box_points.size():
 		_heal_box_counter = 0
@@ -133,7 +133,7 @@ func _spawn_ammo_box() -> void:
 	var ammo_box: Area2D = _ammo_box_scene.instantiate()
 	ammo_box.position = spawn_position
 	ammo_box.name += str(randi())
-	$Other.add_child(ammo_box)
+	$Other.add_child(ammo_box, true)
 	_ammo_box_counter += 1
 	if _ammo_box_counter == _ammo_box_points.size():
 		_ammo_box_counter = 0
@@ -146,7 +146,7 @@ func _spawn_weapon() -> void:
 	var weapon_box: Area2D = _weapon_box_scene.instantiate()
 	weapon_box.position = spawn_position
 	weapon_box.name += str(randi())
-	$Other.add_child(weapon_box)
+	$Other.add_child(weapon_box, true)
 	_weapon_box_counter += 1
 	if _weapon_box_counter == _weapon_box_points.size():
 		_weapon_box_counter = 0

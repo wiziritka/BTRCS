@@ -31,7 +31,7 @@ func _initialize() -> void:
 
 
 func _finish_setup() -> void:
-	_teamfight_ui.set_kills.rpc(red_kills, blue_kills)
+	_update_kills.rpc(red_kills, blue_kills)
 
 
 func _finish_start() -> void:

@@ -106,12 +106,21 @@ func _on_save_pressed() -> void:
 
 func _on_load_pressed() -> void:
 	var data: Array[String] = Globals.get_variant("preset_%d_data" % idx, [] as Array[String])
+	if (
+			equip_selector.selected_skill == data[0]
+			and equip_selector.selected_light_weapon == data[1]
+			and equip_selector.selected_heavy_weapon == data[2]
+			and equip_selector.selected_support_weapon == data[3]
+			and equip_selector.selected_melee_weapon == data[4]
+	):
+		return
 	equip_selector.selected_skill = data[0]
 	equip_selector.selected_light_weapon = data[1]
 	equip_selector.selected_heavy_weapon = data[2]
 	equip_selector.selected_support_weapon = data[3]
 	equip_selector.selected_melee_weapon = data[4]
 	equip_selector.update_selected()
+	equip_selector.items_changed.emit()
 
 
 func _on_rename_pressed() -> void:

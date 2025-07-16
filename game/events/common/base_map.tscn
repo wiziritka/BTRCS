@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dp6wxqvjukdht"]
 
 [ext_resource type="Script" uid="uid://btu1g3prgu2l8" path="res://game/events/common/map.gd" id="1_h66jf"]
-[ext_resource type="TileSet" uid="uid://ci04ocvnien3" path="res://game/events/common/minimap/tile_set.tres" id="1_o3igp"]
+[ext_resource type="PackedScene" uid="uid://ba2cw3xgen7yp" path="res://game/ui/minimap/minimap_tiles.tscn" id="2_h66jf"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_h66jf"]
 normal = Vector2(1, 0)
@@ -20,15 +20,7 @@ metadata/_custom_type_script = "uid://btu1g3prgu2l8"
 
 [node name="Minimap" type="Node" parent="."]
 
-[node name="MinimapTiles" type="TileMapLayer" parent="Minimap"]
-visibility_layer = 2
-z_index = -10
-texture_filter = 1
-scale = Vector2(10, 10)
-tile_set = ExtResource("1_o3igp")
-occlusion_enabled = false
-collision_enabled = false
-navigation_enabled = false
+[node name="MinimapTiles" parent="Minimap" instance=ExtResource("2_h66jf")]
 
 [node name="Borders" type="StaticBody2D" parent="."]
 collision_layer = 9
@@ -45,3 +37,6 @@ shape = SubResource("WorldBoundaryShape2D_uu7bk")
 
 [node name="Down" type="CollisionShape2D" parent="Borders"]
 shape = SubResource("WorldBoundaryShape2D_akg1l")
+
+[node name="SoloSpawnPoint" type="Marker2D" parent="."]
+gizmo_extents = 80.0

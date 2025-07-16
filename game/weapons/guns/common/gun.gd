@@ -223,4 +223,4 @@ func _create_projectile() -> void:
 	projectile.team = player.team
 	projectile.who = player.id
 	projectile.name += str(randi())
-	_projectiles_parent.add_child(projectile)
+	_projectiles_parent.add_child(projectile, true)

@@ -117,20 +117,6 @@ func end_event(victory: bool) -> void:
 		($DefeatMusic as AudioStreamPlayer).play()
 
 
-## Уничтожает всех сущностей, все снаряды и остальные объекты, появляющиеся во время игры.[br]
-## [b]Примечание[/b]: этот метод должен вызываться только на сервере.
-func cleanup() -> void:
-	if not multiplayer.is_server():
-		push_error("Unexpected call on client.")
-		return
-	for entity: Node in $Entities.get_children():
-		entity.queue_free()
-	for projectile: Node in $Projectiles.get_children():
-		projectile.queue_free()
-	for other: Node in $Other.get_children():
-		other.queue_free()
-
-
 @rpc("call_local", "reliable", "authority", 3)
 func _start() -> void:
 	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:

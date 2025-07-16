@@ -193,7 +193,7 @@ func _create_projectile(angle: float) -> void:
 	projectile.team = player.team
 	projectile.who = player.id
 	projectile.name += str(randi())
-	_projectiles_parent.add_child(projectile)
+	_projectiles_parent.add_child(projectile, true)
 
 
 func _calculate_spread() -> float:

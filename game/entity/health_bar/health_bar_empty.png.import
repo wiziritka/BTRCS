@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0mubs3obmux4"
-path="res://.godot/imported/tiles.png-376ecfbae19ee9f7055f70ddd618ac0b.ctex"
+uid="uid://cdpr5xerct73v"
+path="res://.godot/imported/health_bar_empty.png-f3855579460443fed4c3e1da10e195dd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/events/common/minimap/tiles.png"
-dest_files=["res://.godot/imported/tiles.png-376ecfbae19ee9f7055f70ddd618ac0b.ctex"]
+source_file="res://game/entity/health_bar/health_bar_empty.png"
+dest_files=["res://.godot/imported/health_bar_empty.png-f3855579460443fed4c3e1da10e195dd.ctex"]
 
 [params]
 

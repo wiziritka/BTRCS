@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk76lmnl8rml0"
-path="res://.godot/imported/marker.png-52d6b3cd5649c49b948668f6a66e05c4.ctex"
+uid="uid://bk7tg4o2dhpm"
+path="res://.godot/imported/fluff.png-4ddb68467b5dc2f3091e24d2a1ba6c68.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/events/common/minimap/marker.png"
-dest_files=["res://.godot/imported/marker.png-52d6b3cd5649c49b948668f6a66e05c4.ctex"]
+source_file="res://game/solo/training/dummy/fluff.png"
+dest_files=["res://.godot/imported/fluff.png-4ddb68467b5dc2f3091e24d2a1ba6c68.ctex"]
 
 [params]
 

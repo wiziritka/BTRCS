@@ -20,6 +20,8 @@ var _blocked_cooldown_counter: int = 0
 
 func _physics_process(delta: float) -> void:
 	if not is_cooldown_blocked():
+		if _cooldown_timer > player.skill_vars[1]:
+			_cooldown_timer = player.skill_vars[1]
 		_cooldown_timer -= delta
 	player.skill_vars[1] = ceili(_cooldown_timer)
 

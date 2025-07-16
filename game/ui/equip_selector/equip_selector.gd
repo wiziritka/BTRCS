@@ -7,6 +7,9 @@ extends GridContainer
 ## [b]Внимание[/b]: после изменения свойств [code]selected_*[/code] нужно обновить отображаемые
 ## иконки с помощью [method update_selected].
 
+## Издаётся, когда какой-то из выбранных предметов меняется на другой.
+signal items_changed
+
 ## Выбранный скин.
 var selected_skin: String
 ## Выбранный навык.
@@ -174,18 +177,30 @@ func _on_item_selected(type: ItemsDB.Item, idx: int) -> void:
 			_item_selector.show()
 			_items_grid.list_skins_line(idx, Globals.items_db.skins_by_id[selected_skin].idx_in_db)
 		ItemsDB.Item.SKIN:
-			selected_skin = Globals.items_db.skins[idx].id
+			if Globals.items_db.skins[idx].id != selected_skin:
+				selected_skin = Globals.items_db.skins[idx].id
+				items_changed.emit()
 		ItemsDB.Item.SKILL:
-			selected_skill = Globals.items_db.skills[idx].id
+			if Globals.items_db.skills[idx].id != selected_skill:
+				selected_skill = Globals.items_db.skills[idx].id
+				items_changed.emit()
 		ItemsDB.Item.WEAPON:
 			var selected_weapon: WeaponData = Globals.items_db.weapons[idx]
-			if selected_weapon in Globals.items_db.weapons_light:
+			if selected_weapon in Globals.items_db.weapons_light \
+					and selected_weapon.id != selected_light_weapon:
 				selected_light_weapon = selected_weapon.id
-			elif selected_weapon in Globals.items_db.weapons_heavy:
+				items_changed.emit()
+			elif selected_weapon in Globals.items_db.weapons_heavy \
+					and selected_weapon.id != selected_heavy_weapon:
 				selected_heavy_weapon = selected_weapon.id
-			elif selected_weapon in Globals.items_db.weapons_support:
+				items_changed.emit()
+			elif selected_weapon in Globals.items_db.weapons_support \
+					and selected_weapon.id != selected_support_weapon:
 				selected_support_weapon = selected_weapon.id
-			elif selected_weapon in Globals.items_db.weapons_melee:
+				items_changed.emit()
+			elif selected_weapon in Globals.items_db.weapons_melee \
+					and selected_weapon.id != selected_melee_weapon:
 				selected_melee_weapon = selected_weapon.id
+				items_changed.emit()
 	_save_selected_equip()
 	_update_equip()

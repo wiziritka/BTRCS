@@ -54,5 +54,5 @@ default_color = Color(0, 0, 0, 0.188235)
 
 [node name="InterruptReloadMarginTimer" type="Timer" parent="."]
 process_callback = 0
-wait_time = 0.5
+wait_time = 0.35000000000000003
 one_shot = true

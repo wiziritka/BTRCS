@@ -1,6 +1,6 @@
 extends Area2D
 
-@export_range(0.0, 1.0) var ammo_restore_percent := 0.2
+@export_range(0.0, 1.0) var ammo_restore_ratio := 0.2
 
 func _on_body_entered(body: Node2D) -> void:
 	if not multiplayer.is_server():
@@ -8,10 +8,10 @@ func _on_body_entered(body: Node2D) -> void:
 	var player := body as Player
 	if not player:
 		return
-	player.add_ammo_to_weapon.rpc(Weapon.Type.LIGHT, ammo_restore_percent)
-	player.add_ammo_to_weapon.rpc(Weapon.Type.HEAVY, ammo_restore_percent)
-	player.add_ammo_to_weapon.rpc(Weapon.Type.SUPPORT, ammo_restore_percent)
-	player.add_ammo_to_weapon.rpc(Weapon.Type.MELEE, ammo_restore_percent)
+	player.add_ammo_to_weapon.rpc(Weapon.Type.LIGHT, ammo_restore_ratio)
+	player.add_ammo_to_weapon.rpc(Weapon.Type.HEAVY, ammo_restore_ratio)
+	player.add_ammo_to_weapon.rpc(Weapon.Type.SUPPORT, ammo_restore_ratio)
+	player.add_ammo_to_weapon.rpc(Weapon.Type.MELEE, ammo_restore_ratio)
 	queue_free()
 
 

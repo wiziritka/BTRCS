@@ -150,12 +150,12 @@ func _physics_process(delta: float) -> void:
 		visual.scale.x = -1.0 if entity_input.aim_direction.x < 0.0 else 1.0
 
 
-## Телепортирует сущность в точку [param destination].
+## Телепортирует сущность в точку [param destination] (в глобальной системе координат).
 ## [b]Примечание[/b]: этот метод может быть вызван только сервером и только как RPC.
 @rpc("call_local", "authority", "unreliable_ordered", 4)
 func teleport_to(destination: Vector2) -> void:
-	position = destination
-	server_position = destination
+	global_position = destination
+	server_position = position
 	reset_physics_interpolation()
 
 
@@ -305,7 +305,7 @@ func set_health(health: int) -> void:
 			var numbers_vfx: Node2D = numbers_vfx_scene.instantiate()
 			numbers_vfx.position = global_position
 			(numbers_vfx.get_node(^"Label") as Label).text = str(current_health - health)
-			if is_local():
+			if team == world.local_team:
 				(numbers_vfx.get_node(^"Label") as Label).add_theme_color_override(
 						&"font_color", Color.RED)
 			_vfx_parent.add_child(numbers_vfx)

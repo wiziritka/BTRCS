@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://brcaom8n83yf2"
-path="res://.godot/imported/reset.png-cb1e48781288a144c27964bc1b41754c.ctex"
+uid="uid://dph7mfh2pbh5r"
+path="res://.godot/imported/menu.png-ffadbb9f536670c17e6a8e1c9999d5ef.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://menu/settings/icons/reset.png"
-dest_files=["res://.godot/imported/reset.png-cb1e48781288a144c27964bc1b41754c.ctex"]
+source_file="res://game/solo/training/icons/menu.png"
+dest_files=["res://.godot/imported/menu.png-ffadbb9f536670c17e6a8e1c9999d5ef.ctex"]
 
 [params]
 
