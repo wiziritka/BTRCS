@@ -14,8 +14,6 @@ signal ended
 
 ## Определяет максимум случайного расстояния от заданной точки появления.
 @export var spawn_point_randomness := 40.0
-## Официальные треки.
-@export var tracks: Array[AudioStream]
 
 ## Началось ли событие.
 var was_started := false
@@ -123,10 +121,6 @@ func _start() -> void:
 		push_error("This method must be called only by server.")
 		return
 	
-	if Globals.get_setting_bool("custom_tracks"):
-		if not Globals.get_setting_bool("official_tracks"):
-			tracks.clear()
-		tracks.append_array(Globals.main.custom_tracks.values())
 	if not tracks.is_empty():
 		($Music as AudioStreamPlayer).stream = tracks.pick_random()
 		($Music as AudioStreamPlayer).play()

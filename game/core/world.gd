@@ -23,6 +23,8 @@ const KILL_VIBRATION_DURATION_MS: int = 300
 
 ## Сцены сущностей для предзагрузки.
 @export var entity_scenes: Array[PackedScene]
+## Официальные треки. Могут дополняться (или заменяться) кастомными.
+@export var tracks: Array[AudioStream]
 
 ## Локальный игрок. Может быть [code]null[/code].
 var local_player: Player
@@ -53,6 +55,11 @@ func _ready() -> void:
 	else:
 		($MinimapViewport as SubViewport).render_target_update_mode = SubViewport.UPDATE_DISABLED
 		($UI/Main/Minimap as CanvasItem).hide()
+	
+	if Globals.get_setting_bool("custom_tracks"):
+		if not Globals.get_setting_bool("official_tracks"):
+			tracks.clear()
+		tracks.append_array(Globals.main.custom_tracks.values())
 	
 	var entities_spawner: MultiplayerSpawner = $EntitiesSpawner
 	for scene: PackedScene in entity_scenes:

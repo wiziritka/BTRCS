@@ -2,7 +2,10 @@ class_name Training
 extends World
 
 
-@export var music: AudioStreamRandomizer
+signal stats_changed
+
+var damaged: int = 0
+var kills: int = 0
 
 var _player: Player
 var _current_map: Node2D
@@ -31,8 +34,10 @@ func spawn_player() -> void:
 	]
 	player.equip_data.append(-1)
 	player.name = "Player%d" % player.id
-	$Entities.add_child(player, true)
 	player.killed.connect(_on_player_killed.bind(player))
+	
+	($Camera as SmartCamera).teleport_to(_spawn_point.global_position)
+	$Entities.add_child(player, true)
 	_player = player
 
 
@@ -43,6 +48,8 @@ func spawn_dummy(position: Vector2, max_health: int) -> void:
 	dummy.id = -randi()
 	dummy.name += str(dummy.id)
 	dummy.max_health = max_health
+	dummy.health_changed.connect(_on_mob_health_changed)
+	dummy.died.connect(_on_mob_died.bind(dummy))
 	$Entities.add_child(dummy, true)
 
 
@@ -56,10 +63,41 @@ func load_default_map() -> void:
 	_spawn_point = map.get_node(^"SpawnPoint")
 	# загрузка кастомной карты
 	add_child(map)
+	_current_map = map
 	# запекание навигации
 	spawn_player()
-	($Music as AudioStreamPlayer).stream = music
-	($Music as AudioStreamPlayer).play()
+	
+	if not tracks.is_empty():
+		($Music as AudioStreamPlayer).stream = tracks.pick_random()
+		($Music as AudioStreamPlayer).play()
+		($Music as AudioStreamPlayer).stream_paused = get_tree().paused
+
+
+func load_map(event_idx: int, map_idx: int) -> void:
+	cleanup()
+	if _current_map:
+		remove_child(_current_map)
+		_current_map.queue_free()
+	var map_scene: PackedScene = load(Globals.items_db.events[event_idx].maps[map_idx].scene_path)
+	var map: Map = map_scene.instantiate()
+	_spawn_point = map.get_node(^"SoloSpawnPoint")
+	add_child(map)
+	_current_map = map
+	spawn_player()
+	
+	var tracks_to_play: Array[AudioStream]
+	if not map.custom_tracks.is_empty():
+		if Globals.get_setting_bool("official_tracks"):
+			tracks_to_play.append_array(map.custom_tracks)
+		if Globals.get_setting_bool("custom_tracks"):
+			tracks_to_play.append_array(Globals.main.custom_tracks.values())
+	else:
+		tracks_to_play = tracks
+	
+	if not tracks_to_play.is_empty():
+		($Music as AudioStreamPlayer).stream = tracks_to_play.pick_random()
+		($Music as AudioStreamPlayer).play()
+		($Music as AudioStreamPlayer).stream_paused = get_tree().paused
 
 
 func player_restore_health() -> void:
@@ -84,6 +122,7 @@ func player_restore_skill() -> void:
 
 func player_teleport_to_spawn() -> void:
 	_player.teleport_to.rpc(_spawn_point.global_position)
+	($Camera as SmartCamera).teleport_to(_spawn_point.global_position)
 
 
 func player_update_equip(skin: String, skill: String, light_weapon: String,
@@ -101,6 +140,18 @@ func player_update_equip(skin: String, skill: String, light_weapon: String,
 		_player.set_weapon(Weapon.Type.SUPPORT, Globals.items_db.weapons_by_id[support_weapon])
 	if (_player.weapons.get_child(Weapon.Type.MELEE) as Weapon).data.id != melee_weapon:
 		_player.set_weapon(Weapon.Type.MELEE, Globals.items_db.weapons_by_id[melee_weapon])
+
+
+func _on_mob_health_changed(old_value: int, new_value: int) -> void:
+	if old_value > new_value:
+		damaged += old_value - new_value
+		stats_changed.emit()
+
+
+func _on_mob_died(mob: Entity) -> void:
+	damaged += mob.current_health
+	kills += 1
+	stats_changed.emit()
 
 
 func _on_player_killed() -> void:

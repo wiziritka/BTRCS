@@ -1,13 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://f6bay2nx1wy3"]
+[gd_scene load_steps=18 format=3 uid="uid://f6bay2nx1wy3"]
 
 [ext_resource type="PackedScene" uid="uid://bkvfj405l2gvw" path="res://game/core/world.tscn" id="1_6jugc"]
 [ext_resource type="Script" uid="uid://cq53u6g7rseun" path="res://game/solo/training/training.gd" id="2_lrvjq"]
 [ext_resource type="Script" uid="uid://cq8tq5ih73nu7" path="res://game/solo/training/training_ui.gd" id="3_34tim"]
 [ext_resource type="PackedScene" uid="uid://bo4g1oix6cim0" path="res://game/solo/training/default_map.tscn" id="3_36lnl"]
-[ext_resource type="AudioStream" uid="uid://cygr2p3xlblws" path="res://game/music/battle0.ogg" id="3_acnsr"]
 [ext_resource type="PackedScene" uid="uid://3l0k1cn63ahd" path="res://game/player/player.tscn" id="3_nr0v1"]
 [ext_resource type="PackedScene" uid="uid://cdo5q27lch5l8" path="res://game/solo/training/dummy/dummy.tscn" id="3_wkoo5"]
-[ext_resource type="AudioStream" uid="uid://cx6cuaaws3vre" path="res://game/music/battle1.ogg" id="4_8bquf"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="4_wkoo5"]
 [ext_resource type="Texture2D" uid="uid://dph7mfh2pbh5r" path="res://game/solo/training/icons/menu.png" id="6_511bm"]
 [ext_resource type="Texture2D" uid="uid://bkrw8p2edcj1r" path="res://game/solo/training/icons/restore_health.png" id="7_gu8e4"]
@@ -17,15 +15,11 @@
 [ext_resource type="PackedScene" uid="uid://mlbaavhyud5j" path="res://game/ui/equip_selector/equip_selector.tscn" id="12_olgru"]
 [ext_resource type="Texture2D" uid="uid://cdlm17je2ol0u" path="res://game/ui/equip_selector/presets.png" id="13_1grle"]
 [ext_resource type="PackedScene" uid="uid://y56j4fgei867" path="res://game/ui/equip_selector/preset_manager.tscn" id="14_clwqa"]
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_fhj3u"]
-streams_count = 2
-stream_0/stream = ExtResource("3_acnsr")
-stream_1/stream = ExtResource("4_8bquf")
+[ext_resource type="Texture2D" uid="uid://2u83h36lsfg3" path="res://game/solo/training/icons/select_map.png" id="16_fhj3u"]
+[ext_resource type="Texture2D" uid="uid://cg2b6jb77iv65" path="res://game/solo/training/icons/return_to_training.png" id="17_oiyxk"]
 
 [node name="Training" instance=ExtResource("1_6jugc")]
 script = ExtResource("2_lrvjq")
-music = SubResource("AudioStreamRandomizer_fhj3u")
 entity_scenes = Array[PackedScene]([ExtResource("3_nr0v1"), ExtResource("3_wkoo5")])
 
 [node name="UI" parent="." index="8"]
@@ -54,6 +48,21 @@ offset_right = -16.0
 offset_bottom = 72.0
 grow_horizontal = 0
 icon = ExtResource("4_wkoo5")
+
+[node name="Stats" type="Label" parent="UI/Main" index="4"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 16.0
+offset_right = 20.0
+offset_bottom = 39.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderSmallOutlined"
+text = "Нанесённый урон: 0
+Убийств: 0"
+horizontal_alignment = 1
 
 [node name="Menu" type="Control" parent="UI" index="1"]
 process_mode = 2
@@ -181,6 +190,36 @@ size_flags_horizontal = 4
 theme_type_variation = &"HeaderSmall"
 text = "Окружение"
 
+[node name="Map" type="HBoxContainer" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer" index="1"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/Map" index="0"]
+layout_mode = 2
+text = "Текущая карта:"
+
+[node name="CurrentMap" type="Label" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/Map" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Тренировка"
+
+[node name="ChangeMap" type="HBoxContainer" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer" index="2"]
+layout_mode = 2
+alignment = 1
+
+[node name="SelectMap" type="Button" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/ChangeMap" index="0"]
+layout_mode = 2
+text = "Выбрать карту"
+icon = ExtResource("16_fhj3u")
+
+[node name="ReturnToTraining" type="Button" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/ChangeMap" index="1"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Вернуться на тренировку"
+icon = ExtResource("17_oiyxk")
+
 [node name="PresetManager" parent="UI/Menu" index="2" instance=ExtResource("14_clwqa")]
 visible = false
 equip_selector_path = NodePath("../PanelContainer/MainMenu/HBoxContainer/Player/VBoxContainer/EquipSelector")
@@ -201,6 +240,7 @@ resources = [PackedStringArray("default_map"), [ExtResource("3_36lnl")]]
 wait_time = 3.0
 one_shot = true
 
+[connection signal="stats_changed" from="." to="UI" method="_on_training_stats_changed"]
 [connection signal="pressed" from="UI/Main/Menu" to="UI" method="_on_menu_pressed"]
 [connection signal="pressed" from="UI/Main/Quit" to="UI/QuitDialog" method="popup_centered"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/Header/Close" to="UI" method="_on_close_pressed"]
@@ -210,5 +250,7 @@ one_shot = true
 [connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Player/VBoxContainer/TeleportToSpawn" to="UI" method="_on_teleport_to_spawn_pressed"]
 [connection signal="items_changed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Player/VBoxContainer/EquipSelector" to="UI" method="_on_equip_selector_items_changed"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Player/VBoxContainer/Presets" to="UI/Menu/PresetManager" method="popup_centered"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/ChangeMap/SelectMap" to="UI" method="_on_select_map_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/ChangeMap/ReturnToTraining" to="UI" method="_on_return_to_training_pressed"]
 [connection signal="confirmed" from="UI/QuitDialog" to="UI" method="_on_quit_dialog_confirmed"]
 [connection signal="timeout" from="RespawnTimer" to="." method="spawn_player"]

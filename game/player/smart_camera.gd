@@ -107,6 +107,15 @@ func shake(amplitude: float, duration: float, should_decay := true, shake_step :
 	shake_finished.emit()
 
 
+## Мгновенно телепортирует камеру в [param destination] без каких либо сглаживаний.
+func teleport_to(destination: Vector2) -> void:
+	_physics_interpolation_previous_position = destination
+	global_position = destination
+	position_smoothing_enabled = false
+	reset_smoothing()
+	position_smoothing_enabled = true
+
+
 func _lerp_to(weight: float, from: Vector2, to: Node2D) -> void:
 	if is_instance_valid(to):
 		global_position = from.lerp(to.global_position, weight)

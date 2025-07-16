@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bkvfj405l2gvw"]
+[gd_scene load_steps=9 format=3 uid="uid://bkvfj405l2gvw"]
 
 [ext_resource type="Script" uid="uid://cd58yrb8vkc1v" path="res://game/core/world.gd" id="1_3j1bh"]
 [ext_resource type="PackedScene" uid="uid://3l0k1cn63ahd" path="res://game/player/player.tscn" id="2_87d4e"]
+[ext_resource type="AudioStream" uid="uid://cygr2p3xlblws" path="res://game/music/battle0.ogg" id="3_3j1bh"]
+[ext_resource type="AudioStream" uid="uid://cx6cuaaws3vre" path="res://game/music/battle1.ogg" id="4_j8p54"]
 [ext_resource type="Script" uid="uid://pwgsdrt5sfqe" path="res://game/player/smart_camera.gd" id="5_jk2iw"]
 [ext_resource type="PackedScene" uid="uid://0wc72b0o2o11" path="res://game/player/ui/player_ui.tscn" id="7_0tx30"]
 [ext_resource type="PackedScene" uid="uid://c2f0n1b5sfpdh" path="res://game/ui/screen_marker/hit_marker.tscn" id="13_ka3gv"]
@@ -10,6 +12,7 @@
 [node name="World" type="Node" groups=["world"]]
 script = ExtResource("1_3j1bh")
 entity_scenes = Array[PackedScene]([ExtResource("2_87d4e")])
+tracks = Array[AudioStream]([ExtResource("3_3j1bh"), ExtResource("4_j8p54")])
 metadata/_custom_type_script = "uid://cd58yrb8vkc1v"
 
 [node name="Entities" type="Node2D" parent="." groups=["entities_parent"]]
