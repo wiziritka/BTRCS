@@ -98,10 +98,11 @@ func initialize_systems() -> void:
 ## указанными в [param args].
 func quit(restart := false, args := PackedStringArray()) -> void:
 	if save_file:
-		set_int("window_size_x", get_window().size.x)
-		set_int("window_size_y", get_window().size.y)
-		set_int("window_pos_x", get_window().position.x)
-		set_int("window_pos_y", get_window().position.y)
+		if get_window().mode == Window.MODE_WINDOWED:
+			Globals.set_int("window_size_x", get_window().size.x)
+			Globals.set_int("window_size_y", get_window().size.y)
+			Globals.set_int("window_pos_x", get_window().position.x)
+			Globals.set_int("window_pos_y", get_window().position.y)
 		save_file.save_encrypted_pass(SAVE_FILE_PATH, SAVE_FILE_PASSWORD)
 	if upnp:
 		upnp.finalize()

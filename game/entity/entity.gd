@@ -187,11 +187,7 @@ func add_effect(effect_uid: String, duration := 1.0, data := [], should_stack :=
 	
 	_effects.add_child(effect, true)
 	effect.initialize(self, effect_uid, data, false, duration)
-	print_verbose("Added effect %s with duration %f to %s." % [
-		effect.name,
-		duration,
-		name,
-	])
+	print_verbose("Added effect %s with duration %f to %s." % [effect.name, duration, name])
 
 
 ## Добавляет постоянный эффект на сущность. В [param effect_uid] должна быть передана одна из
@@ -231,7 +227,6 @@ func remove_timeless_effect(effect_uid: String) -> void:
 			effect_uid,
 		])
 		return
-	
 	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
 		push_error("This method must be called only by server.")
 		return
@@ -243,6 +238,7 @@ func remove_timeless_effect(effect_uid: String) -> void:
 			effect.timeless_counter -= 1
 			print_verbose("Removed timeless effect %s on %s." % [effect.name, name])
 			return
+
 
 ## Очищает все эффекты с сущности, основываясь на [param positive] и [param negative].[br]
 ## [b]Примечание[/b]: этот метод должен вызываться только сервером и только как RPC.
@@ -260,6 +256,14 @@ func clear_effects(negative := true, positive := false) -> void:
 				effect.name,
 				name,
 			])
+
+
+## Возвращает [code]true[/code], если эффект с указанным UID есть на сущности.
+func has_effect(effect_uid: String) -> bool:
+	for effect: Effect in _effects.get_children():
+		if effect.uid == effect_uid:
+			return true
+	return false
 #endregion
 
 
