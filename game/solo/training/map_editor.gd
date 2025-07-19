@@ -6,7 +6,7 @@ enum Mode {
 	DRAW = 1,
 	LINE = 2,
 	RECT = 3,
-	PLACING_ENTITIES = 4,
+	PLACING_ENEMIES = 4,
 }
 const DEADZONE := 16.0
 const MAX_ENEMIES_COUNT: int = 15
@@ -22,6 +22,7 @@ var _enemy_type: Training.EnemyType
 
 var _map_data: PackedByteArray
 var _enemies_data: Array[Training.EnemyData]
+var _editing_enemy_idx: int
 
 var _map_image: Image
 var _map_image_texture: ImageTexture
@@ -61,7 +62,7 @@ func _initialize() -> void:
 		_enemies_data.append(enemy_data)
 	
 	_update_enemies()
-	if _mode == Mode.PLACING_ENTITIES:
+	if _mode == Mode.PLACING_ENEMIES:
 		_status.text = "Врагов размещено: %d/%d" % [_enemies_data.size(), MAX_ENEMIES_COUNT]
 
 
@@ -127,6 +128,8 @@ func _place_enemy(where: Vector2) -> void:
 	if _enemies_data.size() >= MAX_ENEMIES_COUNT:
 		_status.text = "Превышение максимального количества в %d врагов" % MAX_ENEMIES_COUNT
 		return
+	if not _is_safe_coord(floori(where.x), floori(where.y)):
+		return
 	
 	var enemy_data := Training.EnemyData.new(_enemy_type, Vector2i(where.floor()))
 	_enemies_data.append(enemy_data)
@@ -151,10 +154,19 @@ func _update_enemies() -> void:
 		tb.size = Vector2.ONE * 64
 		tb.scale = Vector2.ONE / _map.scale
 		tb.pivot_offset = Vector2.ONE * 32
-		# TODO: привязать к окошку
 		_map.add_child(tb)
 		tb.position = Vector2(enemy_data.coords) + Vector2.ONE * 0.5
 		tb.position -= Vector2.ONE * 32 # компенсируем pivot_offset
+		
+		tb.pressed.connect(_edit_enemy.bind(idx))
+
+
+func _edit_enemy(idx: int) -> void:
+	(%HealthSlider/Slider as Range).value = _enemies_data[idx].health
+	(%DamageSlider/Slider as Range).value = _enemies_data[idx].damage_multiplier
+	
+	($EditEnemy as Window).popup_centered()
+	_editing_enemy_idx = idx
 
 
 func _is_safe_coord(x: int, y: int) -> bool:
@@ -223,16 +235,16 @@ func _on_map_gui_input(event: InputEvent) -> void:
 					_map.queue_redraw()
 					_draw_line(_map.get_global_transform().affine_inverse()
 							* _drag_start_mouse_position, mb.position)
-				Mode.PLACING_ENTITIES:
+				Mode.PLACING_ENEMIES:
 					var mouse_difference: Vector2 = mb.global_position - _drag_start_mouse_position
-					if mouse_difference.length() <= DEADZONE:
+					if mouse_difference.length() <= DEADZONE and not ($EditEnemy as Window).visible:
 						_place_enemy(mb.position)
 	
 	if _dragging:
 		var mm := event as InputEventMouseMotion
 		if mm:
 			match _mode:
-				Mode.MOVE_CAMERA, Mode.PLACING_ENTITIES:
+				Mode.MOVE_CAMERA, Mode.PLACING_ENEMIES:
 					var mouse_difference: Vector2 = mm.global_position - _drag_start_mouse_position
 					if mouse_difference.length() >= DEADZONE:
 						mouse_difference -= mouse_difference.normalized() * DEADZONE
@@ -285,7 +297,7 @@ func _on_mode_type_pressed(mode: Mode) -> void:
 
 func _on_place_block_pressed(type: Training.BlockType) -> void:
 	_block_type = type
-	if _mode == Mode.PLACING_ENTITIES:
+	if _mode == Mode.PLACING_ENEMIES:
 		_mode = _prev_mode
 	(%Modes as CanvasItem).show()
 	
@@ -301,7 +313,7 @@ func _on_place_block_pressed(type: Training.BlockType) -> void:
 func _on_place_enemy_pressed(type: Training.EnemyType) -> void:
 	_enemy_type = type
 	_prev_mode = _mode
-	_mode = Mode.PLACING_ENTITIES
+	_mode = Mode.PLACING_ENEMIES
 	(%Modes as CanvasItem).hide()
 	
 	match type:
@@ -311,3 +323,21 @@ func _on_place_enemy_pressed(type: Training.EnemyType) -> void:
 			_status.text = "Робот с P350"
 	
 	_status.text += " / Врагов размещено: %d/%d" % [_enemies_data.size(), MAX_ENEMIES_COUNT]
+
+
+func _on_health_slider_value_changed(value: float) -> void:
+	(%HealthSlider/Value as Label).text = str(int(value))
+
+
+func _on_damage_slider_value_changed(value: float) -> void:
+	(%DamageSlider/Value as Label).text = "x%.1f" % value
+
+
+func _on_delete_enemy_pressed() -> void:
+	_enemies_data.remove_at(_editing_enemy_idx)
+	_update_enemies()
+
+
+func _on_save_enemy_pressed() -> void:
+	_enemies_data[_editing_enemy_idx].health = int((%HealthSlider/Slider as Range).value)
+	_enemies_data[_editing_enemy_idx].damage_multiplier = (%DamageSlider/Slider as Range).value

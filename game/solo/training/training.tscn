@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://f6bay2nx1wy3"]
+[gd_scene load_steps=38 format=3 uid="uid://f6bay2nx1wy3"]
 
 [ext_resource type="PackedScene" uid="uid://bkvfj405l2gvw" path="res://game/core/world.tscn" id="1_6jugc"]
 [ext_resource type="Script" uid="uid://cq53u6g7rseun" path="res://game/solo/training/training.gd" id="2_lrvjq"]
@@ -34,6 +34,7 @@
 [ext_resource type="Texture2D" uid="uid://d8htx76y3e4p" path="res://game/solo/training/icons/editor/hole.png" id="27_1jf6s"]
 [ext_resource type="Texture2D" uid="uid://qsfdp7ao1pbj" path="res://game/solo/training/icons/editor/dummy.png" id="28_4ik32"]
 [ext_resource type="Texture2D" uid="uid://dn7x0uuvkhfal" path="res://game/solo/training/icons/editor/robot_p350.png" id="29_8ojcx"]
+[ext_resource type="Texture2D" uid="uid://b1u3v2dc3jemk" path="res://menu/theme/icons/delete.png" id="33_xt344"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_5ylsm"]
 
@@ -475,6 +476,102 @@ ok_button_text = "Сбросить"
 dialog_text = "Ты действительно хочешь сбросить все изменения и вернуть карту к состоянию по умолчанию?"
 cancel_button_text = "Отмена"
 
+[node name="EditEnemy" type="Window" parent="UI/Menu/PanelContainer/MapEditor" index="4"]
+oversampling_override = 1.0
+title = "Редактирование врага"
+size = Vector2i(480, 224)
+visible = false
+transient = true
+exclusive = true
+unresizable = true
+
+[node name="Background" type="ColorRect" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy" index="1"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Health" type="HBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer" index="0"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Health" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HeaderSmall"
+text = "Здоровье"
+
+[node name="HealthSlider" type="HBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Health" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+
+[node name="Slider" type="HSlider" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Health/HealthSlider" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 25.0
+max_value = 1000.0
+step = 25.0
+value = 100.0
+
+[node name="Value" type="Label" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Health/HealthSlider" index="1"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "100"
+horizontal_alignment = 1
+
+[node name="DamageMultiplier" type="HBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer" index="1"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/DamageMultiplier" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"HeaderSmall"
+text = "Множитель урона"
+
+[node name="DamageSlider" type="HBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/DamageMultiplier" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+
+[node name="Slider" type="HSlider" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/DamageMultiplier/DamageSlider" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.19999999999708962
+max_value = 3.0
+step = 0.19999999999708962
+value = 0.9999999999854481
+
+[node name="Value" type="Label" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/DamageMultiplier/DamageSlider" index="1"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "x1.0"
+horizontal_alignment = 1
+
+[node name="SaveEnemy" type="Button" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer" index="2"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Сохранить"
+icon = ExtResource("20_j183o")
+
+[node name="DeleteEnemy" type="Button" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer" index="3"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Удалить врага"
+icon = ExtResource("33_xt344")
+
 [node name="PresetManager" parent="UI/Menu" index="2" instance=ExtResource("14_clwqa")]
 visible = false
 equip_selector_path = NodePath("../PanelContainer/MainMenu/HBoxContainer/Player/VBoxContainer/EquipSelector")
@@ -529,5 +626,12 @@ one_shot = true
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/Dummy" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [0]]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/RobotP350" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [1]]
 [connection signal="confirmed" from="UI/Menu/PanelContainer/MapEditor/ResetDialog" to="UI/Menu/PanelContainer/MapEditor" method="_on_reset_dialog_confirmed"]
+[connection signal="close_requested" from="UI/Menu/PanelContainer/MapEditor/EditEnemy" to="UI/Menu/PanelContainer/MapEditor/EditEnemy" method="hide"]
+[connection signal="value_changed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Health/HealthSlider/Slider" to="UI/Menu/PanelContainer/MapEditor" method="_on_health_slider_value_changed"]
+[connection signal="value_changed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/DamageMultiplier/DamageSlider/Slider" to="UI/Menu/PanelContainer/MapEditor" method="_on_damage_slider_value_changed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/SaveEnemy" to="UI/Menu/PanelContainer/MapEditor" method="_on_save_enemy_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/SaveEnemy" to="UI/Menu/PanelContainer/MapEditor/EditEnemy" method="hide"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/DeleteEnemy" to="UI/Menu/PanelContainer/MapEditor" method="_on_delete_enemy_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/DeleteEnemy" to="UI/Menu/PanelContainer/MapEditor/EditEnemy" method="hide"]
 [connection signal="confirmed" from="UI/QuitDialog" to="UI" method="_on_quit_dialog_confirmed"]
 [connection signal="timeout" from="RespawnTimer" to="." method="spawn_player"]

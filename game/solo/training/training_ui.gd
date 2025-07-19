@@ -146,6 +146,8 @@ func _on_respawn_enemies_pressed() -> void:
 func _on_edit_map_pressed() -> void:
 	($Menu/PanelContainer/MainMenu as CanvasItem).hide()
 	($Menu/PanelContainer/MapEditor as CanvasItem).show()
+	get_viewport().gui_snap_controls_to_pixels = false
+	
 	_prev_map_data = Globals.get_variant("custom_training_map", PackedByteArray())
 	_prev_enemies_data = Globals.get_variant("custom_training_enemies", [{}])
 
@@ -153,6 +155,7 @@ func _on_edit_map_pressed() -> void:
 func _on_close_map_editor_pressed() -> void:
 	($Menu/PanelContainer/MainMenu as CanvasItem).show()
 	($Menu/PanelContainer/MapEditor as CanvasItem).hide()
+	get_viewport().gui_snap_controls_to_pixels = true
 	
 	if _prev_map_data != Globals.get_variant("custom_training_map", PackedByteArray()) \
 			or _prev_enemies_data != Globals.get_variant("custom_training_enemies", [{}]):

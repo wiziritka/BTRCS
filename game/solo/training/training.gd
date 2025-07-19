@@ -1,30 +1,47 @@
 class_name Training
 extends World
 
+## Режим тренировки.
+##
+## Здесь игрок может построить под себя карту, расставить врагов и другое
 
+## Перечисление типов блоков.
 enum BlockType {
+	## Трава. Простреливаемая и проходимая.
 	GRASS = 0,
+	## Стена. Непроходимая и непростреливаемая.
 	WALL = 1,
+	## Дыра. Непроходимая, но простреливаемая.
 	HOLE = 2,
 }
+## Перечисление типов врагов.
 enum EnemyType {
+	## Манекен. Не наносит урона и не движется.
 	DUMMY = 0,
+	## Робот с P350. Стреляет редкими, одиночными выстрелами.
 	ROBOT_P350 = 1,
 }
 
+## Издаётся, когда какая-либо статистика (нанесённый урон и/или убийства) меняется.
 signal stats_changed
+## Издаётся, когда карта была изменена.
 signal map_changed
 
-const BLOCK_COLORS: Array[Color] = [
-	Color.LIME_GREEN,
-	Color.GOLD,
-	Color.SADDLE_BROWN,
-]
+## Сопоставление типов блоков и их цветов на картах.
+const BLOCK_COLORS: Dictionary[BlockType, Color] = {
+	BlockType.GRASS : Color.LIME_GREEN,
+	BlockType.WALL : Color.GOLD,
+	BlockType.HOLE : Color.SADDLE_BROWN,
+}
 
+## Сопоставление типов врагов и их иконок.
 @export var enemies_icons: Dictionary[EnemyType, Texture2D]
 
+## Сколько игрок нанёс урон за эту сессию тренировок.
 var damaged: int = 0
+## Сколько игрок убил врагов за эту сессию тренировок.
 var kills: int = 0
+## Массив с данными об врагах.
 var enemies_data: Array[EnemyData]
 
 var _player: Player
@@ -36,6 +53,7 @@ func _initialize() -> void:
 	load_default_map()
 
 
+## Создаёт игрока.
 func spawn_player() -> void:
 	var player: Player = entity_scenes[0].instantiate()
 	player.position = _spawn_point.global_position
@@ -59,6 +77,8 @@ func spawn_player() -> void:
 	_player = player
 
 
+## Создаёт врага с типом [param type] в позиции [param position] с максимальным здоровьем в
+## [param health] ОЗ и множителем урона в [param damage_multiplier].
 func spawn_enemy(type: EnemyType, position: Vector2, health: int, damage_multiplier: float) -> void:
 	var enemy: Entity = entity_scenes[1 + type].instantiate()
 	enemy.position = position
@@ -72,6 +92,7 @@ func spawn_enemy(type: EnemyType, position: Vector2, health: int, damage_multipl
 	$Entities.add_child(enemy, true)
 
 
+## Загружает карту по умолчанию, то есть карту тренировки.
 func load_default_map() -> void:
 	cleanup()
 	if _current_map:
@@ -147,6 +168,7 @@ func load_default_map() -> void:
 	map_changed.emit()
 
 
+## Загружает карту с индексом [param map_idx] события с индексом [param event_idx].
 func load_map(event_idx: int, map_idx: int) -> void:
 	cleanup()
 	if _current_map:
@@ -179,6 +201,9 @@ func load_map(event_idx: int, map_idx: int) -> void:
 	map_changed.emit()
 
 
+## Возвращает данные карты (размещение блоков) в виде [PackedByteArray]. Зная [code]x[/code] и
+## [code]y[/code] можно узнать блок в этих координатах следующим образом:
+## [code]map_data[y * 50 + x][/code].
 func get_map_data() -> PackedByteArray:
 	if _current_map is Map or not is_instance_valid(_current_map):
 		push_error("Current map must be default to get map data.")
@@ -206,12 +231,14 @@ func get_map_data() -> PackedByteArray:
 	return data
 
 
+## Восполняет все ОЗ игроку.
 func player_restore_health() -> void:
 	if _player.current_health == _player.max_health:
 		return
 	_player.heal(_player.max_health)
 
 
+## Восполняет все боеприпасы игроку.
 func player_restore_ammo() -> void:
 	_player.add_ammo_to_weapon.rpc(Weapon.Type.LIGHT, 1.0)
 	_player.add_ammo_to_weapon.rpc(Weapon.Type.HEAVY, 1.0)
@@ -219,6 +246,8 @@ func player_restore_ammo() -> void:
 	_player.add_ammo_to_weapon.rpc(Weapon.Type.MELEE, 1.0)
 
 
+## Восстанавливает все использования навыка игроку, а также сбрасывает откат,
+## если навык не используется.
 func player_restore_skill() -> void:
 	if _player.skill.is_cooldown_blocked(): # чтобы нельзя было использовать, пока действует эффект
 		_player.skill_vars[0] = _player.skill.use_times
@@ -226,11 +255,13 @@ func player_restore_skill() -> void:
 		_player.skill_vars = [_player.skill.use_times, 0]
 
 
+## Возвращает игрока на точку появления.
 func player_teleport_to_spawn() -> void:
 	_player.teleport_to.rpc(_spawn_point.global_position)
 	($Camera as SmartCamera).teleport_to(_spawn_point.global_position)
 
 
+## Обновляет экипировку игроку.
 func player_update_equip(skin: String, skill: String, light_weapon: String,
 		heavy_weapon: String, support_weapon: String, melee_weapon: String) -> void:
 	if _player.skin.data.id != skin:
@@ -248,12 +279,14 @@ func player_update_equip(skin: String, skill: String, light_weapon: String,
 		_player.set_weapon(Weapon.Type.MELEE, Globals.items_db.weapons_by_id[melee_weapon])
 
 
+## Уничтожает всех врагов.
 func enemies_destroy() -> void:
 	for entity: Entity in entities.values():
 		if not entity is Player:
 			entity.queue_free()
 
 
+## Пересоздаёт всех врагов.
 func enemies_respawn() -> void:
 	enemies_destroy()
 	
@@ -285,10 +318,17 @@ func _on_player_killed() -> void:
 	($RespawnTimer as Timer).start()
 
 
+## Класс с данными о враге.
+##
+## По-хорошему бы структурой сделать.
 class EnemyData:
+	## Тип врага.
 	var type: EnemyType
+	## Здоровье врага.
 	var health: int = 100
+	## Множитель урона врага.
 	var damage_multiplier := 1.0
+	## Координаты врага в целых числах, где 0 - левый верхний угол карты.
 	var coords: Vector2i
 	
 	func _init(enemy_type: EnemyType, new_coords: Vector2i) -> void:
