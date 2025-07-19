@@ -1,14 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://cdo5q27lch5l8"]
+[gd_scene load_steps=6 format=3 uid="uid://cdo5q27lch5l8"]
 
 [ext_resource type="PackedScene" uid="uid://dtvo18gjrm7my" path="res://game/entity/entity.tscn" id="1_305ht"]
 [ext_resource type="PackedScene" uid="uid://d4mcugdviiqd0" path="res://game/solo/training/dummy/fluff_hurt_vfx.tscn" id="2_rc1oo"]
 [ext_resource type="Texture2D" uid="uid://oyhf2hvq50wt" path="res://game/solo/training/dummy/dummy.png" id="2_vcofv"]
+[ext_resource type="PackedScene" uid="uid://j0nc4xdi7sr0" path="res://game/solo/training/dummy/dummy_death_vfx.tscn" id="3_rc1oo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rc1oo"]
 radius = 76.0
 
 [node name="Dummy" instance=ExtResource("1_305ht")]
 hurt_vfx_scene = ExtResource("2_rc1oo")
+death_vfx_scene = ExtResource("3_rc1oo")
 
 [node name="CollisionShape2D" parent="." index="2"]
 shape = SubResource("CircleShape2D_rc1oo")

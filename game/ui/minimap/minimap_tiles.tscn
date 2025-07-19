@@ -3,6 +3,7 @@
 [ext_resource type="TileSet" uid="uid://ci04ocvnien3" path="res://game/ui/minimap/tile_set.tres" id="1_2ih73"]
 
 [node name="MinimapTiles" type="TileMapLayer"]
+light_mask = 2
 visibility_layer = 2
 z_index = -10
 texture_filter = 1

@@ -177,6 +177,19 @@ func initialize() -> void:
 		skills[i].idx_in_db = i
 	for i: int in weapons.size():
 		weapons[i].idx_in_db = i
+	
+	Globals.set_string("selected_skin",
+			Globals.get_string("selected_skin", default_skin))
+	Globals.set_string("selected_skill",
+			Globals.get_string("selected_skill", default_skill))
+	Globals.set_string("selected_light_weapon",
+			Globals.get_string("selected_light_weapon", default_light_weapon))
+	Globals.set_string("selected_heavy_weapon",
+			Globals.get_string("selected_heavy_weapon", default_heavy_weapon))
+	Globals.set_string("selected_support_weapon",
+			Globals.get_string("selected_support_weapon", default_support_weapon))
+	Globals.set_string("selected_melee_weapon",
+			Globals.get_string("selected_melee_weapon", default_melee_weapon))
 
 
 func has_equip_item(id: String, type: Item) -> bool:

@@ -28,16 +28,12 @@ var selected_melee_weapon: String
 
 
 func _ready() -> void:
-	selected_skin = Globals.get_string("selected_skin", Globals.items_db.default_skin)
-	selected_skill = Globals.get_string("selected_skill", Globals.items_db.default_skill)
-	selected_light_weapon = Globals.get_string("selected_light_weapon",
-			Globals.items_db.default_light_weapon)
-	selected_heavy_weapon = Globals.get_string("selected_heavy_weapon",
-			Globals.items_db.default_heavy_weapon)
-	selected_support_weapon = Globals.get_string("selected_support_weapon",
-			Globals.items_db.default_support_weapon)
-	selected_melee_weapon = Globals.get_string("selected_melee_weapon",
-			Globals.items_db.default_melee_weapon)
+	selected_skin = Globals.get_string("selected_skin")
+	selected_skill = Globals.get_string("selected_skill")
+	selected_light_weapon = Globals.get_string("selected_light_weapon")
+	selected_heavy_weapon = Globals.get_string("selected_heavy_weapon")
+	selected_support_weapon = Globals.get_string("selected_support_weapon")
+	selected_melee_weapon = Globals.get_string("selected_melee_weapon")
 	
 	_validate_selected_equip()
 	_update_equip()

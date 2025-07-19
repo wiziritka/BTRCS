@@ -44,7 +44,7 @@ var _kill_marker_scene: PackedScene = load("uid://blhm6uka1p287")
 
 
 func _ready() -> void:
-	Globals.main.menu_music.stop()
+	Globals.main.menu_music.stream_paused = true
 	if multiplayer.is_server():
 		get_tree().process_frame.connect(_on_process_frame)
 	
@@ -75,7 +75,7 @@ func _ready() -> void:
 
 
 func _exit_tree() -> void:
-	Globals.main.menu_music.play()
+	Globals.main.menu_music.stream_paused = false
 
 
 ## Задаёт локального игрока.

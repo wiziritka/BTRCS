@@ -14,6 +14,8 @@ func _summon_ligtning_bolt(where: Vector2) -> void:
 		return
 	var lightning: Attack = _lightning_bolt_scene.instantiate()
 	lightning.position = where
+	if Globals.get_setting_bool("low_graphics"):
+		(lightning.get_node(^"PointLight2D") as CanvasItem).hide()
 	add_child(lightning)
 
 

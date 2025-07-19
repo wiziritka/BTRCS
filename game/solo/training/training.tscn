@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://f6bay2nx1wy3"]
+[gd_scene load_steps=37 format=3 uid="uid://f6bay2nx1wy3"]
 
 [ext_resource type="PackedScene" uid="uid://bkvfj405l2gvw" path="res://game/core/world.tscn" id="1_6jugc"]
 [ext_resource type="Script" uid="uid://cq53u6g7rseun" path="res://game/solo/training/training.gd" id="2_lrvjq"]
@@ -15,12 +15,37 @@
 [ext_resource type="PackedScene" uid="uid://mlbaavhyud5j" path="res://game/ui/equip_selector/equip_selector.tscn" id="12_olgru"]
 [ext_resource type="Texture2D" uid="uid://cdlm17je2ol0u" path="res://game/ui/equip_selector/presets.png" id="13_1grle"]
 [ext_resource type="PackedScene" uid="uid://y56j4fgei867" path="res://game/ui/equip_selector/preset_manager.tscn" id="14_clwqa"]
+[ext_resource type="Texture2D" uid="uid://ndobp7p586tx" path="res://menu/theme/icons/edit.png" id="16_8bquf"]
 [ext_resource type="Texture2D" uid="uid://2u83h36lsfg3" path="res://game/solo/training/icons/select_map.png" id="16_fhj3u"]
+[ext_resource type="Texture2D" uid="uid://d1vvdmcmvh4m8" path="res://game/solo/training/icons/destroy_enemies.png" id="16_oiyxk"]
+[ext_resource type="Texture2D" uid="uid://ki3j4g80hksv" path="res://game/solo/training/icons/respawn_enemies.png" id="17_g0cma"]
 [ext_resource type="Texture2D" uid="uid://cg2b6jb77iv65" path="res://game/solo/training/icons/return_to_training.png" id="17_oiyxk"]
+[ext_resource type="Script" uid="uid://drnc877a0wtyp" path="res://game/solo/training/map_editor.gd" id="19_g0cma"]
+[ext_resource type="Texture2D" uid="uid://bs0jb0hstf3sl" path="res://menu/theme/icons/save.png" id="20_j183o"]
+[ext_resource type="Texture2D" uid="uid://brcaom8n83yf2" path="res://menu/theme/icons/reset.png" id="21_o5c37"]
+[ext_resource type="Texture2D" uid="uid://dapqnmq5mfem2" path="res://game/solo/training/icons/editor/move_camera.png" id="22_2o4wa"]
+[ext_resource type="Texture2D" uid="uid://3a4krx6hpwdr" path="res://game/solo/training/icons/editor/draw.png" id="23_m5td1"]
+[ext_resource type="Texture2D" uid="uid://dkssi3obx2w0w" path="res://game/solo/training/icons/editor/line.png" id="24_cr0rr"]
+[ext_resource type="Texture2D" uid="uid://dfxamo3kdmfcl" path="res://game/solo/training/icons/editor/rect.png" id="24_joqhr"]
+[ext_resource type="Texture2D" uid="uid://cbwf6gr7x8c1r" path="res://game/solo/training/icons/editor/grass.png" id="25_cr0rr"]
+[ext_resource type="Texture2D" uid="uid://d22nxdb3lrfpi" path="res://game/solo/training/icons/editor/zoom_in.png" id="25_joqhr"]
+[ext_resource type="Texture2D" uid="uid://o8i0a4sgi01r" path="res://game/solo/training/icons/editor/zoom_out.png" id="26_cr0rr"]
+[ext_resource type="Texture2D" uid="uid://3nokgsxt2ven" path="res://game/solo/training/icons/editor/block.png" id="26_xt344"]
+[ext_resource type="Texture2D" uid="uid://d8htx76y3e4p" path="res://game/solo/training/icons/editor/hole.png" id="27_1jf6s"]
+[ext_resource type="Texture2D" uid="uid://qsfdp7ao1pbj" path="res://game/solo/training/icons/editor/dummy.png" id="28_4ik32"]
+[ext_resource type="Texture2D" uid="uid://dn7x0uuvkhfal" path="res://game/solo/training/icons/editor/robot_p350.png" id="29_8ojcx"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_5ylsm"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_ew6j5"]
 
 [node name="Training" instance=ExtResource("1_6jugc")]
 script = ExtResource("2_lrvjq")
-entity_scenes = Array[PackedScene]([ExtResource("3_nr0v1"), ExtResource("3_wkoo5")])
+enemies_icons = Dictionary[int, Texture2D]({
+0: ExtResource("28_4ik32"),
+1: ExtResource("29_8ojcx")
+})
+entity_scenes = Array[PackedScene]([ExtResource("3_nr0v1"), ExtResource("3_wkoo5"), ExtResource("3_wkoo5")])
 
 [node name="UI" parent="." index="8"]
 script = ExtResource("3_34tim")
@@ -65,7 +90,7 @@ text = "Нанесённый урон: 0
 horizontal_alignment = 1
 
 [node name="Menu" type="Control" parent="UI" index="1"]
-process_mode = 2
+process_mode = 4
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -220,6 +245,236 @@ layout_mode = 2
 text = "Вернуться на тренировку"
 icon = ExtResource("17_oiyxk")
 
+[node name="TrainingMap" type="PanelContainer" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer" index="3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Manage" type="VBoxContainer" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/TrainingMap" index="0"]
+layout_mode = 2
+
+[node name="Header" type="Label" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/TrainingMap/Manage" index="0"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderSmall"
+text = "Карта тренировки"
+
+[node name="Enemies" type="HBoxContainer" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/TrainingMap/Manage" index="1"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="DestroyEnemies" type="Button" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/TrainingMap/Manage/Enemies" index="0"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Уничтожить врагов"
+icon = ExtResource("16_oiyxk")
+
+[node name="RespawnEnemies" type="Button" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/TrainingMap/Manage/Enemies" index="1"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Пересоздать врагов"
+icon = ExtResource("17_g0cma")
+
+[node name="MapPreview" type="TextureRect" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/TrainingMap/Manage" index="2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="EditMap" type="Button" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/TrainingMap/Manage" index="3"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Редактировать карту"
+icon = ExtResource("16_8bquf")
+
+[node name="CantEdit" type="Label" parent="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/TrainingMap" index="1"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Управлять можно только картой тренировки."
+
+[node name="MapEditor" type="VBoxContainer" parent="UI/Menu/PanelContainer" index="1"]
+visible = false
+layout_mode = 2
+script = ExtResource("19_g0cma")
+
+[node name="Header" type="HBoxContainer" parent="UI/Menu/PanelContainer/MapEditor" index="0"]
+layout_mode = 2
+
+[node name="Save" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Header" index="0"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Сохранить"
+icon = ExtResource("20_j183o")
+
+[node name="Reset" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Header" index="1"]
+layout_mode = 2
+text = "По умолчанию"
+icon = ExtResource("21_o5c37")
+
+[node name="Label" type="Label" parent="UI/Menu/PanelContainer/MapEditor/Header" index="2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.3
+theme_type_variation = &"HeaderLarge"
+text = "Редактор карты"
+horizontal_alignment = 1
+
+[node name="CloseMapEditor" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Header" index="3"]
+layout_mode = 2
+size_flags_horizontal = 10
+icon = ExtResource("4_wkoo5")
+
+[node name="Main" type="HBoxContainer" parent="UI/Menu/PanelContainer/MapEditor" index="1"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Buttons" type="VBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/Main" index="0"]
+layout_mode = 2
+
+[node name="Modes" type="VBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/Main/Buttons" index="0"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 10
+size_flags_stretch_ratio = 1.5
+alignment = 1
+
+[node name="MoveCamera" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Modes" index="0"]
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_5ylsm")
+icon = ExtResource("22_2o4wa")
+
+[node name="Draw" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Modes" index="1"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_5ylsm")
+icon = ExtResource("23_m5td1")
+
+[node name="Line" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Modes" index="2"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_5ylsm")
+icon = ExtResource("24_cr0rr")
+
+[node name="Rect" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Modes" index="3"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_5ylsm")
+icon = ExtResource("24_joqhr")
+
+[node name="Zoom" type="VBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/Main/Buttons" index="1"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="ZoomIn" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Zoom" index="0"]
+layout_mode = 2
+icon = ExtResource("25_joqhr")
+
+[node name="ZoomOut" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Zoom" index="1"]
+layout_mode = 2
+icon = ExtResource("26_cr0rr")
+
+[node name="MainView" type="ScrollContainer" parent="UI/Menu/PanelContainer/MapEditor/Main" index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 4
+vertical_scroll_mode = 4
+scroll_deadzone = 1024
+
+[node name="MapHolder" type="ReferenceRect" parent="UI/Menu/PanelContainer/MapEditor/Main/MainView" index="0"]
+custom_minimum_size = Vector2(500, 500)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+border_color = Color(0.50390625, 0.50390625, 0.50390625, 1)
+border_width = 16.0
+editor_only = false
+
+[node name="Map" type="TextureRect" parent="UI/Menu/PanelContainer/MapEditor/Main/MainView/MapHolder" index="0"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(10, 10)
+pivot_offset = Vector2(25, 25)
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="Placeables" type="ScrollContainer" parent="UI/Menu/PanelContainer/MapEditor/Main" index="2"]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables" index="0"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxContainer" type="VBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer" index="0"]
+layout_mode = 2
+
+[node name="Grass" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="0"]
+layout_mode = 2
+theme_override_constants/icon_max_width = 64
+toggle_mode = true
+button_group = SubResource("ButtonGroup_ew6j5")
+icon = ExtResource("25_cr0rr")
+
+[node name="Block" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="1"]
+layout_mode = 2
+theme_override_constants/icon_max_width = 64
+toggle_mode = true
+button_group = SubResource("ButtonGroup_ew6j5")
+icon = ExtResource("26_xt344")
+
+[node name="Hole" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="2"]
+layout_mode = 2
+theme_override_constants/icon_max_width = 64
+toggle_mode = true
+button_group = SubResource("ButtonGroup_ew6j5")
+icon = ExtResource("27_1jf6s")
+
+[node name="Dummy" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="3"]
+layout_mode = 2
+theme_override_constants/icon_max_width = 64
+toggle_mode = true
+button_group = SubResource("ButtonGroup_ew6j5")
+icon = ExtResource("28_4ik32")
+
+[node name="RobotP350" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="4"]
+layout_mode = 2
+theme_override_constants/icon_max_width = 64
+toggle_mode = true
+button_group = SubResource("ButtonGroup_ew6j5")
+icon = ExtResource("29_8ojcx")
+
+[node name="EditorStatus" type="Label" parent="UI/Menu/PanelContainer/MapEditor" index="2"]
+layout_mode = 2
+text = "Перемещение камеры"
+horizontal_alignment = 1
+
+[node name="ResetDialog" type="ConfirmationDialog" parent="UI/Menu/PanelContainer/MapEditor" index="3"]
+oversampling_override = 1.0
+title = "Сброс карты"
+size = Vector2i(855, 112)
+unresizable = true
+ok_button_text = "Сбросить"
+dialog_text = "Ты действительно хочешь сбросить все изменения и вернуть карту к состоянию по умолчанию?"
+cancel_button_text = "Отмена"
+
 [node name="PresetManager" parent="UI/Menu" index="2" instance=ExtResource("14_clwqa")]
 visible = false
 equip_selector_path = NodePath("../PanelContainer/MainMenu/HBoxContainer/Player/VBoxContainer/EquipSelector")
@@ -240,6 +495,7 @@ resources = [PackedStringArray("default_map"), [ExtResource("3_36lnl")]]
 wait_time = 3.0
 one_shot = true
 
+[connection signal="map_changed" from="." to="UI" method="_on_map_changed"]
 [connection signal="stats_changed" from="." to="UI" method="_on_training_stats_changed"]
 [connection signal="pressed" from="UI/Main/Menu" to="UI" method="_on_menu_pressed"]
 [connection signal="pressed" from="UI/Main/Quit" to="UI/QuitDialog" method="popup_centered"]
@@ -252,5 +508,26 @@ one_shot = true
 [connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Player/VBoxContainer/Presets" to="UI/Menu/PresetManager" method="popup_centered"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/ChangeMap/SelectMap" to="UI" method="_on_select_map_pressed"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/ChangeMap/ReturnToTraining" to="UI" method="_on_return_to_training_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/TrainingMap/Manage/Enemies/DestroyEnemies" to="UI" method="_on_destroy_enemies_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/TrainingMap/Manage/Enemies/RespawnEnemies" to="UI" method="_on_respawn_enemies_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/TrainingMap/Manage/EditMap" to="UI" method="_on_edit_map_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Environment/VBoxContainer/TrainingMap/Manage/EditMap" to="UI/Menu/PanelContainer/MapEditor" method="_on_edit_map_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Header/Save" to="UI/Menu/PanelContainer/MapEditor" method="_on_save_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Header/Reset" to="UI/Menu/PanelContainer/MapEditor/ResetDialog" method="popup_centered"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Header/CloseMapEditor" to="UI" method="_on_close_map_editor_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Modes/MoveCamera" to="UI/Menu/PanelContainer/MapEditor" method="_on_mode_type_pressed" binds= [0]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Modes/Draw" to="UI/Menu/PanelContainer/MapEditor" method="_on_mode_type_pressed" binds= [1]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Modes/Line" to="UI/Menu/PanelContainer/MapEditor" method="_on_mode_type_pressed" binds= [2]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Modes/Rect" to="UI/Menu/PanelContainer/MapEditor" method="_on_mode_type_pressed" binds= [3]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Zoom/ZoomIn" to="UI/Menu/PanelContainer/MapEditor" method="_on_zoom_in_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Zoom/ZoomOut" to="UI/Menu/PanelContainer/MapEditor" method="_on_zoom_out_pressed"]
+[connection signal="draw" from="UI/Menu/PanelContainer/MapEditor/Main/MainView/MapHolder/Map" to="UI/Menu/PanelContainer/MapEditor" method="_on_map_draw"]
+[connection signal="gui_input" from="UI/Menu/PanelContainer/MapEditor/Main/MainView/MapHolder/Map" to="UI/Menu/PanelContainer/MapEditor" method="_on_map_gui_input"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/Grass" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [0]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/Block" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [1]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/Hole" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [2]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/Dummy" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [0]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/RobotP350" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [1]]
+[connection signal="confirmed" from="UI/Menu/PanelContainer/MapEditor/ResetDialog" to="UI/Menu/PanelContainer/MapEditor" method="_on_reset_dialog_confirmed"]
 [connection signal="confirmed" from="UI/QuitDialog" to="UI" method="_on_quit_dialog_confirmed"]
 [connection signal="timeout" from="RespawnTimer" to="." method="spawn_player"]

@@ -5,6 +5,9 @@ var _selected_event: int = -1
 var _selected_map: int = -1
 var _selecting_event: int
 
+var _prev_map_data: PackedByteArray
+var _prev_enemies_data: Array[Dictionary]
+
 @onready var _training: Training = get_parent()
 @onready var _stats: Label = $Main/Stats
 
@@ -20,6 +23,9 @@ func _ready() -> void:
 func _change_map() -> void:
 	(%CurrentMap as Label).text = "Загрузка карты..."
 	(%ReturnToTraining as CanvasItem).show()
+	(%TrainingMap/Manage as CanvasItem).hide()
+	(%TrainingMap/CantEdit as CanvasItem).show()
+	(%MapPreview as CanvasItem).hide()
 	
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -65,12 +71,14 @@ func _on_teleport_to_spawn_pressed() -> void:
 
 func _on_menu_pressed() -> void:
 	($Menu as CanvasItem).show()
-	get_tree().paused = true
+	$Menu.process_mode = Node.PROCESS_MODE_PAUSABLE
+	owner.process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func _on_close_pressed() -> void:
 	($Menu as CanvasItem).hide()
-	get_tree().paused = false
+	$Menu.process_mode = Node.PROCESS_MODE_DISABLED
+	owner.process_mode = Node.PROCESS_MODE_INHERIT
 
 
 func _on_equip_selector_items_changed() -> void:
@@ -88,6 +96,9 @@ func _on_return_to_training_pressed() -> void:
 	_selected_map = -1
 	(%CurrentMap as Label).text = "Загрузка карты..."
 	(%ReturnToTraining as CanvasItem).hide()
+	(%TrainingMap/Manage as CanvasItem).show()
+	(%TrainingMap/CantEdit as CanvasItem).hide()
+	(%MapPreview as CanvasItem).show()
 	
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -99,3 +110,54 @@ func _on_select_map_pressed() -> void:
 	_items_grid.list_items(ItemsDB.Item.EVENT, _selected_event)
 	_item_selector.title = "Выбор события"
 	_item_selector.popup_centered()
+
+
+func _on_map_changed() -> void:
+	if not (%MapPreview as CanvasItem).visible:
+		return
+	
+	var map_data: PackedByteArray = _training.get_map_data()
+	var image := Image.create_empty(50, 50, false, Image.FORMAT_RGB8)
+	
+	var enemies_coords: Array[Vector2i]
+	for enemy_data: Training.EnemyData in _training.enemies_data:
+		enemies_coords.append(enemy_data.coords)
+	
+	for x: int in 50:
+		for y: int in 50:
+			var coords := Vector2i(x, y)
+			if coords in enemies_coords:
+				image.set_pixelv(coords, Color.RED)
+			else:
+				image.set_pixelv(coords, Training.BLOCK_COLORS[map_data[y * 50 + x]])
+	
+	var img_tex := ImageTexture.create_from_image(image)
+	(%MapPreview as TextureRect).texture = img_tex
+
+
+func _on_destroy_enemies_pressed() -> void:
+	_training.enemies_destroy()
+
+
+func _on_respawn_enemies_pressed() -> void:
+	_training.enemies_respawn()
+
+
+func _on_edit_map_pressed() -> void:
+	($Menu/PanelContainer/MainMenu as CanvasItem).hide()
+	($Menu/PanelContainer/MapEditor as CanvasItem).show()
+	_prev_map_data = Globals.get_variant("custom_training_map", PackedByteArray())
+	_prev_enemies_data = Globals.get_variant("custom_training_enemies", [{}])
+
+
+func _on_close_map_editor_pressed() -> void:
+	($Menu/PanelContainer/MainMenu as CanvasItem).show()
+	($Menu/PanelContainer/MapEditor as CanvasItem).hide()
+	
+	if _prev_map_data != Globals.get_variant("custom_training_map", PackedByteArray()) \
+			or _prev_enemies_data != Globals.get_variant("custom_training_enemies", [{}]):
+		(%CurrentMap as Label).text = "Загрузка карты..."
+		await get_tree().process_frame
+		await get_tree().process_frame
+		_training.load_default_map()
+		(%CurrentMap as Label).text = "Тренировка"
