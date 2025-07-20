@@ -95,6 +95,7 @@ func spawn_enemy(type: EnemyType, position: Vector2, health: int, damage_multipl
 ## Загружает карту по умолчанию, то есть карту тренировки.
 func load_default_map() -> void:
 	cleanup()
+	await get_tree().process_frame
 	if _current_map:
 		remove_child(_current_map)
 		_current_map.queue_free()
@@ -156,14 +157,13 @@ func load_default_map() -> void:
 	(map.get_node(^"NavigationRegion2D") as NavigationRegion2D).bake_navigation_polygon(false)
 	_current_map = map
 	
-	await get_tree().process_frame
 	spawn_player()
 	enemies_respawn()
 	
 	if not tracks.is_empty():
 		($Music as AudioStreamPlayer).stream = tracks.pick_random()
 		($Music as AudioStreamPlayer).play()
-		($Music as AudioStreamPlayer).stream_paused = process_mode == Node.PROCESS_MODE_DISABLED
+		($Music as AudioStreamPlayer).stream_paused = not can_process()
 	
 	map_changed.emit()
 
@@ -171,6 +171,7 @@ func load_default_map() -> void:
 ## Загружает карту с индексом [param map_idx] события с индексом [param event_idx].
 func load_map(event_idx: int, map_idx: int) -> void:
 	cleanup()
+	await get_tree().process_frame
 	if _current_map:
 		remove_child(_current_map)
 		_current_map.queue_free()
@@ -181,22 +182,23 @@ func load_map(event_idx: int, map_idx: int) -> void:
 	add_child(map)
 	_current_map = map
 	
-	await get_tree().process_frame
 	spawn_player()
 	
 	var tracks_to_play: Array[AudioStream]
 	if not map.custom_tracks.is_empty():
-		if Globals.get_setting_bool("official_tracks"):
-			tracks_to_play.append_array(map.custom_tracks)
 		if Globals.get_setting_bool("custom_tracks"):
+			if Globals.get_setting_bool("official_tracks"):
+				tracks_to_play.append_array(map.custom_tracks)
 			tracks_to_play.append_array(Globals.main.custom_tracks.values())
+		else:
+			tracks_to_play.append_array(map.custom_tracks)
 	else:
 		tracks_to_play = tracks
 	
 	if not tracks_to_play.is_empty():
 		($Music as AudioStreamPlayer).stream = tracks_to_play.pick_random()
 		($Music as AudioStreamPlayer).play()
-		($Music as AudioStreamPlayer).stream_paused = process_mode == Node.PROCESS_MODE_DISABLED
+		($Music as AudioStreamPlayer).stream_paused = not can_process()
 	
 	map_changed.emit()
 

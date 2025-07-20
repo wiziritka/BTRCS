@@ -49,4 +49,3 @@ func unmute() -> void:
 	tween.parallel()
 	tween.tween_method(func(db: float) -> void: AudioServer.set_bus_volume_db(sfx_idx, db),
 			-60.0, _previous_sfx_db, unmute_duration)
-	

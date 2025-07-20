@@ -109,35 +109,6 @@ tracks/2/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_2vql0"]
-resource_name = "PostThrow"
-length = 0.2
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Grenade:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-32, -32), Vector2(64, -32)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Grenade:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [-0.785398, 0.0]
-}
-
 [sub_resource type="Animation" id="Animation_8jvrf"]
 resource_name = "Throw"
 length = 0.4
@@ -191,6 +162,35 @@ tracks/3/keys = {
 "values": [0.0, 0.0, -0.785398]
 }
 
+[sub_resource type="Animation" id="Animation_2vql0"]
+resource_name = "PostThrow"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Grenade:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-32, -32), Vector2(64, -32)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Grenade:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.785398, 0.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v4ym2"]
 _data = {
 &"RESET": SubResource("Animation_tlngu"),
@@ -208,21 +208,21 @@ projectile_damping = 600.0
 speed_multiplier_when_current = 0.99
 aim_camera_distance = 240.0
 
-[node name="ThrowPivot" parent="." index="0"]
-position = Vector2(-32, -32)
-
-[node name="ThrowPoint" parent="ThrowPivot" index="0"]
-position = Vector2(104, 0)
-
-[node name="ReloadTimer" parent="." index="1"]
-wait_time = 13.0
-
-[node name="Grenade" type="Sprite2D" parent="." index="2"]
+[node name="Grenade" type="Sprite2D" parent="." index="0"]
 visible = false
 texture = ExtResource("2_uiy3x")
 
 [node name="Tick" type="Sprite2D" parent="Grenade" index="0"]
 texture = ExtResource("3_6c0ck")
+
+[node name="ThrowPivot" parent="." index="1"]
+position = Vector2(-32, -32)
+
+[node name="ThrowPoint" parent="ThrowPivot" index="0"]
+position = Vector2(104, 0)
+
+[node name="ReloadTimer" parent="." index="2"]
+wait_time = 17.0
 
 [node name="AnimationPlayer" parent="." index="3"]
 libraries = {

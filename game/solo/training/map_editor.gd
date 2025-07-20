@@ -128,10 +128,14 @@ func _place_enemy(where: Vector2) -> void:
 	if _enemies_data.size() >= MAX_ENEMIES_COUNT:
 		_status.text = "Превышение максимального количества в %d врагов" % MAX_ENEMIES_COUNT
 		return
-	if not _is_safe_coord(floori(where.x), floori(where.y)):
+	
+	var coords := Vector2i(where.floor())
+	if not _is_safe_coord(coords.x, coords.y):
+		return
+	if _map_data[coords.y * 50 + coords.x] != Training.BlockType.GRASS:
 		return
 	
-	var enemy_data := Training.EnemyData.new(_enemy_type, Vector2i(where.floor()))
+	var enemy_data := Training.EnemyData.new(_enemy_type, coords)
 	_enemies_data.append(enemy_data)
 	_status.text = "Врагов размещено: %d/%d" % [_enemies_data.size(), MAX_ENEMIES_COUNT]
 	

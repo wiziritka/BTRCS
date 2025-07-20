@@ -28,8 +28,7 @@ func _change_map() -> void:
 	(%MapPreview as CanvasItem).hide()
 	
 	await get_tree().process_frame
-	await get_tree().process_frame
-	_training.load_map(_selected_event, _selected_map)
+	await _training.load_map(_selected_event, _selected_map)
 	(%CurrentMap as Label).text = Globals.items_db.events[_selected_event].maps[_selected_map].name
 
 
@@ -71,14 +70,14 @@ func _on_teleport_to_spawn_pressed() -> void:
 
 func _on_menu_pressed() -> void:
 	($Menu as CanvasItem).show()
-	$Menu.process_mode = Node.PROCESS_MODE_PAUSABLE
-	owner.process_mode = Node.PROCESS_MODE_DISABLED
+	($Main as CanvasItem).hide()
+	get_tree().paused = true
 
 
 func _on_close_pressed() -> void:
 	($Menu as CanvasItem).hide()
-	$Menu.process_mode = Node.PROCESS_MODE_DISABLED
-	owner.process_mode = Node.PROCESS_MODE_INHERIT
+	($Main as CanvasItem).show()
+	get_tree().paused = false
 
 
 func _on_equip_selector_items_changed() -> void:
@@ -101,8 +100,7 @@ func _on_return_to_training_pressed() -> void:
 	(%MapPreview as CanvasItem).show()
 	
 	await get_tree().process_frame
-	await get_tree().process_frame
-	_training.load_default_map()
+	await _training.load_default_map()
 	(%CurrentMap as Label).text = "Тренировка"
 
 
@@ -149,7 +147,7 @@ func _on_edit_map_pressed() -> void:
 	get_viewport().gui_snap_controls_to_pixels = false
 	
 	_prev_map_data = Globals.get_variant("custom_training_map", PackedByteArray())
-	_prev_enemies_data = Globals.get_variant("custom_training_enemies", [{}])
+	_prev_enemies_data = Globals.get_variant("custom_training_enemies", [{}] as Array[Dictionary])
 
 
 func _on_close_map_editor_pressed() -> void:
@@ -161,6 +159,5 @@ func _on_close_map_editor_pressed() -> void:
 			or _prev_enemies_data != Globals.get_variant("custom_training_enemies", [{}]):
 		(%CurrentMap as Label).text = "Загрузка карты..."
 		await get_tree().process_frame
-		await get_tree().process_frame
-		_training.load_default_map()
+		await _training.load_default_map()
 		(%CurrentMap as Label).text = "Тренировка"

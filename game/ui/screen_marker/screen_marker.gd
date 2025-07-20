@@ -24,6 +24,7 @@ func _process(_delta: float) -> void:
 	
 	var screen_pos: Vector2 = get_global_transform_with_canvas() * Vector2.ZERO
 	var screen_rect: Rect2 = get_viewport_rect()
+	
 	if screen_rect.grow(-margin).has_point(screen_pos):
 		_arrow.hide()
 		_icon.visible = show_when_on_screen
@@ -31,9 +32,11 @@ func _process(_delta: float) -> void:
 	else:
 		_arrow.show()
 		_icon.hide()
+		
 		var angle: float = (screen_pos - screen_rect.size / 2).angle()
 		_arrow.rotation = angle
 		_arrow_icon.global_rotation = 0.0
+		
 		if screen_rect.grow(-arrow_margin).has_point(screen_pos):
 			_marker.position = screen_pos
 		else:
