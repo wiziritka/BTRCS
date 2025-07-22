@@ -87,6 +87,18 @@ func _process(_delta: float) -> void:
 		camera_target.position = Vector2.ZERO
 
 
+func _health_changed(_old_value: int, new_value: int) -> void:
+	blood.emitting = new_value < max_health / 3.0
+
+
+func _disarmed() -> void:
+	block_weapon_usage()
+
+
+func _armed() -> void:
+	unblock_weapon_usage()
+
+
 ## Меняет оружие на тип [param to].[br]
 ## [b]Примечание[/b]: этот метод должен вызываться только сервером и только как RPC.
 @rpc("call_local", "reliable", "authority", 5)
@@ -189,7 +201,7 @@ func set_skin(data: SkinData) -> void:
 	skin = skin_scene.instantiate()
 	$Visual/Skin.add_child(skin)
 	skin.initialize(self, data)
-	_on_health_changed(current_health, current_health) # обновить истекание кровью
+	_health_changed(current_health, current_health) # обновить истекание кровью
 	equip_data[0] = data.idx_in_db if data.idx_in_db >= 0 else -2 # если нет в БД
 	skin_equipped.emit(data)
 	print_verbose("Skin %s with index %d on %s set." % [data.id, data.idx_in_db, name])
@@ -373,15 +385,3 @@ func _update_health_bar_visibility(local_team: int) -> void:
 
 func _on_current_weapon_ammo_changed(_in_stock: bool) -> void:
 	ammo_text_updated.emit(current_weapon.get_ammo_text())
-
-
-func _on_health_changed(_old_value: int, new_value: int) -> void:
-	blood.emitting = new_value < max_health / 3.0
-
-
-func _on_disarmed() -> void:
-	block_weapon_usage()
-
-
-func _on_armed() -> void:
-	unblock_weapon_usage()

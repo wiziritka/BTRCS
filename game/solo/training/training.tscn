@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://f6bay2nx1wy3"]
+[gd_scene load_steps=43 format=3 uid="uid://f6bay2nx1wy3"]
 
 [ext_resource type="PackedScene" uid="uid://bkvfj405l2gvw" path="res://game/core/world.tscn" id="1_6jugc"]
 [ext_resource type="Script" uid="uid://cq53u6g7rseun" path="res://game/solo/training/training.gd" id="2_lrvjq"]
@@ -7,12 +7,16 @@
 [ext_resource type="PackedScene" uid="uid://3l0k1cn63ahd" path="res://game/player/player.tscn" id="3_nr0v1"]
 [ext_resource type="PackedScene" uid="uid://cdo5q27lch5l8" path="res://game/solo/training/dummy/dummy.tscn" id="3_wkoo5"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="4_wkoo5"]
+[ext_resource type="Texture2D" uid="uid://bppatxvwnx23n" path="res://game/solo/training/icons/enemies/robot_ak_74.png" id="5_8ojcx"]
+[ext_resource type="Texture2D" uid="uid://kjs4eaedpc65" path="res://game/solo/training/icons/enemies/robot_sword.png" id="6_5ylsm"]
 [ext_resource type="Texture2D" uid="uid://dph7mfh2pbh5r" path="res://game/solo/training/icons/menu.png" id="6_511bm"]
-[ext_resource type="PackedScene" uid="uid://bxac6tcgijv2e" path="res://game/mobs/robot/robot_p350.tscn" id="7_1jf6s"]
+[ext_resource type="PackedScene" uid="uid://bxac6tcgijv2e" path="res://game/mobs/robot/variants/robot_p350.tscn" id="7_1jf6s"]
 [ext_resource type="Texture2D" uid="uid://bkrw8p2edcj1r" path="res://game/solo/training/icons/restore_health.png" id="7_gu8e4"]
 [ext_resource type="Texture2D" uid="uid://bpvihk8gnpi4n" path="res://game/solo/training/icons/restore_ammo.png" id="8_511bm"]
 [ext_resource type="Texture2D" uid="uid://7bg8652w4cta" path="res://game/solo/training/icons/restore_skill.png" id="9_olgru"]
 [ext_resource type="Texture2D" uid="uid://cgjvdffk0okft" path="res://game/solo/training/icons/teleport_to_spawn.png" id="10_1j3gj"]
+[ext_resource type="PackedScene" uid="uid://hxoxmba176ju" path="res://game/mobs/robot/variants/robot_ak_74.tscn" id="10_5ylsm"]
+[ext_resource type="PackedScene" uid="uid://cae62v5ywqo8a" path="res://game/mobs/robot/variants/robot_sword.tscn" id="11_ew6j5"]
 [ext_resource type="PackedScene" uid="uid://mlbaavhyud5j" path="res://game/ui/equip_selector/equip_selector.tscn" id="12_olgru"]
 [ext_resource type="Texture2D" uid="uid://cdlm17je2ol0u" path="res://game/ui/equip_selector/presets.png" id="13_1grle"]
 [ext_resource type="PackedScene" uid="uid://y56j4fgei867" path="res://game/ui/equip_selector/preset_manager.tscn" id="14_clwqa"]
@@ -33,8 +37,8 @@
 [ext_resource type="Texture2D" uid="uid://o8i0a4sgi01r" path="res://game/solo/training/icons/editor/zoom_out.png" id="26_cr0rr"]
 [ext_resource type="Texture2D" uid="uid://3nokgsxt2ven" path="res://game/solo/training/icons/editor/block.png" id="26_xt344"]
 [ext_resource type="Texture2D" uid="uid://d8htx76y3e4p" path="res://game/solo/training/icons/editor/hole.png" id="27_1jf6s"]
-[ext_resource type="Texture2D" uid="uid://qsfdp7ao1pbj" path="res://game/solo/training/icons/editor/dummy.png" id="28_4ik32"]
-[ext_resource type="Texture2D" uid="uid://dn7x0uuvkhfal" path="res://game/solo/training/icons/editor/robot_p350.png" id="29_8ojcx"]
+[ext_resource type="Texture2D" uid="uid://qsfdp7ao1pbj" path="res://game/solo/training/icons/enemies/dummy.png" id="28_4ik32"]
+[ext_resource type="Texture2D" uid="uid://dn7x0uuvkhfal" path="res://game/solo/training/icons/enemies/robot_p350.png" id="29_8ojcx"]
 [ext_resource type="Texture2D" uid="uid://b1u3v2dc3jemk" path="res://menu/theme/icons/delete.png" id="33_xt344"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_5ylsm"]
@@ -45,9 +49,11 @@
 script = ExtResource("2_lrvjq")
 enemies_icons = Dictionary[int, Texture2D]({
 0: ExtResource("28_4ik32"),
-1: ExtResource("29_8ojcx")
+1: ExtResource("29_8ojcx"),
+2: ExtResource("5_8ojcx"),
+3: ExtResource("6_5ylsm")
 })
-entity_scenes = Array[PackedScene]([ExtResource("3_nr0v1"), ExtResource("3_wkoo5"), ExtResource("7_1jf6s")])
+entity_scenes = Array[PackedScene]([ExtResource("3_nr0v1"), ExtResource("3_wkoo5"), ExtResource("7_1jf6s"), ExtResource("10_5ylsm"), ExtResource("11_ew6j5")])
 
 [node name="UI" parent="." index="8"]
 script = ExtResource("3_34tim")
@@ -131,9 +137,11 @@ layout_mode = 2
 [node name="Header" type="HBoxContainer" parent="UI/Menu/PanelContainer/MainMenu" index="0"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="UI/Menu/PanelContainer/MainMenu/Header" index="0"]
+[node name="ResetStats" type="Button" parent="UI/Menu/PanelContainer/MainMenu/Header" index="0"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 2
+text = "Сбросить счётчики"
+icon = ExtResource("21_o5c37")
 
 [node name="Label" type="Label" parent="UI/Menu/PanelContainer/MainMenu/Header" index="1"]
 layout_mode = 2
@@ -428,6 +436,7 @@ theme_override_constants/margin_bottom = 0
 
 [node name="HBoxContainer" type="VBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer" index="0"]
 layout_mode = 2
+mouse_behavior_recursive = 2
 
 [node name="Grass" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="0"]
 layout_mode = 2
@@ -463,6 +472,20 @@ theme_override_constants/icon_max_width = 64
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ew6j5")
 icon = ExtResource("29_8ojcx")
+
+[node name="RobotAK74" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="5"]
+layout_mode = 2
+theme_override_constants/icon_max_width = 64
+toggle_mode = true
+button_group = SubResource("ButtonGroup_ew6j5")
+icon = ExtResource("5_8ojcx")
+
+[node name="RobotKnife" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="6"]
+layout_mode = 2
+theme_override_constants/icon_max_width = 64
+toggle_mode = true
+button_group = SubResource("ButtonGroup_ew6j5")
+icon = ExtResource("6_5ylsm")
 
 [node name="EditorStatus" type="Label" parent="UI/Menu/PanelContainer/MapEditor" index="2"]
 layout_mode = 2
@@ -598,6 +621,7 @@ one_shot = true
 [connection signal="stats_changed" from="." to="UI" method="_on_training_stats_changed"]
 [connection signal="pressed" from="UI/Main/Menu" to="UI" method="_on_menu_pressed"]
 [connection signal="pressed" from="UI/Main/Quit" to="UI/QuitDialog" method="popup_centered"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/Header/ResetStats" to="UI" method="_on_reset_stats_pressed"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/Header/Close" to="UI" method="_on_close_pressed"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Player/VBoxContainer/Player/Heal" to="UI" method="_on_heal_pressed"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MainMenu/HBoxContainer/Player/VBoxContainer/Player/Ammo" to="UI" method="_on_ammo_pressed"]
@@ -627,6 +651,8 @@ one_shot = true
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/Hole" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [2]]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/Dummy" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [0]]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/RobotP350" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [1]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/RobotAK74" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [2]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/RobotKnife" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [3]]
 [connection signal="confirmed" from="UI/Menu/PanelContainer/MapEditor/ResetDialog" to="UI/Menu/PanelContainer/MapEditor" method="_on_reset_dialog_confirmed"]
 [connection signal="close_requested" from="UI/Menu/PanelContainer/MapEditor/EditEnemy" to="UI/Menu/PanelContainer/MapEditor/EditEnemy" method="hide"]
 [connection signal="value_changed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Health/HealthSlider/Slider" to="UI/Menu/PanelContainer/MapEditor" method="_on_health_slider_value_changed"]

@@ -305,6 +305,7 @@ func set_health(health: int) -> void:
 		return
 	
 	health_changed.emit(current_health, health)
+	_health_changed(current_health, health)
 	if health < current_health:
 		if hurt_vfx_scene:
 			var hurt_vfx: Node2D = hurt_vfx_scene.instantiate()
@@ -417,6 +418,7 @@ func make_disarmed() -> void:
 	_disarmed_counter += 1
 	if _disarmed_counter == 1:
 		disarmed.emit()
+		_disarmed()
 
 
 ## Возвращает сущности возможность пользоваться оружием.
@@ -424,6 +426,7 @@ func unmake_disarmed() -> void:
 	_disarmed_counter -= 1
 	if _disarmed_counter == 0:
 		armed.emit()
+		_armed()
 
 
 ## Возвращает [code]true[/code], если сущность в данный момент обезоружена.
@@ -451,6 +454,21 @@ func can_turn() -> bool:
 ## (т.е. не другим клиентом/сервером).
 func is_local() -> bool:
 	return entity_input.is_multiplayer_authority()
+
+
+## Виртуальный метод. Вызывается, когда у сущности меняется здоровье.
+func _health_changed(_old_value: int, _new_value: int) -> void:
+	pass
+
+
+## Виртуальный метод. Вызывается, когда сущность оказывается безоружна.
+func _disarmed() -> void:
+	pass
+
+
+## Виртуальный метод. Вызывается, когда сущность вновь может пользоваться оружием.
+func _armed() -> void:
+	pass
 
 
 func _update_minimap_marker(local_team: int) -> void:

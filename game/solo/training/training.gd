@@ -20,6 +20,10 @@ enum EnemyType {
 	DUMMY = 0,
 	## Робот с P350. Стреляет редкими, одиночными выстрелами.
 	ROBOT_P350 = 1,
+	## Робот с AK-74. Стреляет редкими очередями.
+	ROBOT_AK_74 = 2,
+	## Робот с мечом. Подходит вблизь и атакует.
+	ROBOT_SWORD = 3,
 }
 
 ## Издаётся, когда какая-либо статистика (нанесённый урон и/или убийства) меняется.
@@ -157,8 +161,35 @@ func load_default_map() -> void:
 		map.add_child(sprite)
 	
 	add_child(map)
-	(map.get_node(^"NavigationRegion2D") as NavigationRegion2D).bake_navigation_polygon(false)
 	_current_map = map
+	
+	# создание чанков навигации
+	for x: int in range(-2, 3):
+		for y: int in range(-2, 3):
+			var nav_polygon := NavigationPolygon.new()
+			nav_polygon.parsed_geometry_type = NavigationPolygon.PARSED_GEOMETRY_STATIC_COLLIDERS
+			nav_polygon.parsed_collision_mask = 17
+			nav_polygon.source_geometry_mode = \
+					NavigationPolygon.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
+			nav_polygon.source_geometry_group_name = &"navigation_polygon_source"
+			nav_polygon.agent_radius = 77.0
+			
+			nav_polygon.add_outline(PackedVector2Array([
+				Vector2(-960.0, -960.0),
+				Vector2(960.0, -960.0),
+				Vector2(960.0, 960.0),
+				Vector2(-960.0, 960.0),
+			]))
+			nav_polygon.baking_rect = Rect2(Vector2.ONE * -960.0, Vector2.ONE * 1920.0)
+			nav_polygon.border_size = 160.0
+			
+			var nav_region := NavigationRegion2D.new()
+			nav_region.name = "NavigationRegion2D%d" % ((y + 2) * 5 + x + 3)
+			nav_region.position = Vector2(1600.0 * x, 1600.0 * y)
+			nav_region.navigation_polygon = nav_polygon
+			_current_map.get_node(^"NavigationRegions").add_child(nav_region)
+			
+			nav_region.bake_navigation_polygon(false)
 	
 	spawn_player()
 	enemies_respawn()
@@ -314,6 +345,14 @@ func enemies_respawn() -> void:
 		var position := Vector2(enemy_data.coords - Vector2i.ONE * 25) * 160
 		position += Vector2.ONE * 80
 		spawn_enemy(enemy_data.type, position, enemy_data.health, enemy_data.damage_multiplier)
+
+
+## Сбрасывает счётчики ([member damaged], [member kills] и [member deaths]).
+func reset_stats() -> void:
+	damaged = 0
+	kills = 0
+	deaths = 0
+	stats_changed.emit()
 
 
 func _set_default_enemies_data() -> void:

@@ -165,3 +165,7 @@ func _on_close_map_editor_pressed() -> void:
 		await get_tree().process_frame
 		await _training.load_default_map()
 		(%CurrentMap as Label).text = "Тренировка"
+
+
+func _on_reset_stats_pressed() -> void:
+	_training.reset_stats()

@@ -12,7 +12,8 @@ extends StandardMob
 
 
 func _process(_delta: float) -> void:
-	_weapon.rotation = _calculate_aim_angle()
+	if not is_disarmed():
+		_weapon.rotation = _calculate_aim_angle()
 
 
 func _shoot() -> void:
@@ -31,7 +32,7 @@ func _shoot() -> void:
 		_projectiles_parent.add_child(projectile, true)
 
 
-func _on_health_changed(old_value: int, new_value: int) -> void:
+func _health_changed(old_value: int, new_value: int) -> void:
 	if old_value > new_value:
 		_hurt_anim.play(&"hurt")
 		_hurt_anim.seek(0.0)

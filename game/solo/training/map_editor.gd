@@ -59,7 +59,7 @@ func _initialize() -> void:
 		var new_enemy_data := Training.EnemyData.new(enemy_data.type, enemy_data.coords)
 		new_enemy_data.health = enemy_data.health
 		new_enemy_data.damage_multiplier = enemy_data.damage_multiplier
-		_enemies_data.append(enemy_data)
+		_enemies_data.append(new_enemy_data)
 	
 	_update_enemies()
 	if _mode == Mode.PLACING_ENEMIES:

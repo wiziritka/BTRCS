@@ -66,7 +66,7 @@ func _process_logic() -> void:
 			lerp_angle(aim_angle, direction_to_target_angle, aim_angle_rotation_weight))
 	
 	_shoot_timer -= get_physics_process_delta_time()
-	if _shoot_timer <= 0.0 and _shooting:
+	if _shoot_timer <= 0.0 and _shooting and not is_disarmed():
 		_do_shoot.rpc(_get_shoot_args())
 		_shoot_timer = shoot_interval
 

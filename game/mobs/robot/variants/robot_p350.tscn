@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://bxac6tcgijv2e"]
 
 [ext_resource type="PackedScene" uid="uid://dv1qa8vvk8d7d" path="res://game/mobs/robot/robot.tscn" id="1_kbh7f"]
-[ext_resource type="Script" uid="uid://dmoavhfqpyihd" path="res://game/mobs/robot/robot_p350.gd" id="2_od6ak"]
+[ext_resource type="Script" uid="uid://dmoavhfqpyihd" path="res://game/mobs/robot/variants/robot_p350.gd" id="2_od6ak"]
 [ext_resource type="PackedScene" uid="uid://c4cr4b5wn24yt" path="res://game/weapons/guns/p350/p350_bullet.tscn" id="3_fcvqf"]
 [ext_resource type="Texture2D" uid="uid://btrkyxv6ft11g" path="res://game/weapons/guns/p350/base.png" id="3_jx68u"]
 [ext_resource type="Texture2D" uid="uid://rvu643208pjh" path="res://game/weapons/guns/common/shoot_effect.png" id="4_fcvqf"]
@@ -12,7 +12,8 @@
 [sub_resource type="Gradient" id="Gradient_vudpf"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
-[sub_resource type="Animation" id="Animation_2gj5o"]
+[sub_resource type="Animation" id="Animation_mrem2"]
+resource_name = "RESET"
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -65,17 +66,65 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Base/Magazine:visible")
-tracks/4/interp = 1
+tracks/4/path = NodePath("Magazine:rotation")
+tracks/4/interp = 3
 tracks/4/loop_wrap = true
 tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Magazine:self_modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Magazine:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, -3), Vector2(0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Base/Magazine:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
 }
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Magazine:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
-[sub_resource type="Animation" id="Animation_2whmb"]
+[sub_resource type="Animation" id="Animation_llg42"]
 resource_name = "Shoot"
 length = 0.4
 step = 0.05
@@ -130,22 +179,34 @@ tracks/3/keys = {
 }]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_hxxmf"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fcvqf"]
 _data = {
-&"RESET": SubResource("Animation_2gj5o"),
-&"shoot": SubResource("Animation_2whmb")
+&"RESET": SubResource("Animation_mrem2"),
+&"shoot": SubResource("Animation_llg42")
 }
 
 [node name="RobotP350" instance=ExtResource("1_kbh7f")]
 script = ExtResource("2_od6ak")
 projectile_scene = ExtResource("3_fcvqf")
-aim_angle_rotation_weight = 0.05
+spread = 3.0
+aim_angle_rotation_weight = 0.06999999999999999
 optimal_distance = 640.0
 min_distance = 320.0
-shoot_distance = 960.0
-speed = 560.0
+shoot_distance = 1040.0
+speed = 600.0
 
-[node name="Base" type="Sprite2D" parent="Visual/Weapon" index="0"]
+[node name="Weapon" parent="Visual" index="3"]
+position = Vector2(24, 32)
+
+[node name="Magazine" type="Sprite2D" parent="Visual/Weapon" index="0"]
+visible = false
+position = Vector2(1, -3)
+texture = ExtResource("6_eldpf")
+offset = Vector2(0, 8)
+region_enabled = true
+region_rect = Rect2(8, 32, 40, 64)
+
+[node name="Base" type="Sprite2D" parent="Visual/Weapon" index="1"]
 texture = ExtResource("3_jx68u")
 offset = Vector2(36, -8)
 
@@ -184,12 +245,10 @@ angular_velocity_min = -360.0
 angular_velocity_max = 360.0
 color_ramp = SubResource("Gradient_vudpf")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Visual/Weapon" index="1"]
-libraries = {
-&"": SubResource("AnimationLibrary_hxxmf")
-}
-
 [node name="ShootPoint" type="Marker2D" parent="Visual/Weapon" index="2"]
 position = Vector2(99, -33)
 
-[connection signal="health_changed" from="." to="." method="_on_health_changed"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Visual/Weapon" index="3"]
+libraries = {
+&"": SubResource("AnimationLibrary_fcvqf")
+}

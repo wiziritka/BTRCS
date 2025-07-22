@@ -14,3 +14,7 @@ _TS_pass
 
 func _get_shoot_args() -> Array:
 _TS_return []
+
+
+#func _disarmed() -> void:
+_TS_#pass

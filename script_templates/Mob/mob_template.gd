@@ -22,3 +22,15 @@ _TS_pass
 
 func _target_reset() -> void:
 _TS_pass
+
+
+func _health_changed(old_value: int, new_value: int) -> void:
+_TS_pass
+
+
+func _disarmed() -> void:
+_TS_pass
+
+
+func _armed() -> void:
+_TS_pass
