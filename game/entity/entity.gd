@@ -121,6 +121,11 @@ func _ready() -> void:
 	reset_physics_interpolation()
 	
 	print_verbose("%s with team %d created." % [name, team])
+	
+	($Minimap/MinimapMarker/Visual as CanvasItem).self_modulate = TEAM_COLORS[team]
+	await get_tree().process_frame # Ждём пока заработает VisibleOnScreenNotifier2D
+	_update_minimap_marker(world.local_team)
+	world.local_team_set.connect(_update_minimap_marker)
 
 
 func _physics_process(delta: float) -> void:
@@ -446,3 +451,13 @@ func can_turn() -> bool:
 ## (т.е. не другим клиентом/сервером).
 func is_local() -> bool:
 	return entity_input.is_multiplayer_authority()
+
+
+func _update_minimap_marker(local_team: int) -> void:
+	if team == local_team:
+		$Minimap/MinimapNotifier.set_block_signals(true)
+		($Minimap/MinimapMarker/Visual as CanvasItem).show()
+	else:
+		$Minimap/MinimapNotifier.set_block_signals(false)
+		($Minimap/MinimapMarker/Visual as CanvasItem).visible = \
+				($Minimap/MinimapNotifier as VisibleOnScreenNotifier2D).is_on_screen()

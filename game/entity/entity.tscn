@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dtvo18gjrm7my"]
+[gd_scene load_steps=11 format=3 uid="uid://dtvo18gjrm7my"]
 
 [ext_resource type="Script" uid="uid://rhkygnaclmgq" path="res://game/entity/entity.gd" id="1_rxssn"]
 [ext_resource type="Script" uid="uid://ds8wylyjqvikl" path="res://game/entity/entity_input.gd" id="2_1a3pf"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cdpr5xerct73v" path="res://game/entity/health_bar/health_bar_empty.png" id="5_2rju8"]
 [ext_resource type="Script" uid="uid://c8umd4t3k47q2" path="res://game/entity/health_bar/health_bar.gd" id="6_ikluj"]
 [ext_resource type="Texture2D" uid="uid://ccnfac6sqp01y" path="res://game/entity/health_bar/health_bar.png" id="7_8qsf0"]
+[ext_resource type="Texture2D" uid="uid://bk76lmnl8rml0" path="res://game/ui/minimap/marker.png" id="8_8qsf0"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_c2pj3"]
 properties/0/path = NodePath(".:move_direction")
@@ -56,6 +57,25 @@ replication_config = SubResource("SceneReplicationConfig_uh5p1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
+[node name="Minimap" type="Node2D" parent="."]
+
+[node name="MinimapNotifier" type="VisibleOnScreenNotifier2D" parent="Minimap"]
+rect = Rect2(-100, -100, 200, 200)
+
+[node name="MinimapRemote" type="RemoteTransform2D" parent="Minimap"]
+remote_path = NodePath("../MinimapMarker/Visual")
+update_rotation = false
+update_scale = false
+
+[node name="MinimapMarker" type="Node" parent="Minimap"]
+
+[node name="Visual" type="Sprite2D" parent="Minimap/MinimapMarker"]
+visible = false
+visibility_layer = 2
+z_index = -7
+scale = Vector2(10, 10)
+texture = ExtResource("8_8qsf0")
+
 [node name="Info" type="Node2D" parent="."]
 z_index = 14
 position = Vector2(0, -112)
@@ -103,3 +123,5 @@ physics_interpolation_mode = 2
 physics_interpolation_mode = 2
 
 [connection signal="health_changed" from="." to="Info/HealthBar" method="_on_entity_health_changed"]
+[connection signal="screen_entered" from="Minimap/MinimapNotifier" to="Minimap/MinimapMarker/Visual" method="show"]
+[connection signal="screen_exited" from="Minimap/MinimapNotifier" to="Minimap/MinimapMarker/Visual" method="hide"]

@@ -72,12 +72,8 @@ func _ready() -> void:
 	set_weapon(Weapon.Type.ADDITIONAL,
 			Globals.items_db.weapons[equip_data[6]] if equip_data[6] >= 0 else null)
 	
-	($Minimap/MinimapMarker/Visual as CanvasItem).self_modulate = TEAM_COLORS[team]
 	_update_health_bar_visibility(world.local_team)
 	world.local_team_set.connect(_update_health_bar_visibility)
-	await get_tree().process_frame # Ждём пока заработает VisibleOnScreenNotifier2D
-	_update_minimap_marker(world.local_team)
-	world.local_team_set.connect(_update_minimap_marker)
 
 
 func _process(_delta: float) -> void:

@@ -1,0 +1,37 @@
+extends StandardMob
+
+
+@export var projectile_scene: PackedScene
+@export var spread := 3.0
+
+@onready var _weapon: Node2D = $Visual/Weapon
+@onready var _shoot_point: Marker2D = $Visual/Weapon/ShootPoint
+@onready var _weapon_anim: AnimationPlayer = $Visual/Weapon/AnimationPlayer
+
+@onready var _hurt_anim: AnimationPlayer = $Visual/AnimationPlayer
+
+
+func _process(_delta: float) -> void:
+	_weapon.rotation = _calculate_aim_angle()
+
+
+func _shoot() -> void:
+	_weapon_anim.play(&"shoot")
+	_weapon_anim.seek(0.0)
+	
+	if multiplayer.is_server():
+		var projectile: Projectile = projectile_scene.instantiate()
+		projectile.position = _shoot_point.global_position
+		projectile.damage_multiplier = damage_multiplier
+		projectile.rotation = entity_input.aim_direction.angle() \
+				+ deg_to_rad(randf_range(-spread, spread))
+		projectile.team = team
+		projectile.who = id
+		projectile.name += str(randi())
+		_projectiles_parent.add_child(projectile, true)
+
+
+func _on_health_changed(old_value: int, new_value: int) -> void:
+	if old_value > new_value:
+		_hurt_anim.play(&"hurt")
+		_hurt_anim.seek(0.0)

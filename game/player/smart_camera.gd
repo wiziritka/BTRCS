@@ -109,6 +109,11 @@ func shake(amplitude: float, duration: float, should_decay := true, shake_step :
 
 ## Мгновенно телепортирует камеру в [param destination] без каких либо сглаживаний.
 func teleport_to(destination: Vector2) -> void:
+	if is_instance_valid(_pan_tween):
+		_pan_tween.finished.emit()
+		_pan_tween.kill()
+	
+	target = null
 	_physics_interpolation_previous_position = destination
 	global_position = destination
 	position_smoothing_enabled = false

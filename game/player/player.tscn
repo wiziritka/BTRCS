@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://3l0k1cn63ahd"]
+[gd_scene load_steps=12 format=3 uid="uid://3l0k1cn63ahd"]
 
 [ext_resource type="Script" uid="uid://cukrup6mhkvhw" path="res://game/player/player.gd" id="1_d5iul"]
 [ext_resource type="PackedScene" uid="uid://dtvo18gjrm7my" path="res://game/entity/entity.tscn" id="1_r625f"]
@@ -7,7 +7,6 @@
 [ext_resource type="Script" uid="uid://rxv23ocf5pex" path="res://game/player/player_input.gd" id="3_knbu5"]
 [ext_resource type="PackedScene" uid="uid://bp6v2plelkof8" path="res://game/player/vfx/blood_hurt_vfx.tscn" id="3_tk865"]
 [ext_resource type="PackedScene" uid="uid://ctqgs3w1llfuf" path="res://game/player/vfx/blood_death_vfx.tscn" id="4_nsvnj"]
-[ext_resource type="Texture2D" uid="uid://bk76lmnl8rml0" path="res://game/ui/minimap/marker.png" id="8_05q0u"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1t0v5"]
 properties/0/path = NodePath(".:shooting")
@@ -120,7 +119,7 @@ gizmo_extents = 32.0
 
 [node name="Additional" type="Node" parent="Visual/Weapons" index="4"]
 
-[node name="ControlIndicator" type="Sprite2D" parent="." index="6"]
+[node name="ControlIndicator" type="Sprite2D" parent="." index="7"]
 visible = false
 z_index = 15
 position = Vector2(0, 96)
@@ -128,32 +127,11 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("3_fptox")
 offset = Vector2(0, 32)
 
-[node name="AudioListener2D" type="AudioListener2D" parent="." index="7"]
+[node name="AudioListener2D" type="AudioListener2D" parent="." index="8"]
 
-[node name="CameraTarget" type="Marker2D" parent="." index="8"]
+[node name="CameraTarget" type="Marker2D" parent="." index="9"]
 gizmo_extents = 48.0
-
-[node name="Minimap" type="Node2D" parent="." index="9"]
-
-[node name="MinimapNotifier" type="VisibleOnScreenNotifier2D" parent="Minimap" index="0"]
-rect = Rect2(-100, -100, 200, 200)
-
-[node name="MinimapRemote" type="RemoteTransform2D" parent="Minimap" index="1"]
-remote_path = NodePath("../MinimapMarker/Visual")
-update_rotation = false
-update_scale = false
-
-[node name="MinimapMarker" type="Node" parent="Minimap" index="2"]
-
-[node name="Visual" type="Sprite2D" parent="Minimap/MinimapMarker" index="0"]
-visible = false
-visibility_layer = 2
-z_index = -7
-scale = Vector2(10, 10)
-texture = ExtResource("8_05q0u")
 
 [connection signal="armed" from="." to="." method="_on_armed"]
 [connection signal="disarmed" from="." to="." method="_on_disarmed"]
 [connection signal="health_changed" from="." to="." method="_on_health_changed"]
-[connection signal="screen_entered" from="Minimap/MinimapNotifier" to="Minimap/MinimapMarker/Visual" method="show"]
-[connection signal="screen_exited" from="Minimap/MinimapNotifier" to="Minimap/MinimapMarker/Visual" method="hide"]

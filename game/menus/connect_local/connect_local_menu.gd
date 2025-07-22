@@ -99,10 +99,13 @@ func _cleanup_address(address: String) -> String:
 			address = address.left(last_colon_idx)
 		elif last_bracket_idx > -1 and last_bracket_idx < last_colon_idx:
 			address = address.left(last_colon_idx)
+		address = Utils.strip_string(address)
 	
 	# На случай если IPv6
 	address = address.lstrip('[')
 	address = address.rstrip(']')
+	address = Utils.strip_string(address)
+	
 	return address
 
 

@@ -41,6 +41,8 @@ const BLOCK_COLORS: Dictionary[BlockType, Color] = {
 var damaged: int = 0
 ## Сколько игрок убил врагов за эту сессию тренировок.
 var kills: int = 0
+## Сколько игрок умер за эту сессию тренировок.
+var deaths: int = 0
 ## Массив с данными об врагах.
 var enemies_data: Array[EnemyData]
 
@@ -54,7 +56,7 @@ func _initialize() -> void:
 
 
 ## Создаёт игрока.
-func spawn_player() -> void:
+func spawn_player(teleport := true) -> void:
 	var player: Player = entity_scenes[0].instantiate()
 	player.position = _spawn_point.global_position
 	player.team = 0
@@ -70,9 +72,10 @@ func spawn_player() -> void:
 	]
 	player.equip_data.append(-1)
 	player.name = "Player%d" % player.id
-	player.killed.connect(_on_player_killed.bind(player))
+	player.killed.connect(_on_player_killed.unbind(1))
 	
-	($Camera as SmartCamera).teleport_to(_spawn_point.global_position)
+	if teleport:
+		($Camera as SmartCamera).teleport_to(_spawn_point.global_position)
 	$Entities.add_child(player, true)
 	_player = player
 
@@ -235,6 +238,9 @@ func get_map_data() -> PackedByteArray:
 
 ## Восполняет все ОЗ игроку.
 func player_restore_health() -> void:
+	if not is_instance_valid(_player):
+		return
+	
 	if _player.current_health == _player.max_health:
 		return
 	_player.heal(_player.max_health)
@@ -242,6 +248,9 @@ func player_restore_health() -> void:
 
 ## Восполняет все боеприпасы игроку.
 func player_restore_ammo() -> void:
+	if not is_instance_valid(_player):
+		return
+	
 	_player.add_ammo_to_weapon.rpc(Weapon.Type.LIGHT, 1.0)
 	_player.add_ammo_to_weapon.rpc(Weapon.Type.HEAVY, 1.0)
 	_player.add_ammo_to_weapon.rpc(Weapon.Type.SUPPORT, 1.0)
@@ -251,6 +260,9 @@ func player_restore_ammo() -> void:
 ## Восстанавливает все использования навыка игроку, а также сбрасывает откат,
 ## если навык не используется.
 func player_restore_skill() -> void:
+	if not is_instance_valid(_player):
+		return
+	
 	if _player.skill.is_cooldown_blocked(): # чтобы нельзя было использовать, пока действует эффект
 		_player.skill_vars[0] = _player.skill.use_times
 	else:
@@ -259,6 +271,9 @@ func player_restore_skill() -> void:
 
 ## Возвращает игрока на точку появления.
 func player_teleport_to_spawn() -> void:
+	if not is_instance_valid(_player):
+		return
+	
 	_player.teleport_to.rpc(_spawn_point.global_position)
 	($Camera as SmartCamera).teleport_to(_spawn_point.global_position)
 
@@ -266,6 +281,9 @@ func player_teleport_to_spawn() -> void:
 ## Обновляет экипировку игроку.
 func player_update_equip(skin: String, skill: String, light_weapon: String,
 		heavy_weapon: String, support_weapon: String, melee_weapon: String) -> void:
+	if not is_instance_valid(_player):
+		return
+	
 	if _player.skin.data.id != skin:
 		_player.set_skin(Globals.items_db.skins_by_id[skin])
 	if _player.skill.data.id != skill and not _player.skill.is_cooldown_blocked():
@@ -317,6 +335,8 @@ func _on_enemy_died(mob: Entity) -> void:
 
 
 func _on_player_killed() -> void:
+	deaths += 1
+	stats_changed.emit()
 	($RespawnTimer as Timer).start()
 
 

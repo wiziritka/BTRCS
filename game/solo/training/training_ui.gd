@@ -87,7 +87,11 @@ func _on_equip_selector_items_changed() -> void:
 
 
 func _on_training_stats_changed() -> void:
-	_stats.text = "Нанесённый урон: %d\nУбийств: %d" % [_training.damaged, _training.kills]
+	_stats.text = "Нанесённый урон: %d\nУбийств: %d\nСмертей: %d" % [
+		_training.damaged,
+		_training.kills,
+		_training.deaths,
+	]
 
 
 func _on_return_to_training_pressed() -> void:

@@ -5,9 +5,22 @@
 
 [node name="Mob" instance=ExtResource("1_ahg27")]
 script = ExtResource("2_6pkcb")
-speed = 400.0
+vision_distance = 3200.0
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." index="6"]
-target_desired_distance = 40.0
-path_max_distance = 240.0
+[node name="TargetRayCast" type="RayCast2D" parent="." index="7"]
+enabled = false
+collision_mask = 9
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." index="8"]
+path_desired_distance = 16.0
+target_desired_distance = 240.0
+path_max_distance = 320.0
 path_metadata_flags = 5
+
+[node name="FindTargetTimer" type="Timer" parent="." index="9"]
+
+[node name="UpdateTargetTimer" type="Timer" parent="." index="10"]
+wait_time = 0.4
+
+[connection signal="timeout" from="FindTargetTimer" to="." method="_on_find_target_timer_timeout"]
+[connection signal="timeout" from="UpdateTargetTimer" to="." method="_on_update_target_timer_timeout"]
