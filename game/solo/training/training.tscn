@@ -28,7 +28,7 @@
 [ext_resource type="Script" uid="uid://drnc877a0wtyp" path="res://game/solo/training/map_editor.gd" id="19_g0cma"]
 [ext_resource type="Texture2D" uid="uid://bs0jb0hstf3sl" path="res://menu/theme/icons/save.png" id="20_j183o"]
 [ext_resource type="Texture2D" uid="uid://brcaom8n83yf2" path="res://menu/theme/icons/reset.png" id="21_o5c37"]
-[ext_resource type="Texture2D" uid="uid://dapqnmq5mfem2" path="res://game/solo/training/icons/editor/move_camera.png" id="22_2o4wa"]
+[ext_resource type="Texture2D" uid="uid://dapqnmq5mfem2" path="res://menu/theme/icons/move.png" id="22_2o4wa"]
 [ext_resource type="Texture2D" uid="uid://3a4krx6hpwdr" path="res://game/solo/training/icons/editor/draw.png" id="23_m5td1"]
 [ext_resource type="Texture2D" uid="uid://dkssi3obx2w0w" path="res://game/solo/training/icons/editor/line.png" id="24_cr0rr"]
 [ext_resource type="Texture2D" uid="uid://dfxamo3kdmfcl" path="res://game/solo/training/icons/editor/rect.png" id="24_joqhr"]
@@ -434,54 +434,60 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="VBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer" index="0"]
 layout_mode = 2
-mouse_behavior_recursive = 2
 
-[node name="Grass" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="0"]
+[node name="Grass" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="0"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_constants/icon_max_width = 64
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ew6j5")
 icon = ExtResource("25_cr0rr")
 
-[node name="Block" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="1"]
+[node name="Block" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="1"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_constants/icon_max_width = 64
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ew6j5")
 icon = ExtResource("26_xt344")
 
-[node name="Hole" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="2"]
+[node name="Hole" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="2"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_constants/icon_max_width = 64
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ew6j5")
 icon = ExtResource("27_1jf6s")
 
-[node name="Dummy" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="3"]
+[node name="Dummy" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="3"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_constants/icon_max_width = 64
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ew6j5")
 icon = ExtResource("28_4ik32")
 
-[node name="RobotP350" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="4"]
+[node name="RobotP350" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="4"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_constants/icon_max_width = 64
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ew6j5")
 icon = ExtResource("29_8ojcx")
 
-[node name="RobotAK74" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="5"]
+[node name="RobotAK74" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="5"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_constants/icon_max_width = 64
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ew6j5")
 icon = ExtResource("5_8ojcx")
 
-[node name="RobotKnife" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer" index="6"]
+[node name="RobotKnife" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="6"]
 layout_mode = 2
+mouse_filter = 1
 theme_override_constants/icon_max_width = 64
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ew6j5")
@@ -591,7 +597,17 @@ size_flags_horizontal = 4
 text = "Сохранить"
 icon = ExtResource("20_j183o")
 
-[node name="DeleteEnemy" type="Button" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer" index="3"]
+[node name="Buttons" type="HBoxContainer" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer" index="3"]
+layout_mode = 2
+alignment = 1
+
+[node name="MoveEnemy" type="Button" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Buttons" index="0"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Переместить врага"
+icon = ExtResource("22_2o4wa")
+
+[node name="DeleteEnemy" type="Button" parent="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Buttons" index="1"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Удалить врага"
@@ -638,6 +654,7 @@ one_shot = true
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Header/Save" to="UI/Menu/PanelContainer/MapEditor" method="_on_save_pressed"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Header/Reset" to="UI/Menu/PanelContainer/MapEditor/ResetDialog" method="popup_centered"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Header/CloseMapEditor" to="UI" method="_on_close_map_editor_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Header/CloseMapEditor" to="UI/Menu/PanelContainer/MapEditor" method="_on_close_map_editor_pressed"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Modes/MoveCamera" to="UI/Menu/PanelContainer/MapEditor" method="_on_mode_type_pressed" binds= [0]]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Modes/Draw" to="UI/Menu/PanelContainer/MapEditor" method="_on_mode_type_pressed" binds= [1]]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Modes/Line" to="UI/Menu/PanelContainer/MapEditor" method="_on_mode_type_pressed" binds= [2]]
@@ -646,20 +663,22 @@ one_shot = true
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Buttons/Zoom/ZoomOut" to="UI/Menu/PanelContainer/MapEditor" method="_on_zoom_out_pressed"]
 [connection signal="draw" from="UI/Menu/PanelContainer/MapEditor/Main/MainView/MapHolder/Map" to="UI/Menu/PanelContainer/MapEditor" method="_on_map_draw"]
 [connection signal="gui_input" from="UI/Menu/PanelContainer/MapEditor/Main/MainView/MapHolder/Map" to="UI/Menu/PanelContainer/MapEditor" method="_on_map_gui_input"]
-[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/Grass" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [0]]
-[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/Block" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [1]]
-[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/Hole" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [2]]
-[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/Dummy" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [0]]
-[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/RobotP350" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [1]]
-[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/RobotAK74" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [2]]
-[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/HBoxContainer/RobotKnife" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [3]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/Grass" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [0]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/Block" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [1]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/Hole" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [2]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/Dummy" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [0]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/RobotP350" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [1]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/RobotAK74" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [2]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/RobotKnife" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [3]]
 [connection signal="confirmed" from="UI/Menu/PanelContainer/MapEditor/ResetDialog" to="UI/Menu/PanelContainer/MapEditor" method="_on_reset_dialog_confirmed"]
 [connection signal="close_requested" from="UI/Menu/PanelContainer/MapEditor/EditEnemy" to="UI/Menu/PanelContainer/MapEditor/EditEnemy" method="hide"]
 [connection signal="value_changed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Health/HealthSlider/Slider" to="UI/Menu/PanelContainer/MapEditor" method="_on_health_slider_value_changed"]
 [connection signal="value_changed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/DamageMultiplier/DamageSlider/Slider" to="UI/Menu/PanelContainer/MapEditor" method="_on_damage_slider_value_changed"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/SaveEnemy" to="UI/Menu/PanelContainer/MapEditor" method="_on_save_enemy_pressed"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/SaveEnemy" to="UI/Menu/PanelContainer/MapEditor/EditEnemy" method="hide"]
-[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/DeleteEnemy" to="UI/Menu/PanelContainer/MapEditor" method="_on_delete_enemy_pressed"]
-[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/DeleteEnemy" to="UI/Menu/PanelContainer/MapEditor/EditEnemy" method="hide"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Buttons/MoveEnemy" to="UI/Menu/PanelContainer/MapEditor" method="_on_move_enemy_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Buttons/MoveEnemy" to="UI/Menu/PanelContainer/MapEditor/EditEnemy" method="hide"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Buttons/DeleteEnemy" to="UI/Menu/PanelContainer/MapEditor" method="_on_delete_enemy_pressed"]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Buttons/DeleteEnemy" to="UI/Menu/PanelContainer/MapEditor/EditEnemy" method="hide"]
 [connection signal="confirmed" from="UI/QuitDialog" to="UI" method="_on_quit_dialog_confirmed"]
-[connection signal="timeout" from="RespawnTimer" to="." method="spawn_player" binds= [false]]
+[connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]

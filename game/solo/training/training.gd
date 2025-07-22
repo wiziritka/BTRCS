@@ -379,6 +379,11 @@ func _on_player_killed() -> void:
 	($RespawnTimer as Timer).start()
 
 
+func _on_respawn_timer_timeout() -> void:
+	if not is_instance_valid(local_player):
+		spawn_player(false)
+
+
 ## Класс с данными о враге.
 ##
 ## По-хорошему бы структурой сделать.

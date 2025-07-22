@@ -113,7 +113,6 @@ func teleport_to(destination: Vector2) -> void:
 		_pan_tween.finished.emit()
 		_pan_tween.kill()
 	
-	target = null
 	_physics_interpolation_previous_position = destination
 	global_position = destination
 	position_smoothing_enabled = false

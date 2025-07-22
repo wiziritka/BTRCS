@@ -23,6 +23,7 @@ var _enemy_type: Training.EnemyType
 var _map_data: PackedByteArray
 var _enemies_data: Array[Training.EnemyData]
 var _editing_enemy_idx: int
+var _moving_enemy := false
 
 var _map_image: Image
 var _map_image_texture: ImageTexture
@@ -142,6 +143,33 @@ func _place_enemy(where: Vector2) -> void:
 	_update_enemies()
 
 
+func _move_enemy(where: Vector2) -> void:
+	var coords := Vector2i(where.floor())
+	if not _is_safe_coord(coords.x, coords.y):
+		return
+	if _map_data[coords.y * 50 + coords.x] != Training.BlockType.GRASS:
+		return
+	
+	for idx: int in _enemies_data.size():
+		if idx == _editing_enemy_idx:
+			continue
+		if _enemies_data[idx].coords == coords:
+			return
+	
+	_enemies_data[_editing_enemy_idx].coords = coords
+	_moving_enemy = false
+	_update_enemies()
+	
+	_status.text = "Перемещено успешно."
+
+
+func _cancel_move_enemy() -> void:
+	for enemy_tb: TextureButton in _map.get_children():
+		enemy_tb.self_modulate = Color.WHITE
+		enemy_tb.mouse_filter = Control.MOUSE_FILTER_PASS
+	_moving_enemy = false
+
+
 func _update_enemies() -> void:
 	for child: Node in _map.get_children():
 		_map.remove_child(child)
@@ -182,6 +210,9 @@ func _on_edit_map_pressed() -> void:
 
 
 func _on_save_pressed() -> void:
+	if _moving_enemy:
+		_cancel_move_enemy()
+	
 	Globals.set_variant("custom_training_map", _map_data)
 	
 	var enemies_data_array: Array[Dictionary]
@@ -193,12 +224,17 @@ func _on_save_pressed() -> void:
 			"coords": enemy_data.coords,
 		})
 	Globals.set_variant("custom_training_enemies", enemies_data_array)
+	_status.text = "Изменения сохранены."
 
 
 func _on_reset_dialog_confirmed() -> void:
+	if _moving_enemy:
+		_cancel_move_enemy()
+	
 	Globals.set_variant("custom_training_map", PackedByteArray())
 	Globals.set_variant("custom_training_enemies", [{}] as Array[Dictionary])
 	($Header/CloseMapEditor as BaseButton).pressed.emit()
+	_status.text = "Сброшено до варианта карты по умолчанию."
 
 
 func _on_zoom_in_pressed() -> void:
@@ -228,6 +264,9 @@ func _on_map_gui_input(event: InputEvent) -> void:
 			_drag_start_main_view_scroll = \
 					Vector2(_main_view.scroll_horizontal, _main_view.scroll_vertical)
 		else:
+			if _moving_enemy:
+				_move_enemy(mb.position)
+				return
 			match _mode:
 				Mode.DRAW:
 					_draw_line(mb.position, mb.position)
@@ -300,6 +339,9 @@ func _on_mode_type_pressed(mode: Mode) -> void:
 
 
 func _on_place_block_pressed(type: Training.BlockType) -> void:
+	if _moving_enemy:
+		_cancel_move_enemy()
+	
 	_block_type = type
 	if _mode == Mode.PLACING_ENEMIES:
 		_mode = _prev_mode
@@ -315,6 +357,9 @@ func _on_place_block_pressed(type: Training.BlockType) -> void:
 
 
 func _on_place_enemy_pressed(type: Training.EnemyType) -> void:
+	if _moving_enemy:
+		_cancel_move_enemy()
+	
 	_enemy_type = type
 	_prev_mode = _mode
 	_mode = Mode.PLACING_ENEMIES
@@ -325,6 +370,10 @@ func _on_place_enemy_pressed(type: Training.EnemyType) -> void:
 			_status.text = "Манекен"
 		Training.EnemyType.ROBOT_P350:
 			_status.text = "Робот с P350"
+		Training.EnemyType.ROBOT_AK_74:
+			_status.text = "Робот с AK-74"
+		Training.EnemyType.ROBOT_SWORD:
+			_status.text = "Робот с мечом"
 	
 	_status.text += " / Врагов размещено: %d/%d" % [_enemies_data.size(), MAX_ENEMIES_COUNT]
 
@@ -345,3 +394,17 @@ func _on_delete_enemy_pressed() -> void:
 func _on_save_enemy_pressed() -> void:
 	_enemies_data[_editing_enemy_idx].health = int((%HealthSlider/Slider as Range).value)
 	_enemies_data[_editing_enemy_idx].damage_multiplier = (%DamageSlider/Slider as Range).value
+
+
+func _on_move_enemy_pressed() -> void:
+	_moving_enemy = true
+	_status.text = "Выберите, куда переместить врага"
+	for enemy_tb: TextureButton in _map.get_children():
+		enemy_tb.self_modulate = Color(1.0, 1.0, 1.0, 0.5)
+		enemy_tb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	(_map.get_child(_editing_enemy_idx) as CanvasItem).self_modulate = Color.WHITE
+
+
+func _on_close_map_editor_pressed() -> void:
+	if _moving_enemy:
+		_cancel_move_enemy()
