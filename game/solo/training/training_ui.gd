@@ -80,6 +80,12 @@ func _on_close_pressed() -> void:
 	get_tree().paused = false
 
 
+func _on_close_guide_pressed() -> void:
+	get_tree().paused = false
+	($Main as CanvasItem).show()
+	($Guide as CanvasItem).hide()
+
+
 func _on_equip_selector_items_changed() -> void:
 	_training.player_update_equip(_equip_selector.selected_skin, _equip_selector.selected_skill,
 			_equip_selector.selected_light_weapon, _equip_selector.selected_heavy_weapon,

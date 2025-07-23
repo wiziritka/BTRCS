@@ -79,7 +79,6 @@ func _ready() -> void:
 			($Controller/TouchControls as CanvasItem).hide()
 			($Controller/Skill/TouchScreenButton as CanvasItem).hide()
 			($Controller/AdditionalWeapon/TouchScreenButton as CanvasItem).hide()
-			get_window().focus_exited.connect(_on_window_focus_exited)
 			_follow_mouse = Globals.get_controls_bool("follow_mouse")
 			_always_show_aim = Globals.get_controls_bool("always_show_aim")
 			_sneak_multiplier = Globals.get_controls_float("sneak_multiplier")
@@ -87,6 +86,9 @@ func _ready() -> void:
 			_aim_deadzone = Globals.get_controls_float("aim_deadzone") * smallest_side / 2
 			_aim_max_zone = Globals.get_controls_float("aim_zone") * smallest_side / 2
 			_aim_zone = _aim_max_zone - _aim_deadzone
+			
+			# Сбрасываю состояние ввода во избежании неприятных ситуаций из-за потери управления
+			get_window().focus_exited.connect(_reset_keyboard_and_mouse_inputs)
 		Globals.InputMethod.TOUCH:
 			_joystick_fire = Globals.get_controls_bool("joystick_fire")
 			if _joystick_fire:
@@ -135,6 +137,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	match input_method:
 		Globals.InputMethod.KEYBOARD_AND_MOUSE:
 			_unhandled_keyboard_and_mouse_input(event)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PAUSED and input_method == Globals.InputMethod.KEYBOARD_AND_MOUSE:
+		_reset_keyboard_and_mouse_inputs()
 
 
 func select_weapon(type: Weapon.Type) -> void:
@@ -342,6 +349,16 @@ func _process_keyboard_and_mouse_input_method() -> void:
 	_player.entity_input.turn_with_aim = _follow_mouse or _showing_aim
 
 
+func _reset_keyboard_and_mouse_inputs() -> void:
+	_moving_left = false
+	_moving_right = false
+	_moving_up = false
+	_moving_down = false
+	_shooting = false
+	_showing_aim = false
+	_interacting = false
+
+
 func _update_skill() -> void:
 	if not is_instance_valid(_player):
 		return
@@ -500,14 +517,6 @@ func _on_player_ammo_text_updated(text: String) -> void:
 
 func _on_player_input_interactibles_changed() -> void:
 	_interact_button.visible = _player.player_input.has_interactibles()
-
-
-func _on_window_focus_exited() -> void:
-	# Сбрасываю состояние ввода во избежании неприятных ситуаций из-за потери управления
-	_moving_left = false
-	_moving_right = false
-	_moving_up = false
-	_moving_down = false
 
 
 func _on_aim_joystick_released(output: Vector2) -> void:

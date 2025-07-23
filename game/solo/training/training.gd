@@ -160,6 +160,9 @@ func load_default_map() -> void:
 		sprite.modulate = Color(1.0, 1.0, 1.0, 0.5)
 		map.add_child(sprite)
 	
+	(map.get_node(^"GuideNote/Interactible") as Interactible).interacted.connect(
+			show_guide.unbind(1))
+	
 	add_child(map)
 	_current_map = map
 	
@@ -353,6 +356,13 @@ func reset_stats() -> void:
 	kills = 0
 	deaths = 0
 	stats_changed.emit()
+
+
+## Показывает руководство по тренировке.
+func show_guide() -> void:
+	get_tree().paused = true
+	($UI/Main as CanvasItem).hide()
+	($UI/Guide as CanvasItem).show()
 
 
 func _set_default_enemies_data() -> void:

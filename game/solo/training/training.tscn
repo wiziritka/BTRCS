@@ -617,7 +617,83 @@ icon = ExtResource("33_xt344")
 visible = false
 equip_selector_path = NodePath("../PanelContainer/MainMenu/HBoxContainer/Player/VBoxContainer/EquipSelector")
 
-[node name="QuitDialog" type="ConfirmationDialog" parent="UI" index="2"]
+[node name="Guide" type="Control" parent="UI" index="2"]
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="UI/Guide" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5019608)
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/Guide" index="1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -240.0
+offset_right = 400.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Guide/PanelContainer" index="0"]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="UI/Guide/PanelContainer/VBoxContainer" index="0"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="UI/Guide/PanelContainer/VBoxContainer/Header" index="0"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="UI/Guide/PanelContainer/VBoxContainer/Header" index="1"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+text = "Руководство"
+
+[node name="CloseGuide" type="Button" parent="UI/Guide/PanelContainer/VBoxContainer/Header" index="2"]
+layout_mode = 2
+size_flags_horizontal = 10
+icon = ExtResource("4_wkoo5")
+
+[node name="Welcome" type="Label" parent="UI/Guide/PanelContainer/VBoxContainer" index="1"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+text = "Добро пожаловать в Тренировку!"
+
+[node name="Label" type="Label" parent="UI/Guide/PanelContainer/VBoxContainer" index="2"]
+custom_minimum_size = Vector2(768, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Здесь ты можешь сражаться в любом окружении, изучать карты из многопользовательской игры, испытывать экипировку и просто развлекаться!
+
+В меню (кнопка в левом нижнем углу) тебя встретят выбор экипировки и карты, а также различные действия с игроком. Здесь можно взять открытые оружия, навыки или скины, а также любую карту из многопользовательской игры. Карту самой тренировки можно редактировать.
+
+В редакторе можно расставлять три вида блоков, а также различных врагов. По клику на установленного врага можно изменить его параметры (урон и здоровье). Не забывай сохранять изменения перед выходом из редактора!"
+autowrap_mode = 2
+
+[node name="GoodLuck" type="Label" parent="UI/Guide/PanelContainer/VBoxContainer" index="3"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+text = "Хорошего времяпрепровождения!"
+
+[node name="QuitDialog" type="ConfirmationDialog" parent="UI" index="3"]
 oversampling_override = 1.0
 title = "Выход"
 size = Vector2i(470, 112)
@@ -680,5 +756,6 @@ one_shot = true
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Buttons/MoveEnemy" to="UI/Menu/PanelContainer/MapEditor/EditEnemy" method="hide"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Buttons/DeleteEnemy" to="UI/Menu/PanelContainer/MapEditor" method="_on_delete_enemy_pressed"]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/EditEnemy/VBoxContainer/Buttons/DeleteEnemy" to="UI/Menu/PanelContainer/MapEditor/EditEnemy" method="hide"]
+[connection signal="pressed" from="UI/Guide/PanelContainer/VBoxContainer/Header/CloseGuide" to="UI" method="_on_close_guide_pressed"]
 [connection signal="confirmed" from="UI/QuitDialog" to="UI" method="_on_quit_dialog_confirmed"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]

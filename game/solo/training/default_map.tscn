@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=4 uid="uid://bo4g1oix6cim0"]
+[gd_scene load_steps=10 format=4 uid="uid://bo4g1oix6cim0"]
 
 [ext_resource type="PackedScene" uid="uid://ba2cw3xgen7yp" path="res://game/shared/ui/minimap/minimap_tiles.tscn" id="1_3k0rv"]
 [ext_resource type="TileSet" uid="uid://b31e3vrnaquca" path="res://game/locations/polygon/tile_set.tres" id="2_0n48s"]
+[ext_resource type="Texture2D" uid="uid://clxph31brdjes" path="res://game/solo/training/guide_note.png" id="3_g3bfi"]
+[ext_resource type="PackedScene" uid="uid://c5gj3jyjpfs13" path="res://game/shared/interactible/interactible.tscn" id="4_4mg8e"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_57gy5"]
 normal = Vector2(1, 0)
@@ -13,6 +15,9 @@ normal = Vector2(-1, 0)
 normal = Vector2(0, 1)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0n48s"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vuvjb"]
+radius = 80.0
 
 [node name="DefaultMap" type="Node2D"]
 metadata/_edit_horizontal_guides_ = [4000.0, -4000.0]
@@ -58,3 +63,17 @@ tile_map_data = PackedByteArray("AADm/+b/AQAAAAIAAADm/+f/AQAAAAIAAADm/+j/AQAAAAI
 tile_set = ExtResource("2_0n48s")
 
 [node name="NavigationRegions" type="Node2D" parent="."]
+
+[node name="GuideNote" type="Sprite2D" parent="."]
+z_index = -4
+position = Vector2(-240, 0)
+texture = ExtResource("3_g3bfi")
+
+[node name="Interactible" parent="GuideNote" instance=ExtResource("4_4mg8e")]
+position = Vector2(0, -56)
+text = "Прочитать"
+hold_interaction_time = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GuideNote/Interactible"]
+position = Vector2(0, 56)
+shape = SubResource("CircleShape2D_vuvjb")
