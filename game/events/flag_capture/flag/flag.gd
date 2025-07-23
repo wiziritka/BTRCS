@@ -7,13 +7,12 @@ extends Area2D
 @export var team: int = 0
 ## Время, за которое флаг возвращается на базу при нахождении на земле.
 @export_range(1.0, 20.0, 0.01) var return_time := 5.0
-## Сколько секунд нужно удерживать кнопку стрельбы, чтобы отпустить флаг.
-@export_range(0.2, 5.0, 0.01) var drop_time := 1.0
 
-var _player: Player
+## Игрок, который держит этот флаг.
+var player: Player
+
 var _base_position: Vector2
 var _return_timer := 0.0
-var _drop_timer := 0.0
 
 @onready var _timer_progress: TextureProgressBar = $TimerProgress
 @onready var _event: FlagCapture = get_tree().get_first_node_in_group(&"world")
@@ -29,7 +28,7 @@ func _ready() -> void:
 
 
 func _exit_tree() -> void:
-	if is_instance_valid(_player):
+	if is_instance_valid(player):
 		drop()
 
 
@@ -41,12 +40,6 @@ func _process(delta: float) -> void:
 			_timer_progress.hide()
 			if multiplayer.is_server():
 				teleport_to_base.rpc()
-	
-	if _drop_timer > 0.0:
-		_drop_timer -= delta
-		_timer_progress.value = _drop_timer / drop_time
-		if _drop_timer <= 0.0 and multiplayer.is_server():
-			_drop()
 
 
 @rpc("reliable", "call_local", "authority", 3)
@@ -58,47 +51,46 @@ func carry(id: int) -> void:
 		return
 	
 	_return_timer = 0.0
-	_drop_timer = 0.0
 	_timer_progress.hide()
-	_player = _event.players[id]
-	_player.block_weapon_usage()
+	player = _event.players[id]
+	player.block_weapon_usage()
 	if multiplayer.is_server():
-		_player.tree_exiting.connect(_drop)
-	if multiplayer.is_server() or _player.is_local():
-		_player.player_input.shooting_started.connect(_on_player_shooting_started)
-		_player.player_input.shooting_ended.connect(_on_player_shooting_ended)
+		player.tree_exiting.connect(_drop)
+	
+	$CarryInteractible.process_mode = Node.PROCESS_MODE_DISABLED
+	$DropInteractible.process_mode = Node.PROCESS_MODE_INHERIT
 	
 	var rt := RemoteTransform2D.new()
 	rt.name = &"FlagRemote"
 	rt.update_rotation = false
 	rt.update_scale = false
-	_player.add_child(rt)
+	player.add_child(rt)
 	rt.remote_path = get_path()
 	rt.reset_physics_interpolation()
-	print_verbose("Flag of team %d picked up by %d." % [team, _player.id])
+	print_verbose("Flag of team %d picked up by %d." % [team, player.id])
 
 
 @rpc("reliable", "call_local", "authority", 3)
 func drop(where: Vector2 = position) -> void:
 	print_verbose("Flag of team %d dropped." % team)
 	_return_timer = return_time
-	_drop_timer = 0.0
 	_timer_progress.show()
 	position = where
 	reset_physics_interpolation()
 	
-	if not is_instance_valid(_player):
+	if not is_queued_for_deletion(): # обход ошибки движка
+		$CarryInteractible.process_mode = Node.PROCESS_MODE_INHERIT
+		$DropInteractible.process_mode = Node.PROCESS_MODE_DISABLED
+	
+	if not is_instance_valid(player):
 		return
 	if multiplayer.is_server():
-		_player.tree_exiting.disconnect(_drop)
-	if multiplayer.is_server() or _player.is_local():
-		_player.player_input.shooting_started.disconnect(_on_player_shooting_started)
-		_player.player_input.shooting_ended.disconnect(_on_player_shooting_ended)
+		player.tree_exiting.disconnect(_drop)
 	
-	(_player.get_node(^"FlagRemote") as RemoteTransform2D).remote_path = ^""
-	_player.get_node(^"FlagRemote").queue_free()
-	_player.unblock_weapon_usage()
-	_player = null
+	(player.get_node(^"FlagRemote") as RemoteTransform2D).remote_path = ^""
+	player.get_node(^"FlagRemote").queue_free()
+	player.unblock_weapon_usage()
+	player = null
 
 
 @rpc("reliable", "call_local", "authority", 3)
@@ -126,21 +118,11 @@ func _update_minimap_marker(local_team: int) -> void:
 				($Minimap/MinimapNotifier as VisibleOnScreenNotifier2D).is_on_screen()
 
 
-func _on_player_shooting_started() -> void:
-	_drop_timer = drop_time
-	if _player.is_local():
-		_timer_progress.show()
+func _on_carry_interactible_interacted(who: Player) -> void:
+	if multiplayer.is_server():
+		carry.rpc(who.id)
 
 
-func _on_player_shooting_ended() -> void:
-	_drop_timer = 0.0
-	if _player.is_local():
-		_timer_progress.hide()
-
-
-func _on_body_entered(body: Node2D) -> void:
-	if not multiplayer.is_server() or is_instance_valid(_player):
-		return
-	var player := body as Player
-	if player and player.team != team:
-		carry.rpc(player.id)
+func _on_drop_interactible_interacted(_who: Player) -> void:
+	if multiplayer.is_server():
+		_drop()

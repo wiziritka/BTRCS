@@ -400,6 +400,13 @@ func _loading_init_systems() -> void:
 	add_child(menu_music)
 	move_child(menu_music, 0)
 	
+	var time_timer := Timer.new()
+	time_timer.name = &"TimeTimer"
+	time_timer.autostart = true
+	time_timer.ignore_time_scale = true
+	time_timer.timeout.connect(_on_time_timer_timeout)
+	add_child(time_timer)
+	
 	print_verbose("Done initializing systems.")
 	loading_stage_finished.emit(true)
 
@@ -668,3 +675,7 @@ func _on_patch_http_request_completed(result: HTTPRequest.Result,
 	patches[Globals.version] = new_patch_code
 	Globals.set_variant("patches", patches)
 	loading_stage_finished.emit(true)
+
+
+func _on_time_timer_timeout() -> void:
+	Globals.set_int("time", Globals.get_int("time") + 1)

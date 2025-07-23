@@ -51,13 +51,14 @@ exclusive = true
 unresizable = true
 script = ExtResource("1_n2mo3")
 easter_eggs = Dictionary[String, String]({
-"$": "Никаких доллАров, только колобкомонеты",
+"$": "Никаких доллАров, только колобкомонеты!",
 "1488": "?????????",
-"2.2": "ДВА ТОЧКА ДВА ВЫЙДЕТ!",
+"2.2": "ДВА ТОЧКА ДВА ВЫШЛА!",
 ":3": "WHY ARE YOU ALIVE?",
 "among us": "Авторские права...",
 "boykisser": "You like kissing boys... You're a boykisser!",
 "deltarune": "Next chapter tomorrow..?",
+"forchanovets1488": "Наркопритон...",
 "nerdsay415": "Сэр, вообще-то, здесь нельзя поправлять людей!",
 "summersay415": "!!!!!!!!",
 "unity": "Удаляй Unity прямо сейчас!",
