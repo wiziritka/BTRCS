@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://0wc72b0o2o11"]
+[gd_scene load_steps=28 format=3 uid="uid://0wc72b0o2o11"]
 
 [ext_resource type="Script" uid="uid://dnfj2pxuibak6" path="res://game/player/ui/player_ui.gd" id="1_2pprn"]
 [ext_resource type="Shader" uid="uid://coxueocca4drx" path="res://game/player/ui/blood_vignette/blood_vignette.gdshader" id="2_bioi4"]
@@ -12,11 +12,12 @@
 [ext_resource type="Texture2D" uid="uid://low3v5d2q65l" path="res://game/player/ui/textures/health_bar.png" id="5_3xbtg"]
 [ext_resource type="Texture2D" uid="uid://chfx32osm5nwo" path="res://game/player/ui/textures/joystick_tip_aim.png" id="5_5uxix"]
 [ext_resource type="Texture2D" uid="uid://djbso2agyek2p" path="res://game/player/ui/textures/additional_button.png" id="6_10yoo"]
-[ext_resource type="Material" uid="uid://b8111w5tokcit" path="res://game/player/ui/solid_color.tres" id="7_2wypa"]
+[ext_resource type="Material" uid="uid://b8111w5tokcit" path="res://game/shared/shaders/solid_color.tres" id="7_2wypa"]
 [ext_resource type="Texture2D" uid="uid://p85ppsyx0g2n" path="res://game/player/ui/textures/weapon_bg.png" id="7_6c3s8"]
 [ext_resource type="Script" uid="uid://m3oouj1lspki" path="res://game/player/ui/position_loader.gd" id="8_witf6"]
 [ext_resource type="Texture2D" uid="uid://dhhiaodkovkws" path="res://game/player/ui/textures/weapon_selection_bg.png" id="11_kgyyy"]
 [ext_resource type="Texture2D" uid="uid://cqlo1boor0w4t" path="res://game/player/ui/textures/skill_button.png" id="14_nojcu"]
+[ext_resource type="Texture2D" uid="uid://ddf5gqkbjq4a7" path="res://game/player/ui/textures/interact_button.png" id="15_l5du6"]
 [ext_resource type="Texture2D" uid="uid://cldx4o161bsqt" path="res://game/player/ui/textures/additional_weapon_bg.png" id="16_2wypa"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l5du6"]
@@ -247,7 +248,7 @@ id = "aim_js"
 position = Vector2(320, 128)
 shape = SubResource("RectangleShape2D_6sal7")
 
-[node name="Anchor" type="Control" parent="Controller/TouchControls"]
+[node name="AdditionalButtonAnchor" type="Control" parent="Controller/TouchControls"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -261,13 +262,35 @@ offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="AdditionalButton" type="TouchScreenButton" parent="Controller/TouchControls/Anchor"]
+[node name="AdditionalButton" type="TouchScreenButton" parent="Controller/TouchControls/AdditionalButtonAnchor"]
 scale = Vector2(0.5, 0.5)
 texture_normal = ExtResource("6_10yoo")
 
-[node name="PositionLoader" type="Node" parent="Controller/TouchControls/Anchor"]
+[node name="PositionLoader" type="Node" parent="Controller/TouchControls/AdditionalButtonAnchor"]
 script = ExtResource("8_witf6")
 id = "additional"
+
+[node name="InteractButtonAnchor" type="Control" parent="Controller/TouchControls"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -128.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="InteractButton" type="TouchScreenButton" parent="Controller/TouchControls/InteractButtonAnchor"]
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("15_l5du6")
+
+[node name="PositionLoader" type="Node" parent="Controller/TouchControls/InteractButtonAnchor"]
+script = ExtResource("8_witf6")
+id = "interact"
 
 [node name="CurrentWeapon" type="TextureRect" parent="Controller"]
 layout_mode = 1
@@ -681,7 +704,7 @@ grow_vertical = 2
 wait_time = 0.2
 one_shot = true
 
-[connection signal="pressed" from="Controller/TouchControls/Anchor/AdditionalButton" to="." method="additional_button"]
+[connection signal="pressed" from="Controller/TouchControls/AdditionalButtonAnchor/AdditionalButton" to="." method="additional_button"]
 [connection signal="pressed" from="Controller/AdditionalWeapon/TouchScreenButton" to="." method="select_weapon" binds= [4]]
 [connection signal="pressed" from="Controller/Skill/TouchScreenButton" to="." method="use_skill"]
 [connection signal="timeout" from="SingleShotTimer" to="." method="_on_single_shot_timer_timeout"]

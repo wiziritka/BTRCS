@@ -30,6 +30,7 @@ var _moving_up := false
 var _moving_down := false
 var _shooting := false
 var _showing_aim := false
+var _interacting := false
 var _aim_zone: float
 
 var _touch_index: int = -1
@@ -63,6 +64,8 @@ var _health_bar_tween: Tween
 @onready var _aim_joystick: VirtualJoystick = $Controller/TouchControls/AimVirtualJoystick
 @onready var _shoot_area: TouchScreenButton = $Controller/TouchControls/ShootArea
 @onready var _single_shot_timer: Timer = $SingleShotTimer
+@onready var _interact_button: TouchScreenButton = \
+		$Controller/TouchControls/InteractButtonAnchor/InteractButton
 
 @onready var _center: Control = $Center
 
@@ -255,6 +258,8 @@ func _unhandled_keyboard_and_mouse_input(event: InputEvent) -> void:
 		_shooting = event.is_pressed()
 	if event.is_action(&"show_aim"):
 		_showing_aim = event.is_pressed()
+	if event.is_action(&"interact"):
+		_interacting = event.is_pressed()
 	
 	if event.is_action_pressed(&"show_weapons"):
 		if ($Controller/WeaponSelection as CanvasItem).visible:
@@ -302,6 +307,7 @@ func _process_touch_input_method(delta: float) -> void:
 		if not is_instance_valid(_player.current_weapon) \
 				or not _player.current_weapon.shoot_on_joystick_release:
 			_player.player_input.shooting = not _aim_joystick.output.is_zero_approx()
+	_player.player_input.interacting = _interact_button.is_pressed()
 	
 	if _touch_index >= 0:
 		_touch_timer += delta
@@ -319,6 +325,7 @@ func _process_keyboard_and_mouse_input_method() -> void:
 	
 	_player.player_input.shooting = _shooting
 	_player.player_input.showing_aim = _showing_aim or _always_show_aim
+	_player.player_input.interacting = _interacting
 	
 	if _follow_mouse or _showing_aim:
 		var mouse_pos: Vector2 = _center.get_local_mouse_position()
@@ -433,7 +440,7 @@ func _on_player_died() -> void:
 		Input.vibrate_handheld(MAX_VIBRATION_DURATION_MS, MAX_VIBRATION_AMPLITUDE)
 
 
-func _on_weapon_changed(_to: Weapon.Type) -> void:
+func _on_player_weapon_changed(_to: Weapon.Type) -> void:
 	if not is_instance_valid(_player.current_weapon):
 		_current_weapon_icon.texture = null
 		return
@@ -442,11 +449,11 @@ func _on_weapon_changed(_to: Weapon.Type) -> void:
 	_current_weapon_icon.set_instance_shader_parameter(&"color",
 			ItemsDB.RARITY_COLORS[_player.current_weapon.data.rarity])
 	
-	($Controller/TouchControls/Anchor/AdditionalButton as CanvasItem).visible = \
+	($Controller/TouchControls/AdditionalButtonAnchor/AdditionalButton as CanvasItem).visible = \
 			_player.current_weapon.has_additional_button()
 
 
-func _on_weapon_equipped(type: Weapon.Type, data: WeaponData) -> void:
+func _on_player_weapon_equipped(type: Weapon.Type, data: WeaponData) -> void:
 	var weapon_icon: TextureRect
 	var weapon_text: Label
 	match type:
@@ -477,7 +484,7 @@ func _on_weapon_equipped(type: Weapon.Type, data: WeaponData) -> void:
 	weapon_text.text = data.name
 
 
-func _on_skill_equipped(data: SkillData) -> void:
+func _on_player_skill_equipped(data: SkillData) -> void:
 	if not data:
 		_skill.hide()
 		return
@@ -487,8 +494,12 @@ func _on_skill_equipped(data: SkillData) -> void:
 	_update_skill()
 
 
-func _on_ammo_text_updated(text: String) -> void:
+func _on_player_ammo_text_updated(text: String) -> void:
 	_ammo_text.text = text
+
+
+func _on_player_input_interactibles_changed() -> void:
+	_interact_button.visible = _player.player_input.has_interactibles()
 
 
 func _on_window_focus_exited() -> void:
@@ -513,6 +524,7 @@ func _on_local_player_created(player: Player) -> void:
 	_health_bar.max_value = player.max_health
 	_health_immediate_bar.max_value = player.max_health
 	_on_player_health_changed(player.max_health, player.max_health)
+	_interact_button.visible = player.player_input.has_interactibles()
 	
 	_tint_anim.play(&"RESET")
 	var tween: Tween = create_tween()
@@ -523,10 +535,12 @@ func _on_local_player_created(player: Player) -> void:
 	player.health_changed.connect(_on_player_health_changed)
 	player.died.connect(_on_player_died)
 	
-	player.ammo_text_updated.connect(_on_ammo_text_updated)
-	player.weapon_changed.connect(_on_weapon_changed)
-	player.weapon_equipped.connect(_on_weapon_equipped)
-	player.skill_equipped.connect(_on_skill_equipped)
+	player.ammo_text_updated.connect(_on_player_ammo_text_updated)
+	player.weapon_changed.connect(_on_player_weapon_changed)
+	player.weapon_equipped.connect(_on_player_weapon_equipped)
+	player.skill_equipped.connect(_on_player_skill_equipped)
+	
+	player.player_input.interactibles_changed.connect(_on_player_input_interactibles_changed)
 	_player = player
 
 

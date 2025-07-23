@@ -139,12 +139,13 @@ process_mode = 4
 [node name="ShootArea" parent="PlayerUI/Controller/TouchControls" index="2"]
 visible = false
 
-[node name="AdditionalButton" parent="PlayerUI/Controller/TouchControls/Anchor" index="0"]
-process_mode = 4
-
-[node name="PositionEditor" type="Node" parent="PlayerUI/Controller/TouchControls/Anchor" index="2"]
+[node name="PositionEditor" type="Node" parent="PlayerUI/Controller/TouchControls/AdditionalButtonAnchor" index="2"]
 script = ExtResource("3_mu25c")
 id = "additional"
+
+[node name="PositionEditor" type="Node" parent="PlayerUI/Controller/TouchControls/InteractButtonAnchor" index="2"]
+script = ExtResource("3_mu25c")
+id = "interact"
 
 [node name="PositionEditor" type="Node" parent="PlayerUI/Controller/CurrentWeapon" index="3"]
 script = ExtResource("3_mu25c")
@@ -439,7 +440,7 @@ icon = ExtResource("9_p6t4g")
 
 [connection signal="save_requested" from="." to="." method="_on_save_requested"]
 [connection signal="save_requested" from="." to="PlayerUI/Controller/HealthBar/PositionEditor" method="_on_controls_save_requested"]
-[connection signal="save_requested" from="." to="PlayerUI/Controller/TouchControls/Anchor/PositionEditor" method="_on_controls_save_requested"]
+[connection signal="save_requested" from="." to="PlayerUI/Controller/TouchControls/InteractButtonAnchor/PositionEditor" method="_on_controls_save_requested"]
 [connection signal="save_requested" from="." to="PlayerUI/Controller/CurrentWeapon/PositionEditor" method="_on_controls_save_requested"]
 [connection signal="save_requested" from="." to="PlayerUI/Controller/AdditionalWeapon/PositionEditor" method="_on_controls_save_requested"]
 [connection signal="save_requested" from="." to="PlayerUI/Controller/Skill/PositionEditor" method="_on_controls_save_requested"]
@@ -447,6 +448,7 @@ icon = ExtResource("9_p6t4g")
 [connection signal="save_requested" from="." to="PlayerUI/Controller/MoveJoystickEditor/PositionEditor" method="_on_controls_save_requested"]
 [connection signal="save_requested" from="." to="PlayerUI/Controller/AimJoystickEditor" method="_on_controls_save_requested"]
 [connection signal="save_requested" from="." to="PlayerUI/Controller/AimJoystickEditor/PositionEditor" method="_on_controls_save_requested"]
+[connection signal="save_requested" from="." to="PlayerUI/Controller/TouchControls/AdditionalButtonAnchor/PositionEditor" method="_on_controls_save_requested"]
 [connection signal="toggled" from="PlayerUI/Controller/MoveJoystickEditor/Edit" to="PlayerUI/Controller/MoveJoystickEditor/SettingsPanel" method="set_visible"]
 [connection signal="value_changed" from="PlayerUI/Controller/MoveJoystickEditor/SettingsPanel/VBox/Deadzone/DeadzoneSlider" to="PlayerUI/Controller/MoveJoystickEditor" method="_on_deadzone_slider_value_changed"]
 [connection signal="value_changed" from="PlayerUI/Controller/MoveJoystickEditor/SettingsPanel/VBox/Scale/ScaleSlider" to="PlayerUI/Controller/MoveJoystickEditor" method="_on_scale_slider_value_changed"]

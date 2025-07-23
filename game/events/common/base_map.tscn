@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dp6wxqvjukdht"]
 
 [ext_resource type="Script" uid="uid://btu1g3prgu2l8" path="res://game/events/common/map.gd" id="1_h66jf"]
-[ext_resource type="PackedScene" uid="uid://ba2cw3xgen7yp" path="res://game/ui/minimap/minimap_tiles.tscn" id="2_h66jf"]
+[ext_resource type="PackedScene" uid="uid://ba2cw3xgen7yp" path="res://game/shared/ui/minimap/minimap_tiles.tscn" id="2_h66jf"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_h66jf"]
 normal = Vector2(1, 0)

@@ -2,12 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://bkvfj405l2gvw" path="res://game/core/world.tscn" id="1_6dq27"]
 [ext_resource type="Script" uid="uid://ciktx11hqv3ox" path="res://game/events/common/event.gd" id="1_kxt6o"]
-[ext_resource type="Script" uid="uid://c5wn8p7yq48wc" path="res://game/ui/chat/chat.gd" id="3_8d55t"]
+[ext_resource type="Script" uid="uid://c5wn8p7yq48wc" path="res://game/shared/ui/chat/chat.gd" id="3_8d55t"]
 [ext_resource type="Script" uid="uid://buk2lt6westdi" path="res://game/events/common/event_ui.gd" id="4_10cmx"]
-[ext_resource type="Texture2D" uid="uid://dwtddg0cmagg1" path="res://game/ui/chat/chat_send.png" id="9_2uw6w"]
+[ext_resource type="Texture2D" uid="uid://dwtddg0cmagg1" path="res://game/shared/ui/chat/chat_send.png" id="9_2uw6w"]
 [ext_resource type="AudioStream" uid="uid://hs3bh8qllach" path="res://game/music/defeat.ogg" id="12_jddfk"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="13_j0bsh"]
-[ext_resource type="Texture2D" uid="uid://d14nbphg5o3a" path="res://game/ui/chat/chat.png" id="14_05fx8"]
+[ext_resource type="Texture2D" uid="uid://d14nbphg5o3a" path="res://game/shared/ui/chat/chat.png" id="14_05fx8"]
 
 [sub_resource type="Animation" id="Animation_atj0b"]
 length = 0.001

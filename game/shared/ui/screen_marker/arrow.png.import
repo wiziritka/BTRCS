@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d14nbphg5o3a"
-path="res://.godot/imported/chat.png-9b24d6f9b0b3f1f560b07ed2e2cb521f.ctex"
+uid="uid://ddlttnxfabmn5"
+path="res://.godot/imported/arrow.png-25742f9948f68573bc222299f5457adc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/ui/chat/chat.png"
-dest_files=["res://.godot/imported/chat.png-9b24d6f9b0b3f1f560b07ed2e2cb521f.ctex"]
+source_file="res://game/shared/ui/screen_marker/arrow.png"
+dest_files=["res://.godot/imported/arrow.png-25742f9948f68573bc222299f5457adc.ctex"]
 
 [params]
 

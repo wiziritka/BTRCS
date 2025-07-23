@@ -6,8 +6,8 @@
 [ext_resource type="AudioStream" uid="uid://cx6cuaaws3vre" path="res://game/music/battle1.ogg" id="4_j8p54"]
 [ext_resource type="Script" uid="uid://pwgsdrt5sfqe" path="res://game/player/smart_camera.gd" id="5_jk2iw"]
 [ext_resource type="PackedScene" uid="uid://0wc72b0o2o11" path="res://game/player/ui/player_ui.tscn" id="7_0tx30"]
-[ext_resource type="PackedScene" uid="uid://c2f0n1b5sfpdh" path="res://game/ui/screen_marker/hit_marker.tscn" id="13_ka3gv"]
-[ext_resource type="PackedScene" uid="uid://blhm6uka1p287" path="res://game/ui/screen_marker/kill_marker.tscn" id="14_e8smu"]
+[ext_resource type="PackedScene" uid="uid://c2f0n1b5sfpdh" path="res://game/shared/ui/screen_marker/hit_marker.tscn" id="13_ka3gv"]
+[ext_resource type="PackedScene" uid="uid://blhm6uka1p287" path="res://game/shared/ui/screen_marker/kill_marker.tscn" id="14_e8smu"]
 
 [node name="World" type="Node" groups=["world"]]
 script = ExtResource("1_3j1bh")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0mubs3obmux4"
-path="res://.godot/imported/tiles.png-932e6745d5fa7748c5f74d32c1ef2f4a.ctex"
+uid="uid://cdlm17je2ol0u"
+path="res://.godot/imported/presets.png-aaadf6e05925ab9d7ee485bbc7279997.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/ui/minimap/tiles.png"
-dest_files=["res://.godot/imported/tiles.png-932e6745d5fa7748c5f74d32c1ef2f4a.ctex"]
+source_file="res://game/shared/ui/equip_selector/presets.png"
+dest_files=["res://.godot/imported/presets.png-aaadf6e05925ab9d7ee485bbc7279997.ctex"]
 
 [params]
 

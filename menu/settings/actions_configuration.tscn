@@ -204,6 +204,29 @@ layout_mode = 2
 size_flags_vertical = 4
 icon = ExtResource("2_h33al")
 
+[node name="Interact" type="PanelContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/Actions"]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="Container" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/Actions/Interact"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="VBoxContainer/ScrollContainer/MarginContainer/Actions/Interact/Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_type_variation = &"HeaderSmall"
+text = "Взаимодействие"
+
+[node name="Events" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/Actions/Interact/Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Add" type="Button" parent="VBoxContainer/ScrollContainer/MarginContainer/Actions/Interact/Container"]
+layout_mode = 2
+size_flags_vertical = 4
+icon = ExtResource("2_h33al")
+
 [node name="Reload" type="PanelContainer" parent="VBoxContainer/ScrollContainer/MarginContainer/Actions"]
 layout_mode = 2
 mouse_filter = 1
@@ -562,6 +585,7 @@ cancel_button_text = "Отмена"
 [connection signal="pressed" from="VBoxContainer/ScrollContainer/MarginContainer/Actions/Sneak/Container/Add" to="." method="add_action_event" binds= [&"sneak"]]
 [connection signal="pressed" from="VBoxContainer/ScrollContainer/MarginContainer/Actions/Shoot/Container/Add" to="." method="add_action_event" binds= [&"shoot"]]
 [connection signal="pressed" from="VBoxContainer/ScrollContainer/MarginContainer/Actions/ShowAim/Container/Add" to="." method="add_action_event" binds= [&"show_aim"]]
+[connection signal="pressed" from="VBoxContainer/ScrollContainer/MarginContainer/Actions/Interact/Container/Add" to="." method="add_action_event" binds= [&"interact"]]
 [connection signal="pressed" from="VBoxContainer/ScrollContainer/MarginContainer/Actions/Reload/Container/Add" to="." method="add_action_event" binds= [&"reload"]]
 [connection signal="pressed" from="VBoxContainer/ScrollContainer/MarginContainer/Actions/AdditionalButton/Container/Add" to="." method="add_action_event" binds= [&"additional_button"]]
 [connection signal="pressed" from="VBoxContainer/ScrollContainer/MarginContainer/Actions/WeaponLight/Container/Add" to="." method="add_action_event" binds= [&"weapon_light"]]

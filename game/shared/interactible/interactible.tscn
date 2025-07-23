@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5gj3jyjpfs13"]
+
+[ext_resource type="Script" uid="uid://b3qvgvsdwg2c6" path="res://game/shared/interactible/interactible.gd" id="1_djvto"]
+[ext_resource type="Texture2D" uid="uid://42exluui2v5a" path="res://game/shared/interactible/arrow.png" id="2_idtbv"]
+[ext_resource type="Texture2D" uid="uid://8h87oxcw2ldy" path="res://game/shared/interactible/hold_timer.png" id="3_ftu30"]
+
+[node name="Interactible" type="Area2D"]
+collision_layer = 32
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_djvto")
+
+[node name="Visual" type="Node2D" parent="."]
+z_index = 12
+
+[node name="Arrow" type="Sprite2D" parent="Visual"]
+position = Vector2(0, -24)
+texture = ExtResource("2_idtbv")
+
+[node name="Label" type="Label" parent="Visual"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -54.5
+offset_top = -85.0
+offset_right = 54.5
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="HoldTimerProgress" type="TextureProgressBar" parent="Visual/Label"]
+z_index = 2
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -24.0
+offset_top = -40.0
+offset_right = 24.0
+offset_bottom = 8.0
+grow_horizontal = 2
+mouse_filter = 2
+max_value = 1.0
+step = 0.01
+fill_mode = 5
+texture_progress = ExtResource("3_ftu30")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

@@ -214,6 +214,13 @@ func setup_controls_settings() -> void:
 	set_controls_vector2("offsets_rb_additional",
 			get_controls_vector2("offsets_rb_additional", Vector2(-8.0, -8.0)))
 	
+	set_controls_int("anchors_preset_interact",
+			get_controls_int("anchors_preset_interact", Control.PRESET_BOTTOM_RIGHT))
+	set_controls_vector2("offsets_lt_interact",
+			get_controls_vector2("offsets_lt_interact", Vector2(-128.0, -280.0)))
+	set_controls_vector2("offsets_rb_interact",
+			get_controls_vector2("offsets_rb_interact", Vector2(-8.0, -160.0)))
+	
 	set_controls_int("anchors_preset_move_js",
 			get_controls_int("anchors_preset_move_js", Control.PRESET_BOTTOM_LEFT))
 	set_controls_vector2("offsets_lt_move_js",

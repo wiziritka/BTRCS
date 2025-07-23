@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://su3faiy5qwuj"
-path="res://.godot/imported/kill.wav-e8b9a365349ec8ad6c707af2ecc679fb.sample"
+path="res://.godot/imported/kill.wav-3103e24a83efffadcbf096e08c6a25d3.sample"
 
 [deps]
 
-source_file="res://game/ui/screen_marker/kill.wav"
-dest_files=["res://.godot/imported/kill.wav-e8b9a365349ec8ad6c707af2ecc679fb.sample"]
+source_file="res://game/shared/ui/screen_marker/kill.wav"
+dest_files=["res://.godot/imported/kill.wav-3103e24a83efffadcbf096e08c6a25d3.sample"]
 
 [params]
 

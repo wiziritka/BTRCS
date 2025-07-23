@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=4 uid="uid://bo4g1oix6cim0"]
 
-[ext_resource type="PackedScene" uid="uid://ba2cw3xgen7yp" path="res://game/ui/minimap/minimap_tiles.tscn" id="1_3k0rv"]
+[ext_resource type="PackedScene" uid="uid://ba2cw3xgen7yp" path="res://game/shared/ui/minimap/minimap_tiles.tscn" id="1_3k0rv"]
 [ext_resource type="TileSet" uid="uid://b31e3vrnaquca" path="res://game/locations/polygon/tile_set.tres" id="2_0n48s"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_57gy5"]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddlttnxfabmn5"
-path="res://.godot/imported/arrow.png-98a6d3ebf2d1181c46a7e230633a3b35.ctex"
+uid="uid://ddf5gqkbjq4a7"
+path="res://.godot/imported/interact_button.png-cc3c46a9963c9d1d9d89c99f5ff0e4dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/ui/screen_marker/arrow.png"
-dest_files=["res://.godot/imported/arrow.png-98a6d3ebf2d1181c46a7e230633a3b35.ctex"]
+source_file="res://game/player/ui/textures/interact_button.png"
+dest_files=["res://.godot/imported/interact_button.png-cc3c46a9963c9d1d9d89c99f5ff0e4dc.ctex"]
 
 [params]
 

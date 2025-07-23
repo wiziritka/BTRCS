@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdlm17je2ol0u"
-path="res://.godot/imported/presets.png-10da31840dad21e1bea098f4fc2e8e6f.ctex"
+uid="uid://d14nbphg5o3a"
+path="res://.godot/imported/chat.png-9445e5b26b306cb82f181e502723663b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/ui/equip_selector/presets.png"
-dest_files=["res://.godot/imported/presets.png-10da31840dad21e1bea098f4fc2e8e6f.ctex"]
+source_file="res://game/shared/ui/chat/chat.png"
+dest_files=["res://.godot/imported/chat.png-9445e5b26b306cb82f181e502723663b.ctex"]
 
 [params]
 

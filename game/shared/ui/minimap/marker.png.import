@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bk76lmnl8rml0"
-path="res://.godot/imported/marker.png-936331c412fada458ceb87a2dce1885e.ctex"
+path="res://.godot/imported/marker.png-f2de75872fcf58bc3dd3e19a5f617662.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/ui/minimap/marker.png"
-dest_files=["res://.godot/imported/marker.png-936331c412fada458ceb87a2dce1885e.ctex"]
+source_file="res://game/shared/ui/minimap/marker.png"
+dest_files=["res://.godot/imported/marker.png-f2de75872fcf58bc3dd3e19a5f617662.ctex"]
 
 [params]
 

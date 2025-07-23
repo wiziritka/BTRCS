@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ba2cw3xgen7yp"]
 
-[ext_resource type="TileSet" uid="uid://ci04ocvnien3" path="res://game/ui/minimap/tile_set.tres" id="1_2ih73"]
+[ext_resource type="TileSet" uid="uid://ci04ocvnien3" path="res://game/shared/ui/minimap/tile_set.tres" id="1_2ih73"]
 
 [node name="MinimapTiles" type="TileMapLayer"]
 light_mask = 2

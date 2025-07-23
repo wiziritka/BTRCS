@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwtddg0cmagg1"
-path="res://.godot/imported/chat_send.png-051515ba76f9a1a35623a343659b67fa.ctex"
+uid="uid://8h87oxcw2ldy"
+path="res://.godot/imported/hold_timer.png-e3de24d217ed4fea125bb8033a295727.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/ui/chat/chat_send.png"
-dest_files=["res://.godot/imported/chat_send.png-051515ba76f9a1a35623a343659b67fa.ctex"]
+source_file="res://game/shared/interactible/hold_timer.png"
+dest_files=["res://.godot/imported/hold_timer.png-e3de24d217ed4fea125bb8033a295727.ctex"]
 
 [params]
 

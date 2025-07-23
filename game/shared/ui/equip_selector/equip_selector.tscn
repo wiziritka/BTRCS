@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://mlbaavhyud5j"]
 
-[ext_resource type="Script" uid="uid://bp1xq77n83bjo" path="res://game/ui/equip_selector/equip_selector.gd" id="1_ex6i3"]
+[ext_resource type="Script" uid="uid://bp1xq77n83bjo" path="res://game/shared/ui/equip_selector/equip_selector.gd" id="1_ex6i3"]
 [ext_resource type="Script" uid="uid://cq43botg0qg0m" path="res://menu/items_grid/items_grid.gd" id="2_5y7db"]
 
 [node name="EquipSelector" type="GridContainer"]
