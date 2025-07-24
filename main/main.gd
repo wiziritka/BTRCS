@@ -678,4 +678,4 @@ func _on_patch_http_request_completed(result: HTTPRequest.Result,
 
 
 func _on_time_timer_timeout() -> void:
-	Globals.set_int("time", Globals.get_int("time") + 1)
+	Globals.set_int("played_time", Globals.get_int("played_time") + 1)

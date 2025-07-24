@@ -124,6 +124,57 @@ func quit(restart := false, args := PackedStringArray()) -> void:
 		get_tree().quit()
 
 
+## Экспортирует сохранение в файл [param path].
+func export_save(path: String) -> Error:
+	var fa := FileAccess.open_compressed(path, FileAccess.WRITE, FileAccess.COMPRESSION_GZIP)
+	if not fa:
+		push_error("Export save: failed opening file %s with error: %s." % [
+			path,
+			error_string(FileAccess.get_open_error()),
+		])
+		return FileAccess.get_open_error()
+	
+	var success: bool = fa.store_string(save_file.encode_to_text())
+	if not success:
+		push_error("Export save: failed writing data to file %s with error: %s." % [
+			path,
+			error_string(fa.get_error()),
+		])
+		return fa.get_error()
+	
+	fa.close()
+	print_verbose("Save exported to file %s." % path)
+	return OK
+
+
+## Импортирует сохранение из файла [param path]. Перезапускает игру при успешном импортировании.
+func import_save(path: String) -> Error:
+	var fa := FileAccess.open_compressed(path, FileAccess.READ, FileAccess.COMPRESSION_GZIP)
+	if not fa:
+		push_error("Import save: failed opening file %s with error: %s." % [
+			path,
+			error_string(FileAccess.get_open_error()),
+		])
+		return FileAccess.get_open_error()
+	
+	var data: String = fa.get_as_text()
+	fa.close()
+	
+	var new_save_file := ConfigFile.new()
+	var err: Error = new_save_file.parse(data)
+	if err != OK:
+		push_error("Import save: failed parsing file %s with error: %s." % [
+			path,
+			error_string(err),
+		])
+		return err
+	
+	save_file = new_save_file
+	print_verbose("Save imported from file %s. Restarting...")
+	Globals.quit(true)
+	return OK
+
+
 #region Настройки
 ## Устанавливает настройки по умолчанию, если их ещё нет.
 func setup_settings() -> void:

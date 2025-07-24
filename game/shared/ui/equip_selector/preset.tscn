@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b26i3vhrlgj7l" path="res://game/shared/ui/equip_selector/preset.gd" id="1_n85t5"]
 [ext_resource type="Texture2D" uid="uid://bs0jb0hstf3sl" path="res://menu/theme/icons/save.png" id="6_6dufu"]
-[ext_resource type="Texture2D" uid="uid://c74mu171kvbph" path="res://menu/theme/icons/load.png" id="7_ndeyw"]
+[ext_resource type="Texture2D" uid="uid://c74mu171kvbph" path="res://menu/theme/icons/export.png" id="7_ndeyw"]
 [ext_resource type="Texture2D" uid="uid://ndobp7p586tx" path="res://menu/theme/icons/edit.png" id="8_r0bg3"]
 [ext_resource type="Texture2D" uid="uid://b1u3v2dc3jemk" path="res://menu/theme/icons/delete.png" id="9_abwvg"]
 [ext_resource type="Texture2D" uid="uid://qd30cvl2xrw7" path="res://menu/theme/icons/add.png" id="10_cxyfc"]

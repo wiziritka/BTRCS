@@ -2,8 +2,10 @@ extends Control
 
 
 const AIM_VISUAL_MAX_SIZE := 360.0
+
 @export_multiline var help_messages: Array[String]
 var _override_file := ConfigFile.new()
+var _save_import_path: String
 @onready var _aim_visual: ColorRect = %AimVisual
 
 
@@ -150,10 +152,8 @@ func _update_aim_visual_size() -> void:
 		_aim_visual.custom_minimum_size.x = viewport_size.aspect() * AIM_VISUAL_MAX_SIZE
 
 
-func _on_request_permissions_result(permission: String, granted: bool) -> void:
+func _on_request_permissions_result(permission: String, granted: bool, lambda: Callable) -> void:
 	print_verbose("Permission %s granted: %s." % [permission, str(granted)])
-	var lambda: Callable = func(value: bool) -> void:
-		(%CustomTracksCheck as BaseButton).button_pressed = value
 	lambda.call_deferred(granted)
 
 
@@ -220,6 +220,79 @@ func _on_reset_settings_dialog_confirmed() -> void:
 
 func _on_restart_game_pressed() -> void:
 	Globals.quit(true)
+
+
+func _on_export_pressed() -> void:
+	if OS.has_feature("android") and int(OS.get_version().get_slice('.', 0)) < 29:
+		var perms: PackedStringArray = OS.get_granted_permissions()
+		if not "android.permission.READ_EXTERNAL_STORAGE" in perms \
+				and not "android.permission.WRITE_EXTERNAL_STORAGE" in perms:
+			var lambda: Callable = func(value: bool) -> void:
+				if value: _on_export_pressed()
+			get_tree().on_request_permissions_result.connect(
+					_on_request_permissions_result.bind(lambda), CONNECT_ONE_SHOT)
+			OS.request_permissions()
+			return
+	
+	($SaveDialogs/ExportFileDialog as FileDialog).current_path = OS.get_system_dir(
+			OS.SYSTEM_DIR_DOCUMENTS).path_join(Globals.get_string("player_name") + ".cssf")
+	($SaveDialogs/ExportFileDialog as Window).popup_centered()
+
+
+func _on_export_file_dialog_file_selected(path: String) -> void:
+	var err: Error = Globals.export_save(path)
+	var info_dialog: AcceptDialog = $SaveDialogs/InfoDialog
+	if err != OK:
+		info_dialog.dialog_text = "При экспортировании в файл\n%s\nвозникла ошибка: %s." % [
+			path,
+			error_string(err),
+		]
+		info_dialog.title = "Ошибка экспортирования сохранения"
+	else:
+		info_dialog.dialog_text = "Сохранение успешно экспортировано в файл\n%s." % path
+		info_dialog.title = "Экспортирование сохранения"
+	info_dialog.popup_centered.call_deferred(Vector2i.ONE) # сбрасываем до минимального размера
+
+
+func _on_import_pressed() -> void:
+	if OS.has_feature("android") and int(OS.get_version().get_slice('.', 0)) < 29:
+		var perms: PackedStringArray = OS.get_granted_permissions()
+		if not "android.permission.READ_EXTERNAL_STORAGE" in perms \
+				and not "android.permission.WRITE_EXTERNAL_STORAGE" in perms:
+			var lambda: Callable = func(value: bool) -> void:
+				if value: _on_import_pressed()
+			get_tree().on_request_permissions_result.connect(
+					_on_request_permissions_result.bind(lambda), CONNECT_ONE_SHOT)
+			OS.request_permissions()
+			return
+	
+	($SaveDialogs/ImportFileDialog as FileDialog).current_dir = OS.get_system_dir(
+			OS.SYSTEM_DIR_DOCUMENTS)
+	($SaveDialogs/ImportFileDialog as Window).popup_centered()
+
+
+func _on_import_file_dialog_file_selected(path: String) -> void:
+	_save_import_path = path
+	var import_confirm_dialog: ConfirmationDialog = $SaveDialogs/ImportConfirmDialog
+	import_confirm_dialog.title = "Импортирование сохранения"
+	import_confirm_dialog.dialog_text = "Ты действительно хочешь импортировать сохранение \
+из следующего файла?"
+	import_confirm_dialog.dialog_text += "\n%s\n" % _save_import_path
+	import_confirm_dialog.dialog_text += "ВНИМАНИЕ: текущее сохранение будет утрачено безвозвратно!"
+	import_confirm_dialog.dialog_text += "\nПосле импортирования игра будет перезапущена."
+	import_confirm_dialog.popup_centered.call_deferred(Vector2i.ONE) # сбрасываем до минимального размера
+
+
+func _on_import_confirm_dialog_confirmed() -> void:
+	var err: Error = Globals.import_save(_save_import_path)
+	if err != OK:
+		var info_dialog: AcceptDialog = $SaveDialogs/InfoDialog
+		info_dialog.dialog_text = "При импортировании из файла\n%s\nвозникла ошибка: %s." % [
+			_save_import_path,
+			error_string(err),
+		]
+		info_dialog.title = "Ошибка импортирования сохранения"
+		info_dialog.popup_centered(Vector2i.ONE) # сбрасываем до минимального размера
 #endregion
 
 
@@ -310,8 +383,10 @@ func _on_custom_tracks_check_toggled(toggled_on: bool) -> void:
 				or "android.permission.WRITE_EXTERNAL_STORAGE" in perms
 		):
 			(%CustomTracksCheck as BaseButton).set_pressed_no_signal(false)
-			get_tree().on_request_permissions_result.connect(_on_request_permissions_result,
-					CONNECT_ONE_SHOT)
+			var lambda: Callable = func(value: bool) -> void:
+				(%CustomTracksCheck as BaseButton).button_pressed = value
+			get_tree().on_request_permissions_result.connect(
+					_on_request_permissions_result.bind(lambda), CONNECT_ONE_SHOT)
 			OS.request_permissions()
 			toggled_on = false
 	(%CustomTracksSettings as CanvasItem).visible = toggled_on
