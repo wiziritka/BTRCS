@@ -8,7 +8,7 @@ extends Node
 ## Внутренний сигнал, используемый при загрузке.
 signal loading_stage_finished(success: bool)
 ## URL сервера с данными для игры (патчами, предложениями в магазине, ...).
-const SERVER_URL := "https://diamondstudiogames.ru/circle-shot"
+const SERVER_URL := "https://diamondstudiogames.ru/circleshot"
 ## Максимальное отношение ширины к высоте, превысив которое содержимое окна начнёт обрезаться.
 const MAX_ASPECT_RATIO := 2.34
 ## Минимальное отношение ширины к высоте, пренизив которое содержимое окна начнёт обрезаться.
