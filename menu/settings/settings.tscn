@@ -31,7 +31,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_jwkxy")
 help_messages = Array[String](["Удаляет все загруженные ранее патчи. Если \"проверять и загружать патчи\" включено, они будут снова загружены при запуске игры.
-После применения игра будет перезапущена.", "Если включено, попытки присоединения к комнате будут отклоняться, если количество подключённых игроков равно или превышает максимум текущего события.", "Включает вибрацию при получении и нанесении урона.", "", "Устанавливает ограничение количества кадров в секунду. Не может превышать частоту обновления экрана.", "Настраивает направление переката.
+После применения игра будет перезапущена.", "Если включено, попытки присоединения к комнате будут отклоняться, если количество подключённых игроков равно или превышает максимум текущего события.", "Включает вибрацию при получении и нанесении урона.", "Выбирает предпочитаемый отрисовщик:
+OpenGL - традиционный отрисовщик, поддерживающийся почти везде.
+Vulkan - современный отрисовщик, однако может иметь проблемы с совместимостью.
+Может не совпадать с текущим в случае отсутствии поддержки.", "Устанавливает ограничение количества кадров в секунду. Не может превышать частоту обновления экрана.", "Настраивает направление переката.
 Движение - перекат будет выполняться в сторону (последнего) движения.
 Прицел - перекат будет выполняться в сторону прицела.", "Настраивает тип управления.
 Касания - управления джойстиками и кнопками на экране. Предназначено для управления на телефонах.
@@ -182,6 +185,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="General" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -615,7 +619,6 @@ icon = ExtResource("1_xh6xh")
 expand_icon = true
 
 [node name="Graphics" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -714,6 +717,44 @@ custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 icon = ExtResource("1_xh6xh")
 expand_icon = true
+
+[node name="PreferredRenderer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/PreferredRenderer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_type_variation = &"HeaderSmall"
+text = "Предпочитаемый отрисовщик"
+vertical_alignment = 1
+
+[node name="Setting" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/PreferredRenderer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RendererOptions" type="OptionButton" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/PreferredRenderer/Setting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 2
+popup/item_0/text = "OpenGL"
+popup/item_0/id = 0
+popup/item_1/text = "Vulkan"
+popup/item_1/id = 1
+
+[node name="Help" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/PreferredRenderer/Setting"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+icon = ExtResource("1_xh6xh")
+expand_icon = true
+
+[node name="CurrentRenderer" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderSmall"
 
 [node name="Sound" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections"]
 visible = false
@@ -1344,6 +1385,8 @@ visible = false
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/MaxFPS/Setting/Help" to="." method="show_help" binds= [4]]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/LowGraphics/Setting/LowGraphicsCheck" to="." method="_on_low_graphics_check_toggled"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/LowGraphics/Setting/Help" to="." method="show_help" binds= [15]]
+[connection signal="item_selected" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/PreferredRenderer/Setting/RendererOptions" to="." method="_on_renderer_options_item_selected"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Graphics/PreferredRenderer/Setting/Help" to="." method="show_help" binds= [3]]
 [connection signal="value_changed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/MasterVolume/Setting/MasterVolumeSlider" to="." method="_on_master_volume_slider_value_changed"]
 [connection signal="value_changed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/MusicVolume/Setting/MusicVolumeSlider" to="." method="_on_music_volume_slider_value_changed"]
 [connection signal="value_changed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/SFXVolume/Setting/SFXVolumeSlider" to="." method="_on_sfx_volume_slider_value_changed"]

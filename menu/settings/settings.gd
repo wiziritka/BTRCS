@@ -1,6 +1,10 @@
 extends Control
 
 
+enum Renderer {
+	OPENGL = 0,
+	VULKAN = 1,
+}
 const AIM_VISUAL_MAX_SIZE := 360.0
 
 @export_multiline var help_messages: Array[String]
@@ -13,6 +17,17 @@ func _ready() -> void:
 	show_section("General")
 	
 	_override_file.load("user://engine_settings.cfg")
+	var preffered_renderer: Renderer
+	if _override_file.get_value("rendering", "renderer/rendering_method") == "mobile":
+		preffered_renderer = Renderer.VULKAN
+	else:
+		preffered_renderer = Renderer.OPENGL
+	(%RendererOptions as OptionButton).selected = preffered_renderer
+	
+	if RenderingServer.get_rendering_device():
+		(%CurrentRenderer as Label).text = "Текущий отрисовщик: Vulkan"
+	else:
+		(%CurrentRenderer as Label).text = "Текущий отрисовщик: OpenGL"
 	
 	# Основное
 	(%UpdatesCheck as BaseButton).set_pressed_no_signal(Globals.get_setting_bool("check_updates"))
@@ -280,7 +295,8 @@ func _on_import_file_dialog_file_selected(path: String) -> void:
 	import_confirm_dialog.dialog_text += "\n%s\n" % _save_import_path
 	import_confirm_dialog.dialog_text += "ВНИМАНИЕ: текущее сохранение будет утрачено безвозвратно!"
 	import_confirm_dialog.dialog_text += "\nПосле импортирования игра будет перезапущена."
-	import_confirm_dialog.popup_centered.call_deferred(Vector2i.ONE) # сбрасываем до минимального размера
+	# сбрасываем до минимального размера
+	import_confirm_dialog.popup_centered.call_deferred(Vector2i.ONE) 
 
 
 func _on_import_confirm_dialog_confirmed() -> void:
@@ -355,6 +371,13 @@ func _on_fps_slider_value_changed(value: float) -> void:
 func _on_low_graphics_check_toggled(toggled_on: bool) -> void:
 	Globals.set_setting_bool("low_graphics", toggled_on)
 	Globals.apply_settings()
+
+
+func _on_renderer_options_item_selected(index: int) -> void:
+	var new_renderer: String = "gl_compatibility" if index == Renderer.OPENGL else "mobile"
+	_override_file.set_value("rendering", "renderer/rendering_method", new_renderer)
+	_override_file.set_value("rendering", "renderer/rendering_method.mobile", new_renderer)
+	_override_file.save("user://engine_settings.cfg")
 #endregion
 
 

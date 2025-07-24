@@ -180,16 +180,17 @@ func import_save(path: String) -> Error:
 func setup_settings() -> void:
 	var override_file := ConfigFile.new()
 	override_file.load("user://engine_settings.cfg")
-	# TODO: вернуть выбор отрисовщика
 	
 	# Основное
 	set_setting_bool("check_updates", get_setting_bool("check_updates", true))
 	set_setting_bool("check_betas", get_setting_bool("check_betas", version.count('.') == 3))
 	set_setting_bool("check_patches", get_setting_bool("check_patches", true))
+	
 	# Сеть
 	set_setting_bool("upnp", get_setting_bool("upnp", false))
 	set_setting_bool("broadcast", get_setting_bool("broadcast", true))
 	set_setting_bool("reject_players", get_setting_bool("reject_players", false))
+	
 	# Игра
 	set_setting_bool("minimap", get_setting_bool("minimap", true))
 	set_setting_bool("debug_info", get_setting_bool("debug_info", OS.is_debug_build()))
@@ -197,16 +198,25 @@ func setup_settings() -> void:
 	set_setting_bool("vibration", get_setting_bool("vibration", false))
 	set_setting_bool("aim_dodge", get_setting_bool("aim_dodge", false))
 	set_setting_bool("advices", get_setting_bool("advices", true))
+	
 	# Графика
 	set_setting_bool("fullscreen", get_setting_bool("fullscreen", not OS.has_feature("pc")))
 	set_setting_int("max_fps", get_setting_int("max_fps", 130))
 	set_setting_bool("low_graphics", get_setting_bool("low_graphics", false))
+	
+	var preffered_renderer: String = ProjectSettings.get_setting_with_override(
+			&"rendering/renderer/rendering_method")
+	override_file.set_value("rendering", "renderer/rendering_method", preffered_renderer)
+	override_file.set_value("rendering", "renderer/rendering_method.mobile", preffered_renderer)
+	
 	# Звук
 	set_setting_float("master_volume", get_setting_float("master_volume", 1.0))
 	set_setting_float("music_volume", get_setting_float("music_volume", 0.7))
 	set_setting_float("sfx_volume", get_setting_float("sfx_volume", 1.0))
 	set_setting_bool("custom_tracks", get_setting_bool("custom_tracks", OS.has_feature("pc")))
 	set_setting_bool("official_tracks", get_setting_bool("official_tracks", true))
+	
+	override_file.save("user://engine_settings.cfg")
 
 
 ## Устанавливает настройки управления по умолчанию, если их ещё нет.
