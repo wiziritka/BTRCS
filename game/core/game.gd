@@ -72,8 +72,11 @@ var world: World
 var banned_ips: Array[String]
 
 var _scene_multiplayer: SceneMultiplayer
+
 var _players_names: Dictionary[int, String]
+var _players_teams: Dictionary[int, int]
 var _players_equip_data: Dictionary[int, Array]
+
 var _preloading_equip := false
 var _players_not_ready: Array[int]
 @onready var _loader: Loader = $Loader
@@ -217,8 +220,8 @@ func close() -> void:
 	print_verbose("Closed.")
 
 
-## Загружает событие по данным [param event_id] и [param map_id]. Если вызвано сервером без игрока,
-## [param player_name] и [param equip_data] можно не указывать.
+## Загружает событие по данным [param event_idx] и [param map_idx]. Если вызвано сервером
+## без игрока, [param player_name] и [param equip_data] можно не указывать.
 func load_event(event_idx: int, map_idx: int, player_name := "",
 		equip_data: Array[int] = []) -> void:
 	state = State.LOADING
@@ -243,6 +246,17 @@ func load_event(event_idx: int, map_idx: int, player_name := "",
 		return
 	print_verbose("Sending data. Name: %s, equip data: %s." % [player_name, str(equip_data)])
 	_send_player_data.rpc_id(MultiplayerPeer.TARGET_PEER_SERVER, player_name, equip_data)
+
+
+## Устанавливает команды игроков. Должно вызываться только на сервере.
+func set_players_teams(players_teams: Dictionary[int, int]) -> void:
+	if not multiplayer.is_server():
+		push_error("Unexpected call on client.")
+		return
+	_players_teams.clear()
+	for id: int in players_teams:
+		if players_teams[id] >= 0:
+			_players_teams[id] = players_teams[id]
 
 
 ## Загружает мир по данному [param path] и [param map_id].
@@ -368,7 +382,7 @@ func _send_ready() -> void:
 
 
 @rpc("call_local", "reliable", "authority", 1)
-func _start_event(players_names: Dictionary[int, String], \
+func _start_event(players_names: Dictionary[int, String],
 		players_equip_data: Dictionary[int, Array]) -> void:
 	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
 		push_error("This method must be called only by server.")
@@ -380,6 +394,9 @@ func _start_event(players_names: Dictionary[int, String], \
 	event.ended.connect(_on_event_ended)
 	event.players_names = players_names
 	event.players_equip_data = players_equip_data
+	if multiplayer.is_server():
+		event.players_teams = _players_teams.duplicate()
+		_players_teams.clear()
 	event.created_ticks_msec = Time.get_ticks_msec()
 	add_child(event)
 	_loader.finish_load(true)

@@ -19,6 +19,7 @@ var _return_timer := 0.0
 
 
 func _ready() -> void:
+	reset_physics_interpolation()
 	if _event.local_team != team:
 		$ScreenMarker.queue_free()
 	

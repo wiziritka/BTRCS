@@ -18,6 +18,8 @@ enum StartRejectReason {
 	TOO_MANY_PLAYERS = 2,
 	## Количеситво игроков не делится на значение, указанное в текущем событии.
 	INDIVISIBLE_NUMBER_OF_PLAYERS = 3,
+	## Команды разделены неправильно (игроков одной команды больше другой).
+	BAD_TEAMS = 4,
 }
 ## Перечисление действий админа.
 enum AdminAction {
@@ -27,6 +29,15 @@ enum AdminAction {
 	BAN = 1,
 	## Передать права админа.
 	TRANSFER_ADMIN_RIGHTS = 2,
+}
+## Перечисление действий с командами.
+enum TeamAction {
+	## Добавить игрока в красную команду.
+	RED_TEAM = 0,
+	## Добавить игрока в синюю команду.
+	BLUE_TEAM = 1,
+	## Убрать игрока из команды.
+	REMOVE_TEAM = 2,
 }
 
 ## Выбранное событие.
@@ -39,6 +50,9 @@ var selected_maps: Array[int]
 ## Словарь с подключёнными игроками в формате <ID игрока> - <имя игрока>.
 ## Доступно только на сервере.
 var players: Dictionary[int, String]
+## Словарь с подключёнными игроками в формате <ID игрока> - <команда игрока>.
+## Доступно только на сервере.
+var players_teams: Dictionary[int, int]
 ## Идентификатор админа.
 var admin_id: int = -1
 
@@ -191,6 +205,44 @@ func request_admin_action(id: int, action: AdminAction) -> void:
 			push_warning("Invalid admin action requested.")
 
 
+## Запрашивает сервер выполнить действие с командами [param action] по отношению к игроку с
+## идентификатором [param id].[br]
+## [b]Примечание[/b]: этот метод должен вызываться только как RPC к серверу
+## ([constant MultiplayerPeer.TARGET_PEER_SERVER]).
+@rpc("any_peer", "reliable", "call_local", 1)
+func request_team_action(id: int, action: TeamAction) -> void:
+	if not multiplayer.is_server():
+		push_error("Unexpected call on client.")
+		return
+	
+	var sender_id: int = multiplayer.get_remote_sender_id()
+	if not sender_id in [admin_id, MultiplayerPeer.TARGET_PEER_SERVER]:
+		push_warning("Team action request rejected: player %d is not admin." % sender_id)
+		return
+	if _game.state != Game.State.LOBBY:
+		push_warning("Can't do team actions if not in lobby.")
+		return
+	if not id in players and id != MultiplayerPeer.TARGET_PEER_SERVER:
+		push_warning("Can't do team actions on non-existent player %d." % id)
+		return
+	
+	match action:
+		TeamAction.RED_TEAM:
+			players_teams[id] = 0
+			_update_player_entry_team.rpc(id, 0)
+			print_verbose("Added player %d to red team." % id)
+		TeamAction.BLUE_TEAM:
+			players_teams[id] = 1
+			_update_player_entry_team.rpc(id, 1)
+			print_verbose("Added player %d to blue team." % id)
+		TeamAction.REMOVE_TEAM:
+			players_teams[id] = -1
+			_update_player_entry_team.rpc(id, -1)
+			print_verbose("Removed player %d from team." % id)
+		_:
+			push_warning("Invalid team action requested.")
+
+
 ## Запрашивает сервер начать событие.[br]
 ## [b]Примечание[/b]: этот метод должен вызываться только как RPC к серверу
 ## ([constant MultiplayerPeer.TARGET_PEER_SERVER]).
@@ -229,16 +281,21 @@ func update_selected() -> void:
 
 
 @rpc("reliable", "call_local", "authority", 1)
-func _add_player_entry(id: int, player_name: String) -> void:
+func _add_player_entry(id: int, player_name: String, player_team: int = -1) -> void:
 	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
 		push_error("This method must be called only by server.")
 		return
 	
 	var player_entry: Node = _player_entry_scene.instantiate()
 	player_entry.name = str(id)
-	(player_entry.get_node(^"Name") as Label).text = player_name
-	var admin_actions: MenuButton = player_entry.get_node(^"AdminActions")
 	
+	var name_label: Label = player_entry.get_node(^"Name")
+	name_label.text = player_name
+	if player_team >= 0:
+		name_label.add_theme_constant_override(&"outline_size", 4)
+		name_label.add_theme_color_override(&"font_outline_color", Entity.TEAM_COLORS[player_team])
+	
+	var admin_actions: MenuButton = player_entry.get_node(^"AdminActions")
 	if id == multiplayer.get_unique_id():
 		(player_entry.get_node(^"Name") as Label).add_theme_color_override(
 				&"font_color", Color.CORNFLOWER_BLUE)
@@ -248,11 +305,31 @@ func _add_player_entry(id: int, player_name: String) -> void:
 		# Сервер нельзя выгнать/забанить
 		admin_actions.get_popup().set_item_disabled(0, true)
 		admin_actions.get_popup().set_item_disabled(1, true)
-	
 	admin_actions.visible = _is_admin()
 	admin_actions.get_popup().id_pressed.connect(_on_admin_actions_menu_id_pressed.bind(id))
+	
+	var team_actions: MenuButton = player_entry.get_node(^"TeamActions")
+	team_actions.visible = _is_admin() and Globals.items_db.events[selected_event].team_event
+	team_actions.get_popup().id_pressed.connect(_on_team_actions_menu_id_pressed.bind(id))
+	
 	_players_container.add_child(player_entry)
-	print_verbose("Added player %d entry with name %s." % [id, player_name])
+	print_verbose("Added player %d entry with name %s in team %d." % [id, player_name, player_team])
+
+
+@rpc("reliable", "call_local", "authority", 1)
+func _update_player_entry_team(id: int, player_team: int = -1) -> void:
+	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
+		push_error("This method must be called only by server.")
+		return
+	
+	var name_label: Label = _players_container.get_node(str(id)).get_node(^"Name")
+	if player_team >= 0:
+		name_label.add_theme_constant_override(&"outline_size", 4)
+		name_label.add_theme_color_override(&"font_outline_color", Entity.TEAM_COLORS[player_team])
+	else:
+		name_label.remove_theme_constant_override(&"outline_size")
+		name_label.remove_theme_color_override(&"font_outline_color")
+	print_verbose("Updated player %d entry with team %d." % [id, player_team])
 
 
 @rpc("reliable", "call_local", "authority", 1)
@@ -280,11 +357,12 @@ func _register_new_player(player_name: String) -> void:
 		_client_timers[sender_id].queue_free()
 		_client_timers.erase(sender_id)
 	for id: int in players:
-		_add_player_entry.rpc_id(sender_id, id, players[id])
+		_add_player_entry.rpc_id(sender_id, id, players[id], players_teams[id])
 	_set_environment.rpc_id(sender_id, selected_event, selected_map)
 	player_name = Utils.validate_player_name(player_name, sender_id)
 	players[sender_id] = player_name
-	_add_player_entry.rpc(sender_id, player_name)
+	players_teams[sender_id] = -1
+	_add_player_entry.rpc(sender_id, player_name, -1)
 	
 	_chat.post_message.rpc(
 			"> [outline_size=4][color=green]%s[/color][/outline_size] подключается!" % player_name)
@@ -315,6 +393,8 @@ func _set_admin(admin: int) -> void:
 	for entry: Node in _players_container.get_children():
 		(entry.get_node(^"AdminActions") as CanvasItem).visible = _is_admin()
 		(entry.get_node(^"Admin") as CanvasItem).visible = int(entry.name) == admin_id
+		(entry.get_node(^"TeamActions") as CanvasItem).visible = _is_admin() \
+				and Globals.items_db.events[selected_event].team_event
 	if _is_admin():
 		# Просим сервер установить выбранные ранее НАМИ событие и карту
 		request_set_environment.rpc_id(MultiplayerPeer.TARGET_PEER_SERVER,
@@ -335,6 +415,14 @@ func _set_environment(event_idx: int, map_idx: int) -> void:
 	if _is_admin():
 		selected_maps[event_idx] = map_idx
 		_save_selected_environment()
+	
+	for entry: Node in _players_container.get_children():
+		var team_event: bool = Globals.items_db.events[selected_event].team_event
+		(entry.get_node(^"TeamActions") as CanvasItem).visible = _is_admin() and team_event
+		var name_label: Label = entry.get_node(^"Name")
+		if name_label.has_theme_constant_override(&"outline_size"):
+			name_label.add_theme_constant_override(&"outline_size", 4 if team_event else 0)
+	
 	print_verbose("Environment set: event index - %d, map index - %d." % [event_idx, map_idx])
 	_update_environment()
 
@@ -395,6 +483,9 @@ func _reject_start_event(reason: StartRejectReason, players_count: int) -> void:
 				players_count,
 				Globals.items_db.events[selected_event].players_divider,
 			])
+		StartRejectReason.BAD_TEAMS:
+			_game.show_error("Невозможно начать игру: игроков в одной команде больше чем в другой.")
+			print_verbose("Start rejected: one team has more players than in other.")
 		_:
 			push_warning("Received invalid reject reason.")
 
@@ -419,6 +510,8 @@ func _start_event(event_idx: int, map_idx: int) -> void:
 					_client_timers[id].queue_free()
 					_client_timers.erase(id)
 				push_warning("Start event: peer %d kicked as not registered." % id)
+		if Globals.items_db.events[event_idx].team_event:
+			_game.set_players_teams(players_teams)
 		if Globals.headless:
 			_game.load_event(event_idx, map_idx)
 			return
@@ -439,6 +532,7 @@ func _unregister_player(id: int) -> void:
 	_chat.players_names.erase(id)
 	_chat.players_teams.erase(id)
 	players.erase(id)
+	players_teams.erase(id)
 	if id == admin_id:
 		if not players.is_empty():
 			admin_id = players.keys()[0]
@@ -471,6 +565,18 @@ func _get_start_reject_reason() -> StartRejectReason:
 			players.size(),
 			Globals.items_db.events[selected_event].players_divider,
 		])
+	else:
+		var red_team: int = 0
+		var blue_team: int = 0
+		for id: int in players_teams:
+			if players_teams[id] == 0:
+				red_team += 1
+			elif players_teams[id] == 1:
+				blue_team += 1
+		if roundi(players.size() / 2.0) < maxi(red_team, blue_team):
+			start_reject_reason = StartRejectReason.BAD_TEAMS
+			print_verbose("Rejecting start: one team has more players than in other.")
+	
 	return start_reject_reason
 
 
@@ -628,6 +734,42 @@ func _process_console_command(command: PackedStringArray) -> bool:
 			id = int(command[1])
 		request_admin_action.rpc_id(MultiplayerPeer.TARGET_PEER_SERVER,
 				id, AdminAction.BAN)
+	elif (command[0] == "red-team" or command[0] == "red-team-id") and command.size() == 2:
+		recognized = true
+		if not _is_admin():
+			printerr("This command only available for admins.")
+			return recognized
+		var id: int
+		if command[0] == "red-team":
+			id = _get_player_id(command[1])
+		else:
+			id = int(command[1])
+		request_team_action.rpc_id(MultiplayerPeer.TARGET_PEER_SERVER,
+				id, TeamAction.RED_TEAM)
+	elif (command[0] == "blue-team" or command[0] == "blue-team-id") and command.size() == 2:
+		recognized = true
+		if not _is_admin():
+			printerr("This command only available for admins.")
+			return recognized
+		var id: int
+		if command[0] == "blue-team":
+			id = _get_player_id(command[1])
+		else:
+			id = int(command[1])
+		request_team_action.rpc_id(MultiplayerPeer.TARGET_PEER_SERVER,
+				id, TeamAction.BLUE_TEAM)
+	elif (command[0] == "remove-team" or command[0] == "remove-team-id") and command.size() == 2:
+		recognized = true
+		if not _is_admin():
+			printerr("This command only available for admins.")
+			return recognized
+		var id: int
+		if command[0] == "remove-team":
+			id = _get_player_id(command[1])
+		else:
+			id = int(command[1])
+		request_team_action.rpc_id(MultiplayerPeer.TARGET_PEER_SERVER,
+				id, TeamAction.REMOVE_TEAM)
 	
 	return recognized
 
@@ -650,6 +792,12 @@ Note: you can always set admin to yourself if you are server.")
 	print("kick-id <id> - Same as kick, but uses player ID.")
 	print("ban <player> - Bans specified player.")
 	print("ban-id <id> - Same as ban, but uses player ID.")
+	print("red-team <player> - Adds specified player to red team.")
+	print("red-team-id <id> - Same as red-team, but uses player ID.")
+	print("blue-team <player> - Adds specified player to blue team.")
+	print("blue-team-id <id> - Same as blue-team, but uses player ID.")
+	print("remove-team <player> - Removes specified player from team.")
+	print("remove-team-id <id> - Same as remove-team, but uses player ID.")
 
 
 func _is_admin() -> bool:
@@ -676,6 +824,7 @@ func _on_game_created() -> void:
 	(%ControlButtons/ConnectedToIP as CanvasItem).hide()
 	(%ControlButtons/ViewIP as CanvasItem).show()
 	players.clear()
+	players_teams.clear()
 	if not Globals.headless:
 		_register_new_player.rpc_id(MultiplayerPeer.TARGET_PEER_SERVER,
 				Globals.get_string("player_name"))
@@ -761,6 +910,10 @@ func _on_peer_disconnected(id: int) -> void:
 
 func _on_admin_actions_menu_id_pressed(action: AdminAction, peer: int) -> void:
 	request_admin_action.rpc_id(MultiplayerPeer.TARGET_PEER_SERVER, peer, action)
+
+
+func _on_team_actions_menu_id_pressed(action: TeamAction, peer: int) -> void:
+	request_team_action.rpc_id(MultiplayerPeer.TARGET_PEER_SERVER, peer, action)
 
 
 func _on_item_selected(type: ItemsDB.Item, idx: int) -> void:

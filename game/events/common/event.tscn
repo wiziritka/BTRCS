@@ -418,3 +418,4 @@ bus = &"Music"
 [connection signal="message_posted" from="UI/Main/ChatPanel" to="UI" method="_on_message_posted"]
 [connection signal="text_submitted" from="UI/Main/ChatPanel/VBoxContainer/HBoxContainer/LineEdit" to="UI/Main/ChatPanel" method="send_message" unbinds=1]
 [connection signal="pressed" from="UI/Main/ChatPanel/VBoxContainer/HBoxContainer/Send" to="UI/Main/ChatPanel" method="send_message"]
+[connection signal="confirmed" from="UI/QuitDialog" to="UI" method="_on_quit_dialog_confirmed"]

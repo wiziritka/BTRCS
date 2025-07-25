@@ -10,6 +10,7 @@ name = "Захват флага"
 brief_description = "Принеси флаг противника на свою базу!"
 min_players = 4
 players_divider = 2
+team_event = true
 scene_path = "uid://biauwlgys7ce4"
 image_path = "uid://dmn8kaiaf67qv"
 maps = Array[ExtResource("1_0vfle")]([ExtResource("2_xa7ng")])

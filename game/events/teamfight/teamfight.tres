@@ -11,6 +11,7 @@ name = "Командный бой"
 brief_description = "Побеждай противников на счёт!"
 min_players = 4
 players_divider = 2
+team_event = true
 scene_path = "uid://d2iraf4bc27ee"
 image_path = "uid://crqlredjtnixv"
 maps = Array[ExtResource("1_d4e2q")]([ExtResource("2_nhpwv"), ExtResource("3_ejupg")])

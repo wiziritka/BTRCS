@@ -153,7 +153,9 @@ func _setup() -> void:
 	_start.rpc()
 
 
-## Метод для переопределения. В нём требуется заполнить [member players_teams].
+## Метод для переопределения. В нём требуется заполнить [member players_teams]. Он может быть уже
+## заранее частично заполненным, если в [EventData] этого события [member EventData.team_event]
+## равен [code]true[/code].
 ## Вызывается только на сервере. Обязателен.
 func _make_teams() -> void:
 	pass
