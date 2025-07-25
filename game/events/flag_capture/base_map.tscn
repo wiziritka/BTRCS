@@ -4,7 +4,7 @@
 
 [node name="Map" instance=ExtResource("1_5ed8r")]
 metadata/_edit_vertical_guides_ = [-4000.0, 4000.0]
-metadata/_edit_horizontal_guides_ = [-4000.0, 4000.0]
+metadata/_edit_horizontal_guides_ = [-3200.0, 3200.0]
 
 [node name="Left" parent="Borders" index="0"]
 position = Vector2(-4000, 0)
@@ -13,10 +13,10 @@ position = Vector2(-4000, 0)
 position = Vector2(4000, 0)
 
 [node name="Up" parent="Borders" index="2"]
-position = Vector2(0, -4000)
+position = Vector2(0, -3200)
 
 [node name="Down" parent="Borders" index="3"]
-position = Vector2(0, 4000)
+position = Vector2(0, 3200)
 
 [node name="SpawnPoints0" type="Node2D" parent="." index="3"]
 
