@@ -536,7 +536,7 @@ wait_time = 2.0
 
 [node name="Smokes" type="Node2D" parent="Explosion" index="0"]
 modulate = Color(1, 1, 1, 0)
-z_index = 2
+z_index = 4
 
 [node name="Smoke0" type="Sprite2D" parent="Explosion/Smokes" index="0"]
 rotation = -0.357852
@@ -556,7 +556,7 @@ texture = ExtResource("3_qcdsd")
 
 [node name="Smoke" type="Sprite2D" parent="Explosion" index="1"]
 modulate = Color(1, 1, 1, 0)
-z_index = 2
+z_index = 4
 scale = Vector2(4, 4)
 texture = ExtResource("5_xbloa")
 
