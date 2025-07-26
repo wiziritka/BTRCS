@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SkinData" load_steps=2 format=3 uid="uid://ravfaps5efeu"]
+
+[ext_resource type="Script" uid="uid://d6lhqjoo2iuf" path="res://game/player/equip/skin_data.gd" id="1_0dx43"]
+
+[resource]
+script = ExtResource("1_0dx43")
+name = "Тенна"
+rarity = 2
+id = "tenna"
+brief_description = "ЭТО ТВ ЧАС!!!"
+custom_hurt_vfx = true
+custom_death_vfx = true
+custom_animations = true
+scene_path = "uid://csyhjqdonjsfw"
+image_path = "uid://bytuadxeyrrf"
+metadata/_custom_type_script = "uid://d6lhqjoo2iuf"

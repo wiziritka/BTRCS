@@ -1,0 +1,220 @@
+[gd_scene load_steps=9 format=3 uid="uid://ccxfjys3detus"]
+
+[ext_resource type="Texture2D" uid="uid://45onfn78lv5w" path="res://game/skins/videogames/tenna/tenna_dead.png" id="1_cva4s"]
+[ext_resource type="Texture2D" uid="uid://d0fecuqx3mgbu" path="res://game/skins/videogames/tenna/flashes.png" id="2_fsqnr"]
+[ext_resource type="Texture2D" uid="uid://nt3015ckqmvm" path="res://game/skins/videogames/tenna/sparks.png" id="3_vjx1g"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8uxtc"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_110g0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.875, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+metadata/_snap_count = 8
+
+[sub_resource type="Animation" id="Animation_xe8os"]
+resource_name = "death"
+length = 2.0
+step = 0.05
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Particles")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [false],
+"method": &"restart"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Tenna/Flashes:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Tenna/Flashes:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35000002, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.70000005, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tenna:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.49999997, 0.54999995, 0.59999996, 0.65, 0.7, 0.75, 0.79999995, 1.1, 1.4, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-4.5, -2.5), Vector2(4, 3.5), Vector2(3.5, -5), Vector2(-6, 3), Vector2(-4, -6), Vector2(-1, 1), Vector2(-7.5, 1), Vector2(-1.5, -6), Vector2(-4.5, -2.5), Vector2(4, 3.5), Vector2(3.5, -5), Vector2(-6, 3), Vector2(-4, -6), Vector2(-1, 1), Vector2(-4, -1), Vector2(0, 0), Vector2(0, 0), Vector2(8, 1), Vector2(33, 6)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Tenna:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.1, 1.4, 2),
+"transitions": PackedFloat32Array(1, 2, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 0.11596502, 0.57595867]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Tenna:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1.8, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_mope6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Tenna/Flashes:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Tenna/Flashes:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Tenna:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tenna:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Tenna:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hnkv0"]
+_data = {
+&"RESET": SubResource("Animation_mope6"),
+&"death": SubResource("Animation_xe8os")
+}
+
+[node name="TennaDeathVfx" type="Node2D"]
+
+[node name="Tenna" type="Sprite2D" parent="."]
+texture = ExtResource("1_cva4s")
+offset = Vector2(4, -20)
+
+[node name="Flashes" type="Sprite2D" parent="Tenna"]
+visible = false
+show_behind_parent = true
+texture = ExtResource("2_fsqnr")
+offset = Vector2(0, 16)
+vframes = 4
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+z_index = 1
+material = SubResource("CanvasItemMaterial_8uxtc")
+emitting = false
+amount = 12
+texture = ExtResource("3_vjx1g")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 64.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 64.0
+initial_velocity_max = 320.0
+angular_velocity_max = 360.0
+angle_max = 360.0
+scale_amount_curve = SubResource("Curve_110g0")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_hnkv0")
+}
+autoplay = "death"
