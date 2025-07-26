@@ -1,7 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://5wx4yqp027gq"]
+[gd_scene load_steps=13 format=3 uid="uid://5wx4yqp027gq"]
 
 [ext_resource type="Script" uid="uid://ctrkbviiei746" path="res://menu/settings/controls.gd" id="1_eiwbe"]
 [ext_resource type="PackedScene" uid="uid://0wc72b0o2o11" path="res://game/player/ui/player_ui.tscn" id="2_mu25c"]
+[ext_resource type="Texture2D" uid="uid://ix82y4qydhql" path="res://menu/theme/icons/right.png" id="2_p6t4g"]
+[ext_resource type="Texture2D" uid="uid://c1rotus1aunmr" path="res://menu/theme/icons/left.png" id="3_0kkjk"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="3_d1pvs"]
 [ext_resource type="Script" uid="uid://dt84u7tx4bt70" path="res://menu/settings/position_editor.gd" id="3_mu25c"]
 [ext_resource type="Script" uid="uid://bno2phak6wpyr" path="res://menu/settings/joystick_editor.gd" id="4_f7qr5"]
@@ -83,7 +85,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.6, 0, 0.8, 1)
 
-[node name="ShootAreaHSplit" type="HSplitContainer" parent="."]
+[node name="LeftShootAreaHSplit" type="HSplitContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -93,33 +95,100 @@ grow_vertical = 2
 theme_override_styles/split_bar_background = SubResource("StyleBoxFlat_mu25c")
 split_offset = 640
 
-[node name="ShootAreaVSplit" type="VSplitContainer" parent="ShootAreaHSplit"]
+[node name="ShootAreaVSplit" type="VSplitContainer" parent="LeftShootAreaHSplit"]
 layout_mode = 2
 theme_override_styles/split_bar_background = SubResource("StyleBoxFlat_mu25c")
 split_offset = 256
 
-[node name="Area" type="ColorRect" parent="ShootAreaHSplit/ShootAreaVSplit"]
-custom_minimum_size = Vector2(320, 64)
+[node name="Area" type="ColorRect" parent="LeftShootAreaHSplit/ShootAreaVSplit"]
+custom_minimum_size = Vector2(320, 96)
 layout_mode = 2
 color = Color(0.662745, 0, 0, 0.34902)
 
-[node name="Label" type="Label" parent="ShootAreaHSplit/ShootAreaVSplit/Area"]
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftShootAreaHSplit/ShootAreaVSplit/Area"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.5
+offset_top = -11.5
+offset_right = 60.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="LeftShootAreaHSplit/ShootAreaVSplit/Area/VBoxContainer"]
+layout_mode = 2
+text = "Зона стрельбы"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ShootAreaMoveRight" type="Button" parent="LeftShootAreaHSplit/ShootAreaVSplit/Area/VBoxContainer"]
+layout_mode = 2
+text = "Переместить направо"
+icon = ExtResource("2_p6t4g")
+
+[node name="Control" type="Control" parent="LeftShootAreaHSplit/ShootAreaVSplit"]
+custom_minimum_size = Vector2(0, 240)
+layout_mode = 2
+
+[node name="Control" type="Control" parent="LeftShootAreaHSplit"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+
+[node name="RightShootAreaHSplit" type="HSplitContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/split_bar_background = SubResource("StyleBoxFlat_mu25c")
+split_offset = 640
+
+[node name="Control" type="Control" parent="RightShootAreaHSplit"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+
+[node name="ShootAreaVSplit" type="VSplitContainer" parent="RightShootAreaHSplit"]
+layout_mode = 2
+theme_override_styles/split_bar_background = SubResource("StyleBoxFlat_mu25c")
+split_offset = 256
+
+[node name="Area" type="ColorRect" parent="RightShootAreaHSplit/ShootAreaVSplit"]
+custom_minimum_size = Vector2(320, 96)
+layout_mode = 2
+color = Color(0.662745, 0, 0, 0.34902)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RightShootAreaHSplit/ShootAreaVSplit/Area"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -41.5
+offset_right = 120.0
+offset_bottom = 41.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="RightShootAreaHSplit/ShootAreaVSplit/Area/VBoxContainer"]
+layout_mode = 2
 text = "Зона стрельбы"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Control" type="Control" parent="ShootAreaHSplit/ShootAreaVSplit"]
-custom_minimum_size = Vector2(0, 240)
+[node name="ShootAreaMoveLeft" type="Button" parent="RightShootAreaHSplit/ShootAreaVSplit/Area/VBoxContainer"]
 layout_mode = 2
+text = "Переместить налево"
+icon = ExtResource("3_0kkjk")
 
-[node name="Control" type="Control" parent="ShootAreaHSplit"]
-custom_minimum_size = Vector2(320, 0)
+[node name="Control" type="Control" parent="RightShootAreaHSplit/ShootAreaVSplit"]
+custom_minimum_size = Vector2(0, 240)
 layout_mode = 2
 
 [node name="PlayerUI" parent="." instance=ExtResource("2_mu25c")]
@@ -136,7 +205,7 @@ process_mode = 4
 [node name="AimVirtualJoystick" parent="PlayerUI/Controller/TouchControls" index="1"]
 process_mode = 4
 
-[node name="ShootArea" parent="PlayerUI/Controller/TouchControls" index="2"]
+[node name="ShootArea" parent="PlayerUI/Controller/TouchControls/ShootAreaAnchor" index="0"]
 visible = false
 
 [node name="PositionEditor" type="Node" parent="PlayerUI/Controller/TouchControls/AdditionalButtonAnchor" index="2"]
@@ -440,6 +509,7 @@ icon = ExtResource("9_p6t4g")
 
 [connection signal="save_requested" from="." to="." method="_on_save_requested"]
 [connection signal="save_requested" from="." to="PlayerUI/Controller/HealthBar/PositionEditor" method="_on_controls_save_requested"]
+[connection signal="save_requested" from="." to="PlayerUI/Controller/TouchControls/AdditionalButtonAnchor/PositionEditor" method="_on_controls_save_requested"]
 [connection signal="save_requested" from="." to="PlayerUI/Controller/TouchControls/InteractButtonAnchor/PositionEditor" method="_on_controls_save_requested"]
 [connection signal="save_requested" from="." to="PlayerUI/Controller/CurrentWeapon/PositionEditor" method="_on_controls_save_requested"]
 [connection signal="save_requested" from="." to="PlayerUI/Controller/AdditionalWeapon/PositionEditor" method="_on_controls_save_requested"]
@@ -448,7 +518,8 @@ icon = ExtResource("9_p6t4g")
 [connection signal="save_requested" from="." to="PlayerUI/Controller/MoveJoystickEditor/PositionEditor" method="_on_controls_save_requested"]
 [connection signal="save_requested" from="." to="PlayerUI/Controller/AimJoystickEditor" method="_on_controls_save_requested"]
 [connection signal="save_requested" from="." to="PlayerUI/Controller/AimJoystickEditor/PositionEditor" method="_on_controls_save_requested"]
-[connection signal="save_requested" from="." to="PlayerUI/Controller/TouchControls/AdditionalButtonAnchor/PositionEditor" method="_on_controls_save_requested"]
+[connection signal="pressed" from="LeftShootAreaHSplit/ShootAreaVSplit/Area/VBoxContainer/ShootAreaMoveRight" to="." method="_on_shoot_area_move_right_pressed"]
+[connection signal="pressed" from="RightShootAreaHSplit/ShootAreaVSplit/Area/VBoxContainer/ShootAreaMoveLeft" to="." method="_on_shoot_area_move_left_pressed"]
 [connection signal="toggled" from="PlayerUI/Controller/MoveJoystickEditor/Edit" to="PlayerUI/Controller/MoveJoystickEditor/SettingsPanel" method="set_visible"]
 [connection signal="value_changed" from="PlayerUI/Controller/MoveJoystickEditor/SettingsPanel/VBox/Deadzone/DeadzoneSlider" to="PlayerUI/Controller/MoveJoystickEditor" method="_on_deadzone_slider_value_changed"]
 [connection signal="value_changed" from="PlayerUI/Controller/MoveJoystickEditor/SettingsPanel/VBox/Scale/ScaleSlider" to="PlayerUI/Controller/MoveJoystickEditor" method="_on_scale_slider_value_changed"]

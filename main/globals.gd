@@ -333,6 +333,7 @@ func setup_controls_settings() -> void:
 	
 	set_controls_vector2("shoot_area",
 			get_controls_vector2("shoot_area", Vector2(640.0, 256.0)))
+	set_controls_bool("shoot_area_right", get_controls_bool("shoot_area_right", false))
 
 
 ## Применяет общие настройки.

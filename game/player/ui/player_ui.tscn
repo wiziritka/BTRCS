@@ -244,7 +244,10 @@ tip_texture = ExtResource("5_5uxix")
 script = ExtResource("8_witf6")
 id = "aim_js"
 
-[node name="ShootArea" type="TouchScreenButton" parent="Controller/TouchControls"]
+[node name="ShootAreaAnchor" type="Control" parent="Controller/TouchControls"]
+anchors_preset = 0
+
+[node name="ShootArea" type="TouchScreenButton" parent="Controller/TouchControls/ShootAreaAnchor"]
 position = Vector2(320, 128)
 shape = SubResource("RectangleShape2D_6sal7")
 

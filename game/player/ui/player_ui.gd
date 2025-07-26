@@ -62,7 +62,7 @@ var _health_bar_tween: Tween
 
 @onready var _move_joystick: VirtualJoystick = $Controller/TouchControls/MoveVirtualJoystick
 @onready var _aim_joystick: VirtualJoystick = $Controller/TouchControls/AimVirtualJoystick
-@onready var _shoot_area: TouchScreenButton = $Controller/TouchControls/ShootArea
+@onready var _shoot_area: TouchScreenButton = $Controller/TouchControls/ShootAreaAnchor/ShootArea
 @onready var _single_shot_timer: Timer = $SingleShotTimer
 @onready var _interact_button: TouchScreenButton = \
 		$Controller/TouchControls/InteractButtonAnchor/InteractButton
@@ -113,6 +113,10 @@ func _ready() -> void:
 			(_shoot_area.shape as RectangleShape2D).size = \
 					Globals.get_controls_vector2("shoot_area")
 			_shoot_area.position = Globals.get_controls_vector2("shoot_area") / 2
+			if Globals.get_controls_bool("shoot_area_right"):
+				($Controller/TouchControls/ShootAreaAnchor as Control).set_anchors_preset(
+						Control.PRESET_TOP_RIGHT, true)
+				_shoot_area.position.x = -_shoot_area.position.x
 
 
 func _process(delta: float) -> void:
