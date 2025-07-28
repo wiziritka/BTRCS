@@ -532,7 +532,7 @@ func _loading_preload_resources() -> void:
 func _loading_upnp() -> void:
 	if not Globals.get_setting_bool("upnp"):
 		print_verbose("UPnP disabled.")
-		loading_stage_finished.emit.call_deferred(false)
+		loading_stage_finished.emit.call_deferred(false) # Ждём await
 		return
 	
 	_load_status_label.text = "Поиск устройств UPnP..."

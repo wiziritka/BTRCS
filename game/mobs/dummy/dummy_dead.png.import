@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk7tg4o2dhpm"
-path="res://.godot/imported/fluff.png-4ddb68467b5dc2f3091e24d2a1ba6c68.ctex"
+uid="uid://b8wwg2ykfshv8"
+path="res://.godot/imported/dummy_dead.png-ebb37831a2ae1c4b3b536d83bec748a6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/solo/training/dummy/fluff.png"
-dest_files=["res://.godot/imported/fluff.png-4ddb68467b5dc2f3091e24d2a1ba6c68.ctex"]
+source_file="res://game/mobs/dummy/dummy_dead.png"
+dest_files=["res://.godot/imported/dummy_dead.png-ebb37831a2ae1c4b3b536d83bec748a6.ctex"]
 
 [params]
 

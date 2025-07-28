@@ -1,16 +1,10 @@
-[gd_resource type="TileSet" load_steps=10 format=3 uid="uid://b31e3vrnaquca"]
+[gd_resource type="TileSet" load_steps=8 format=3 uid="uid://b31e3vrnaquca"]
 
 [ext_resource type="Texture2D" uid="uid://ck32nmxj55ewt" path="res://game/locations/training/tiles.png" id="1_e4gaf"]
 [ext_resource type="Texture2D" uid="uid://4vusibc0my3b" path="res://game/locations/training/hole_tiles.png" id="1_l6qyq"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_e4gaf"]
 tile_data = PackedInt32Array(0, 196609, 0, 65536, 196609, 1, 131072, 196609, 2, 1, 262145, 0, 65537, 262145, 1, 131073, 262145, 2, 2, 327681, 0, 65538, 327681, 1, 131074, 327681, 2)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_l6qyq"]
-tile_data = PackedInt32Array(0, 65537, 1, 65536, 65537, 2, 1, 131073, 1, 65537, 131073, 2)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_clhck"]
-tile_data = PackedInt32Array(0, 0, 0, 65536, 0, 1, 131072, 0, 2, 196608, 0, 3, 1, 65536, 0, 65537, 65536, 1, 131073, 65536, 2, 196609, 65536, 3, 2, 131072, 0, 65538, 131072, 1, 131074, 131072, 2, 196610, 131072, 3, 3, 196608, 0, 65539, 196608, 1, 131075, 196608, 2, 196611, 196608, 3)
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_7b23s"]
 tile_data = PackedInt32Array(0, 262144, 0, 65536, 262144, 1, 131072, 262144, 2, 1, 327680, 0, 65537, 327680, 1, 131073, 327680, 2, 2, 393216, 0, 65538, 393216, 1, 131074, 393216, 2)
@@ -128,7 +122,5 @@ physics_layer_1/collision_mask = 0
 sources/1 = SubResource("TileSetAtlasSource_l6qyq")
 sources/0 = SubResource("TileSetAtlasSource_edba8")
 pattern_0 = SubResource("TileMapPattern_e4gaf")
-pattern_1 = SubResource("TileMapPattern_l6qyq")
-pattern_2 = SubResource("TileMapPattern_clhck")
-pattern_3 = SubResource("TileMapPattern_7b23s")
-pattern_4 = SubResource("TileMapPattern_jq8g2")
+pattern_1 = SubResource("TileMapPattern_7b23s")
+pattern_2 = SubResource("TileMapPattern_jq8g2")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://j0nc4xdi7sr0"]
 
-[ext_resource type="Texture2D" uid="uid://b8wwg2ykfshv8" path="res://game/solo/training/dummy/dummy_dead.png" id="1_htngk"]
-[ext_resource type="Texture2D" uid="uid://bk7tg4o2dhpm" path="res://game/solo/training/dummy/fluff.png" id="2_rf5fc"]
+[ext_resource type="Texture2D" uid="uid://b8wwg2ykfshv8" path="res://game/mobs/dummy/dummy_dead.png" id="1_htngk"]
+[ext_resource type="Texture2D" uid="uid://bk7tg4o2dhpm" path="res://game/mobs/dummy/fluff.png" id="2_rf5fc"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_qvlos"]
 particles_animation = true

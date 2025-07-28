@@ -1,0 +1,243 @@
+extends World
+
+
+@export_multiline var texts: Array[String]
+
+var _input_method: Globals.InputMethod
+var _prev_joystick_fire: bool
+var _player: Player
+
+var _picked_up_items: int = 0
+var _enemies_killed: int = 0
+var _skill_used: int = 0
+var _conditions_met: int = 0
+
+
+func _enter_tree() -> void:
+	_prev_joystick_fire = Globals.get_controls_bool("joystick_fire")
+	Globals.set_controls_bool("joystick_fire", false)
+
+
+func _exit_tree() -> void:
+	super()
+	Globals.set_controls_bool("joystick_fire", _prev_joystick_fire)
+
+
+func _initialize() -> void:
+	($Music as AudioStreamPlayer).stream = tracks.pick_random()
+	($Music as AudioStreamPlayer).play()
+	
+	for spawn_point: Marker2D in $Map/DummySpawnPoints.get_children():
+		spawn_dummy(spawn_point.global_position)
+	spawn_player()
+	
+	_input_method = Globals.get_controls_int("input_method") as Globals.InputMethod
+	match _input_method:
+		Globals.InputMethod.KEYBOARD_AND_MOUSE:
+			show_text(texts[0] % [
+				_action_as_string("move_up"),
+				_action_as_string("move_left"),
+				_action_as_string("move_down"),
+				_action_as_string("move_right"),
+			])
+		Globals.InputMethod.TOUCH:
+			show_text(texts[1])
+
+
+func show_text(text: String) -> void:
+	($UI/Main/RichTextLabel as RichTextLabel).text = text
+
+
+func spawn_player() -> void:
+	var player: Player = entity_scenes[0].instantiate()
+	player.position = ($Map/SpawnPoint as Node2D).global_position
+	player.team = 0
+	player.id = multiplayer.get_unique_id()
+	player.player_name = Globals.get_string("player_name")
+	player.equip_data = [
+		Globals.items_db.skins_by_id[Globals.get_string("selected_skin")].idx_in_db,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+	]
+	player.name = "Player%d" % player.id
+	player.ammo_text_updated.connect(_on_player_ammo_text_updated)
+	_player = player
+	$Entities.add_child(player, true)
+
+
+func spawn_dummy(where: Vector2) -> void:
+	var enemy: Entity = entity_scenes[1].instantiate()
+	enemy.position = where
+	enemy.team = 1
+	enemy.id = -randi()
+	enemy.name += str(enemy.id)
+	enemy.died.connect(_on_enemy_died)
+	$Entities.add_child(enemy, true)
+
+
+func _action_as_string(action: String) -> String:
+	var encoded_input_event_types: Array[Globals.EncodedInputEventType] = \
+			Globals.get_controls_variant("action_%s_event_types" % action, [] as Array[int])
+	var encoded_input_event_values: Array[int] = \
+			Globals.get_controls_variant("action_%s_event_values" % action, [] as Array[int])
+	
+	var string: String = "не выбрано"
+	var first := true
+	for idx: int in encoded_input_event_types.size():
+		var encoded_input_event_type: Globals.EncodedInputEventType = encoded_input_event_types[idx]
+		var encoded_input_event_value: int = encoded_input_event_values[idx]
+		var event_as_string: String = Utils.encoded_input_event_as_text(encoded_input_event_type,
+				encoded_input_event_value)
+		if first:
+			string = event_as_string
+		if not first:
+			string += "/"
+			string += event_as_string
+	
+	return string
+
+
+func _check_conditions() -> void:
+	if _picked_up_items == 1 and _conditions_met == 0:
+		_conditions_met += 1
+		if _input_method == Globals.InputMethod.KEYBOARD_AND_MOUSE:
+			show_text(texts[5] % [_action_as_string("show_aim"), _action_as_string("shoot")])
+		elif _input_method == Globals.InputMethod.TOUCH:
+			show_text(texts[6])
+			($UI/Main/PlayerUI/Controller/TouchControls/AimVirtualJoystick as CanvasItem).show()
+			($UI/Main/PlayerUI/%ShootAreaHint as CanvasItem).show()
+	if _enemies_killed == 1 and _conditions_met == 1:
+		_conditions_met += 1
+		if _input_method == Globals.InputMethod.KEYBOARD_AND_MOUSE:
+			show_text(texts[7] % [_action_as_string("reload")])
+		elif _input_method == Globals.InputMethod.TOUCH:
+			show_text(texts[8])
+		$Map/Gates/Gate.queue_free()
+	if _picked_up_items == 2 and _conditions_met == 2:
+		_conditions_met += 1
+		if _input_method == Globals.InputMethod.KEYBOARD_AND_MOUSE:
+			show_text(texts[11] % [_action_as_string("weapon_heavy")])
+		elif _input_method == Globals.InputMethod.TOUCH:
+			show_text(texts[12])
+	if _enemies_killed == 4 and _conditions_met == 3:
+		_conditions_met += 1
+		$Map/Gates/Gate2.queue_free()
+		if _input_method == Globals.InputMethod.KEYBOARD_AND_MOUSE:
+			show_text(texts[13] % [_action_as_string("show_weapons")])
+		elif _input_method == Globals.InputMethod.TOUCH:
+			show_text(texts[14])
+			($UI/ShootDialog as Window).popup_centered()
+			await get_tree().process_frame
+			await get_tree().process_frame
+			get_tree().paused = true
+	if _enemies_killed == 8 and _picked_up_items == 4 and _conditions_met == 4:
+		_conditions_met += 1
+		$Map/Gates/Gate3.queue_free()
+		if _input_method == Globals.InputMethod.KEYBOARD_AND_MOUSE:
+			show_text(texts[18] % [_action_as_string("additional_button")])
+		elif _input_method == Globals.InputMethod.TOUCH:
+			show_text(texts[19])
+	if _picked_up_items == 5 and _conditions_met == 5:
+		_conditions_met += 1
+		_player.damage(50)
+		_player.skill.used.connect(_on_skill_used)
+		if _input_method == Globals.InputMethod.KEYBOARD_AND_MOUSE:
+			show_text(texts[21] % [_action_as_string("use_skill")])
+		elif _input_method == Globals.InputMethod.TOUCH:
+			show_text(texts[22])
+	if _skill_used == 1 and _conditions_met == 6:
+		_conditions_met += 1
+		$Map/Gates/Gate4.queue_free()
+		show_text(texts[23])
+
+
+func _on_enemy_died() -> void:
+	_enemies_killed += 1
+	_check_conditions()
+
+
+func _on_skill_used() -> void:
+	_skill_used += 1
+	_check_conditions()
+
+
+func _on_player_ammo_text_updated(_ammo_text: String) -> void:
+	if is_instance_valid(_player.current_weapon) \
+			and _player.current_weapon.ammo + _player.current_weapon.ammo_in_stock == 0 \
+			and _player.current_weapon.ammo_total > 0:
+		_player.add_ammo_to_weapon.rpc(_player.current_weapon_type, 1.0)
+		show_text(texts[4])
+
+
+func _on_quit_dialog_confirmed() -> void:
+	Globals.main.game.close()
+
+
+func _on_trigger_body_entered(body: Node2D, source: Area2D, idx: int) -> void:
+	if not body is Player:
+		return
+	source.queue_free()
+	match idx:
+		0 when _input_method == Globals.InputMethod.KEYBOARD_AND_MOUSE:
+			show_text(texts[2] % _action_as_string("interact"))
+		0 when _input_method == Globals.InputMethod.TOUCH:
+			show_text(texts[3])
+		1 when _input_method == Globals.InputMethod.KEYBOARD_AND_MOUSE:
+			show_text(texts[9])
+		1 when _input_method == Globals.InputMethod.TOUCH:
+			show_text(texts[10])
+			($UI/Main/PlayerUI as CanvasItem).hide()
+			$UI/Main/PlayerUI.process_mode = Node.PROCESS_MODE_DISABLED
+			($UI/Main/PlayerUIJF as CanvasItem).show()
+			$UI/Main/PlayerUIJF.process_mode = Node.PROCESS_MODE_INHERIT
+		2 when _input_method == Globals.InputMethod.KEYBOARD_AND_MOUSE:
+			show_text(texts[15] % [
+				_action_as_string("weapon_support"),
+				_action_as_string("weapon_melee"),
+			])
+		2 when _input_method == Globals.InputMethod.TOUCH:
+			if _prev_joystick_fire:
+				show_text(texts[16])
+			else:
+				show_text(texts[17])
+		3:
+			show_text(texts[20])
+		4 when _input_method == Globals.InputMethod.KEYBOARD_AND_MOUSE:
+			show_text(texts[24] % _action_as_string("interact"))
+		4 when _input_method == Globals.InputMethod.TOUCH:
+			show_text(texts[25])
+
+
+func _on_pickable_equip_item_picked_up() -> void:
+	_picked_up_items += 1
+	_check_conditions()
+
+
+func _on_player_ui_ready() -> void:
+	Globals.set_controls_bool("joystick_fire", true)
+
+
+func _on_shoot_dialog_confirmed() -> void:
+	_prev_joystick_fire = false
+	get_tree().paused = false
+	
+	($UI/Main/PlayerUIJF as CanvasItem).hide()
+	$UI/Main/PlayerUIJF.process_mode = Node.PROCESS_MODE_DISABLED
+	($UI/Main/PlayerUI as CanvasItem).show()
+	$UI/Main/PlayerUI.process_mode = Node.PROCESS_MODE_INHERIT
+	($UI/Main/PlayerUI/%ShootAreaHint as CanvasItem).hide()
+
+
+func _on_shoot_dialog_canceled() -> void:
+	_prev_joystick_fire = true
+	get_tree().paused = false
+
+
+func _on_finish_interactible_interacted(_who: Player) -> void:
+	($UI/End/AnimationPlayer as AnimationPlayer).play(&"end")
+	await ($UI/End/AnimationPlayer as AnimationPlayer).animation_finished
+	Globals.main.game.close()

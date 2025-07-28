@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://ba2cw3xgen7yp" path="res://game/shared/ui/minimap/minimap_tiles.tscn" id="1_3k0rv"]
 [ext_resource type="TileSet" uid="uid://b31e3vrnaquca" path="res://game/locations/training/tile_set.tres" id="2_0n48s"]
 [ext_resource type="Texture2D" uid="uid://clxph31brdjes" path="res://game/solo/training/guide_note.png" id="3_g3bfi"]
-[ext_resource type="PackedScene" uid="uid://c5gj3jyjpfs13" path="res://game/shared/interactible/interactible.tscn" id="4_4mg8e"]
+[ext_resource type="PackedScene" uid="uid://c5gj3jyjpfs13" path="res://game/shared/interactible/common/interactible.tscn" id="4_4mg8e"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_57gy5"]
 normal = Vector2(1, 0)

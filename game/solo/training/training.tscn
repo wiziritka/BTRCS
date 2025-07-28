@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://cq8tq5ih73nu7" path="res://game/solo/training/training_ui.gd" id="3_34tim"]
 [ext_resource type="PackedScene" uid="uid://bo4g1oix6cim0" path="res://game/solo/training/default_map.tscn" id="3_36lnl"]
 [ext_resource type="PackedScene" uid="uid://3l0k1cn63ahd" path="res://game/player/player.tscn" id="3_nr0v1"]
-[ext_resource type="PackedScene" uid="uid://cdo5q27lch5l8" path="res://game/solo/training/dummy/dummy.tscn" id="3_wkoo5"]
+[ext_resource type="PackedScene" uid="uid://cdo5q27lch5l8" path="res://game/mobs/dummy/dummy.tscn" id="3_wkoo5"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="4_wkoo5"]
 [ext_resource type="Texture2D" uid="uid://bppatxvwnx23n" path="res://game/solo/training/icons/enemies/robot_ak_74.png" id="5_8ojcx"]
 [ext_resource type="Texture2D" uid="uid://kjs4eaedpc65" path="res://game/solo/training/icons/enemies/robot_sword.png" id="6_5ylsm"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://d4mcugdviiqd0"]
 
-[ext_resource type="Texture2D" uid="uid://bk7tg4o2dhpm" path="res://game/solo/training/dummy/fluff.png" id="1_5qjhu"]
+[ext_resource type="Texture2D" uid="uid://bk7tg4o2dhpm" path="res://game/mobs/dummy/fluff.png" id="1_5qjhu"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5qjhu"]
 particles_animation = true

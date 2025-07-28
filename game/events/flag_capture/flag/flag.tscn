@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dfgdeiexpgkbi" path="res://game/events/flag_capture/flag/timer.png" id="3_jsgb6"]
 [ext_resource type="PackedScene" uid="uid://bppm7xaf2v7ti" path="res://game/shared/ui/screen_marker/screen_marker.tscn" id="4_m7w11"]
 [ext_resource type="Texture2D" uid="uid://clm45yn1rangi" path="res://game/events/flag_capture/flag/flag_marker.png" id="5_uuplo"]
-[ext_resource type="PackedScene" uid="uid://c5gj3jyjpfs13" path="res://game/shared/interactible/interactible.tscn" id="6_x0rae"]
+[ext_resource type="PackedScene" uid="uid://c5gj3jyjpfs13" path="res://game/shared/interactible/common/interactible.tscn" id="6_x0rae"]
 [ext_resource type="Script" uid="uid://buxfde3ak44cf" path="res://game/events/flag_capture/flag/carry_interactible.gd" id="7_tpurr"]
 [ext_resource type="Script" uid="uid://bfu44xg8268p7" path="res://game/events/flag_capture/flag/drop_interactible.gd" id="8_tpurr"]
 

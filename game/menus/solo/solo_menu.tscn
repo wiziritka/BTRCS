@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://behtxlo4s5s3"]
+[gd_scene load_steps=8 format=3 uid="uid://behtxlo4s5s3"]
 
 [ext_resource type="Script" uid="uid://dkaftynok7hlv" path="res://game/menus/solo/solo_menu.gd" id="1_cxrwa"]
 [ext_resource type="Texture2D" uid="uid://bu318tyxjskrf" path="res://game/menus/solo/background.png" id="2_upj1m"]
+[ext_resource type="Texture2D" uid="uid://b0j3g7rkerkdm" path="res://menu/theme/icons/help.png" id="3_4ufvw"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="3_q0x0n"]
 [ext_resource type="Texture2D" uid="uid://tspwihdtsmtv" path="res://game/menus/solo/icons/story.png" id="4_wtg2m"]
 [ext_resource type="Texture2D" uid="uid://c27ihlifw8d57" path="res://game/menus/solo/icons/challenges.png" id="5_4ufvw"]
@@ -53,9 +54,10 @@ layout_mode = 2
 [node name="Title" type="HBoxContainer" parent="Base/Margin/VBox"]
 layout_mode = 2
 
-[node name="Separator" type="Control" parent="Base/Margin/VBox/Title"]
+[node name="Tutorial" type="Button" parent="Base/Margin/VBox/Title"]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 2
+icon = ExtResource("3_4ufvw")
 
 [node name="TitleLabel" type="Label" parent="Base/Margin/VBox/Title"]
 layout_mode = 2
@@ -111,7 +113,17 @@ icon_alignment = 1
 vertical_icon_alignment = 0
 expand_icon = true
 
+[node name="TutorialDialog" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Обучение"
+size = Vector2i(284, 112)
+ok_button_text = "Пройти"
+dialog_text = "Ты действительно хочешь пройти обучение повторно?"
+cancel_button_text = "Отмена"
+
+[connection signal="pressed" from="Base/Margin/VBox/Title/Tutorial" to="TutorialDialog" method="popup_centered"]
 [connection signal="pressed" from="Base/Margin/VBox/Title/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Base/Margin/VBox/Buttons/Story" to="." method="_on_story_pressed"]
 [connection signal="pressed" from="Base/Margin/VBox/Buttons/Challenges" to="." method="_on_challenges_pressed"]
 [connection signal="pressed" from="Base/Margin/VBox/Buttons/Training" to="." method="_on_training_pressed"]
+[connection signal="confirmed" from="TutorialDialog" to="." method="_on_tutorial_dialog_confirmed"]

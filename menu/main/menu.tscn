@@ -213,6 +213,15 @@ unresizable = true
 ok_button_text = "Скачать"
 cancel_button_text = "Позже"
 
+[node name="TutorialDialog" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Обучение"
+size = Vector2i(391, 135)
+ok_button_text = "Пройти"
+dialog_text = "Похоже, ты запустил игру в первый раз. Хочешь пройти обучение?
+Его также можно пройти из меню одиночной игры."
+cancel_button_text = "Нет"
+
 [connection signal="pressed" from="ButtonsContainer/PlayButtonsContainer/PlaySolo" to="." method="_on_play_solo_pressed"]
 [connection signal="pressed" from="ButtonsContainer/PlayButtonsContainer/PlayNetwork" to="." method="_on_play_network_pressed"]
 [connection signal="pressed" from="ButtonsContainer/GameButtonsContainer/Inventory" to="." method="_on_inventory_pressed"]
@@ -224,3 +233,4 @@ cancel_button_text = "Позже"
 [connection signal="meta_clicked" from="About/MarginContainer/VBoxContainer/RichTextLabel" to="." method="_on_rich_text_label_meta_clicked"]
 [connection signal="pressed" from="About/MarginContainer/VBoxContainer/Close" to="About" method="hide"]
 [connection signal="confirmed" from="UpdateDialog" to="." method="_on_update_dialog_confirmed"]
+[connection signal="confirmed" from="TutorialDialog" to="." method="_on_tutorial_dialog_confirmed"]

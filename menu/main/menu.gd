@@ -21,19 +21,19 @@ func _notification(what: int) -> void:
 
 
 ## Проверяет наличие обновлений.
-func check_updates() -> void:
+func check_updates() -> bool:
 	if "--disable-update-check" in OS.get_cmdline_user_args() \
 			or not Globals.get_setting_bool("check_updates"):
 		print_verbose("Updates check disabled.")
-		return
+		return false
 	if not Globals.data_file:
 		print_verbose("Updates check failed: data is not available.")
-		return
+		return false
 	if Globals.data_file.has_section_key("versions", "checked"):
 		var betas_checked: bool = Globals.data_file.get_value("versions", "checked")
 		if not betas_checked or Globals.get_setting_bool("check_betas"):
 			print_verbose("Updates already checked.")
-			return
+			return false
 	
 	Globals.data_file.set_value("versions", "checked", Globals.get_setting_bool("check_betas"))
 	var remote_version: String = Globals.data_file.get_value("versions", "stable", Globals.version)
@@ -51,8 +51,10 @@ func check_updates() -> void:
 		($UpdateDialog as AcceptDialog).dialog_text = text
 		($UpdateDialog as Window).popup_centered()
 		print_verbose("Found new version: %s." % remote_version)
-	else:
-		print_verbose("Updates check done. Version is up to date.")
+		return true
+	
+	print_verbose("Updates check done. Version is up to date.")
+	return false
 
 
 func _is_version_newer_than(first: String, second: String) -> bool:
@@ -74,6 +76,10 @@ func _is_version_newer_than(first: String, second: String) -> bool:
 	return first_splits.size() < second_splits.size()
 
 
+func _on_update_dialog_visibility_changed() -> void:
+	($TutorialDialog as Window).popup_centered.call_deferred()
+
+
 func _on_play_solo_pressed() -> void:
 	Globals.main.open_solo_game()
 
@@ -91,7 +97,11 @@ func _on_settings_pressed() -> void:
 
 
 func _on_name_dialog_name_accepted() -> void:
-	check_updates.call_deferred() # избегаем exclusive child moment
+	var updates_found: bool = check_updates()
+	if updates_found:
+		($UpdateDialog as Window).visibility_changed.connect(_on_update_dialog_visibility_changed)
+	else:
+		($TutorialDialog as Window).popup_centered()
 
 
 func _on_update_dialog_confirmed() -> void:
@@ -104,3 +114,8 @@ func _on_quit_pressed() -> void:
 
 func _on_rich_text_label_meta_clicked(meta: Variant) -> void:
 	OS.shell_open(str(meta))
+
+
+func _on_tutorial_dialog_confirmed() -> void:
+	Globals.main.open_solo_game()
+	Globals.main.game.load_solo_world("uid://cbue2vn1da0il")

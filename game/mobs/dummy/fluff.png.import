@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://8h87oxcw2ldy"
-path="res://.godot/imported/hold_timer.png-e3de24d217ed4fea125bb8033a295727.ctex"
+uid="uid://bk7tg4o2dhpm"
+path="res://.godot/imported/fluff.png-431cc6219fbef9887eda4cf2336532f2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/shared/interactible/hold_timer.png"
-dest_files=["res://.godot/imported/hold_timer.png-e3de24d217ed4fea125bb8033a295727.ctex"]
+source_file="res://game/mobs/dummy/fluff.png"
+dest_files=["res://.godot/imported/fluff.png-431cc6219fbef9887eda4cf2336532f2.ctex"]
 
 [params]
 

@@ -63,7 +63,7 @@ func _process(_delta: float) -> void:
 	_aim.hide()
 	
 	if can_shoot():
-		rotation = _calculate_aim_angle() + deg_to_rad(_calculate_recoil())
+		_update_rotation()
 		_aim.visible = player.player_input.showing_aim
 		
 		if _aim.visible:
@@ -76,6 +76,7 @@ func _physics_process(delta: float) -> void:
 	_shoot_timer -= delta
 	if multiplayer.is_server() and can_shoot() and player.player_input.shooting \
 			and ammo >= ammo_per_shot and _shoot_timer <= 0.0:
+		_update_rotation()
 		shoot()
 	if player.is_local() and can_reload() and ammo < ammo_per_shot:
 		player.try_reload_weapon()
@@ -210,6 +211,10 @@ func _calculate_walk_spread() -> float:
 
 func _calculate_spread() -> float:
 	return _calculate_walk_spread() + _calculate_shoot_spread() + spread_base
+
+
+func _update_rotation() -> void:
+	rotation = _calculate_aim_angle() + deg_to_rad(_calculate_recoil())
 
 
 func _create_projectile() -> void:

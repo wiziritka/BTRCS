@@ -14,8 +14,8 @@ func _on_confirm_pressed() -> void:
 		(%LineEdit as LineEdit).placeholder_text = "Недопустимое имя!"
 		return
 	Globals.set_string("player_name", player_name)
-	name_accepted.emit()
 	hide()
+	name_accepted.emit()
 	print_verbose("Name set: %s." % player_name)
 
 

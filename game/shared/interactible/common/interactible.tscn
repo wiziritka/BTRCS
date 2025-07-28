@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://c5gj3jyjpfs13"]
 
-[ext_resource type="Script" uid="uid://b3qvgvsdwg2c6" path="res://game/shared/interactible/interactible.gd" id="1_djvto"]
-[ext_resource type="Texture2D" uid="uid://42exluui2v5a" path="res://game/shared/interactible/arrow.png" id="2_idtbv"]
-[ext_resource type="Texture2D" uid="uid://8h87oxcw2ldy" path="res://game/shared/interactible/hold_timer.png" id="3_ftu30"]
+[ext_resource type="Script" uid="uid://b3qvgvsdwg2c6" path="res://game/shared/interactible/common/interactible.gd" id="1_djvto"]
+[ext_resource type="Texture2D" uid="uid://42exluui2v5a" path="res://game/shared/interactible/common/arrow.png" id="2_idtbv"]
+[ext_resource type="Texture2D" uid="uid://8h87oxcw2ldy" path="res://game/shared/interactible/common/hold_timer.png" id="3_ftu30"]
 
 [node name="Interactible" type="Area2D"]
 collision_layer = 32

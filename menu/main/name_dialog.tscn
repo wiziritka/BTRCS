@@ -59,6 +59,7 @@ easter_eggs = Dictionary[String, String]({
 "boykisser": "You like kissing boys... You're a boykisser!",
 "deltarune": "Next chapter tomorrow..?",
 "forchanovets1488": "Наркопритон...",
+"godot": "Лучший движок!",
 "nerdsay415": "Сэр, вообще-то, здесь нельзя поправлять людей!",
 "summersay415": "!!!!!!!!",
 "unity": "Удаляй Unity прямо сейчас!",
@@ -74,6 +75,7 @@ easter_eggs = Dictionary[String, String]({
 "мита": "Давай Митой здесь буду только я.",
 "ркн": "АНУС СЕБЕ ЗАБЛОКИРУЙ!",
 "сосал?": "Нет.",
+"умный человек": "В очках скачать обои",
 "ххх": "Не уверен, что тебе 18!"
 })
 

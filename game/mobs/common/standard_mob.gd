@@ -55,8 +55,9 @@ func _process_logic() -> void:
 		State.STANDING:
 			entity_input.move_direction = Vector2.ZERO
 		State.CHASING:
-			entity_input.move_direction = \
-					global_position.direction_to(agent.get_next_path_position())
+			if not agent.is_navigation_finished():
+				entity_input.move_direction = \
+						global_position.direction_to(agent.get_next_path_position())
 		State.RETREATING:
 			entity_input.move_direction = -direction_to_target
 	

@@ -149,7 +149,7 @@ func _on_event_selector_window_input(event: InputEvent) -> void:
 							"Эта кнопка занята другим действием."
 				return
 	
-	_set_event_candidate(new_event)
+	_set_event_candidate.call_deferred(new_event)
 
 
 func _on_save_pressed() -> void:

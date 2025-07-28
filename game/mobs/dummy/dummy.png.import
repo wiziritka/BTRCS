@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://42exluui2v5a"
-path="res://.godot/imported/arrow.png-79eae1559ebad8a9c01e20197b20927a.ctex"
+uid="uid://oyhf2hvq50wt"
+path="res://.godot/imported/dummy.png-e1715100dc84bce19113d70a71680d7d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://game/shared/interactible/arrow.png"
-dest_files=["res://.godot/imported/arrow.png-79eae1559ebad8a9c01e20197b20927a.ctex"]
+source_file="res://game/mobs/dummy/dummy.png"
+dest_files=["res://.godot/imported/dummy.png-e1715100dc84bce19113d70a71680d7d.ctex"]
 
 [params]
 

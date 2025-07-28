@@ -31,3 +31,7 @@ func _on_training_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	Globals.main.open_menu()
+
+
+func _on_tutorial_dialog_confirmed() -> void:
+	_game.load_solo_world("uid://cbue2vn1da0il")
