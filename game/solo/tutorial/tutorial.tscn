@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cbue2vn1da0il"]
+[gd_scene load_steps=16 format=3 uid="uid://cbue2vn1da0il"]
 
 [ext_resource type="PackedScene" uid="uid://bkvfj405l2gvw" path="res://game/core/world.tscn" id="1_qe1hl"]
 [ext_resource type="Script" uid="uid://cw4k527bms1xc" path="res://game/solo/tutorial/tutorial.gd" id="2_ct7or"]
@@ -7,6 +7,38 @@
 [ext_resource type="PackedScene" uid="uid://b4layvo1ati2x" path="res://game/solo/tutorial/tutorial_map.tscn" id="4_t5re1"]
 [ext_resource type="PackedScene" uid="uid://cdo5q27lch5l8" path="res://game/mobs/dummy/dummy.tscn" id="4_xeb43"]
 [ext_resource type="PackedScene" uid="uid://0wc72b0o2o11" path="res://game/player/ui/player_ui.tscn" id="5_xeb43"]
+[ext_resource type="PackedScene" uid="uid://b2v16qvrswdtd" path="res://game/weapons/guns/ak_74/ak_74.tscn" id="8_2xrf8"]
+[ext_resource type="PackedScene" uid="uid://dkem1fmo3lqym" path="res://game/weapons/grenades/he_grenade/he_grenade.tscn" id="9_8hor2"]
+[ext_resource type="PackedScene" uid="uid://dw483364uyeyn" path="res://game/weapons/melee/knife/knife.tscn" id="10_q32ry"]
+[ext_resource type="PackedScene" uid="uid://bsgtxdfb2n4u3" path="res://game/weapons/guns/p350/p350.tscn" id="11_8k8es"]
+[ext_resource type="PackedScene" uid="uid://w86u3a024aw3" path="res://game/skills/potion/potion.tscn" id="12_e2f2t"]
+
+[sub_resource type="Animation" id="Animation_sqfoi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_xeb43"]
 resource_name = "end"
@@ -36,33 +68,6 @@ tracks/1/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_sqfoi"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5e5fo"]
 _data = {
 &"RESET": SubResource("Animation_sqfoi"),
@@ -72,35 +77,33 @@ _data = {
 [node name="Tutorial" instance=ExtResource("1_qe1hl")]
 script = ExtResource("2_ct7or")
 texts = Array[String](["Добро пожаловать в Circle Shot!
-Используй [color=red]%s[/color], [color=red]%s[/color], [color=red]%s[/color] и [color=red]%s[/color] для передвижения.", "Добро пожаловать в Circle Shot!
-Используй [color=red]Джойстик движения[/color] в левой нижней части экрана для передвижения.", "Подойди к оружия и подбери его с помощью [color=red]%s[/color].", "Подойди к оружия и подбери его с помощью [color=red]Кнопки взаимодействия[/color].", "Кажется, ты потратил все патроны. Держи ещё.", "Используй [color=red]%s[/color], чтобы показать линию прицела, и [color=red]%s[/color], чтобы стрелять.
-Уничтожь манекен!", "Используй [color=red]Джойстик прицеливания[/color], чтобы целиться, и [color=red]Зону стрельбы[/color] в левом верхнем углу, чтобы стрелять.
+Используй [font_size=20][color=orange]%s[/color][/font_size], [font_size=20][color=orange]%s[/color][/font_size], [font_size=20][color=orange]%s[/color][/font_size] и [font_size=20][color=orange]%s[/color][/font_size] для передвижения.
+Зажми [font_size=20][color=orange]%s[/color][/font_size], чтобы красться.", "Добро пожаловать в Circle Shot!
+Используй [font_size=20][color=orange]Джойстик движения[/color][/font_size] в левой нижней части экрана для передвижения.
+Чем ближе ручка джойстика к его центру, тем медленнее движется игрок.", "Подойди к оружию и подбери его с помощью [font_size=20][color=orange]%s[/color][/font_size].", "Подойди к оружию и подбери его с помощью [font_size=20][color=orange]Кнопки взаимодействия[/color][/font_size].", "Кажется, ты потратил все патроны. Держи ещё.", "Используй [font_size=20][color=orange]%s[/color][/font_size], чтобы показать линию прицела, и [font_size=20][color=orange]%s[/color][/font_size], чтобы стрелять.
+Уничтожь манекен!", "Используй [font_size=20][color=orange]Джойстик прицеливания[/color][/font_size], чтобы целиться, и [font_size=20][color=orange]Зону стрельбы[/color][/font_size] в левом верхнем углу, чтобы стрелять.
 Уничтожь манекен!", "Молодец!
 Оружие автоматически перезаряжается, если магазин оказался пуст.
-Вручную перезарядиться можно с помощью [color=red]%s[/color].", "Молодец!
+Вручную перезарядиться можно с помощью [font_size=20][color=orange]%s[/color][/font_size].", "Молодец!
 Оружие автоматически перезаряжается, если магазин оказался пуст.
-Вручную перезарядиться можно, нажав на [color=red]Изображение текущего оружия[/color].", "Существует 4 основных типа оружия: [color=deep_sky_blue]лёгкое[/color], [color=deep_sky_blue]тяжелое[/color], [color=deep_sky_blue]поддержка[/color] и [color=deep_sky_blue]ближнее[/color].
+Вручную перезарядиться можно, нажав на [font_size=20][color=orange]Изображение текущего оружия[/color][/font_size].", "Существует 4 основных типа оружия: [color=deep_sky_blue]лёгкое[/color], [color=deep_sky_blue]тяжелое[/color], [color=deep_sky_blue]поддержка[/color] и [color=deep_sky_blue]ближнее[/color].
 Подбери ещё одно оружие.", "Существует 4 основных типа оружия: [color=deep_sky_blue]лёгкое[/color], [color=deep_sky_blue]тяжелое[/color], [color=deep_sky_blue]поддержка[/color] и [color=deep_sky_blue]ближнее[/color].
-Также есть другой метод стрельбы - просто отведи [color=red]Джойстик прицеливания[/color] в нужную сторону, и игрок будет стрелять.
-Теперь подбери ещё одно оружие.", "Переключись на новое оружие с помощью [color=red]%s[/color]. 
-Уничтожь манекены!", "Переключись на новое оружие, смахнув вниз по [color=red]Иконке текущего оружия[/color]. 
+Также есть другой метод стрельбы - просто отведи [font_size=20][color=orange]Джойстик прицеливания[/color][/font_size] в нужную сторону, и игрок будет стрелять.
+Теперь подбери ещё одно оружие.", "Переключись на новое оружие с помощью [font_size=20][color=orange]%s[/color][/font_size]. 
+Уничтожь манекены!", "Переключись на новое оружие, смахнув вниз по [font_size=20][color=orange]Иконке текущего оружия[/color][/font_size]. 
 Уничтожь манекенов!", "Молодец!
-Ты можешь просмотреть экипированные оружия, нажав на [color=red]%s[/color].", "Молодец!
-Ты можешь просмотреть экипированные оружия, зажав [color=red]Иконку текущего оружия[/color]. Это также подскажет, куда нужно смахнуть для переключения на нужное оружие.", "Возьми ещё два оружия, переключись на них ([color=red]%s[/color] и [color=red]%s[/color]) и уничтожь оставшиеся манекены.", "Возьми ещё два оружия, переключись на них (смахнуть вверх и смахнуть влево) и уничтожь оставшиеся манекены.
-Также некоторые оружия стреляют в момент, когда ты отпускаешь [color=red]Джойстик прицеливания[/color], а не когда он зажат.", "Возьми ещё два оружия, переключись на них (смахнуть вверх и смахнуть влево) и уничтожь оставшиеся манекены.", "Молодец!
-Некоторые оружия также имеют особенности, активирующиеся нажатием [color=red]Дополнительной кнопки оружия[/color] ([color=red]%s[/color]). 
+Ты можешь просмотреть экипированные оружия, нажав на [font_size=20][color=orange]%s[/color][/font_size].", "Молодец!
+Ты можешь просмотреть экипированные оружия, зажав [font_size=20][color=orange]Иконку текущего оружия[/color][/font_size]. Это также подскажет, куда нужно смахнуть для переключения на нужное оружие.", "Возьми ещё два оружия, переключись на них ([font_size=20][color=orange]%s[/color][/font_size] и [font_size=20][color=orange]%s[/color][/font_size]) и уничтожь оставшиеся манекены.", "Возьми ещё два оружия, переключись на них (смахнуть вверх и смахнуть влево) и уничтожь оставшиеся манекены.
+Также некоторые оружия стреляют в момент, когда ты отпускаешь [font_size=20][color=orange]Джойстик прицеливания[/color][/font_size], а не когда он зажат.", "Возьми ещё два оружия, переключись на них (смахнуть вверх и смахнуть влево) и уничтожь оставшиеся манекены.", "Молодец!
+Некоторые оружия также имеют особенности, активирующиеся нажатием [color=orange]Дополнительной кнопки оружия[/color] ([font_size=20][color=orange]%s[/color][/font_size]). 
 Подробнее о таких оружиях можно прочитать в Арсенале.", "Молодец!
-Некоторые оружия также имеют особенности, активирующиеся нажатием [color=red]Дополнительной кнопки оружия[/color] в правом нижнем углу экрана. 
+Некоторые оружия также имеют особенности, активирующиеся нажатием [font_size=20][color=orange]Дополнительной кнопки оружия[/color][/font_size] в правом нижнем углу экрана. 
 Подробнее о таких оружиях можно прочитать в Арсенале.", "В игре также есть навыки - способности, которые можно использовать ограниченное количество раз за бой.
 Возьми один из них - Целебное зелье, восстанавливающее ОЗ.", "Зелье можно использовать лишь тогда, когда у тебя ОЗ не на максимуме.
-Используй навык, нажав на [color=red]%s[/color].", "Зелье можно использовать лишь тогда, когда у тебя ОЗ не на максимуме.
-Используй навык, нажав на [color=red]Кнопку с иконкой навыка[/color].", "Молодец!
+Используй навык, нажав на [font_size=20][color=orange]%s[/color][/font_size].", "Зелье можно использовать лишь тогда, когда у тебя ОЗ не на максимуме.
+Используй навык, нажав на [font_size=20][color=orange]Кнопку с иконкой навыка[/color][/font_size].", "Молодец!
 Между использованиями навыка есть откат, не забывай про него!", "Теперь ты знаешь основы Circle Shot.
 Рекомендуем посетить настройки, там можно много что поменять, в том числе управление.
-Чтобы завершить обучение, удержи [color=red]%s[/color] рядом с флагом.
-Удачи в боях!", "Теперь ты знаешь основы Circle Shot.
-Рекомендуем посетить настройки, там можно много что поменять, в том числе управление.
-Чтобы завершить обучение, удержи [color=red]Кнопку взаимодействия[/color] рядом с флагом.
 Удачи в боях!"])
 entity_scenes = Array[PackedScene]([ExtResource("3_tsy3l"), ExtResource("4_xeb43")])
 
@@ -189,7 +192,10 @@ dialog_text = "Какой способ стрельбы тебе больше п
 dialog_close_on_escape = false
 cancel_button_text = "Джойстиком прицеливания"
 
-[node name="Map" parent="." index="12" instance=ExtResource("4_t5re1")]
+[node name="ResourcePreloaderTutorial" type="ResourcePreloader" parent="." index="12"]
+resources = [PackedStringArray("ak_74", "he_grenade", "knife", "p350", "potion"), [ExtResource("8_2xrf8"), ExtResource("9_8hor2"), ExtResource("10_q32ry"), ExtResource("11_8k8es"), ExtResource("12_e2f2t")]]
+
+[node name="Map" parent="." index="13" instance=ExtResource("4_t5re1")]
 metadata/_edit_lock_ = true
 metadata/_edit_group_ = true
 

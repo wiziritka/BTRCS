@@ -53,6 +53,8 @@ func _process(delta: float) -> void:
 
 ## Задаёт текст над стрелкой взаимодействия.
 func set_text(new_text: String) -> void:
+	if hold_interaction_time > 0.0:
+		new_text = "(удерживай)\n" + new_text
 	_label.text = new_text
 
 

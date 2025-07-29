@@ -610,12 +610,13 @@ func _on_peer_connected(id: int) -> void:
 
 
 func _on_peer_disconnected(id: int) -> void:
-	if id in _players_not_ready:
-		_players_not_ready.erase(id)
-		_check_players_ready()
 	if id in _players_names:
 		_players_names.erase(id)
 		_players_equip_data.erase(id)
+		_players_teams.erase(id)
+	if id in _players_not_ready:
+		_players_not_ready.erase(id)
+		_check_players_ready()
 	print_verbose("Peer disconnected: %d." % id)
 
 

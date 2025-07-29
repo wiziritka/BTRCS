@@ -105,7 +105,7 @@ func _shoot() -> void:
 func _make_current() -> void:
 	_anim.play(&"equip")
 	block_shooting()
-	await _anim.animation_finished
+	await _anim.current_animation_changed
 	unblock_shooting()
 
 

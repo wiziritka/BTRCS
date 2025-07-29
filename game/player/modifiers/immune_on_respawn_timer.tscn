@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://bx715huw1dsun"]
+
+[ext_resource type="Script" uid="uid://c45wumlg21hsp" path="res://game/player/modifiers/immune_on_respawn_timer.gd" id="1_efr6c"]
+
+[node name="ImmuneOnRespawnTimer" type="Timer"]
+process_callback = 0
+wait_time = 3.0
+one_shot = true
+autostart = true
+script = ExtResource("1_efr6c")
+
+[connection signal="timeout" from="." to="." method="_on_timeout"]

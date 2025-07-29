@@ -39,6 +39,7 @@ func _initialize() -> void:
 				_action_as_string("move_left"),
 				_action_as_string("move_down"),
 				_action_as_string("move_right"),
+				_action_as_string("sneak"),
 			])
 		Globals.InputMethod.TOUCH:
 			show_text(texts[1])
@@ -64,7 +65,7 @@ func spawn_player() -> void:
 		-1,
 	]
 	player.name = "Player%d" % player.id
-	player.ammo_text_updated.connect(_on_player_ammo_text_updated)
+	player.weapon_changed.connect(_on_player_weapon_changed)
 	_player = player
 	$Entities.add_child(player, true)
 
@@ -165,12 +166,19 @@ func _on_skill_used() -> void:
 	_check_conditions()
 
 
-func _on_player_ammo_text_updated(_ammo_text: String) -> void:
+func _on_weapon_ammo_changed(_in_stock: bool) -> void:
 	if is_instance_valid(_player.current_weapon) \
 			and _player.current_weapon.ammo + _player.current_weapon.ammo_in_stock == 0 \
 			and _player.current_weapon.ammo_total > 0:
 		_player.add_ammo_to_weapon.rpc(_player.current_weapon_type, 1.0)
 		show_text(texts[4])
+
+
+func _on_player_weapon_changed(_to: Weapon.Type) -> void:
+	if not is_instance_valid(_player.current_weapon):
+		return
+	if not _player.current_weapon.ammo_changed.is_connected(_on_weapon_ammo_changed):
+		_player.current_weapon.ammo_changed.connect(_on_weapon_ammo_changed)
 
 
 func _on_quit_dialog_confirmed() -> void:
@@ -206,10 +214,8 @@ func _on_trigger_body_entered(body: Node2D, source: Area2D, idx: int) -> void:
 				show_text(texts[17])
 		3:
 			show_text(texts[20])
-		4 when _input_method == Globals.InputMethod.KEYBOARD_AND_MOUSE:
-			show_text(texts[24] % _action_as_string("interact"))
-		4 when _input_method == Globals.InputMethod.TOUCH:
-			show_text(texts[25])
+		4:
+			show_text(texts[24])
 
 
 func _on_pickable_equip_item_picked_up() -> void:

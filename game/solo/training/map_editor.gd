@@ -43,7 +43,7 @@ func _process(_delta: float) -> void:
 
 func _initialize() -> void:
 	_map_data = _training.get_map_data().duplicate()
-	_map_image = Image.create_empty(50, 50, false, Image.FORMAT_RGB8)
+	_map_image = Image.create_empty(50, 50, false, Image.FORMAT_RGBA8)
 	for x: int in 50:
 		for y: int in 50:
 			if _is_safe_coord(x, y):
@@ -182,6 +182,7 @@ func _update_enemies() -> void:
 		tb.texture_normal = _training.enemies_icons[enemy_data.type]
 		tb.ignore_texture_size = true
 		tb.stretch_mode = TextureButton.STRETCH_SCALE
+		tb.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 		
 		tb.size = Vector2.ONE * 64
 		tb.scale = Vector2.ONE / _map.scale

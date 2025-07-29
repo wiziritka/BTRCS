@@ -125,7 +125,7 @@ func _on_map_changed() -> void:
 		return
 	
 	var map_data: PackedByteArray = _training.get_map_data()
-	var image := Image.create_empty(50, 50, false, Image.FORMAT_RGB8)
+	var image := Image.create_empty(50, 50, false, Image.FORMAT_RGBA8)
 	
 	var enemies_coords: Array[Vector2i]
 	for enemy_data: Training.EnemyData in _training.enemies_data:

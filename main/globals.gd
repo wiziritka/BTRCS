@@ -52,6 +52,17 @@ var save_file: ConfigFile
 var data_file: ConfigFile
 
 
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+
+func _input(event: InputEvent) -> void:
+	if OS.has_feature("pc") and event.is_action(&"fullscreen") \
+			and event.is_pressed() and save_file:
+		set_setting_bool("fullscreen", not get_setting_bool("fullscreen"))
+		apply_settings()
+
+
 func _notification(what: int) -> void:
 	match what:
 		NOTIFICATION_APPLICATION_PAUSED, NOTIFICATION_PREDELETE, \

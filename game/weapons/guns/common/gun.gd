@@ -101,7 +101,7 @@ func _make_current() -> void:
 	_turn_tween = create_tween()
 	_turn_tween.tween_method(_lerp_to_aim, 0.0, 1.0, to_aim_time)
 	
-	await _anim.animation_finished
+	await _anim.current_animation_changed
 	unblock_shooting()
 
 
@@ -185,7 +185,7 @@ func reload() -> void:
 	ammo += difference
 	ammo_in_stock -= difference
 	
-	await _anim.animation_finished
+	await _anim.current_animation_changed
 	unblock_shooting()
 
 

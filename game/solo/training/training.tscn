@@ -4,13 +4,13 @@
 [ext_resource type="Script" uid="uid://cq53u6g7rseun" path="res://game/solo/training/training.gd" id="2_lrvjq"]
 [ext_resource type="Script" uid="uid://cq8tq5ih73nu7" path="res://game/solo/training/training_ui.gd" id="3_34tim"]
 [ext_resource type="PackedScene" uid="uid://bo4g1oix6cim0" path="res://game/solo/training/default_map.tscn" id="3_36lnl"]
-[ext_resource type="PackedScene" uid="uid://3l0k1cn63ahd" path="res://game/player/player.tscn" id="3_nr0v1"]
 [ext_resource type="PackedScene" uid="uid://cdo5q27lch5l8" path="res://game/mobs/dummy/dummy.tscn" id="3_wkoo5"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="4_wkoo5"]
 [ext_resource type="Texture2D" uid="uid://bppatxvwnx23n" path="res://game/solo/training/icons/enemies/robot_ak_74.png" id="5_8ojcx"]
 [ext_resource type="Texture2D" uid="uid://kjs4eaedpc65" path="res://game/solo/training/icons/enemies/robot_sword.png" id="6_5ylsm"]
 [ext_resource type="Texture2D" uid="uid://dph7mfh2pbh5r" path="res://game/solo/training/icons/menu.png" id="6_511bm"]
 [ext_resource type="PackedScene" uid="uid://bxac6tcgijv2e" path="res://game/mobs/robot/variants/robot_p350.tscn" id="7_1jf6s"]
+[ext_resource type="PackedScene" uid="uid://ddix4ibsde835" path="res://game/solo/training/training_player.tscn" id="7_ew6j5"]
 [ext_resource type="Texture2D" uid="uid://bkrw8p2edcj1r" path="res://game/solo/training/icons/restore_health.png" id="7_gu8e4"]
 [ext_resource type="Texture2D" uid="uid://bpvihk8gnpi4n" path="res://game/solo/training/icons/restore_ammo.png" id="8_511bm"]
 [ext_resource type="Texture2D" uid="uid://7bg8652w4cta" path="res://game/solo/training/icons/restore_skill.png" id="9_olgru"]
@@ -53,7 +53,7 @@ enemies_icons = Dictionary[int, Texture2D]({
 2: ExtResource("5_8ojcx"),
 3: ExtResource("6_5ylsm")
 })
-entity_scenes = Array[PackedScene]([ExtResource("3_nr0v1"), ExtResource("3_wkoo5"), ExtResource("7_1jf6s"), ExtResource("10_5ylsm"), ExtResource("11_ew6j5")])
+entity_scenes = Array[PackedScene]([ExtResource("7_ew6j5"), ExtResource("3_wkoo5"), ExtResource("7_1jf6s"), ExtResource("10_5ylsm"), ExtResource("11_ew6j5")])
 
 [node name="UI" parent="." index="8"]
 script = ExtResource("3_34tim")

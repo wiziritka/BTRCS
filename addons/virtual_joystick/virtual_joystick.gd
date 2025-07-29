@@ -63,6 +63,13 @@ func _ready() -> void:
 	_tip.texture = tip_texture
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PAUSED and _pressed:
+		_reset()
+		if visibility_mode == VisibilityMode.WHEN_TOUCHED:
+			hide()
+
+
 ## Returns [code]true[/code] if the joystick is receiving inputs.
 func is_pressed() -> bool:
 	return _pressed

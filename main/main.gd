@@ -42,6 +42,7 @@ var _download_http: HTTPRequest
 ## Путь до папки с пользовательскими треками.
 @onready var music_path: String = OS.get_system_dir(OS.SYSTEM_DIR_MUSIC).path_join(
 		str(ProjectSettings.get_setting("application/config/name")))
+
 @onready var _default_window_content_width: int = \
 		ProjectSettings.get_setting("display/window/size/viewport_width")
 @onready var _default_window_content_height: int = \
@@ -58,13 +59,6 @@ func _process(_delta: float) -> void:
 	if _download_http.get_body_size() > 0:
 		_load_progress_bar.value = _download_http.get_downloaded_bytes() * 100.0 \
 				/ _download_http.get_body_size()
-
-
-func _input(event: InputEvent) -> void:
-	if OS.has_feature("pc") and event.is_action(&"fullscreen") \
-			and event.is_pressed() and Globals.save_file:
-		Globals.set_setting_bool("fullscreen", not Globals.get_setting_bool("fullscreen"))
-		Globals.apply_settings()
 
 
 ## Открывает меню. Закрывает все остальное.
@@ -237,7 +231,7 @@ func _loading_init() -> void:
 		print("--disable-update-check: Disables update check and hides settings related to it.")
 		print("--console: Enables built-in console.")
 		print("--reset-window: Don't restore saved window state.")
-		print("--override-setting <setting>=<value>: Overrides <setting> to <value>.")
+		print("--set-setting <setting>=<value>: Sets <setting> to <value>.")
 		print()
 		print("These arguments should be written after ++ or -- separator.")
 		print("You always can use engine arguments, such as --headless or --verbose.")
@@ -245,18 +239,22 @@ func _loading_init() -> void:
 			print("Note: to use --console on Windows, you must launch game from *.console.exe \
 file, otherwise it will NOT function.")
 	
-	var override_next := false
+	var set_setting_next := false
 	for arg: String in OS.get_cmdline_user_args():
-		if override_next:
+		if set_setting_next:
 			var slices: PackedStringArray = arg.split('=', false)
 			if slices.size() == 2:
 				Globals.set_setting_variant(slices[0], str_to_var(slices[1]))
-				print_verbose('Overriden setting "%s" with value "%s".' % slices)
+				print_verbose('Set setting "%s" to value "%s".' % [
+					slices[0], 
+					str_to_var(slices[1]),
+				])
+				set_setting_next = false
 			else:
-				printerr("Incorrect override: expected setting=value, got %s instead." % arg)
-				override_next = arg == "--override-setting"
+				printerr("Incorrect set setting: expected setting=value, got %s instead." % arg)
+				set_setting_next = arg == "--set-setting"
 		else:
-			override_next = arg == "--override-setting"
+			set_setting_next = arg == "--set-setting"
 	
 	_update_window_stretch_aspect()
 	get_window().size_changed.connect(_on_window_size_changed)

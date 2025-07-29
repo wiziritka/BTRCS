@@ -565,7 +565,7 @@ func _get_start_reject_reason() -> StartRejectReason:
 			players.size(),
 			Globals.items_db.events[selected_event].players_divider,
 		])
-	else:
+	elif Globals.items_db.events[selected_event].team_event:
 		var red_team: int = 0
 		var blue_team: int = 0
 		for id: int in players_teams:

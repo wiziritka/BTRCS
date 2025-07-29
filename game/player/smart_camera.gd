@@ -49,9 +49,7 @@ func _physics_process(_delta: float) -> void:
 ## Можно указать [param trans_type] и [param ease_type] для более тонкой настройки.
 func pan(to: Vector2, duration: float, keep_target := false, ease_type := Tween.EASE_OUT,
 		trans_type := Tween.TRANS_QUAD, from: Vector2 = global_position) -> void:
-	if is_instance_valid(_pan_tween):
-		_pan_tween.finished.emit()
-		_pan_tween.kill()
+	_cleanup_pan_tween()
 	
 	var prev_target: Node2D = target
 	target = null
@@ -71,15 +69,15 @@ func pan(to: Vector2, duration: float, keep_target := false, ease_type := Tween.
 ## Можно указать [param trans_type] и [param ease_type] для более тонкой настройки.
 func pan_to_target(to: Node2D, duration: float, ease_type := Tween.EASE_OUT,
 		trans_type := Tween.TRANS_QUAD, from: Vector2 = global_position) -> void:
-	if is_instance_valid(_pan_tween):
-		_pan_tween.finished.emit()
-		_pan_tween.kill()
+	_cleanup_pan_tween()
 	
 	target = null
+	to.tree_exiting.connect(_cleanup_pan_tween)
 	_pan_tween = create_tween()
 	_pan_tween.set_trans(trans_type).set_ease(ease_type)
 	_pan_tween.tween_method(_lerp_to.bind(from, to), 0.0, 1.0, duration)
 	await _pan_tween.finished
+	to.tree_exiting.disconnect(_cleanup_pan_tween)
 	pan_finished.emit()
 	if is_instance_valid(to):
 		target = to
@@ -123,3 +121,9 @@ func teleport_to(destination: Vector2) -> void:
 func _lerp_to(weight: float, from: Vector2, to: Node2D) -> void:
 	if is_instance_valid(to):
 		global_position = from.lerp(to.global_position, weight)
+
+
+func _cleanup_pan_tween() -> void:
+	if is_instance_valid(_pan_tween):
+		_pan_tween.finished.emit()
+		_pan_tween.kill()
