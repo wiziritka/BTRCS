@@ -143,8 +143,8 @@ func get_ammo_text() -> String:
 
 
 func _calculate_spread() -> float:
-	return spread_walk * clampf((player.entity_input.move_direction.length() - spread_walk_ratio)
-			/ (1.0 - spread_walk_ratio), 0.0, 1.0) + spread_base
+	return spread_walk * clampf((player.get_real_velocity().length() / player.speed
+			- spread_walk_ratio) / (1.0 - spread_walk_ratio), 0.0, 1.0)
 
 
 ## Переопределите, чтобы настроить [GrenadeProjectile] до добавления его в дерево сцены.

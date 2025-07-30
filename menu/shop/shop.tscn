@@ -1,0 +1,100 @@
+[gd_scene load_steps=5 format=3 uid="uid://bj723c8k8la6y"]
+
+[ext_resource type="Script" uid="uid://dfbi48lj1pb8n" path="res://menu/shop/shop.gd" id="1_4yet2"]
+[ext_resource type="Texture2D" uid="uid://c3kh0ourvde3l" path="res://menu/shop/background.png" id="2_cyj7w"]
+[ext_resource type="Texture2D" uid="uid://cw3atnkmymw6k" path="res://menu/shop/coin.png" id="3_cyj7w"]
+[ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="3_whncf"]
+
+[node name="Shop" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4yet2")
+
+[node name="Image" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_cyj7w")
+stretch_mode = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -320.0
+offset_right = 512.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Title" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/Title"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+
+[node name="Coins" type="PanelContainer" parent="PanelContainer/VBoxContainer/Title"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Title/Coins"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="PanelContainer/VBoxContainer/Title/Coins/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="Coin" type="Sprite2D" parent="PanelContainer/VBoxContainer/Title/Coins/HBoxContainer/Control"]
+position = Vector2(0, 16)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_cyj7w")
+
+[node name="CoinsCount" type="Label" parent="PanelContainer/VBoxContainer/Title/Coins/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"HeaderSmall"
+
+[node name="Title" type="Label" parent="PanelContainer/VBoxContainer/Title"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 44
+text = "Магазин"
+
+[node name="Spacer2" type="Control" parent="PanelContainer/VBoxContainer/Title"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+
+[node name="Quit" type="Button" parent="PanelContainer/VBoxContainer/Title"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+icon = ExtResource("3_whncf")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Title/Quit" to="." method="_on_quit_pressed"]

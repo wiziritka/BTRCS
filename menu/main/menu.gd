@@ -92,6 +92,10 @@ func _on_inventory_pressed() -> void:
 	Globals.main.open_screen(load("uid://c2x58lim4381g") as PackedScene)
 
 
+func _on_shop_pressed() -> void:
+	Globals.main.open_screen(load("uid://bj723c8k8la6y") as PackedScene)
+
+
 func _on_settings_pressed() -> void:
 	Globals.main.open_screen(load("uid://c2leb2h0qjtmo") as PackedScene)
 
@@ -108,10 +112,6 @@ func _on_update_dialog_confirmed() -> void:
 	OS.shell_open("https://t.me/dsgames31")
 
 
-func _on_quit_pressed() -> void:
-	Globals.quit()
-
-
 func _on_rich_text_label_meta_clicked(meta: Variant) -> void:
 	OS.shell_open(str(meta))
 
@@ -119,3 +119,7 @@ func _on_rich_text_label_meta_clicked(meta: Variant) -> void:
 func _on_tutorial_dialog_confirmed() -> void:
 	Globals.main.open_solo_game()
 	Globals.main.game.load_solo_world("uid://cbue2vn1da0il")
+
+
+func _on_quit_pressed() -> void:
+	Globals.quit()

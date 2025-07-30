@@ -24,7 +24,7 @@ enum JoystickMode {
 ## If the input is inside this range, the output is zero.
 @export_range(0.0, 200.0) var deadzone_size := 10.0
 ## The max distance the tip can reach.
-@export_range(0.0, 500.0) var clampzone_size: float = 75.0
+@export_range(0.0, 500.0) var clampzone_size := 75.0
 @export_group("Appearance")
 ## The color of the tip when the joystick is pressed.
 @export var pressed_color := Color.GRAY
@@ -46,6 +46,7 @@ var output := Vector2.ZERO
 
 var _touch_index: int = -1
 var _pressed := false
+
 @onready var _base: TextureRect = $Base
 @onready var _tip: TextureRect = $Base/Tip
 @onready var _base_default_position: Vector2 = _base.position

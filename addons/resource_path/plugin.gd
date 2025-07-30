@@ -13,24 +13,15 @@ func _exit_tree() -> void:
 		remove_inspector_plugin(_inspector)
 
 
-class ResourcePathInspectorPlugin extends EditorInspectorPlugin:
-	
-	func _can_handle(_object: Object) -> bool:
-		return true
-	
-	
-	func _parse_property(_object: Object, _type: Variant.Type, name: String,
-			hint_type: PropertyHint, hint_string: String, _usage_flags: int, _wide: bool) -> bool:
-		if hint_type == PROPERTY_HINT_FILE and ClassDB.class_exists(hint_string):
-			add_property_editor(name, ResourcePathEditorProperty.new(hint_string))
-			return true
-		return false
+class NoCreateEditorResourcePicker extends EditorResourcePicker:
+	func _set_create_options(_menu_node: Object) -> void:
+		pass
 
 
 class ResourcePathEditorProperty extends EditorProperty:
 	var _picker := NoCreateEditorResourcePicker.new()
 	var _current_path: String
-
+	
 	func _init(base_type: String) -> void:
 		_picker.base_type = base_type
 		_picker.resource_changed.connect(_on_resource_changed)
@@ -72,6 +63,23 @@ class ResourcePathEditorProperty extends EditorProperty:
 		EditorInterface.edit_resource.call_deferred(resource)
 
 
-class NoCreateEditorResourcePicker extends EditorResourcePicker:
-	func _set_create_options(_menu_node: Object) -> void:
-		pass
+class ResourcePathInspectorPlugin extends EditorInspectorPlugin:
+	func _can_handle(_object: Object) -> bool:
+		return true
+	
+	
+	func _parse_property(_object: Object, _type: Variant.Type, name: String,
+			hint_type: PropertyHint, hint_string: String, _usage_flags: int, _wide: bool) -> bool:
+		if hint_type == PROPERTY_HINT_FILE and _is_class(hint_string):
+			add_property_editor(name, ResourcePathEditorProperty.new(hint_string))
+			return true
+		return false
+	
+	
+	func _is_class(name_class: String) -> bool:
+		if ClassDB.class_exists(name_class):
+			return true
+		for item in ProjectSettings.get_global_class_list():
+			if item["class"] == name_class:
+				return true
+		return false
