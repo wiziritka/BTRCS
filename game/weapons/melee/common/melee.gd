@@ -65,12 +65,13 @@ func _make_current() -> void:
 	_turn_tween = create_tween()
 	_turn_tween.tween_method(_lerp_to_aim, 0.0, 1.0, to_aim_time)
 	
-	await _anim.current_animation_changed
+	await _turn_tween.finished
 	unblock_shooting()
 
 
 func _unmake_current() -> void:
 	if is_instance_valid(_turn_tween):
+		_turn_tween.finished.emit()
 		_turn_tween.kill()
 	
 	rotation = 0.0

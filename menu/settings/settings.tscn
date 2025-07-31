@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c2leb2h0qjtmo"]
+[gd_scene load_steps=23 format=3 uid="uid://c2leb2h0qjtmo"]
 
 [ext_resource type="Script" uid="uid://bhvr3p7vj2nb4" path="res://menu/settings/settings.gd" id="1_jwkxy"]
 [ext_resource type="Texture2D" uid="uid://cj0xdsi2q6ea4" path="res://menu/settings/icons/general.png" id="1_n6g3h"]
@@ -16,9 +16,11 @@
 [ext_resource type="Texture2D" uid="uid://brcaom8n83yf2" path="res://menu/theme/icons/reset.png" id="11_d7m0t"]
 [ext_resource type="Texture2D" uid="uid://b1u3v2dc3jemk" path="res://menu/theme/icons/delete.png" id="12_g4yas"]
 [ext_resource type="Texture2D" uid="uid://c74mu171kvbph" path="res://menu/theme/icons/export.png" id="12_vwloa"]
+[ext_resource type="Texture2D" uid="uid://bs0jb0hstf3sl" path="res://menu/theme/icons/save.png" id="13_5fghj"]
 [ext_resource type="Texture2D" uid="uid://emi45owsbc7n" path="res://menu/theme/icons/import.png" id="13_nyjt0"]
 [ext_resource type="PackedScene" uid="uid://cuewsvjjnyl40" path="res://menu/main/name_dialog.tscn" id="14_eq4mb"]
 [ext_resource type="Texture2D" uid="uid://c53e8se18ejxy" path="res://menu/settings/icons/edit_controls.png" id="14_wy2dx"]
+[ext_resource type="Texture2D" uid="uid://cp3wl6wn8h07v" path="res://menu/theme/icons/copy.png" id="19_2lh4n"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_xsh6l"]
 
@@ -185,7 +187,6 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="General" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -289,20 +290,6 @@ layout_mode = 2
 icon = ExtResource("1_xh6xh")
 expand_icon = true
 
-[node name="SaveActions" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General"]
-layout_mode = 2
-alignment = 1
-
-[node name="Export" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/SaveActions"]
-layout_mode = 2
-text = "Экспортировать сохранение"
-icon = ExtResource("12_vwloa")
-
-[node name="Import" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/SaveActions"]
-layout_mode = 2
-text = "Импортировать сохранение"
-icon = ExtResource("13_nyjt0")
-
 [node name="Actions" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General"]
 layout_mode = 2
 alignment = 1
@@ -313,39 +300,27 @@ size_flags_horizontal = 0
 text = "Перезапустить игру"
 icon = ExtResource("10_260xk")
 
-[node name="ChangeName" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions"]
+[node name="ManageSave" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions"]
 layout_mode = 2
-size_flags_horizontal = 0
-text = "Сменить имя"
-icon = ExtResource("9_0iguj")
-
-[node name="ResetControlSettings" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions"]
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Сбросить настройки управления"
-icon = ExtResource("10_kedwe")
+size_flags_horizontal = 4
+text = "Управление сохранением"
+icon = ExtResource("13_5fghj")
 
 [node name="Actions2" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General"]
 layout_mode = 2
 alignment = 1
+
+[node name="ResetControlSettings" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions2"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Сбросить настройки управления"
+icon = ExtResource("10_kedwe")
 
 [node name="ResetSettings" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions2"]
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Сбросить все настройки"
 icon = ExtResource("11_d7m0t")
-
-[node name="DeleteData" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions2"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_colors/font_color = Color(1, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(1, 0, 0, 1)
-theme_override_colors/font_hover_pressed_color = Color(1, 0, 0, 1)
-theme_override_colors/font_disabled_color = Color(1, 0, 0, 1)
-text = "Удалить все данные"
-icon = ExtResource("12_g4yas")
 
 [node name="Network" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections"]
 visible = false
@@ -619,6 +594,7 @@ icon = ExtResource("1_xh6xh")
 expand_icon = true
 
 [node name="Graphics" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -1250,9 +1226,13 @@ size_flags_horizontal = 4
 text = "Настроить управление..."
 icon = ExtResource("14_wy2dx")
 
-[node name="ResetDialogs" type="Node" parent="."]
+[node name="HelpDialog" type="AcceptDialog" parent="."]
+title = "Помощь по настройке"
+size = Vector2i(800, 120)
+unresizable = true
+dialog_autowrap = true
 
-[node name="ResetSettingsDialog" type="ConfirmationDialog" parent="ResetDialogs"]
+[node name="ResetSettingsDialog" type="ConfirmationDialog" parent="."]
 title = "Сброс настроек"
 size = Vector2i(705, 112)
 unresizable = true
@@ -1260,7 +1240,7 @@ ok_button_text = "Сбросить"
 dialog_text = "Ты действительно хочешь вернуть все настройки к значениям по умолчанию?"
 cancel_button_text = "Отмена"
 
-[node name="ResetControlsDialog" type="ConfirmationDialog" parent="ResetDialogs"]
+[node name="ResetControlsDialog" type="ConfirmationDialog" parent="."]
 title = "Сброс настроек управления"
 size = Vector2i(705, 112)
 unresizable = true
@@ -1268,20 +1248,19 @@ ok_button_text = "Сбросить"
 dialog_text = "Ты действительно хочешь вернуть настройки управления к значениям по умолчанию?"
 cancel_button_text = "Отмена"
 
-[node name="ResetDataDialog" type="ConfirmationDialog" parent="ResetDialogs"]
-title = "Удаление всех данных"
-size = Vector2i(913, 190)
+[node name="ManageSaveDialog" type="Window" parent="."]
+oversampling_override = 1.0
+title = "Управление сохранением"
+size = Vector2i(640, 240)
+visible = false
+wrap_controls = true
+transient = true
+exclusive = true
 unresizable = true
-ok_button_text = "Удалить всё"
-dialog_text = "Удалить все данные игры?
-Это повлёчет за собой утерю инвентаря, валюты, достижений БЕЗ ВОЗМОЖНОСТИ ВОССТАНОВЛЕНИЯ!!!
-Ты действительно хочешь ЭТО сделать?
-В случае утвердительного ответа игра будет перезапущена."
-cancel_button_text = "Отмена"
 
-[node name="SaveDialogs" type="Node" parent="."]
+[node name="Dialogs" type="Node" parent="ManageSaveDialog"]
 
-[node name="ExportFileDialog" type="FileDialog" parent="SaveDialogs"]
+[node name="ExportFileDialog" type="FileDialog" parent="ManageSaveDialog/Dialogs"]
 oversampling_override = 1.0
 title = "Экспортировать сохранение"
 size = Vector2i(1024, 560)
@@ -1295,7 +1274,7 @@ use_native_dialog = true
 favorites_enabled = false
 recent_list_enabled = false
 
-[node name="ImportFileDialog" type="FileDialog" parent="SaveDialogs"]
+[node name="ImportFileDialog" type="FileDialog" parent="ManageSaveDialog/Dialogs"]
 oversampling_override = 1.0
 title = "Импортировать сохранение"
 size = Vector2i(1024, 560)
@@ -1310,33 +1289,113 @@ use_native_dialog = true
 favorites_enabled = false
 recent_list_enabled = false
 
-[node name="InfoDialog" type="AcceptDialog" parent="SaveDialogs"]
+[node name="InfoDialog" type="AcceptDialog" parent="ManageSaveDialog/Dialogs"]
 oversampling_override = 1.0
 size = Vector2i(119, 112)
 unresizable = true
 
-[node name="ImportConfirmDialog" type="ConfirmationDialog" parent="SaveDialogs"]
+[node name="ImportConfirmDialog" type="ConfirmationDialog" parent="ManageSaveDialog/Dialogs"]
 oversampling_override = 1.0
 title = "Импортирование сохранения"
 size = Vector2i(322, 112)
 ok_button_text = "Импортировать"
 cancel_button_text = "Отмена"
 
-[node name="HelpDialog" type="AcceptDialog" parent="."]
-title = "Помощь по настройке"
-size = Vector2i(800, 120)
+[node name="EraseDataDialog" type="ConfirmationDialog" parent="ManageSaveDialog/Dialogs"]
+title = "Удаление всех данных"
+size = Vector2i(913, 190)
 unresizable = true
-dialog_autowrap = true
+ok_button_text = "Удалить всё"
+dialog_text = "Удалить все данные игры?
+Это повлёчет за собой утерю инвентаря, валюты, достижений БЕЗ ВОЗМОЖНОСТИ ВОССТАНОВЛЕНИЯ!!!
+Ты действительно хочешь ЭТО сделать?
+В случае утвердительного ответа игра будет перезапущена."
+cancel_button_text = "Отмена"
 
-[node name="NameDialog" parent="." instance=ExtResource("14_eq4mb")]
+[node name="NameDialog" parent="ManageSaveDialog/Dialogs" instance=ExtResource("14_eq4mb")]
 title = "Смена имени"
 visible = false
 
-[node name="LineEdit" parent="NameDialog/MarginContainer/VBoxContainer" index="1"]
+[node name="LineEdit" parent="ManageSaveDialog/Dialogs/NameDialog/MarginContainer/VBoxContainer" index="1"]
 placeholder_text = "Новое имя..."
 
-[node name="Confirm" parent="NameDialog/MarginContainer/VBoxContainer" index="2"]
+[node name="Confirm" parent="ManageSaveDialog/Dialogs/NameDialog/MarginContainer/VBoxContainer" index="2"]
 text = "Сменить"
+
+[node name="Background" type="ColorRect" parent="ManageSaveDialog"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ManageSaveDialog"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SaveInfo" type="VBoxContainer" parent="ManageSaveDialog/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="Name" type="Label" parent="ManageSaveDialog/VBoxContainer/SaveInfo"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_type_variation = &"HeaderSmall"
+
+[node name="SaveId" type="Label" parent="ManageSaveDialog/VBoxContainer/SaveInfo"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="PlayedTime" type="Label" parent="ManageSaveDialog/VBoxContainer/SaveInfo"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Actions" type="HBoxContainer" parent="ManageSaveDialog/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 1
+
+[node name="CopySaveId" type="Button" parent="ManageSaveDialog/VBoxContainer/Actions"]
+layout_mode = 2
+text = "Копировать ID сохранения"
+icon = ExtResource("19_2lh4n")
+
+[node name="ChangeName" type="Button" parent="ManageSaveDialog/VBoxContainer/Actions"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Сменить имя"
+icon = ExtResource("9_0iguj")
+
+[node name="Actions2" type="HBoxContainer" parent="ManageSaveDialog/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Export" type="Button" parent="ManageSaveDialog/VBoxContainer/Actions2"]
+layout_mode = 2
+text = "Экспортировать"
+icon = ExtResource("12_vwloa")
+
+[node name="Import" type="Button" parent="ManageSaveDialog/VBoxContainer/Actions2"]
+layout_mode = 2
+text = "Импортировать"
+icon = ExtResource("13_nyjt0")
+
+[node name="DeleteData" type="Button" parent="ManageSaveDialog/VBoxContainer/Actions2"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(1, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0, 0, 1)
+theme_override_colors/font_disabled_color = Color(1, 0, 0, 1)
+text = "Удалить все данные"
+icon = ExtResource("12_g4yas")
 
 [node name="ActionsConfiguration" parent="." instance_placeholder="res://menu/settings/actions_configuration.tscn"]
 visible = false
@@ -1356,13 +1415,10 @@ visible = false
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/CheckPatches/Setting/Help" to="." method="show_help" binds= [4]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/ClearPatches/ClearPatches" to="." method="_on_clear_patches_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/ClearPatches/Help" to="." method="show_help" binds= [0]]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/SaveActions/Export" to="." method="_on_export_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/SaveActions/Import" to="." method="_on_import_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions/RestartGame" to="." method="_on_restart_game_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions/ChangeName" to="." method="_on_change_name_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions/ResetControlSettings" to="ResetDialogs/ResetControlsDialog" method="popup_centered"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions2/ResetSettings" to="ResetDialogs/ResetSettingsDialog" method="popup_centered"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions2/DeleteData" to="ResetDialogs/ResetDataDialog" method="popup_centered"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions/ManageSave" to="ManageSaveDialog" method="popup_centered"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions2/ResetControlSettings" to="ResetControlsDialog" method="popup_centered"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/General/Actions2/ResetSettings" to="ResetSettingsDialog" method="popup_centered"]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/Broadcast/Setting/BroadcastCheck" to="." method="_on_broadcast_check_toggled"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/Broadcast/Setting/Help" to="." method="show_help" binds= [14]]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Network/RejectPlayers/Setting/RejectPlayersCheck" to="." method="_on_reject_players_check_toggled"]
@@ -1411,12 +1467,19 @@ visible = false
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Controls/TouchSettings/FireMode/Setting/Help" to="." method="show_help" binds= [9]]
 [connection signal="value_changed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Controls/TouchSettings/JoysticksAlpha/Setting/JoysticksAlphaSlider" to="." method="_on_joysticks_alpha_slider_value_changed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Controls/TouchSettings/ConfigureControls" to="." method="_on_configure_controls_pressed"]
-[connection signal="confirmed" from="ResetDialogs/ResetSettingsDialog" to="." method="_on_reset_settings_dialog_confirmed"]
-[connection signal="confirmed" from="ResetDialogs/ResetControlsDialog" to="." method="_on_reset_controls_dialog_confirmed"]
-[connection signal="confirmed" from="ResetDialogs/ResetDataDialog" to="." method="_on_reset_data_dialog_confirmed"]
-[connection signal="file_selected" from="SaveDialogs/ExportFileDialog" to="." method="_on_export_file_dialog_file_selected"]
-[connection signal="file_selected" from="SaveDialogs/ImportFileDialog" to="." method="_on_import_file_dialog_file_selected"]
-[connection signal="confirmed" from="SaveDialogs/ImportConfirmDialog" to="." method="_on_import_confirm_dialog_confirmed"]
-[connection signal="close_requested" from="NameDialog" to="NameDialog" method="hide"]
+[connection signal="confirmed" from="ResetSettingsDialog" to="." method="_on_reset_settings_dialog_confirmed"]
+[connection signal="confirmed" from="ResetControlsDialog" to="." method="_on_reset_controls_dialog_confirmed"]
+[connection signal="close_requested" from="ManageSaveDialog" to="ManageSaveDialog" method="hide"]
+[connection signal="file_selected" from="ManageSaveDialog/Dialogs/ExportFileDialog" to="." method="_on_export_file_dialog_file_selected"]
+[connection signal="file_selected" from="ManageSaveDialog/Dialogs/ImportFileDialog" to="." method="_on_import_file_dialog_file_selected"]
+[connection signal="confirmed" from="ManageSaveDialog/Dialogs/ImportConfirmDialog" to="." method="_on_import_confirm_dialog_confirmed"]
+[connection signal="confirmed" from="ManageSaveDialog/Dialogs/EraseDataDialog" to="." method="_on_reset_data_dialog_confirmed"]
+[connection signal="close_requested" from="ManageSaveDialog/Dialogs/NameDialog" to="ManageSaveDialog/Dialogs/NameDialog" method="hide"]
+[connection signal="name_accepted" from="ManageSaveDialog/Dialogs/NameDialog" to="." method="_on_name_dialog_name_accepted"]
+[connection signal="pressed" from="ManageSaveDialog/VBoxContainer/Actions/CopySaveId" to="." method="_on_copy_save_id_pressed"]
+[connection signal="pressed" from="ManageSaveDialog/VBoxContainer/Actions/ChangeName" to="." method="_on_change_name_pressed"]
+[connection signal="pressed" from="ManageSaveDialog/VBoxContainer/Actions2/Export" to="." method="_on_export_pressed"]
+[connection signal="pressed" from="ManageSaveDialog/VBoxContainer/Actions2/Import" to="." method="_on_import_pressed"]
+[connection signal="pressed" from="ManageSaveDialog/VBoxContainer/Actions2/DeleteData" to="ManageSaveDialog/Dialogs/EraseDataDialog" method="popup_centered"]
 
-[editable path="NameDialog"]
+[editable path="ManageSaveDialog/Dialogs/NameDialog"]

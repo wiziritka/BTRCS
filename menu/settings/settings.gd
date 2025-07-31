@@ -77,6 +77,12 @@ func _ready() -> void:
 	_update_aim_visual_size()
 	get_window().size_changed.connect(_update_aim_visual_size)
 	
+	# Инфа о сохранении
+	(%SaveInfo/Name as Label).text = Globals.get_string("player_name")
+	(%SaveInfo/SaveId as Label).text = "ID сохранения: %s" % Globals.get_string("save_id")
+	_show_played_time()
+	(Globals.main.get_node(^"PlayedTimeTimer") as Timer).timeout.connect(_show_played_time)
+	
 	# UPnP
 	var upnp_status := "Отключён"
 	if Globals.upnp:
@@ -167,6 +173,27 @@ func _update_aim_visual_size() -> void:
 		_aim_visual.custom_minimum_size.x = viewport_size.aspect() * AIM_VISUAL_MAX_SIZE
 
 
+func _show_played_time() -> void:
+	var played_time: String
+	var secs: int = Globals.get_int("played_time")
+	var mins: int = 0
+	var hours: int = 0
+	if secs < 60:
+		played_time = "%02d:%02d" % [mins, secs]
+	elif secs < 60 * 60:
+		mins = floori(secs / 60.0)
+		secs -= mins * 60
+		played_time = "%02d:%02d" % [mins, secs]
+	else:
+		hours = floori(secs / 60.0 / 60.0)
+		secs -= hours * 60 * 60
+		mins = floori(secs / 60.0)
+		secs -= mins * 60
+		played_time = "%d:%02d:%02d" % [hours, mins, secs]
+	
+	(%SaveInfo/PlayedTime as Label).text = "Проведено времени в игре: %s" % played_time
+
+
 func _on_request_permissions_result(permission: String, granted: bool, lambda: Callable) -> void:
 	print_verbose("Permission %s granted: %s." % [permission, str(granted)])
 	lambda.call_deferred(granted)
@@ -198,15 +225,23 @@ func _on_clear_patches_pressed() -> void:
 	Globals.quit(true)
 
 
-func _on_change_name_pressed() -> void:
-	($NameDialog as Window).title = \
-			"Смена имени (текущее: %s)" % Globals.get_string("player_name")
-	($NameDialog as Window).popup_centered()
-
-
-func _on_reset_data_dialog_confirmed() -> void:
-	remove_recursive("user://")
+func _on_restart_game_pressed() -> void:
 	Globals.quit(true)
+
+
+func _on_copy_save_id_pressed() -> void:
+	if DisplayServer.has_feature(DisplayServer.FEATURE_CLIPBOARD):
+		DisplayServer.clipboard_set(Globals.get_string("save_id"))
+
+
+func _on_change_name_pressed() -> void:
+	($ManageSaveDialog/Dialogs/NameDialog as Window).title = \
+			"Смена имени (текущее: %s)" % Globals.get_string("player_name")
+	($ManageSaveDialog/Dialogs/NameDialog as Window).popup_centered()
+
+
+func _on_name_dialog_name_accepted() -> void:
+	(%SaveInfo/Name as Label).text = Globals.get_string("player_name")
 
 
 func _on_reset_controls_dialog_confirmed() -> void:
@@ -233,7 +268,8 @@ func _on_reset_settings_dialog_confirmed() -> void:
 	Globals.main.open_screen(load("uid://c2leb2h0qjtmo") as PackedScene)
 
 
-func _on_restart_game_pressed() -> void:
+func _on_reset_data_dialog_confirmed() -> void:
+	remove_recursive("user://")
 	Globals.quit(true)
 
 
@@ -249,14 +285,14 @@ func _on_export_pressed() -> void:
 			OS.request_permissions()
 			return
 	
-	($SaveDialogs/ExportFileDialog as FileDialog).current_path = OS.get_system_dir(
+	($ManageSaveDialog/Dialogs/ExportFileDialog as FileDialog).current_path = OS.get_system_dir(
 			OS.SYSTEM_DIR_DOCUMENTS).path_join(Globals.get_string("player_name") + ".cssf")
-	($SaveDialogs/ExportFileDialog as Window).popup_centered()
+	($ManageSaveDialog/Dialogs/ExportFileDialog as Window).popup_centered()
 
 
 func _on_export_file_dialog_file_selected(path: String) -> void:
 	var err: Error = Globals.export_save(path)
-	var info_dialog: AcceptDialog = $SaveDialogs/InfoDialog
+	var info_dialog: AcceptDialog = $ManageSaveDialog/Dialogs/InfoDialog
 	if err != OK:
 		info_dialog.dialog_text = "При экспортировании в файл\n%s\nвозникла ошибка: %s." % [
 			path,
@@ -281,14 +317,14 @@ func _on_import_pressed() -> void:
 			OS.request_permissions()
 			return
 	
-	($SaveDialogs/ImportFileDialog as FileDialog).current_dir = OS.get_system_dir(
+	($ManageSaveDialog/Dialogs/ImportFileDialog as FileDialog).current_dir = OS.get_system_dir(
 			OS.SYSTEM_DIR_DOCUMENTS)
-	($SaveDialogs/ImportFileDialog as Window).popup_centered()
+	($ManageSaveDialog/Dialogs/ImportFileDialog as Window).popup_centered()
 
 
 func _on_import_file_dialog_file_selected(path: String) -> void:
 	_save_import_path = path
-	var import_confirm_dialog: ConfirmationDialog = $SaveDialogs/ImportConfirmDialog
+	var import_confirm_dialog: ConfirmationDialog = $ManageSaveDialog/Dialogs/ImportConfirmDialog
 	import_confirm_dialog.title = "Импортирование сохранения"
 	import_confirm_dialog.dialog_text = "Ты действительно хочешь импортировать сохранение \
 из следующего файла?"
@@ -302,7 +338,7 @@ func _on_import_file_dialog_file_selected(path: String) -> void:
 func _on_import_confirm_dialog_confirmed() -> void:
 	var err: Error = Globals.import_save(_save_import_path)
 	if err != OK:
-		var info_dialog: AcceptDialog = $SaveDialogs/InfoDialog
+		var info_dialog: AcceptDialog = $ManageSaveDialog/Dialogs/InfoDialog
 		info_dialog.dialog_text = "При импортировании из файла\n%s\nвозникла ошибка: %s." % [
 			_save_import_path,
 			error_string(err),

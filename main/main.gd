@@ -7,6 +7,7 @@ extends Node
 
 ## Внутренний сигнал, используемый при загрузке.
 signal loading_stage_finished(success: bool)
+
 ## URL сервера с данными для игры (патчами, предложениями в магазине, ...).
 const SERVER_URL := "https://diamondstudiogames.ru/circleshot"
 ## Максимальное отношение ширины к высоте, превысив которое содержимое окна начнёт обрезаться.
@@ -36,6 +37,7 @@ var screens: Array[Control]
 var menu_music: AudioStreamPlayer
 ## Словарь загруженных пользовательских треков в формате "<имя файла> - <ресурс трека>".
 var custom_tracks: Dictionary[String, AudioStream]
+
 var _preloaded_resources: Array[Resource]
 var _download_http: HTTPRequest
 
@@ -138,8 +140,8 @@ func show_critical_error(info := "", log_error := "") -> void:
 	get_tree().paused = true
 	var dialog := AcceptDialog.new()
 	dialog.title = "Критическая ошибка!"
-	dialog.dialog_text = "Произошла критическая ошибка. Подробности можно найти в логах. \
-Игра будет завершена при закрытии этого диалога."
+	dialog.dialog_text = "Произошла критическая ошибка. Подробности можно найти в логах."
+	dialog.dialog_text += "\nИгра будет завершена при закрытии этого диалога."
 	if not info.is_empty():
 		dialog.dialog_text += "\nИнформация: %s." % info
 	if not log_error.is_empty():
@@ -398,12 +400,12 @@ func _loading_init_systems() -> void:
 	add_child(menu_music)
 	move_child(menu_music, 0)
 	
-	var time_timer := Timer.new()
-	time_timer.name = &"TimeTimer"
-	time_timer.autostart = true
-	time_timer.ignore_time_scale = true
-	time_timer.timeout.connect(_on_time_timer_timeout)
-	add_child(time_timer)
+	var played_time_timer := Timer.new()
+	played_time_timer.name = &"PlayedTimeTimer"
+	played_time_timer.autostart = true
+	played_time_timer.ignore_time_scale = true
+	played_time_timer.timeout.connect(_on_played_time_timer_timeout)
+	add_child(played_time_timer)
 	
 	print_verbose("Done initializing systems.")
 	loading_stage_finished.emit(true)
@@ -610,8 +612,8 @@ func _on_check_http_request_completed(result: HTTPRequest.Result,
 				"Connect to server: response code is not 200. Response code: %d." % response_code)
 		loading_stage_finished.emit(false)
 		return
-	var text: String = body.get_string_from_utf8()
-	if "circleshot" in text:
+	var text: String = body.get_string_from_utf8().strip_edges().strip_escapes()
+	if text == "circleshot":
 		print_verbose("Connection success.")
 		loading_stage_finished.emit(true)
 	else:
@@ -675,5 +677,5 @@ func _on_patch_http_request_completed(result: HTTPRequest.Result,
 	loading_stage_finished.emit(true)
 
 
-func _on_time_timer_timeout() -> void:
+func _on_played_time_timer_timeout() -> void:
 	Globals.set_int("played_time", Globals.get_int("played_time") + 1)

@@ -436,7 +436,7 @@ damage_second = 30
 damage_both = 50
 damage = 35
 shoot_interval = 0.4
-to_aim_time = 0.2
+to_aim_time = 0.25
 speed_multiplier_when_current = 1.11
 
 [node name="AttackPolygon" type="Polygon2D" parent="." index="0"]

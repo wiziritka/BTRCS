@@ -106,6 +106,8 @@ func _on_custom_action(action: StringName) -> void:
 		&"update_ips":
 			_find_ips()
 		&"copy_ips":
+			if not DisplayServer.has_feature(DisplayServer.FEATURE_CLIPBOARD):
+				return
 			var to_copy := ""
 			if not _global_ip.is_empty():
 				to_copy += _global_ip

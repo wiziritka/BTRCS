@@ -63,7 +63,7 @@ func _make_current() -> void:
 	if ammo_in_stock > 0 and not _reloading:
 		_anim.play(&"equip")
 		block_shooting()
-		await _anim.current_animation_changed
+		await _anim.animation_finished
 		unblock_shooting()
 
 

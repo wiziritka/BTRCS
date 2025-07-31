@@ -80,6 +80,8 @@ func initialize() -> void:
 	
 	save_file = ConfigFile.new()
 	save_file.load_encrypted_pass(SAVE_FILE_PATH, SAVE_FILE_PASSWORD)
+	if not save_file.has_section_key(DEFAULT_SAVE_FILE_SECTION, "save_id"):
+		set_string("save_id", _generate_save_id())
 	
 	if OS.is_debug_build():
 		version += "-debug"
@@ -558,3 +560,17 @@ func get_controls_vector2(id: String, default_value := Vector2.ZERO) -> Vector2:
 func set_controls_vector2(id: String, value: Vector2) -> void:
 	save_file.set_value(CONTROLS_SAVE_FILE_SECTION, id, value)
 #endregion
+
+
+func _generate_save_id() -> String:
+	var save_id_num: int = absi(OS.get_model_name().hash() * OS.get_version().hash()
+			* Time.get_datetime_dict_from_system().hash() * randi())
+	var save_id := ""
+	while save_id_num != 0:
+		var remainder: int = save_id_num % 36
+		if remainder < 26:
+			save_id += char(ord('a') + remainder)
+		else:
+			save_id += char(ord('0') + remainder - 26)
+		save_id_num = floori(save_id_num / 36.0)
+	return save_id
