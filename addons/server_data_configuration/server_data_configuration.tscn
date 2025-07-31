@@ -1,0 +1,181 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnjgmcyoyd44a"]
+
+[ext_resource type="Script" uid="uid://bkophui08a1j" path="res://addons/server_data_configuration/server_data_configuration.gd" id="1_u53uy"]
+
+[node name="ServerDataConfiguration" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_u53uy")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+custom_minimum_size = Vector2(640, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="VersionsTitle" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderMedium"
+text = "Версии"
+
+[node name="StableVersion" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/StableVersion"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Стабильная версия"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="StableVersionEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/StableVersion"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "1.0.0"
+
+[node name="BetaVersion" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/BetaVersion"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Бета-версия"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="BetaVersionEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/BetaVersion"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "1.0.0.01"
+
+[node name="Note" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Внимание: если стабильная версия выше нестабильной,
+то установите значение бета-версии равным значению стабильной.
+Это необходимо для правильной проверки обновлений."
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PatchesTitle" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderMedium"
+text = "Патчи"
+
+[node name="PatchesList" type="VBoxContainer" parent="ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AddPatch" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Добавить патч"
+
+[node name="HSeparator2" type="HSeparator" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PromocodesTitle" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderMedium"
+text = "Промокоды"
+
+[node name="PromocodesList" type="VBoxContainer" parent="ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AddPromocode" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Добавить промокод"
+
+[node name="HSeparator4" type="HSeparator" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="OfferTitle" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderMedium"
+text = "Предложения"
+
+[node name="OffersList" type="VBoxContainer" parent="ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AddOffer" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Добавить предложение"
+
+[node name="HSeparator3" type="HSeparator" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Export" type="Button" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Экспортировать в data.cfg"
+
+[node name="Import" type="Button" parent="ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Импортировать из data.cfg"
+
+[node name="AddPatchDialog" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Добавление патча"
+size = Vector2i(244, 136)
+
+[node name="LineEdit" type="LineEdit" parent="AddPatchDialog"]
+offset_left = 32.0
+offset_top = 16.0
+offset_right = 212.0
+offset_bottom = 63.0
+placeholder_text = "Версия для патчинга..."
+alignment = 1
+max_length = 12
+
+[node name="AddPromocodeDialog" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Добавление промокода"
+size = Vector2i(244, 136)
+
+[node name="LineEdit" type="LineEdit" parent="AddPromocodeDialog"]
+offset_left = 32.0
+offset_top = 16.0
+offset_right = 212.0
+offset_bottom = 63.0
+placeholder_text = "Промокод..."
+alignment = 1
+max_length = 32
+expand_to_text_length = true
+
+[connection signal="hidden" from="." to="." method="_on_hidden"]
+[connection signal="text_changed" from="ScrollContainer/VBoxContainer/StableVersion/StableVersionEdit" to="." method="_on_stable_version_edit_text_changed"]
+[connection signal="text_changed" from="ScrollContainer/VBoxContainer/BetaVersion/BetaVersionEdit" to="." method="_on_beta_version_edit_text_changed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/AddPatch" to="." method="_on_add_patch_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/AddPromocode" to="." method="_on_add_promocode_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/AddOffer" to="." method="_on_add_offer_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/HBoxContainer/Export" to="." method="_on_export_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/HBoxContainer/Import" to="." method="_on_import_pressed"]
+[connection signal="confirmed" from="AddPatchDialog" to="." method="_on_add_patch_dialog_confirmed"]
+[connection signal="confirmed" from="AddPromocodeDialog" to="." method="_on_add_promocode_dialog_confirmed"]

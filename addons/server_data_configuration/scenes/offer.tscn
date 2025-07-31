@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://dkwe2kjrkbt70"]
+
+[node name="Offer" type="VBoxContainer"]
+offset_right = 354.0
+offset_bottom = 134.0
+
+[node name="Offer" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderSmall"
+text = "Предложение "
+
+[node name="Name" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Name"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Имя предложения"
+
+[node name="LineEdit" type="LineEdit" parent="Name"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+text = "Акция"
+
+[node name="Cost" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Cost"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Цена"
+
+[node name="SpinBox" type="SpinBox" parent="Cost"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 999999999.0
+suffix = "монет"
+custom_arrow_step = 10.0
+
+[node name="Sale" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sale"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Скидка"
+
+[node name="SpinBox" type="SpinBox" parent="Sale"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+suffix = "%"
+
+[node name="OnlyForIds" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="OnlyForIds"]
+layout_mode = 2
+text = "Ограничения по ID сохранения,
+через запятую"
+
+[node name="LineEdit" type="LineEdit" parent="OnlyForIds"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+placeholder_text = "Нет ограничений"
+
+[node name="Rewards" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="AddReward" type="Button" parent="Buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Добавить награду"
+
+[node name="Delete" type="Button" parent="Buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Удалить предложение"

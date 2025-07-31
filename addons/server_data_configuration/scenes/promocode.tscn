@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://eybqhu8u4udd"]
+
+[node name="Promocode" type="VBoxContainer"]
+offset_right = 354.0
+offset_bottom = 134.0
+
+[node name="Promocode" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderSmall"
+text = "промокод"
+
+[node name="OnlyForIds" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="OnlyForIds"]
+layout_mode = 2
+text = "Ограничения по ID сохранения,
+через запятую"
+
+[node name="LineEdit" type="LineEdit" parent="OnlyForIds"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+placeholder_text = "Нет ограничений"
+
+[node name="Rewards" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="AddReward" type="Button" parent="Buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Добавить награду"
+
+[node name="Delete" type="Button" parent="Buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Удалить промокод"
