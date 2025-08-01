@@ -7,5 +7,6 @@
 [node name="Dealer" type="Sprite2D"]
 texture = ExtResource("2_5s1w2")
 script = ExtResource("2_1cwjn")
+normal_texture = ExtResource("2_5s1w2")
 damaged_texture = ExtResource("4_51db3")
 metadata/_custom_type_script = "uid://nr21pnmv3b1n"

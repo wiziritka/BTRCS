@@ -107,7 +107,7 @@ tracks/6/keys = {
 
 [sub_resource type="Animation" id="Animation_wudyk"]
 resource_name = "Equip"
-length = 0.7
+length = 0.8
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -115,7 +115,7 @@ tracks/0/path = NodePath("Base:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.7),
+"times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(3, 17), Vector2(-6, -8)]
@@ -127,7 +127,7 @@ tracks/1/path = NodePath("Base:rotation")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.7),
+"times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(0.812252, 1),
 "update": 0,
 "values": [0.881593, -0.235342]
@@ -135,7 +135,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_e3ftk"]
 resource_name = "PostEquip"
-length = 0.3
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -143,7 +143,7 @@ tracks/0/path = NodePath("Base:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(-6, -8), Vector2(0, 0)]
@@ -155,7 +155,7 @@ tracks/1/path = NodePath("Base:rotation")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(-1.23114, 1),
 "update": 0,
 "values": [-0.235342, 0.0]
@@ -163,7 +163,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_8k5vi"]
 resource_name = "PostReload"
-length = 0.3
+length = 0.4
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -172,7 +172,7 @@ tracks/0/path = NodePath("Base:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3),
+"times": PackedFloat32Array(0, 0.1, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(-8, -7), Vector2(-14, -10), Vector2(0, 0)]
@@ -184,7 +184,7 @@ tracks/1/path = NodePath("Base:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3),
+"times": PackedFloat32Array(0, 0.1, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [0.324326, 0.324326, 0.0]
@@ -192,6 +192,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_n6wbp"]
 resource_name = "Reload"
+length = 1.4
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -200,7 +201,7 @@ tracks/0/path = NodePath("Rocket:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 1),
+"times": PackedFloat32Array(0, 0.3, 1.25),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -212,7 +213,7 @@ tracks/1/path = NodePath("Base:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(-8, -7)]
@@ -224,7 +225,7 @@ tracks/2/path = NodePath("Base:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.0, 0.324326]
@@ -236,7 +237,7 @@ tracks/3/path = NodePath("Rocket:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.65, 0.8, 0.9, 1),
+"times": PackedFloat32Array(0, 0.3, 0.55, 0.9, 1.05, 1.1499999, 1.25),
 "transitions": PackedFloat32Array(1, 1, 1, 0.812252, 1.36604, 1.36604, 1),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(-37, 85), Vector2(-5.00001, 34), Vector2(41, 25), Vector2(13, 6), Vector2(13, 6), Vector2(-8, -7)]
@@ -248,7 +249,7 @@ tracks/4/path = NodePath("Rocket:rotation")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.65, 0.8, 0.9, 1),
+"times": PackedFloat32Array(0, 0.3, 0.55, 0.9, 1.05, 1.1499999, 1.25),
 "transitions": PackedFloat32Array(1, 1, 1, 0.812252, 1.36604, 1.36604, 1),
 "update": 0,
 "values": [0.0, -1.35537, -0.935444, -0.305559, 0.272984, 0.272984, 0.324326]
@@ -260,7 +261,7 @@ tracks/5/path = NodePath("Rocket:z_index")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.5),
+"times": PackedFloat32Array(0, 0.3, 0.65000004),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [0, -1, 0]
@@ -272,7 +273,7 @@ tracks/6/path = NodePath("Base/Rocket:visible")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 1.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -330,17 +331,17 @@ _data = {
 
 [node name="Bazooka" instance=ExtResource("1_nkfev")]
 script = ExtResource("2_s1h1q")
-to_aim_time = 0.3
+to_aim_time = 0.40000000000873115
 projectile_scene = ExtResource("2_wudyk")
 spread_base = 3.0
-spread_walk = 4.0
+spread_walk = 5.0
 spread_walk_ratio = 0.4
 spread_curve = SubResource("Curve_s1h1q")
 recoil_curve = SubResource("Curve_wudyk")
 recoil_cycle_curve = SubResource("Curve_wcct1")
 ammo_per_load = 1
 ammo_total = 5
-speed_multiplier_when_current = 0.91
+speed_multiplier_when_current = 0.89
 shoot_on_joystick_release = true
 
 [node name="Rocket" type="Sprite2D" parent="." index="0"]
