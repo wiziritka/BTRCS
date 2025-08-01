@@ -8,11 +8,25 @@ extends Event
 ## Время, через которое возвращаются павшие игроки.
 @export var comeback_time: int = 3
 
+@export_group("Rewards")
+## Количество монет, которое получит игрок при победе.
+@export var coins_for_win: int = 80
+## Количество монет, которое получит игрок при ничье.
+@export var coins_for_draw: int = 60
+## Количество монет, которое получит игрок при поражении.
+@export var coins_for_defeat: int = 40
+## Количество монет, которое получит игрок за каждое убийство.
+@export var coins_for_kill: int = 5
+
+## Количество убийств, сделанных красной командой.
 var red_kills: int = 0
+## Количество убийств, сделанных синей командой.
 var blue_kills: int = 0
+
 var _spawn_counter_red: int = 0
 var _spawn_counter_blue: int = 0
 var _time_remained: int
+var _team_won: int
 
 @onready var _spawn_points_red: Array[Node] = $Map/SpawnPoints0.get_children()
 @onready var _spawn_points_blue: Array[Node] = $Map/SpawnPoints1.get_children()
@@ -98,6 +112,20 @@ func _player_disconnected(_who: int) -> void:
 		_time_remained = 1
 
 
+func _get_rewards() -> Dictionary[String, int]:
+	var rewards: Dictionary[String, int]
+	var result_coins: int
+	if _team_won == local_team:
+		result_coins = coins_for_win
+	elif _team_won < 0:
+		result_coins = coins_for_draw
+	else:
+		result_coins = coins_for_defeat
+	rewards["Результат"] = result_coins
+	rewards["Убийства"] = players_kills * coins_for_kill
+	return rewards
+
+
 @rpc("unreliable_ordered", "call_local", "authority", 3)
 func _update_time(remained: int) -> void:
 	_teamfight_ui.set_time(remained)
@@ -119,6 +147,8 @@ func _show_winner(team: int) -> void:
 	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
 		push_error("This method must be called only by server.")
 		return
+	
+	_team_won = team
 	end_event(team == local_team)
 	_teamfight_ui.show_winner(team)
 	print_verbose("Team won: %d." % team)

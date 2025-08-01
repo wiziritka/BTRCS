@@ -8,11 +8,29 @@ extends Event
 ## Время, через которое возвращаются павшие игроки.
 @export var comeback_time: int = 3
 
+@export_group("Rewards")
+## Количество монет, которое получит игрок при победе.
+@export var coins_for_win: int = 80
+## Количество монет, которое получит игрок при ничье.
+@export var coins_for_draw: int = 60
+## Количество монет, которое получит игрок при поражении.
+@export var coins_for_defeat: int = 40
+## Количество монет, которое получит игрок за каждый захваченный флаг.
+@export var coins_for_flag_captured: int = 12
+## Количество монет, которое получит игрок за каждое убийство.
+@export var coins_for_kill: int = 5
+
+## Количество флагов, захваченных красной командой.
 var red_flags_captured: int = 0
+## Количество флагов, захваченных синей командой.
 var blue_flags_captured: int = 0
+## Количество флагов, захваченных локальным игроком.
+var flags_captured: int = 0
+
 var _spawn_counter_red: int = 0
 var _spawn_counter_blue: int = 0
 var _time_remained: int
+var _team_won: int
 
 var _red_flag_scene: PackedScene = load("uid://cc2mkoa1fingr")
 var _blue_flag_scene: PackedScene = load("uid://cyudg7uces0wb")
@@ -101,6 +119,21 @@ func _player_disconnected(_id: int) -> void:
 		_time_remained = 1
 
 
+func _get_rewards() -> Dictionary[String, int]:
+	var rewards: Dictionary[String, int]
+	var result_coins: int
+	if _team_won == local_team:
+		result_coins = coins_for_win
+	elif _team_won < 0:
+		result_coins = coins_for_draw
+	else:
+		result_coins = coins_for_defeat
+	rewards["Результат"] = result_coins
+	rewards["Захваченные флаги"] = flags_captured * coins_for_flag_captured
+	rewards["Убийства"] = players_kills * coins_for_kill
+	return rewards
+
+
 @rpc("unreliable_ordered", "call_local", "authority", 3)
 func _update_time(remained: int) -> void:
 	_flag_capture_ui.set_time(remained)
@@ -124,9 +157,19 @@ func _show_winner(team: int) -> void:
 	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
 		push_error("This method must be called only by server.")
 		return
+	
+	_team_won = team
 	end_event(team == local_team)
 	_flag_capture_ui.show_winner(team)
 	print_verbose("Team won: %d." % team)
+
+
+@rpc("reliable", "call_local", "authority", 6)
+func _increment_flags_captured() -> void:
+	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
+		push_error("This method must be called only by server.")
+		return
+	flags_captured += 1
 
 
 func _respawn_player(id: int) -> void:
@@ -176,13 +219,17 @@ func _on_match_timer_timeout() -> void:
 		_end_event()
 
 
-func _on_flag_zone_red_flag_captured() -> void:
+func _on_flag_zone_red_flag_captured(by: int) -> void:
 	red_flags_captured += 1
+	if by > 0:
+		_increment_flags_captured.rpc_id(by)
 	_update_score.rpc(red_flags_captured, blue_flags_captured, false)
 	_spawn_flag.call_deferred(true)
 
 
-func _on_flag_zone_blue_flag_captured() -> void:
+func _on_flag_zone_blue_flag_captured(by: int) -> void:
 	blue_flags_captured += 1
+	if by > 0:
+		_increment_flags_captured.rpc_id(by)
 	_update_score.rpc(red_flags_captured, blue_flags_captured, true)
 	_spawn_flag.call_deferred(false)

@@ -8,6 +8,8 @@ extends CanvasLayer
 ## Время, в течении которого сообщения чата видно в предпросмотре.
 @export var messages_visible_time := 3.0
 
+var _reward_scene: PackedScene = preload("uid://b1ipe4g6uueie")
+
 ## Чат.
 @onready var chat: Chat = $Main/ChatPanel
 ## Ссылка на [Event].
@@ -54,6 +56,28 @@ func show_intro() -> void:
 ## Перемещает анимацию заставки события на указанное время.
 func seek_intro(at_time: float) -> void:
 	($Intro/AnimationPlayer as AnimationPlayer).seek(at_time)
+
+
+## Показывает награды из словаря [param rewards]. В [param total] находится сумма полученных монет.
+## Для подробностей см. [method Event._get_rewards].
+func show_rewards(rewards: Dictionary[String, int], total: int) -> void:
+	($Main/RewardsPanel as CanvasItem).show()
+	var tween: Tween = create_tween()
+	tween.tween_property($Main/RewardsPanel as CanvasItem, ^":modulate", Color.WHITE, 0.5).from(
+			Color.TRANSPARENT)
+	
+	for reason: String in rewards:
+		var reward: HBoxContainer = _reward_scene.instantiate()
+		(reward.get_node(^"Reason") as Label).text = reason
+		(reward.get_node(^"Count") as Label).text = str(rewards[reason])
+		reward.modulate = Color.TRANSPARENT
+		%Rewards.add_child(reward)
+		tween.tween_property(reward, ^":modulate", Color.WHITE, 0.4)
+	
+	(%Rewards/Total as CanvasItem).move_to_front()
+	tween.tween_interval(0.4)
+	tween.tween_method(func(val: int) -> void: (%Rewards/Total/Count as Label).text = str(val),
+			0, total, 1.0)
 
 
 func _on_message_posted(message: String) -> void:

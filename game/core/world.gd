@@ -107,7 +107,7 @@ func cleanup() -> void:
 		other.queue_free()
 
 
-@rpc("reliable", "call_local", "authority", 6)
+@rpc("unreliable", "call_local", "authority", 6)
 func _register_hit(where: Vector2) -> void:
 	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
 		push_error("This method must be called only by server.")

@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://d3nsak46hbo2c"]
+[gd_scene load_steps=13 format=3 uid="uid://d3nsak46hbo2c"]
 
 [ext_resource type="PackedScene" uid="uid://bkvfj405l2gvw" path="res://game/core/world.tscn" id="1_6dq27"]
 [ext_resource type="Script" uid="uid://ciktx11hqv3ox" path="res://game/events/common/event.gd" id="1_kxt6o"]
 [ext_resource type="Script" uid="uid://c5wn8p7yq48wc" path="res://game/shared/ui/chat/chat.gd" id="3_8d55t"]
 [ext_resource type="Script" uid="uid://buk2lt6westdi" path="res://game/events/common/event_ui.gd" id="4_10cmx"]
+[ext_resource type="Texture2D" uid="uid://cndb4a0hg0r5l" path="res://menu/shop/coin_small.png" id="8_nrcab"]
 [ext_resource type="Texture2D" uid="uid://dwtddg0cmagg1" path="res://game/shared/ui/chat/chat_send.png" id="9_2uw6w"]
 [ext_resource type="AudioStream" uid="uid://hs3bh8qllach" path="res://game/music/defeat.ogg" id="12_jddfk"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="13_j0bsh"]
@@ -284,6 +285,57 @@ texture_normal = ExtResource("9_2uw6w")
 ignore_texture_size = true
 stretch_mode = 0
 
+[node name="RewardsPanel" type="PanelContainer" parent="UI/Main" index="6"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -51.0
+offset_right = 200.0
+offset_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Main/RewardsPanel" index="0"]
+layout_mode = 2
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Rewards" type="VBoxContainer" parent="UI/Main/RewardsPanel/MarginContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Title" type="Label" parent="UI/Main/RewardsPanel/MarginContainer/Rewards" index="0"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderMedium"
+text = "Награды"
+
+[node name="Total" type="HBoxContainer" parent="UI/Main/RewardsPanel/MarginContainer/Rewards" index="1"]
+layout_mode = 2
+alignment = 1
+
+[node name="Total" type="Label" parent="UI/Main/RewardsPanel/MarginContainer/Rewards/Total" index="0"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Итого:"
+
+[node name="Count" type="Label" parent="UI/Main/RewardsPanel/MarginContainer/Rewards/Total" index="1"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "0"
+
+[node name="CoinSmall" type="TextureRect" parent="UI/Main/RewardsPanel/MarginContainer/Rewards/Total" index="2"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("8_nrcab")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="Intro" type="Control" parent="UI" index="1"]
 visible = false
 layout_mode = 3
@@ -410,6 +462,10 @@ bus = &"Music"
 [node name="DefeatMusic" type="AudioStreamPlayer" parent="." index="11"]
 stream = ExtResource("12_jddfk")
 bus = &"Music"
+
+[node name="ShowRewardsTimer" type="Timer" parent="." index="14"]
+wait_time = 1.2
+one_shot = true
 
 [connection signal="pressed" from="UI/Main/Leave" to="UI/QuitDialog" method="popup_centered"]
 [connection signal="toggled" from="UI/Main/Chat" to="UI" method="_on_chat_toggled"]

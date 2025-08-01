@@ -15,6 +15,8 @@ signal ended
 ## Определяет максимум случайного расстояния от заданной точки появления.
 @export var spawn_point_randomness := 40.0
 
+## Количество убийств игроков, совершённых локальным игроком.
+var players_kills: int = 0
 ## Началось ли событие.
 var was_started := false
 ## Количество тиков в момент создания события. Используется для корректировки анимации начала.
@@ -93,6 +95,20 @@ func freeze_players() -> void:
 	get_tree().call_group(&"player", &"block_turning")
 
 
+## Останавливает, обезоруживает и делает неуязвимыми все сущности.[br]
+## [b]Примечание[/b]: этот метод должен вызываться только сервером и только как RPC.
+@rpc("reliable", "call_local", "authority", 3)
+func freeze_entities() -> void:
+	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
+		push_error("This method must be called only by server.")
+		return
+	
+	get_tree().call_group(&"entity", &"make_disarmed")
+	get_tree().call_group(&"entity", &"make_immobile")
+	get_tree().call_group(&"entity", &"make_immune")
+	get_tree().call_group(&"entity", &"block_turning")
+
+
 ## Заканчивает событие и возвращает в лобби.[br]
 ## [b]Примечание[/b]: этот метод должен вызываться только сервером и только как RPC.
 @rpc("call_local", "reliable", "authority", 3)
@@ -113,6 +129,16 @@ func end_event(victory: bool) -> void:
 		($VictoryMusic as AudioStreamPlayer).play()
 	else:
 		($DefeatMusic as AudioStreamPlayer).play()
+	
+	if not Globals.headless:
+		var rewards: Dictionary[String, int] = _get_rewards()
+		var coins_got: int = rewards.values().reduce(
+				func(accum: int, num: int) -> int: return accum + num)
+		Globals.set_int("coins", Globals.get_int("coins") + coins_got)
+		
+		($ShowRewardsTimer as Timer).start()
+		await ($ShowRewardsTimer as Timer).timeout
+		event_ui.show_rewards(rewards, coins_got)
 
 
 @rpc("call_local", "reliable", "authority", 3)
@@ -140,6 +166,14 @@ func _start() -> void:
 	print_verbose("Event started.")
 
 
+@rpc("reliable", "call_local", "authority", 6)
+func _increment_players_kills() -> void:
+	if multiplayer.get_remote_sender_id() != MultiplayerPeer.TARGET_PEER_SERVER:
+		push_error("This method must be called only by server.")
+		return
+	players_kills += 1
+
+
 func _setup() -> void:
 	_make_teams()
 	event_ui.chat.players_names = players_names
@@ -155,7 +189,7 @@ func _setup() -> void:
 
 ## Метод для переопределения. В нём требуется заполнить [member players_teams]. Он может быть уже
 ## заранее частично заполненным, если в [EventData] этого события [member EventData.team_event]
-## равен [code]true[/code].
+## равен [code]true[/code].[br]
 ## Вызывается только на сервере. Обязателен.
 func _make_teams() -> void:
 	pass
@@ -202,6 +236,12 @@ func _player_disconnected(_id: int) -> void:
 	pass
 
 
+## Метод для переопределения. Вызывается и на сервере и на клиенте. Должен вернуть словарь,
+## где ключи - строки с причиной награды, а значения - размер награды в монетах.
+func _get_rewards() -> Dictionary[String, int]:
+	return {}
+
+
 func _on_player_killed(by: int, player: Player) -> void:
 	var message_text: String
 	if by > 0:
@@ -219,6 +259,7 @@ func _on_player_killed(by: int, player: Player) -> void:
 		]
 	event_ui.chat.post_message.rpc("> " + message_text)
 	
+	_increment_players_kills.rpc_id(by)
 	_player_killed(by, player)
 
 

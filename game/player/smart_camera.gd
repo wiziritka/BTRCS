@@ -119,8 +119,7 @@ func teleport_to(destination: Vector2) -> void:
 
 
 func _lerp_to(weight: float, from: Vector2, to: Node2D) -> void:
-	if is_instance_valid(to):
-		global_position = from.lerp(to.global_position, weight)
+	global_position = from.lerp(to.global_position, weight)
 
 
 func _cleanup_pan_tween() -> void:

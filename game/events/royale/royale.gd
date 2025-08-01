@@ -18,11 +18,27 @@ extends Event
 ## Данные подбираемого оружия.
 @export var weapon_data: WeaponData
 
+@export_group("Rewards")
+## Количество монет, которое получит игрок за последнее место.
+@export var coins_for_last_place: int = 20
+## Базовое оличество монет, которое получит игрок за первое место.
+@export var coins_for_first_place_base: int = 40
+## Количество монет, умноженное на количество игроков, которое добавляется
+## к [member coins_for_first_place].
+@export var coins_for_first_place_per_player: int = 5
+## Количество монет, которое получит игрок за каждое убийство.
+@export var coins_for_kill: int = 8
+
+## Массив с ID живых игроков.
+var alive_players: Array[int]
+
 var _spawn_counter: int = 0
 var _heal_box_counter: int = 0
 var _ammo_box_counter: int = 0
 var _weapon_box_counter: int = 0
-var _alive_players: Array[int]
+
+var _places: int
+var _place_got: int
 
 var _heal_box_scene: PackedScene = load("uid://bysyaaj2r7stt")
 var _ammo_box_scene: PackedScene = load("uid://bdtqr6mv231py")
@@ -42,8 +58,8 @@ func _initialize() -> void:
 		_heal_box_points.shuffle()
 		_ammo_box_points.shuffle()
 		_weapon_box_points.shuffle()
-		_alive_players = players_names.keys()
-	_update_alive_players(players_names.keys(), 0, 0)
+	alive_players = players_names.keys()
+	_royale_ui.set_alive_players(alive_players.size())
 
 
 func _finish_start() -> void:
@@ -51,13 +67,14 @@ func _finish_start() -> void:
 	add_child(smokes)
 	var tween: Tween = smokes.create_tween()
 	tween.tween_property(smokes, ^":modulate", smokes.modulate, 0.3).from(Color.TRANSPARENT)
+	_places = alive_players.size()
 	if multiplayer.is_server():
 		($HealBoxSpawnTimer as Timer).start(heal_box_spawn_interval_base
-				+ heal_box_spawn_interval_per_player * _alive_players.size())
+				+ heal_box_spawn_interval_per_player * alive_players.size())
 		($AmmoBoxSpawnTimer as Timer).start(ammo_box_spawn_interval_base
-				+ ammo_box_spawn_interval_per_player * _alive_players.size())
+				+ ammo_box_spawn_interval_per_player * alive_players.size())
 		($WeaponBoxSpawnTimer as Timer).start(weapon_box_spawn_interval_base
-				+ weapon_box_spawn_interval_per_player * _alive_players.size())
+				+ weapon_box_spawn_interval_per_player * alive_players.size())
 		_check_for_end()
 
 
@@ -77,15 +94,23 @@ func _get_spawn_point(_id: int) -> Vector2:
 
 
 func _player_killed(by: int, player: Player) -> void:
-	_alive_players.erase(player.id)
-	_update_alive_players.rpc(_alive_players, player.id, by)
+	_kill_player.rpc(player.id, by)
 	_check_for_end()
 
 
 func _player_disconnected(id: int) -> void:
-	_alive_players.erase(id)
-	_update_alive_players.rpc(_alive_players, id, 0)
+	_kill_player.rpc(id)
 	_check_for_end()
+
+
+func _get_rewards() -> Dictionary[String, int]:
+	var rewards: Dictionary[String, int]
+	var coins_for_first_place: int = coins_for_first_place_base \
+			+ coins_for_first_place_per_player * _places
+	rewards["Место"] = coins_for_last_place + roundi((coins_for_first_place - coins_for_last_place)
+			* (1.0 - (_place_got - 1) / float(_places - 1)))
+	rewards["Убийства"] = players_kills * coins_for_kill
+	return rewards
 
 
 ## Устанавливает у игрока с ID [param to] оружие [member weapon_data].
@@ -101,16 +126,21 @@ func equip_weapon(to: int) -> void:
 
 
 @rpc("reliable", "call_local", "authority", 3)
-func _update_alive_players(alive_players: Array[int], died: int, killer: int) -> void:
+func _kill_player(who: int, killer: int = 0) -> void:
+	alive_players.erase(who)
 	print_verbose("Alive players: %s." % str(alive_players))
 	_royale_ui.set_alive_players(alive_players.size())
-	if died != 0:
-		_royale_ui.kill_player(alive_players, died, killer)
+	_royale_ui.kill_player(alive_players, who, killer)
+	if who == multiplayer.get_unique_id():
+		_place_got = alive_players.size() + 1
+		end_event(false)
+		_royale_ui.show_defeat()
 
 
 @rpc("reliable", "call_local", "authority", 3)
 func _show_winner(winner: int, winner_name: String) -> void:
 	if winner == multiplayer.get_unique_id():
+		_place_got = 1
 		end_event(true)
 	print_verbose("Winner: %d." % winner)
 	_royale_ui.show_winner(winner == multiplayer.get_unique_id(), winner_name)
@@ -154,9 +184,9 @@ func _spawn_weapon() -> void:
 
 
 func _check_for_end() -> void:
-	if _alive_players.size() != 1:
+	if alive_players.size() != 1:
 		return
-	var winner_id: int = _alive_players[0]
+	var winner_id: int = alive_players[0]
 	var winner_name: String = players_names[winner_id]
 	_show_winner.rpc(winner_id, winner_name)
 	freeze_players.rpc()
@@ -169,28 +199,19 @@ func _check_for_end() -> void:
 	end.rpc()
 
 
-func _on_local_player_died() -> void:
-	end_event(false)
-	_royale_ui.show_defeat()
-
-
-func _on_local_player_created(player: Player) -> void:
-	player.died.connect(_on_local_player_died)
-
-
 func _on_heal_box_spawn_timer_timeout() -> void:
 	_spawn_heal_box()
 	($HealBoxSpawnTimer as Timer).start(heal_box_spawn_interval_base
-			+ heal_box_spawn_interval_per_player * _alive_players.size())
+			+ heal_box_spawn_interval_per_player * alive_players.size())
 
 
 func _on_ammo_box_spawn_timer_timeout() -> void:
 	_spawn_ammo_box()
 	($AmmoBoxSpawnTimer as Timer).start(ammo_box_spawn_interval_base
-			+ ammo_box_spawn_interval_per_player * _alive_players.size())
+			+ ammo_box_spawn_interval_per_player * alive_players.size())
 
 
 func _on_weapon_spawn_timer_timeout() -> void:
 	_spawn_weapon()
 	($WeaponBoxSpawnTimer as Timer).start(weapon_box_spawn_interval_base
-			+ weapon_box_spawn_interval_per_player * _alive_players.size())
+			+ weapon_box_spawn_interval_per_player * alive_players.size())

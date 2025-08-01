@@ -137,12 +137,15 @@ _data = {
 
 [node name="Event" instance=ExtResource("1_k4cdx")]
 script = ExtResource("2_e8nkp")
+coins_for_kill = 10
+coins_for_won_round = 24
+coins_for_lost_round = 12
 spawn_point_randomness = 0.0
 
 [node name="UI" parent="." index="8"]
 script = ExtResource("4_jj4yx")
 
-[node name="Round0" type="TextureRect" parent="UI/Main" index="6"]
+[node name="Round0" type="TextureRect" parent="UI/Main" index="7"]
 modulate = Color(0.566406, 0.566406, 0.566406, 1)
 layout_mode = 1
 anchors_preset = 5
@@ -156,7 +159,7 @@ grow_horizontal = 2
 texture = ExtResource("6_weffi")
 expand_mode = 1
 
-[node name="Round1" type="TextureRect" parent="UI/Main" index="7"]
+[node name="Round1" type="TextureRect" parent="UI/Main" index="8"]
 modulate = Color(0.566406, 0.566406, 0.566406, 1)
 layout_mode = 1
 anchors_preset = 5
@@ -170,7 +173,7 @@ grow_horizontal = 2
 texture = ExtResource("7_leh4n")
 expand_mode = 1
 
-[node name="Round2" type="TextureRect" parent="UI/Main" index="8"]
+[node name="Round2" type="TextureRect" parent="UI/Main" index="9"]
 modulate = Color(0.566406, 0.566406, 0.566406, 1)
 layout_mode = 1
 anchors_preset = 5
@@ -184,7 +187,7 @@ grow_horizontal = 2
 texture = ExtResource("8_ompgj")
 expand_mode = 1
 
-[node name="RoundEnd" type="Label" parent="UI/Main" index="9"]
+[node name="RoundEnd" type="Label" parent="UI/Main" index="10"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -200,7 +203,7 @@ grow_vertical = 2
 theme_type_variation = &"HeaderLargeOutlined"
 horizontal_alignment = 1
 
-[node name="GameEnd" type="Label" parent="UI/Main" index="10"]
+[node name="GameEnd" type="Label" parent="UI/Main" index="11"]
 self_modulate = Color(1, 0, 0, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -208,7 +211,7 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -400.0
+offset_left = -400.00003
 offset_top = -220.0
 offset_right = 400.0
 offset_bottom = -100.0

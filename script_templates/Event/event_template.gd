@@ -40,3 +40,8 @@ _TS_#pass
 
 #func _player_disconnected(id: int) -> void:
 _TS_#pass
+
+
+func _get_rewards() -> Dictionary[String, int]:
+_TS_var rewards: Dictionary[String, int]
+_TS_return rewards

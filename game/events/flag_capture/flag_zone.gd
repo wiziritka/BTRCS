@@ -1,7 +1,7 @@
 extends Area2D
 
 
-signal flag_captured
+signal flag_captured(by: int)
 
 @export var team: int
 @export var area_color := Color(1.0, 1.0, 1.0, 0.25)
@@ -17,5 +17,8 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 	var flag := area as Flag
 	if flag and flag.team != team:
-		flag_captured.emit()
+		if is_instance_valid(flag.player):
+			flag_captured.emit(flag.player.id)
+		else:
+			flag_captured.emit(0)
 		flag.queue_free()
