@@ -51,6 +51,7 @@ func _show_item(type: ItemsDB.Item, idx: int) -> void:
 	
 	var item_name: String
 	var description: String
+	var unlocked := true
 	match type:
 		ItemsDB.Item.EVENT:
 			var event: EventData = Globals.items_db.events[idx]
@@ -85,6 +86,7 @@ func _show_item(type: ItemsDB.Item, idx: int) -> void:
 			item_name = skin.name
 			if not Globals.items_db.has_equip_item(skin.id, type):
 				description = "Ещё не открыто"
+				unlocked = false
 			else:
 				description = "[center]%s[/center]" % skin.brief_description
 				description += '\n'
@@ -127,6 +129,7 @@ func _show_item(type: ItemsDB.Item, idx: int) -> void:
 			item_name = skill.name
 			if not Globals.items_db.has_equip_item(skill.id, type):
 				description = "Ещё не открыто"
+				unlocked = false
 			else:
 				description = skill.description.format(skill.stats)
 			
@@ -138,6 +141,7 @@ func _show_item(type: ItemsDB.Item, idx: int) -> void:
 			item_name = weapon.name
 			if not Globals.items_db.has_equip_item(weapon.id, type):
 				description = "Ещё не открыто"
+				unlocked = false
 			else:
 				description = weapon.description.format(weapon.stats)
 			
@@ -150,21 +154,27 @@ func _show_item(type: ItemsDB.Item, idx: int) -> void:
 			description = "[center]%s[/center]" % skins_line.brief_description
 			
 			description += "\n\nВсего скинов: [color=red]%d[/color]" % skins_line.skins.size()
-			var unlocked: int = 0
+			var unlocked_count: int = 0
 			for skin: SkinData in skins_line.skins:
 				if Globals.items_db.has_equip_item(skin.id, ItemsDB.Item.SKIN):
-					unlocked += 1
-			description += "\nОткрыто скинов: [color=lime_green]%d[/color]" % unlocked
+					unlocked_count += 1
+			if unlocked_count == 0:
+				unlocked = false
+			description += "\nОткрыто скинов: [color=lime_green]%d[/color]" % unlocked_count
 			
 			(%Description/BigItem as CanvasItem).show()
 			(%Description/BigItem as TextureRect).texture = load(skins_line.image_path)
 			
-			if not _hide_locked or unlocked > 0:
+			if not _hide_locked or unlocked_count > 0:
 				(%Description/ShowItems as CanvasItem).show()
 				(%Description/ShowItems as Button).text = "Просмотреть скины"
 	
 	(%Description/Name as Label).text = item_name
 	(%Description/Text as RichTextLabel).text = description
+	(%Description/SmallItem as CanvasItem).modulate = \
+			Color.WHITE if unlocked else ItemsGrid.LOCKED_ITEM_TINT
+	(%Description/BigItem as CanvasItem).modulate = \
+			Color.WHITE if unlocked else ItemsGrid.LOCKED_ITEM_TINT
 
 
 func _find_skins_line_idx(skin_idx: int) -> int:

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dca2v3ej3y82n" path="res://game/weapons/other/teleporter/teleporter.gd" id="1_cvmrr"]
 [ext_resource type="Texture2D" uid="uid://dj31vxe6j5ys0" path="res://game/weapons/other/teleporter/base.png" id="2_q2iwe"]
 [ext_resource type="Texture2D" uid="uid://cl1glbvts1odx" path="res://game/weapons/other/teleporter/button0.png" id="3_skiv7"]
-[ext_resource type="Material" uid="uid://b8111w5tokcit" path="res://game/shared/shaders/solid_color.tres" id="3_vrh83"]
+[ext_resource type="Material" uid="uid://b8111w5tokcit" path="res://game/shared/shaders/materials/solid_color.tres" id="3_vrh83"]
 [ext_resource type="Texture2D" uid="uid://8i36qrobry1d" path="res://game/weapons/other/teleporter/button1.png" id="4_crsid"]
 [ext_resource type="Texture2D" uid="uid://bm7k7msd2ias0" path="res://game/weapons/other/teleporter/button2.png" id="5_vrh83"]
 [ext_resource type="AudioStream" uid="uid://b7h86apen7cxs" path="res://game/weapons/other/teleporter/activation.wav" id="7_6ye5t"]

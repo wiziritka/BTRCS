@@ -97,4 +97,18 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+placeholder_text = "лут через запятую"
+alignment = 1
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Очистить полученные предметы"
+
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Title/Quit" to="." method="_on_quit_pressed"]
+[connection signal="text_submitted" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Button" to="." method="_on_button_pressed"]

@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://low3v5d2q65l" path="res://game/player/ui/textures/health_bar.png" id="5_3xbtg"]
 [ext_resource type="Texture2D" uid="uid://chfx32osm5nwo" path="res://game/player/ui/textures/joystick_tip_aim.png" id="5_5uxix"]
 [ext_resource type="Texture2D" uid="uid://djbso2agyek2p" path="res://game/player/ui/textures/additional_button.png" id="6_10yoo"]
-[ext_resource type="Material" uid="uid://b8111w5tokcit" path="res://game/shared/shaders/solid_color.tres" id="7_2wypa"]
+[ext_resource type="Material" uid="uid://b8111w5tokcit" path="res://game/shared/shaders/materials/solid_color.tres" id="7_2wypa"]
 [ext_resource type="Texture2D" uid="uid://p85ppsyx0g2n" path="res://game/player/ui/textures/weapon_bg.png" id="7_6c3s8"]
 [ext_resource type="Script" uid="uid://m3oouj1lspki" path="res://game/player/ui/position_loader.gd" id="8_witf6"]
 [ext_resource type="Texture2D" uid="uid://dhhiaodkovkws" path="res://game/player/ui/textures/weapon_selection_bg.png" id="11_kgyyy"]

@@ -196,16 +196,16 @@ func has_equip_item(id: String, type: Item) -> bool:
 	match type:
 		Item.SKIN:
 			var skin: SkinData = skins_by_id[id]
-			return skin.rarity == Rarity.COMMON or true
-			# TODO: добавить проверку на наличие предмета, 3.0 контент
+			return skin.rarity == Rarity.COMMON \
+					or id in Globals.get_variant("unlocked_skins", [] as Array[String])
 		Item.SKILL:
 			var skill: SkillData = skills_by_id[id]
-			return skill.rarity == Rarity.COMMON or true
-			# TODO: добавить проверку на наличие предмета, 3.0 контент
+			return skill.rarity == Rarity.COMMON \
+					or id in Globals.get_variant("unlocked_skills", [] as Array[String])
 		Item.WEAPON:
 			var weapon: WeaponData = weapons_by_id[id]
-			return weapon.rarity == Rarity.COMMON or true
-			# TODO: добавить проверку на наличие предмета, 3.0 контент
+			return weapon.rarity == Rarity.COMMON \
+					or id in Globals.get_variant("unlocked_weapons", [] as Array[String])
 		_:
 			push_error("Callend with invalid item type: %d." % type)
 	return false

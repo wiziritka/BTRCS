@@ -1,0 +1,718 @@
+[gd_scene load_steps=20 format=3 uid="uid://d2g0bm0ppnwf7"]
+
+[ext_resource type="Script" uid="uid://dd521e63exdrm" path="res://menu/loot/loot.gd" id="1_wl2mh"]
+[ext_resource type="Texture2D" uid="uid://cwoal04d0fh6v" path="res://menu/loot/vfx/light.png" id="2_d75vf"]
+[ext_resource type="Texture2D" uid="uid://brwifcrd2g4rq" path="res://menu/loot/vfx/glow.png" id="2_vsfh1"]
+[ext_resource type="Texture2D" uid="uid://com744p7pvw4r" path="res://menu/loot/coins/bunch_of_coins0.png" id="3_d75vf"]
+[ext_resource type="Texture2D" uid="uid://to0f0otv0eap" path="res://menu/loot/coins/bunch_of_coins1.png" id="4_5go18"]
+[ext_resource type="Texture2D" uid="uid://gieu34rtvate" path="res://menu/loot/vfx/star.png" id="4_d0q4r"]
+[ext_resource type="Texture2D" uid="uid://cbs68u50ugaxe" path="res://menu/loot/coins/bunch_of_coins2.png" id="5_d0q4r"]
+[ext_resource type="Texture2D" uid="uid://b2lljb0bqe3l0" path="res://menu/loot/vfx/glow2.png" id="5_id7gg"]
+[ext_resource type="Material" uid="uid://b8111w5tokcit" path="res://game/shared/shaders/materials/solid_color.tres" id="5_uv2su"]
+[ext_resource type="Texture2D" uid="uid://bouq57xti1igf" path="res://menu/loot/coins/bunch_of_coins3.png" id="6_id7gg"]
+[ext_resource type="Material" uid="uid://dw1gg5e3lm6td" path="res://game/shared/shaders/materials/screen_glitch.tres" id="8_m3yfk"]
+
+[sub_resource type="Curve" id="Curve_id7gg"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Animation" id="Animation_pj77n"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.04705882, 0.12668505, 0.49019608, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Coins/Visual:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Equip/Glow:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Equip/RollBackground:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Equip/Info/Type:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-240, -246.5)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Equip/Info/Name:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-480, -209.5)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Equip/Info/Description:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-240, 144)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Equip/Item:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Equip/Item:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Equip/RollBackground:color")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0.3671875, 1, 1)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Equip/Item:instance_shader_parameters/power")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_wl2mh"]
+resource_name = "coins"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.04705882, 0.12668505, 0.49019608, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Coins/Visual:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 1), Vector2(0.5, 1.25), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_m3yfk"]
+resource_name = "equip"
+length = 1.8
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Equip/Glow:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Equip/RollBackground:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Equip/Info/Type:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.3, 1.8),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [Vector2(-240, -646.5), Vector2(-240, -646.5), Vector2(-240, -246.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Equip/Info/Name:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.3, 1.8),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [Vector2(-480, -609.5), Vector2(-480, -609.5), Vector2(-480, -209.5)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Equip/Info/Description:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.3, 1.8),
+"transitions": PackedFloat32Array(1, 0.5, 1),
+"update": 0,
+"values": [Vector2(-240, 544), Vector2(-240, 544), Vector2(-240, 144)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Equip/Item:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.8, 0.95, 1.2),
+"transitions": PackedFloat32Array(0.5, 1, 0.5, 1),
+"update": 0,
+"values": [Vector2(0.1, 0.1), Vector2(1, 1), Vector2(0.5, 2), Vector2(1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Equip/Item:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [-6.283185307179586, 0.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Equip/RollBackground:color")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0.07450981, 0.68235296, 1), Color(0, 0.3671875, 1, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Equip/Item:instance_shader_parameters/power")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wuanc"]
+_data = {
+&"RESET": SubResource("Animation_pj77n"),
+&"coins": SubResource("Animation_wl2mh"),
+&"equip": SubResource("Animation_m3yfk")
+}
+
+[sub_resource type="Animation" id="Animation_5go18"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Coins/Glow/CoinsLight:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Equip/Glow/EquipLight:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Equip/ScreenGlitch:instance_shader_parameters/glitch")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_d0q4r"]
+resource_name = "light"
+length = 18.0
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Coins/Glow/CoinsLight:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 18),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.283185307179586]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Equip/Glow/EquipLight:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 18),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.283185307179586]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Equip/ScreenGlitch:instance_shader_parameters/glitch")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.75, 0.9, 1.05, 1.45, 1.5500001, 1.7, 1.85, 2.4, 2.5500002, 2.7, 3.15, 3.3000002, 3.45, 3.8500001, 3.9500003, 4.1000004, 4.25, 4.6, 4.75, 4.8999996, 5.35, 5.5, 5.6499996, 6.05, 6.15, 6.3, 6.45, 7.3, 7.4500003, 7.6, 8.05, 8.200001, 8.35, 8.75, 8.85, 9, 9.15, 9.45, 9.6, 9.75, 10.2, 10.35, 10.5, 10.9, 11, 11.15, 11.299999, 11.7, 11.85, 12, 12.45, 12.6, 12.75, 13.15, 13.25, 13.4, 13.549999, 13.85, 14.000001, 14.150001, 14.6, 14.750001, 14.900001, 15.3, 15.400001, 15.55, 15.7, 15.95, 16.099998, 16.25, 16.7, 16.849998, 17, 17.399998, 17.5, 17.649998, 17.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -2.0, 0.0, 0.0, 3.0, 0.0, 0.0, 3.0, -2.0, 0.0, 0.0, -2.0, 0.0, 0.0, 3.0, 0.0, 0.0, 3.0, -2.0, 0.0, 0.0, -2.0, 0.0, 0.0, 3.0, 0.0, 0.0, 3.0, -2.0, 0.0, 0.0, -2.0, 0.0, 0.0, 3.0, 0.0, 0.0, 3.0, -2.0, 0.0, 0.0, -2.0, 0.0, 0.0, 3.0, 0.0, 0.0, 3.0, -2.0, 0.0, 0.0, -2.0, 0.0, 0.0, 3.0, 0.0, 0.0, 3.0, -2.0, 0.0, 0.0, -2.0, 0.0, 0.0, 3.0, 0.0, 0.0, 3.0, -2.0, 0.0, 0.0, -2.0, 0.0, 0.0, 3.0, 0.0, 0.0, 3.0, -2.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_id7gg"]
+_data = {
+&"RESET": SubResource("Animation_5go18"),
+&"light": SubResource("Animation_d0q4r")
+}
+
+[node name="Loot" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wl2mh")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04705882, 0.12668505, 0.49019608, 1)
+
+[node name="Coins" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Glow" type="Control" parent="Coins"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CoinsLight" type="Sprite2D" parent="Coins/Glow"]
+self_modulate = Color(0.052368157, 0.15519524, 0.55859375, 1)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_d75vf")
+
+[node name="Glow" type="Sprite2D" parent="Coins/Glow"]
+self_modulate = Color(0, 0.42382813, 0.96875, 1)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_vsfh1")
+
+[node name="Stars" type="CPUParticles2D" parent="Coins/Glow"]
+z_index = 1
+amount = 6
+texture = ExtResource("4_d0q4r")
+lifetime = 1.5
+preprocess = 5.0
+emission_shape = 3
+emission_rect_extents = Vector2(160, 160)
+gravity = Vector2(0, 0)
+angular_velocity_min = 90.0
+angular_velocity_max = 90.0
+scale_amount_min = 0.5
+scale_amount_max = 0.5
+scale_amount_curve = SubResource("Curve_id7gg")
+
+[node name="Visual" type="Control" parent="Coins"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Texture" type="TextureRect" parent="Coins/Visual"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -408.0
+offset_top = -456.0
+offset_right = 408.0
+offset_bottom = 456.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(408, 456)
+stretch_mode = 3
+
+[node name="Title" type="Label" parent="Coins/Visual"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.0
+offset_top = -273.5
+offset_right = 107.0
+offset_bottom = -206.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 48
+text = "МОНЕТЫ"
+
+[node name="Count" type="Label" parent="Coins/Visual"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 228.5
+offset_right = 20.0
+offset_bottom = 251.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 40
+text = "x100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Equip" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RollBackground" type="ColorRect" parent="Equip"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.3671875, 1, 1)
+
+[node name="Glow" type="Control" parent="Equip"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EquipLight" type="Sprite2D" parent="Equip/Glow"]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_d75vf")
+
+[node name="Glow" type="Sprite2D" parent="Equip/Glow"]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("5_id7gg")
+
+[node name="Stars" type="CPUParticles2D" parent="Equip/Glow"]
+z_index = 1
+amount = 6
+texture = ExtResource("4_d0q4r")
+lifetime = 1.5
+preprocess = 5.0
+emission_shape = 3
+emission_rect_extents = Vector2(160, 128)
+gravity = Vector2(0, 0)
+angular_velocity_min = 90.0
+angular_velocity_max = 90.0
+scale_amount_min = 0.5
+scale_amount_max = 0.5
+scale_amount_curve = SubResource("Curve_id7gg")
+
+[node name="Item" type="TextureRect" parent="Equip"]
+material = ExtResource("5_uv2su")
+instance_shader_parameters/color = Color(0, 0.07476807, 0.68359375, 1)
+instance_shader_parameters/power = 1.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -128.0
+offset_right = 192.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(192, 128)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Info" type="Control" parent="Equip"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Type" type="Label" parent="Equip/Info"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -246.5
+offset_right = 240.0
+offset_bottom = -201.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Name" type="Label" parent="Equip/Info"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = -209.5
+offset_right = 480.0
+offset_bottom = -142.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Description" type="Label" parent="Equip/Info"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -240.0
+offset_top = 144.0
+offset_right = 240.0
+offset_bottom = 212.00012
+grow_horizontal = 2
+theme_type_variation = &"HeaderMediumOutlined"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ScreenGlitch" type="ColorRect" parent="Equip"]
+visible = false
+z_index = 1
+material = ExtResource("8_m3yfk")
+instance_shader_parameters/glitch = 0.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxOpening" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Foreground" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Proceed" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+action_mode = 0
+
+[node name="WaitTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_wuanc")
+}
+
+[node name="LightAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_id7gg")
+}
+autoplay = "light"
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [PackedStringArray("bunch_of_coins0", "bunch_of_coins1", "bunch_of_coins2", "bunch_of_coins3"), [ExtResource("3_d75vf"), ExtResource("4_5go18"), ExtResource("5_d0q4r"), ExtResource("6_id7gg")]]
+
+[connection signal="pressed" from="Proceed" to="." method="_on_proceed_pressed"]

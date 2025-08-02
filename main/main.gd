@@ -7,6 +7,8 @@ extends Node
 
 ## Внутренний сигнал, используемый при загрузке.
 signal loading_stage_finished(success: bool)
+## Издаётся, когда показ полученной добычи (методом [method receive_loot]) завершается.
+signal loot_received
 
 ## URL сервера с данными для игры (патчами, предложениями в магазине, ...).
 const SERVER_URL := "https://diamondstudiogames.ru/circleshot"
@@ -120,11 +122,8 @@ func open_local_game() -> void:
 ## Возвращает узел этого экрана или [code]null[/code], если такой экран уже открыт.
 func open_screen(screen_scene: PackedScene) -> Control:
 	var screen: Control = screen_scene.instantiate()
-	if has_node(NodePath(screen.name)):
-		push_error("Screen %s is already opened." % screen.name)
-		return null
 	screen.tree_exited.connect(_on_screen_tree_exited.bind(screen))
-	add_child(screen)
+	add_child(screen, true)
 	if not screens.is_empty():
 		screens[-1].hide()
 	elif is_instance_valid(menu):
@@ -132,6 +131,59 @@ func open_screen(screen_scene: PackedScene) -> Control:
 	screens.append(screen)
 	print_verbose("Opened screen: %s." % screen.name)
 	return screen
+
+
+## Добавляет на сохранение и показывает добычу из массива [param loot].
+## Этот метод - корутина, его можно подождать с помощью [code]await[/code].
+func receive_loot(loot: Array[String]) -> void:
+	loot = loot.duplicate()
+	for idx: int in range(loot.size() - 1, -1, -1):
+		var splits: PackedStringArray = loot[idx].split(':')
+		var type: String = splits[0]
+		var value: String = splits[1]
+		match type:
+			"coins":
+				Globals.set_int("coins", Globals.get_int("coins") + int(value))
+			"weapon":
+				var unlocked_weapons: Array[String] = \
+						Globals.get_variant("unlocked_weapons", [] as Array[String])
+				if value in unlocked_weapons:
+					loot.remove_at(idx)
+				else:
+					unlocked_weapons.append(value)
+					Globals.set_variant("unlocked_weapons", unlocked_weapons)
+			"skin":
+				var unlocked_skins: Array[String] = \
+						Globals.get_variant("unlocked_skins", [] as Array[String])
+				if value in unlocked_skins:
+					loot.remove_at(idx)
+				else:
+					unlocked_skins.append(value)
+					Globals.set_variant("unlocked_skins", unlocked_skins)
+			"skill":
+				var unlocked_skills: Array[String] = \
+						Globals.get_variant("unlocked_skills", [] as Array[String])
+				if value in unlocked_skills:
+					loot.remove_at(idx)
+				else:
+					unlocked_skills.append(value)
+					Globals.set_variant("unlocked_skills", unlocked_skills)
+	if loot.is_empty():
+		return
+	
+	var music_volume_changed := false
+	if menu_music.volume_linear > 0.6:
+		menu_music.volume_linear = 0.5
+		music_volume_changed = true
+		
+	var loot_node: Loot = open_screen(load("uid://d2g0bm0ppnwf7") as PackedScene)
+	await loot_node.show_loot(loot)
+	remove_child(loot_node)
+	loot_node.queue_free()
+	loot_received.emit()
+	
+	if music_volume_changed:
+		menu_music.volume_linear = 1.0
 
 
 ## Выдаёт критическую ошибку, которая останавливает всю игру. Использовать только в безвыходных
