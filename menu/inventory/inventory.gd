@@ -118,6 +118,11 @@ func _show_item(type: ItemsDB.Item, idx: int) -> void:
 			description += "\n\nЛинейка: [color=red]%s[/color]" \
 					% Globals.items_db.skins_lines[_find_skins_line_idx(idx)].name
 			
+			description += "\n\nРедкость: [outline_size=2][color=#%s]%s[/color][/outline_size]" % [
+				Globals.items_db.RARITY_COLORS[skin.rarity].to_html(false),
+				ItemsDB.RARITY_NAMES[skin.rarity],
+			]
+			
 			(%Description/SmallItem as CanvasItem).show()
 			(%Description/SmallItem as ColorRect).color = ItemsDB.RARITY_COLORS[skin.rarity]
 			(%Description/SmallItem/Texture as TextureRect).texture = load(skin.image_path)
@@ -133,6 +138,11 @@ func _show_item(type: ItemsDB.Item, idx: int) -> void:
 			else:
 				description = skill.description.format(skill.stats)
 			
+			description += "\n\nРедкость: [outline_size=2][color=#%s]%s[/color][/outline_size]" % [
+				Globals.items_db.RARITY_COLORS[skill.rarity].to_html(false),
+				ItemsDB.RARITY_NAMES[skill.rarity],
+			]
+			
 			(%Description/SmallItem as CanvasItem).show()
 			(%Description/SmallItem as ColorRect).color = ItemsDB.RARITY_COLORS[skill.rarity]
 			(%Description/SmallItem/Texture as TextureRect).texture = load(skill.image_path)
@@ -144,6 +154,11 @@ func _show_item(type: ItemsDB.Item, idx: int) -> void:
 				unlocked = false
 			else:
 				description = weapon.description.format(weapon.stats)
+			
+			description += "\n\nРедкость: [outline_size=2][color=#%s]%s[/color][/outline_size]" % [
+				Globals.items_db.RARITY_COLORS[weapon.rarity].to_html(false),
+				ItemsDB.RARITY_NAMES[weapon.rarity],
+			]
 			
 			(%Description/SmallItem as CanvasItem).show()
 			(%Description/SmallItem as ColorRect).color = ItemsDB.RARITY_COLORS[weapon.rarity]

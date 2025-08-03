@@ -137,8 +137,14 @@ func open_screen(screen_scene: PackedScene) -> Control:
 ## Этот метод - корутина, его можно подождать с помощью [code]await[/code].
 func receive_loot(loot: Array[String]) -> void:
 	loot = loot.duplicate()
+	print_verbose("Loot receive requested: %s." % str(loot))
 	for idx: int in range(loot.size() - 1, -1, -1):
 		var splits: PackedStringArray = loot[idx].split(':')
+		if splits.size() != 2:
+			push_warning("Incorrect format of item %s, ignoring." % loot[idx])
+			loot.remove_at(idx)
+			continue
+		
 		var type: String = splits[0]
 		var value: String = splits[1]
 		match type:
@@ -148,26 +154,38 @@ func receive_loot(loot: Array[String]) -> void:
 				var unlocked_weapons: Array[String] = \
 						Globals.get_variant("unlocked_weapons", [] as Array[String])
 				if value in unlocked_weapons:
+					print_verbose("Item %s already obtained, ignoring." % loot[idx])
+					loot.remove_at(idx)
+				elif not value in Globals.items_db.weapons_by_id:
+					push_warning("Item %s doesn't exist, ignoring." % loot[idx])
 					loot.remove_at(idx)
 				else:
 					unlocked_weapons.append(value)
 					Globals.set_variant("unlocked_weapons", unlocked_weapons)
-			"skin":
-				var unlocked_skins: Array[String] = \
-						Globals.get_variant("unlocked_skins", [] as Array[String])
-				if value in unlocked_skins:
-					loot.remove_at(idx)
-				else:
-					unlocked_skins.append(value)
-					Globals.set_variant("unlocked_skins", unlocked_skins)
 			"skill":
 				var unlocked_skills: Array[String] = \
 						Globals.get_variant("unlocked_skills", [] as Array[String])
 				if value in unlocked_skills:
+					print_verbose("Item %s already obtained, ignoring." % loot[idx])
+					loot.remove_at(idx)
+				elif not value in Globals.items_db.skills_by_id:
+					push_warning("Item %s doesn't exist, ignoring." % loot[idx])
 					loot.remove_at(idx)
 				else:
 					unlocked_skills.append(value)
 					Globals.set_variant("unlocked_skills", unlocked_skills)
+			"skin":
+				var unlocked_skins: Array[String] = \
+						Globals.get_variant("unlocked_skins", [] as Array[String])
+				if value in unlocked_skins:
+					print_verbose("Item %s already obtained, ignoring." % loot[idx])
+					loot.remove_at(idx)
+				elif not value in Globals.items_db.skins_by_id:
+					push_warning("Item %s doesn't exist, ignoring." % loot[idx])
+					loot.remove_at(idx)
+				else:
+					unlocked_skins.append(value)
+					Globals.set_variant("unlocked_skins", unlocked_skins)
 	if loot.is_empty():
 		return
 	
@@ -175,12 +193,14 @@ func receive_loot(loot: Array[String]) -> void:
 	if menu_music.volume_linear > 0.6:
 		menu_music.volume_linear = 0.5
 		music_volume_changed = true
-		
+	
+	print_verbose("Showing loot %s." % str(loot))
 	var loot_node: Loot = open_screen(load("uid://d2g0bm0ppnwf7") as PackedScene)
 	await loot_node.show_loot(loot)
 	remove_child(loot_node)
 	loot_node.queue_free()
 	loot_received.emit()
+	print_verbose("Loot shown.")
 	
 	if music_volume_changed:
 		menu_music.volume_linear = 1.0

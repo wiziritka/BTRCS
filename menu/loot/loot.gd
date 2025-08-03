@@ -48,7 +48,7 @@ func show_loot(loot: Array[String]) -> void:
 				_anim.play(&"equip")
 				_anim.seek(0.0, true)
 				
-				var rarity: ItemsDB.Rarity
+				var item_rarity: ItemsDB.Rarity
 				var item_name: String
 				var item_description: String
 				var item_type: String
@@ -60,7 +60,7 @@ func show_loot(loot: Array[String]) -> void:
 					item_name = data.name
 					item_description = data.damage_text.format(data.stats) \
 							+ '\n' + data.ammo_text.format(data.stats)
-					rarity = data.rarity
+					item_rarity = data.rarity
 					image = load(data.image_path)
 				elif type == "skill":
 					var data: SkillData = Globals.items_db.skills_by_id[value]
@@ -68,47 +68,50 @@ func show_loot(loot: Array[String]) -> void:
 					item_name = data.name
 					item_description = data.brief_description.format(data.stats) \
 							+ '\n' + data.usage_text.format(data.stats)
-					rarity = data.rarity
+					item_rarity = data.rarity
 					image = load(data.image_path)
 				elif type == "skin":
 					var data: SkinData = Globals.items_db.skins_by_id[value]
 					item_type = "Скин"
 					item_name = data.name
 					item_description = data.brief_description
-					rarity = data.rarity
+					item_rarity = data.rarity
 					image = load(data.image_path)
 				
 				($Equip/Info/Name as Label).text = item_name
 				($Equip/Info/Description as Label).text = item_description
 				($Equip/Info/Type as Label).text = item_type
+				($Equip/Info/Rarity as Label).text = ItemsDB.RARITY_NAMES[item_rarity]
+				($Equip/Info/Rarity as Label).add_theme_color_override(&"font_color",
+						ItemsDB.RARITY_COLORS[item_rarity])
 				($Equip/Item as TextureRect).texture = image
-				($Background as ColorRect).color = ItemsDB.RARITY_COLORS[rarity]
+				($Background as ColorRect).color = ItemsDB.RARITY_COLORS[item_rarity]
 				
-				($Equip/ScreenGlitch as CanvasItem).visible = rarity == ItemsDB.Rarity.SECRET
-				match rarity:
+				($Equip/ScreenGlitch as CanvasItem).visible = item_rarity == ItemsDB.Rarity.SECRET
+				match item_rarity:
 					ItemsDB.Rarity.COMMON, ItemsDB.Rarity.RARE:
 						($Equip/Glow/Glow as CanvasItem).self_modulate = \
-								ItemsDB.RARITY_COLORS[rarity].lightened(0.5)
+								ItemsDB.RARITY_COLORS[item_rarity].lightened(0.5)
 						($Equip/Glow/EquipLight as CanvasItem).hide()
 						($Equip/Glow/Stars as CanvasItem).hide()
 					ItemsDB.Rarity.EPIC:
 						($Equip/Glow/Glow as CanvasItem).self_modulate = \
-								ItemsDB.RARITY_COLORS[rarity].lightened(0.4)
+								ItemsDB.RARITY_COLORS[item_rarity].lightened(0.4)
 						($Equip/Glow/Stars as CanvasItem).show()
 						($Equip/Glow/EquipLight as CanvasItem).hide()
 					ItemsDB.Rarity.LEGENDARY:
 						($Equip/Glow/Glow as CanvasItem).self_modulate = \
-								ItemsDB.RARITY_COLORS[rarity].lightened(0.6)
+								ItemsDB.RARITY_COLORS[item_rarity].lightened(0.6)
 						($Equip/Glow/EquipLight as CanvasItem).show()
 						($Equip/Glow/EquipLight as CanvasItem).self_modulate = \
-								ItemsDB.RARITY_COLORS[rarity].lightened(0.4)
+								ItemsDB.RARITY_COLORS[item_rarity].lightened(0.4)
 						($Equip/Glow/Stars as CanvasItem).show()
 					ItemsDB.Rarity.SECRET, ItemsDB.Rarity.SPECIAL:
 						($Equip/Glow/Glow as CanvasItem).self_modulate = \
-								ItemsDB.RARITY_COLORS[rarity].lightened(0.3)
+								ItemsDB.RARITY_COLORS[item_rarity].lightened(0.3)
 						($Equip/Glow/EquipLight as CanvasItem).show()
 						($Equip/Glow/EquipLight as CanvasItem).self_modulate = \
-								ItemsDB.RARITY_COLORS[rarity].lightened(0.1)
+								ItemsDB.RARITY_COLORS[item_rarity].lightened(0.1)
 						($Equip/Glow/Stars as CanvasItem).show()
 				
 				_wait_timer.start(1.3)

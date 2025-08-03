@@ -45,6 +45,15 @@ const RARITY_COLORS: Dictionary[Rarity, Color] = {
 	Rarity.SECRET: Color(0.415, 0.415, 0.415),
 	Rarity.SPECIAL: Color(1, 0.492, 0),
 }
+## Названия редкостей.
+const RARITY_NAMES: Dictionary[Rarity, String] = {
+	Rarity.COMMON: "Обычное",
+	Rarity.RARE: "Редкое",
+	Rarity.EPIC: "Эпическое",
+	Rarity.LEGENDARY: "Легендарное",
+	Rarity.SECRET: "Секретное",
+	Rarity.SPECIAL: "Особое",
+}
 
 ## Массив событий.
 @export var events: Array[EventData]
