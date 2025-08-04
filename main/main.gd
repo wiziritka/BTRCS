@@ -145,8 +145,8 @@ func receive_loot(loot: Array[String]) -> void:
 			loot.remove_at(idx)
 			continue
 		
-		var type: String = splits[0]
-		var value: String = splits[1]
+		var type: String = Utils.strip_string(splits[0])
+		var value: String = Utils.strip_string(splits[1])
 		match type:
 			"coins":
 				Globals.set_int("coins", Globals.get_int("coins") + int(value))
@@ -154,10 +154,10 @@ func receive_loot(loot: Array[String]) -> void:
 				var unlocked_weapons: Array[String] = \
 						Globals.get_variant("unlocked_weapons", [] as Array[String])
 				if value in unlocked_weapons:
-					print_verbose("Item %s already obtained, ignoring." % loot[idx])
+					print_verbose("Weapon %s already obtained, ignoring." % value)
 					loot.remove_at(idx)
 				elif not value in Globals.items_db.weapons_by_id:
-					push_warning("Item %s doesn't exist, ignoring." % loot[idx])
+					push_warning("Weapon %s doesn't exist, ignoring." % value)
 					loot.remove_at(idx)
 				else:
 					unlocked_weapons.append(value)
@@ -166,10 +166,10 @@ func receive_loot(loot: Array[String]) -> void:
 				var unlocked_skills: Array[String] = \
 						Globals.get_variant("unlocked_skills", [] as Array[String])
 				if value in unlocked_skills:
-					print_verbose("Item %s already obtained, ignoring." % loot[idx])
+					print_verbose("Skill %s already obtained, ignoring." % value)
 					loot.remove_at(idx)
 				elif not value in Globals.items_db.skills_by_id:
-					push_warning("Item %s doesn't exist, ignoring." % loot[idx])
+					push_warning("Skill %s doesn't exist, ignoring." % value)
 					loot.remove_at(idx)
 				else:
 					unlocked_skills.append(value)
@@ -178,15 +178,22 @@ func receive_loot(loot: Array[String]) -> void:
 				var unlocked_skins: Array[String] = \
 						Globals.get_variant("unlocked_skins", [] as Array[String])
 				if value in unlocked_skins:
-					print_verbose("Item %s already obtained, ignoring." % loot[idx])
+					print_verbose("Skin %s already obtained, ignoring." % value)
 					loot.remove_at(idx)
 				elif not value in Globals.items_db.skins_by_id:
-					push_warning("Item %s doesn't exist, ignoring." % loot[idx])
+					push_warning("Skin %s doesn't exist, ignoring." % value)
 					loot.remove_at(idx)
 				else:
 					unlocked_skins.append(value)
 					Globals.set_variant("unlocked_skins", unlocked_skins)
+			"equip_box", "equip_elite_box", "skin_box", "skin_elite_box":
+				# Распознаём предметы но не выдаём пока что, это сделает Loot
+				pass
+			_:
+				push_warning("Item type %s doesn't exist, ignoring item %s." % [type, loot[idx]])
+				loot.remove_at(idx)
 	if loot.is_empty():
+		print_verbose("No loot to show, ignoring.")
 		return
 	
 	var music_volume_changed := false
@@ -684,7 +691,7 @@ func _on_check_http_request_completed(result: HTTPRequest.Result,
 				"Connect to server: response code is not 200. Response code: %d." % response_code)
 		loading_stage_finished.emit(false)
 		return
-	var text: String = body.get_string_from_utf8().strip_edges().strip_escapes()
+	var text: String = Utils.strip_string(body.get_string_from_utf8())
 	if text == "circleshot":
 		print_verbose("Connection success.")
 		loading_stage_finished.emit(true)

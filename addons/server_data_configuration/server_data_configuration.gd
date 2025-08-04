@@ -8,9 +8,9 @@ const ITEM_IDX_TO_REWARD: Array[String] = [
 	"skill",
 	"skin",
 	"equip_box",
-	"equip_case",
+	"equip_elite_box",
 	"skin_box",
-	"skin_case",
+	"skin_elite_box",
 ]
 
 var _settings_file := ConfigFile.new()

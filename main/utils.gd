@@ -73,3 +73,57 @@ static func is_valid_address(address: String, check_domain: bool) -> bool:
 ## Избавляет строку от различных вспомогательных символов (пробелы, ...).
 static func strip_string(string: String) -> String:
 	return string.strip_edges().strip_escapes().lstrip('⁣').rstrip('⁣')
+
+
+## Считает шансы для ящиков, где [param *_base] - базовые шансы, [param *_got] - сколько предметов
+## определённых редкостей было получено без награды, [param chance_increase] - на сколько процентов
+## относительно базового повышается шанс на редкость за каждое открытие без награды.
+## Возвращает массив из трёх элементов - непосредственно шансы. Всё указывается в процентах.
+static func calculate_box_chances(rare_base: float, epic_base: float, legendary_base: float,
+		chance_increase: float, rare_got: int, epic_got: int, legendary_got: int) -> Array[float]:
+	const MIN_CHANCE := 0.2
+	var chances: Array[float]
+	chances.append(rare_base)
+	chances.append(epic_base)
+	chances.append(legendary_base)
+	
+	for i: int in legendary_got:
+		var rare_increase: float = rare_base * chance_increase / 100.0
+		var epic_increase: float = epic_base * chance_increase / 100.0
+		var decrease: float = minf(rare_increase + epic_increase,
+				chances[2] - legendary_base * MIN_CHANCE)
+		if is_zero_approx(decrease):
+			continue
+		rare_increase = decrease / (rare_increase + epic_increase) * rare_increase
+		epic_increase = decrease / (rare_increase + epic_increase) * epic_increase
+		chances[0] += rare_increase
+		chances[1] += epic_increase
+		chances[2] -= decrease
+	
+	for i: int in epic_got:
+		var rare_increase: float = rare_base * chance_increase / 100.0
+		var legendary_increase: float = legendary_base * chance_increase / 100.0
+		var decrease: float = minf(rare_increase + legendary_increase,
+				chances[1] - epic_base * MIN_CHANCE)
+		if is_zero_approx(decrease):
+			continue
+		rare_increase = decrease / (rare_increase + legendary_increase) * rare_increase
+		legendary_increase = decrease / (rare_increase + legendary_increase) * legendary_increase
+		chances[0] += rare_increase
+		chances[1] -= decrease
+		chances[2] += legendary_increase
+	
+	for i: int in rare_got:
+		var epic_increase: float = epic_base * chance_increase / 100.0
+		var legendary_increase: float = legendary_base * chance_increase / 100.0
+		var decrease: float = minf(epic_increase + legendary_increase,
+				chances[0] - rare_base * MIN_CHANCE)
+		if is_zero_approx(decrease):
+			continue
+		epic_increase = decrease / (epic_increase + legendary_increase) * epic_increase
+		legendary_increase = decrease / (epic_increase + legendary_increase) * legendary_increase
+		chances[0] -= decrease
+		chances[1] += epic_increase
+		chances[2] += legendary_increase
+	
+	return chances

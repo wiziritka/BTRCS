@@ -1,24 +1,121 @@
 class_name Loot
 extends Control
 
+## Класс, отвечающий за показ наград и открытие ящиков и кейсов.
+##
+## Изменяя значения шансов, не забудьте их изменить и в сцене магазина.
 
+## Внутренний сигнал, издаётся при нажатии по экрану (или другой клавиши для продолжения).
 signal proceeded
 
+@export_group("Box Chances", "box_")
+## Шанс на редкий предмет из ящика, в процентах.
+@export_range(0.0, 100.0, 0.01) var box_rare_chance := 67.0
+## Шанс на эпический предмет из ящика, в процентах.
+@export_range(0.0, 100.0, 0.01) var box_epic_chance := 26.0
+## Шанс на легендарный предмет из ящика, в процентах.
+@export_range(0.0, 100.0, 0.01) var box_legendary_chance := 7.0
+## Шанс на секретный предмет из ящика, в процентах. Не идёт в сумму 100% с тремя предыдущими.
+@export_range(0.0, 100.0, 0.01) var box_secret_chance := 3.0
+## На сколько повышаются шансы дургих редкостей, когда игрок не выбивает предмет из ящика.
+@export_range(0.0, 100.0, 0.01) var box_chance_increase := 10.0
+
+@export_group("Elite Box Chances", "elite_box_")
+## Шанс на редкий предмет из элитного ящика, в процентах.
+@export_range(0.0, 100.0, 0.01) var elite_box_rare_chance := 40.0
+## Шанс на эпический предмет из элитного ящика, в процентах.
+@export_range(0.0, 100.0, 0.01) var elite_box_epic_chance := 45.0
+## Шанс на легендарный предмет из элитного ящика, в процентах.
+@export_range(0.0, 100.0, 0.01) var elite_box_legendary_chance := 15.0
+## Шанс на секретный предмет из элитного ящика, в процентах.
+## Не идёт в сумму 100% с тремя предыдущими.
+@export_range(0.0, 100.0, 0.01) var elite_box_secret_chance := 8.0
+## На сколько повышаются шансы других редкостей, когда игрок не выбивает предмет из элитного ящика.
+@export_range(0.0, 100.0, 0.01) var elite_box_chance_increase := 17.0
+
+@export_group("Coins Compensation")
+@export_subgroup("Skins", "coins_per_skin_")
+## Компенсация в монетах за редкий скин.
+@export var coins_per_skin_rare: int = 50
+## Компенсация в монетах за эпический скин.
+@export var coins_per_skin_epic: int = 200
+## Компенсация в монетах за легендарный скин.
+@export var coins_per_skin_legendary: int = 750
+@export_subgroup("Equip", "coins_per_equip_")
+## Компенсация в монетах за редкую экипировку.
+@export var coins_per_equip_rare: int = 125
+## Компенсация в монетах за эпическую экипировку.
+@export var coins_per_equip_epic: int = 500
+## Компенсация в монетах за легендарную экипировку.
+@export var coins_per_equip_legendary: int = 1875
+
+@export_group("Scroll Animation", "scroll_anim_")
+## Минимальный индекс предмета из всех прокручиваемых, который может выпасть игроку.
+@export var scroll_anim_min_reward_idx: int = 50
+## Максимальный индекс предмета из всех прокручиваемых, который может выпасть игроку.
+@export var scroll_anim_max_reward_idx: int = 80
+## Количество предметов, которое создаётся для анимации прокрутки.
+@export var scroll_anim_items_count: int = 100
+## Изначальный множитель скорости прокрутки.
+@export var scroll_anim_start_speed := 3168.0
+## Ширина предмета в анимации прокрутки.
+@export var scroll_anim_item_width := 192.0
+## Зазор между предметами в анимации прокрутки.
+@export var scroll_anim_gap_between_items := 6.0
+## Индекс предмета, на котором изначально находится указатель.
+@export var scroll_anim_start_idx: int = 4
+## Позиция по оси X контейнера с прокручиваемыми предметами в начале.
+@export var scroll_anim_start_x_position := 0.0
+
+var _scroll_tween: Tween
+var _scroll_speed: float
+
+var _scroll_current_idx: int = 0
+var _scroll_textures: Array[Texture2D]
+var _scroll_names: Array[String]
+var _scroll_rarities: Array[ItemsDB.Rarity]
+
+var _chances_up_texture: Texture2D = load("uid://bwb6b5osacj7d")
 var _coins_textures: Array[Texture2D] = [
 	load("uid://com744p7pvw4r"),
 	load("uid://to0f0otv0eap"),
 	load("uid://cbs68u50ugaxe"),
 	load("uid://bouq57xti1igf"),
 ]
+var _boxes_textures: Dictionary[String, Texture2D] = {
+	"equip_box": load("uid://df15gv2o3a8aw"),
+	"equip_box_open": load("uid://ccbjbqofep5wi"),
+	"equip_elite_box": load("uid://dfl5s6nvc5xe1"),
+	"equip_elite_box_open": load("uid://dbwb0ulffmga0"),
+	"skin_box": load("uid://jh8hm5do8ejn"),
+	"skin_box_open": load("uid://bb4gghr2j6tbm"),
+	"skin_elite_box": load("uid://ccm58rdshl6fo"),
+	"skin_elite_box_open": load("uid://csl8clc04rvsv"),
+}
+var _cached_textures: Array[Texture2D]
 
 @onready var _anim: AnimationPlayer = $AnimationPlayer
+@onready var _scroll_container: HBoxContainer = $Box/Scroll/Container
 @onready var _wait_timer: Timer = $WaitTimer
 
 
 func _ready() -> void:
 	($Proceed as Control).grab_focus.call_deferred()
+	set_process(false)
 
 
+func _process(delta: float) -> void:
+	_scroll_container.position.x -= _scroll_speed * delta
+	var difference: float = scroll_anim_start_x_position - _scroll_container.position.x
+	var item_total_width: float = scroll_anim_item_width + scroll_anim_gap_between_items
+	if difference >= item_total_width:
+		_scroll_current_idx += 1
+		_update_scroll_textures()
+		_scroll_container.position.x = scroll_anim_start_x_position - difference + item_total_width
+
+
+## Показывает добычу из [param loot]. Этот метод - корутина, его можно подождать с помощью
+## [code]await[/code].
 func show_loot(loot: Array[String]) -> void:
 	for item: String in loot:
 		_hide_screens()
@@ -118,8 +215,215 @@ func show_loot(loot: Array[String]) -> void:
 				await _wait_timer.timeout
 				await proceeded
 			
-			"equip_box", "skin_box", "equip_case", "skin_case":
-				pass
+			"equip_box", "skin_box", "equip_elite_box", "skin_elite_box":
+				for i: int in int(value):
+					_hide_screens()
+					_show_screen(^"Box")
+					_anim.play(&"box")
+					_anim.advance(0.0)
+					get_viewport().gui_snap_controls_to_pixels = false
+					
+					($Box/Box/Normal as TextureRect).texture = _boxes_textures[type]
+					($Box/Box/Open as TextureRect).texture = _boxes_textures[type + "_open"]
+					if "elite" in type:
+						($Box/Box/Stars as CanvasItem).show()
+						($Box/Box/Stars as CPUParticles2D).restart()
+					else:
+						($Box/Box/Stars as CanvasItem).hide()
+						($Box/Box/Stars as CPUParticles2D).emitting = false
+					
+					await proceeded
+					get_viewport().gui_snap_controls_to_pixels = true
+					_anim.play(&"box_open")
+					await _anim.animation_finished
+					
+					var reward: String = _open_box(type)
+					_anim.play(&"box_open_end")
+					set_process(true)
+					await _scroll_tween.finished
+					set_process(false)
+					get_viewport().gui_snap_controls_to_pixels = true
+					_wait_timer.start(1.0)
+					await _wait_timer.timeout
+					
+					if reward.is_empty():
+						await proceeded
+					else:
+						if '?' in reward:
+							# TODO: глитч эффект и подождать
+							reward = reward.replace('?', '')
+						await Globals.main.receive_loot([reward])
+						($Proceed as Control).grab_focus()
+
+
+func _open_box(type: String) -> String:
+	var chances: Array[float]
+	var secret_chance: float
+	if "elite" in type:
+		chances = Utils.calculate_box_chances(
+				elite_box_rare_chance, elite_box_epic_chance, elite_box_legendary_chance,
+				elite_box_chance_increase, Globals.get_int(type + "_rare_got"),
+				Globals.get_int(type + "_epic_got"), Globals.get_int(type + "_legendary_got")
+		)
+		secret_chance = elite_box_secret_chance
+	else:
+		chances = Utils.calculate_box_chances(
+				box_rare_chance, box_epic_chance, box_legendary_chance, box_chance_increase,
+				Globals.get_int(type + "_rare_got"), Globals.get_int(type + "_epic_got"),
+				Globals.get_int(type + "_legendary_got")
+		)
+		secret_chance = box_secret_chance
+	
+	print_verbose("Opening %s, chances: %s, secret chance: %f." % [
+		type,
+		str(chances),
+		secret_chance,
+	])
+	var reward := ""
+	var reward_rarity := _get_idx_weighted(chances) + 1 as ItemsDB.Rarity
+	var reward_secret: bool = randf_range(0.0, 100.0) < secret_chance
+	var reward_idx: int = randi_range(scroll_anim_min_reward_idx, scroll_anim_max_reward_idx)
+	var increase_chances := false
+	
+	_scroll_rarities.clear()
+	_scroll_textures.clear()
+	_scroll_names.clear()
+	_scroll_rarities.resize(scroll_anim_items_count)
+	_scroll_textures.resize(scroll_anim_items_count)
+	_scroll_names.resize(scroll_anim_items_count)
+	if "skin" in type:
+		var locked_rare: Array[SkinData]
+		var locked_epic: Array[SkinData]
+		var locked_legendary: Array[SkinData]
+		var locked_secret: Array[SkinData]
+		for skin: SkinData in Globals.items_db.skins:
+			if skin in Globals.items_db.other_skins \
+					or Globals.items_db.has_equip_item(skin.id, ItemsDB.Item.SKIN):
+				continue
+			match skin.rarity:
+				ItemsDB.Rarity.RARE:
+					locked_rare.append(skin)
+				ItemsDB.Rarity.EPIC:
+					locked_epic.append(skin)
+				ItemsDB.Rarity.LEGENDARY:
+					locked_legendary.append(skin)
+				ItemsDB.Rarity.SECRET:
+					locked_secret.append(skin)
+		
+		var reward_in_coins: bool = locked_rare.is_empty() and locked_epic.is_empty() \
+				and locked_legendary.is_empty()
+		var reward_data: SkinData
+		match reward_rarity:
+			ItemsDB.Rarity.RARE:
+				if locked_rare.is_empty():
+					if reward_in_coins:
+						pass # TODO
+					else:
+						increase_chances = true
+				else:
+					reward_data = locked_rare.pick_random()
+			ItemsDB.Rarity.EPIC:
+				if locked_epic.is_empty():
+					if reward_in_coins:
+						pass # TODO
+					else:
+						increase_chances = true
+				else:
+					reward_data = locked_epic.pick_random()
+			ItemsDB.Rarity.LEGENDARY:
+				if locked_legendary.is_empty():
+					if reward_in_coins:
+						pass # TODO
+					else:
+						increase_chances = true
+				else:
+					reward_data = locked_legendary.pick_random()
+		if reward_secret:
+			if not locked_secret.is_empty():
+				reward_data = locked_secret.pick_random()
+			else:
+				reward_secret = false
+		if reward_data:
+			reward = "skin:" + reward_data.id
+			if reward_secret:
+				reward = '?' + reward
+		
+		for idx: int in scroll_anim_items_count:
+			var item_rarity := _get_idx_weighted(chances) + 1 as ItemsDB.Rarity
+			_scroll_rarities[idx] = item_rarity
+			if reward_in_coins:
+				pass # TODO
+			else:
+				var item_data: SkinData
+				match item_rarity:
+					ItemsDB.Rarity.RARE:
+						if not locked_rare.is_empty():
+							item_data = locked_rare.pick_random()
+					ItemsDB.Rarity.EPIC:
+						if not locked_epic.is_empty():
+							item_data = locked_epic.pick_random()
+					ItemsDB.Rarity.LEGENDARY:
+						if not locked_legendary.is_empty():
+							item_data = locked_legendary.pick_random()
+				if item_data:
+					var texture: Texture2D = load(item_data.image_path)
+					if not texture in _cached_textures:
+						_cached_textures.append(texture)
+					_scroll_textures[idx] = texture
+					_scroll_names[idx] = item_data.name
+				else:
+					_scroll_textures[idx] = _chances_up_texture
+					_scroll_names[idx] = "Повышение шансов"
+		
+		if not reward_secret:
+			_scroll_rarities[reward_idx] = reward_rarity
+			if reward_data:
+				_scroll_textures[reward_idx] = load(reward_data.image_path)
+				_scroll_names[reward_idx] = reward_data.name
+			elif reward_in_coins:
+				pass # TODO
+			else:
+				_scroll_textures[reward_idx] = _chances_up_texture
+				_scroll_names[reward_idx] = "Повышение шансов"
+	else:
+		pass
+	
+	if increase_chances:
+		match reward_rarity:
+			ItemsDB.Rarity.RARE:
+				Globals.set_int(type + "_rare_got", Globals.get_int(type + "_rare_got") + 1)
+			ItemsDB.Rarity.EPIC:
+				Globals.set_int(type + "_epic_got", Globals.get_int(type + "_epic_got") + 1)
+			ItemsDB.Rarity.LEGENDARY:
+				Globals.set_int(type + "_legendary_got",
+						Globals.get_int(type + "_legendary_got") + 1)
+	
+	_scroll_current_idx = 0
+	_update_scroll_textures()
+	_scroll_speed = scroll_anim_start_speed
+	_scroll_container.position.x = scroll_anim_start_x_position
+	var distance: float = (reward_idx - scroll_anim_start_idx) \
+			* (scroll_anim_item_width + scroll_anim_gap_between_items) \
+			+ randf_range(-scroll_anim_item_width, scroll_anim_item_width) / 2.25
+	var duration: float = 2 * distance / scroll_anim_start_speed
+	_scroll_tween = create_tween()
+	_scroll_tween.tween_property(self, ^":_scroll_speed", 0.0, duration)
+	
+	if not reward.is_empty() and not '?' in reward:
+		Globals.set_int(type + "_rare_got", 0)
+		Globals.set_int(type + "_epic_got", 0)
+		Globals.set_int(type + "_legendary_got", 0)
+	return reward
+
+
+func _get_idx_weighted(chances: Array[float]) -> int:
+	var num: float = randf_range(0.0, 100.0)
+	var base := 0.0
+	for idx: int in chances.size():
+		if num <= chances[idx] + base:
+			return idx
+		base += chances[idx]
+	return chances.size() - 1
 
 
 func _show_screen(screen: NodePath) -> void:
@@ -131,12 +435,20 @@ func _hide_screens() -> void:
 	($Coins as CanvasItem).hide()
 	($Equip as CanvasItem).hide()
 	($Box as CanvasItem).hide()
-	($BoxOpening as CanvasItem).hide()
 	
 	$Coins.process_mode = Node.PROCESS_MODE_DISABLED
 	$Equip.process_mode = Node.PROCESS_MODE_DISABLED
 	$Box.process_mode = Node.PROCESS_MODE_DISABLED
-	$BoxOpening.process_mode = Node.PROCESS_MODE_DISABLED
+
+
+func _update_scroll_textures() -> void:
+	var idx: int = 0
+	for item: ColorRect in $Box/Scroll/Container.get_children():
+		var scroll_idx: int = _scroll_current_idx + idx
+		item.color = ItemsDB.RARITY_COLORS[_scroll_rarities[scroll_idx]]
+		(item.get_node(^"Label") as Label).text = _scroll_names[scroll_idx]
+		(item.get_node(^"Texture") as TextureRect).texture = _scroll_textures[scroll_idx]
+		idx += 1
 
 
 func _on_proceed_pressed() -> void:
