@@ -8,6 +8,9 @@ extends GridContainer
 ## Этот сигнал издаётся, когда один из отображённых предметов нажат. Сигнал содержит
 ## тип предмета в [param type] и индекс предмета в [param id].
 signal item_selected(type: ItemsDB.Item, idx: int)
+## Этот сигнал издаётся после отображения предметов методами [code]list_*[/code]. Сигнал содержит
+## тип отображаемых предметов в [param type].
+signal items_listed(type: ItemsDB.Item)
 ## Цвет неразблокированных предметов.
 const LOCKED_ITEM_TINT := Color.WEB_GRAY
 
@@ -185,6 +188,7 @@ func list_items(type: ItemsDB.Item, selected_idx: int = -1, hide_locked := true)
 		# фокусим первое для удобства
 		await get_tree().process_frame # ждём queue_free вьбымфзкицуокфдывсзщйио
 		(get_child(0).get_node(^"Click") as BaseButton).grab_focus()
+	items_listed.emit(type)
 
 
 ## Очищает существующие предметы и отображает карты события, индекс которого указан
@@ -217,6 +221,7 @@ func list_maps_of_event(event_idx: int, selected_idx: int = -1) -> void:
 		# фокусим первое для удобства
 		await get_tree().process_frame # ждём queue_free вьбымфзкицуокфдывсзщйио
 		(get_child(0).get_node(^"Click") as BaseButton).grab_focus()
+	items_listed.emit(ItemsDB.Item.MAP)
 
 
 ## Очищает существующие предметы и отображает оружия, тип которых указан в [param type].
@@ -278,6 +283,7 @@ func list_weapons_by_type(type: Weapon.Type, selected_idx: int = -1, hide_locked
 		# фокусим первое для удобства
 		await get_tree().process_frame # ждём queue_free вьбымфзкицуокфдывсзщйио
 		(get_child(0).get_node(^"Click") as BaseButton).grab_focus()
+	items_listed.emit(ItemsDB.Item.WEAPON)
 
 
 ## Очищает существующие предметы и отображает скины из линейки, индекс которой указан
@@ -319,6 +325,7 @@ func list_skins_line(line_idx: int, selected_idx: int = -1, hide_locked := true)
 					&"font_color", Color.GREEN)
 			(item.get_node(^"Click") as Control).grab_focus()
 			has_selected = true
+		items_listed.emit(ItemsDB.Item.SKIN)
 	
 	if not has_selected and get_child_count() > 0:
 		# фокусим первое для удобства

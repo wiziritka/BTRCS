@@ -200,3 +200,7 @@ func _on_item_selected(type: ItemsDB.Item, idx: int) -> void:
 				items_changed.emit()
 	_save_selected_equip()
 	_update_equip()
+
+
+func _on_items_listed(type: ItemsDB.Item) -> void:
+	(%BackToSkinsLines as CanvasItem).visible = type == ItemsDB.Item.SKIN

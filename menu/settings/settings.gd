@@ -1,9 +1,9 @@
 extends Control
 
 
-enum Renderer {
-	OPENGL = 0,
-	VULKAN = 1,
+enum RendereringMethod {
+	GL_COMPATIBILITY = 0,
+	MOBILE = 1,
 }
 const AIM_VISUAL_MAX_SIZE := 360.0
 
@@ -17,17 +17,24 @@ func _ready() -> void:
 	show_section("General")
 	
 	_override_file.load("user://engine_settings.cfg")
-	var preffered_renderer: Renderer
+	var preffered_renderering_method: RendereringMethod
 	if _override_file.get_value("rendering", "renderer/rendering_method") == "mobile":
-		preffered_renderer = Renderer.VULKAN
+		preffered_renderering_method = RendereringMethod.MOBILE
 	else:
-		preffered_renderer = Renderer.OPENGL
-	(%RendererOptions as OptionButton).selected = preffered_renderer
+		preffered_renderering_method = RendereringMethod.GL_COMPATIBILITY
+	(%RendererOptions as OptionButton).selected = preffered_renderering_method
 	
-	if RenderingServer.get_rendering_device():
-		(%CurrentRenderer as Label).text = "Текущий отрисовщик: Vulkan"
-	else:
-		(%CurrentRenderer as Label).text = "Текущий отрисовщик: OpenGL"
+	var driver: String = RenderingServer.get_current_rendering_driver_name().capitalize()
+	var method: String = RenderingServer.get_current_rendering_method().capitalize()
+	if method == "Mobile":
+		method = "Forward Mobile"
+	method = method.replace("Gl", "GL")
+	method = method.replace(" Plus", "+")
+	driver = driver.replace("gl", "GL")
+	driver = driver.replace("Es", "ES")
+	driver = driver.replace("Angle", "ANGLE")
+	driver = driver.replace("D 3D", "Direct3D")
+	(%CurrentRenderer as Label).text = "Текущий метод отрисовки: %s (%s)" % [method, driver]
 	
 	# Основное
 	(%UpdatesCheck as BaseButton).set_pressed_no_signal(Globals.get_setting_bool("check_updates"))
@@ -410,7 +417,8 @@ func _on_low_graphics_check_toggled(toggled_on: bool) -> void:
 
 
 func _on_renderer_options_item_selected(index: int) -> void:
-	var new_renderer: String = "gl_compatibility" if index == Renderer.OPENGL else "mobile"
+	var new_renderer: String = \
+			"gl_compatibility" if index == RendereringMethod.GL_COMPATIBILITY else "mobile"
 	_override_file.set_value("rendering", "renderer/rendering_method", new_renderer)
 	_override_file.set_value("rendering", "renderer/rendering_method.mobile", new_renderer)
 	_override_file.save("user://engine_settings.cfg")

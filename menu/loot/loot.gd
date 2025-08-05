@@ -8,28 +8,28 @@ extends Control
 ## Внутренний сигнал, издаётся при нажатии по экрану (или другой клавиши для продолжения).
 signal proceeded
 
-@export_group("Box Chances", "box_")
+@export_group("Box Chances", "box_chance_")
 ## Шанс на редкий предмет из ящика, в процентах.
-@export_range(0.0, 100.0, 0.01) var box_rare_chance := 67.0
+@export_range(0.0, 100.0, 0.01) var box_chance_rare := 67.0
 ## Шанс на эпический предмет из ящика, в процентах.
-@export_range(0.0, 100.0, 0.01) var box_epic_chance := 26.0
+@export_range(0.0, 100.0, 0.01) var box_chance_epic := 26.0
 ## Шанс на легендарный предмет из ящика, в процентах.
-@export_range(0.0, 100.0, 0.01) var box_legendary_chance := 7.0
+@export_range(0.0, 100.0, 0.01) var box_chance_legendary := 7.0
 ## Шанс на секретный предмет из ящика, в процентах. Не идёт в сумму 100% с тремя предыдущими.
-@export_range(0.0, 100.0, 0.01) var box_secret_chance := 3.0
+@export_range(0.0, 100.0, 0.01) var box_chance_secret := 3.0
 ## На сколько повышаются шансы дургих редкостей, когда игрок не выбивает предмет из ящика.
 @export_range(0.0, 100.0, 0.01) var box_chance_increase := 10.0
 
-@export_group("Elite Box Chances", "elite_box_")
+@export_group("Elite Box Chances", "elite_box_chance_")
 ## Шанс на редкий предмет из элитного ящика, в процентах.
-@export_range(0.0, 100.0, 0.01) var elite_box_rare_chance := 40.0
+@export_range(0.0, 100.0, 0.01) var elite_box_chance_rare := 40.0
 ## Шанс на эпический предмет из элитного ящика, в процентах.
-@export_range(0.0, 100.0, 0.01) var elite_box_epic_chance := 45.0
+@export_range(0.0, 100.0, 0.01) var elite_box_chance_epic := 45.0
 ## Шанс на легендарный предмет из элитного ящика, в процентах.
-@export_range(0.0, 100.0, 0.01) var elite_box_legendary_chance := 15.0
+@export_range(0.0, 100.0, 0.01) var elite_box_chance_legendary := 15.0
 ## Шанс на секретный предмет из элитного ящика, в процентах.
 ## Не идёт в сумму 100% с тремя предыдущими.
-@export_range(0.0, 100.0, 0.01) var elite_box_secret_chance := 8.0
+@export_range(0.0, 100.0, 0.01) var elite_box_chance_secret := 8.0
 ## На сколько повышаются шансы других редкостей, когда игрок не выбивает предмет из элитного ящика.
 @export_range(0.0, 100.0, 0.01) var elite_box_chance_increase := 17.0
 
@@ -273,18 +273,18 @@ func _open_box(type: String) -> String:
 	var secret_chance: float
 	if "elite" in type:
 		chances = Utils.calculate_box_chances(
-				elite_box_rare_chance, elite_box_epic_chance, elite_box_legendary_chance,
+				elite_box_chance_rare, elite_box_chance_epic, elite_box_chance_legendary,
 				elite_box_chance_increase, Globals.get_int(type + "_rare_got"),
 				Globals.get_int(type + "_epic_got"), Globals.get_int(type + "_legendary_got")
 		)
-		secret_chance = elite_box_secret_chance
+		secret_chance = elite_box_chance_secret
 	else:
 		chances = Utils.calculate_box_chances(
-				box_rare_chance, box_epic_chance, box_legendary_chance, box_chance_increase,
+				box_chance_rare, box_chance_epic, box_chance_legendary, box_chance_increase,
 				Globals.get_int(type + "_rare_got"), Globals.get_int(type + "_epic_got"),
 				Globals.get_int(type + "_legendary_got")
 		)
-		secret_chance = box_secret_chance
+		secret_chance = box_chance_secret
 	
 	print_verbose("Opening %s, chances: %s, secret chance: %f." % [
 		type,

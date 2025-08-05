@@ -183,6 +183,7 @@ func import_save(path: String) -> Error:
 		return err
 	
 	save_file = new_save_file
+	set_string("save_id", _generate_save_id())
 	print_verbose("Save imported from file %s. Restarting...")
 	Globals.quit(true)
 	return OK
