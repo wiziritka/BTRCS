@@ -588,12 +588,17 @@ func _loading_preload_resources() -> void:
 	var counter: int = 1
 	var to_preload: Array[String]
 	to_preload.append_array(resources_to_preload_paths)
+	# оставляем простор для предзагрузки не только указанных ресурсов
 	var to_preload_count: int = to_preload.size()
 	
 	var last_ticks: int = Time.get_ticks_msec()
 	for path: String in to_preload:
 		var resource: Resource = \
 				ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_REPLACE_DEEP)
+		if not resource:
+			show_critical_error("ошибка при предзагрузке ресурса %s" % path,
+					"Can't preload resource %s." % path)
+			return
 		_preloaded_resources.append(resource)
 		_load_progress_bar.value = 100.0 * counter / to_preload_count
 		counter += 1
