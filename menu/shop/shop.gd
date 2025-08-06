@@ -96,3 +96,4 @@ func _on_button_pressed() -> void:
 	Globals.set_variant("unlocked_weapons", [] as Array[String])
 	Globals.set_variant("unlocked_skins", [] as Array[String])
 	Globals.set_variant("unlocked_skills", [] as Array[String])
+	Globals.set_variant("used_promocodes", [] as Array[String])

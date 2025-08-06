@@ -244,7 +244,6 @@ icon = ExtResource("3_whncf")
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-scroll_horizontal = 887
 horizontal_scroll_mode = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer"]

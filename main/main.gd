@@ -222,7 +222,10 @@ func verify_loot(loot: Array[String]) -> Array[String]:
 					valid = false
 			"equip_box", "equip_elite_box", "skin_box", "skin_elite_box":
 				if not value.is_valid_int():
-					push_warning("Box' %s value is not int, ignoring.")
+					push_warning("Box' %s value is not int, ignoring." % type)
+					valid = false
+				elif int(value) < 1:
+					push_warning("Box's %s count (%s) is not natural." % [type, value])
 					valid = false
 			_:
 				push_warning("Item type %s doesn't exist, ignoring item %s." % [type, loot[idx]])

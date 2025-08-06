@@ -1,4 +1,70 @@
-[gd_scene format=3 uid="uid://dr6d6ux533fuy"]
+[gd_scene load_steps=2 format=3 uid="uid://dr6d6ux533fuy"]
+
+[ext_resource type="Script" uid="uid://bdbn8caqtw781" path="res://menu/shop/promocodes.gd" id="1_01myu"]
 
 [node name="Promocodes" type="Window"]
 oversampling_override = 1.0
+title = "Активировать промокод"
+position = Vector2i(0, 28)
+size = Vector2i(512, 152)
+transient = true
+exclusive = true
+unresizable = true
+script = ExtResource("1_01myu")
+promocodes = Dictionary[String, String]({
+"2дшутер": "coins:29;Лучшая игра 2029 года!",
+"apple": "coins:30;INCREDIBLE! AMAZING! SO MANY INNOVATIONS! (нет)",
+"deltarunetomorrow": "coins:123;DELTARUNE NOW!!!",
+"godot": "coins:45;Лучший движок.",
+"horny": "skin_box:1;Ты не задумывался о покупке антимастурбационного креста?",
+"kys": "coins:-100;Суицид не выход!",
+"max": "coins:52;Ловят даже на парковке!",
+"sniperdelete": "equip_box:1;И не мечтай",
+"казино": "equip_box:1,skin_box:1;Если хочешь депнуть мне - давай скорей!",
+"саввушки": "coins:88;Забетонируйте Плюшевого Мишку("
+})
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Comment" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_vertical = 1
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(448, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+placeholder_text = "Промокод..."
+alignment = 1
+max_length = 32
+expand_to_text_length = true
+
+[node name="Activate" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+text = "Активировать"
+
+[connection signal="close_requested" from="." to="." method="hide"]
+[connection signal="text_submitted" from="MarginContainer/VBoxContainer/LineEdit" to="." method="activate_promocode"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Activate" to="." method="_on_activate_pressed"]

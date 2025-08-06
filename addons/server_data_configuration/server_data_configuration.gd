@@ -105,6 +105,10 @@ func _list_patch(version: String) -> void:
 func _list_promocode(promocode_name: String) -> void:
 	var promocode: VBoxContainer = _promocode_scene.instantiate()
 	(promocode.get_node(^"Promocode") as Label).text = promocode_name
+	(promocode.get_node(^"Comment/LineEdit") as LineEdit).text = \
+			_settings_file.get_value("promocode_" + promocode_name, "comment")
+	(promocode.get_node(^"Comment/LineEdit") as LineEdit).text_changed.connect(
+			_on_promocode_comment_text_changed.bind(promocode_name))
 	if _settings_file.has_section_key("promocode_" + promocode_name, "only_for_ids"):
 		var only_for_ids: Array[String] = _settings_file.get_value("promocode_" + promocode_name,
 				"only_for_ids", [] as Array[String])
@@ -185,6 +189,11 @@ func _on_patch_version_value_changed(value: float, version: String) -> void:
 func _on_delete_patch_pressed(version: String) -> void:
 	_settings_file.erase_section_key("patches", version)
 	%PatchesList.get_node(version.validate_node_name()).queue_free()
+
+
+func _on_promocode_comment_text_changed(new_text: String, promocode: String) -> void:
+	_settings_file.set_value("promocode_" + promocode,
+			"comment", new_text.strip_edges().strip_escapes())
 
 
 func _on_promocode_only_for_ids_text_changed(new_text: String, promocode: String) -> void:
