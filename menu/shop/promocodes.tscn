@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://dr6d6ux533fuy"]
+
+[node name="Promocodes" type="Window"]
+oversampling_override = 1.0

@@ -29,6 +29,7 @@ boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="uid://b1iaj66vouvfm"
 config/icon="uid://cgwxgslknbdvk"
 boot_splash/minimum_display_time=666
+run/flush_stdout_on_print.pc=true
 
 [audio]
 

@@ -1,9 +1,142 @@
-[gd_scene load_steps=5 format=3 uid="uid://bj723c8k8la6y"]
+[gd_scene load_steps=27 format=3 uid="uid://bj723c8k8la6y"]
 
 [ext_resource type="Script" uid="uid://dfbi48lj1pb8n" path="res://menu/shop/shop.gd" id="1_4yet2"]
 [ext_resource type="Texture2D" uid="uid://c3kh0ourvde3l" path="res://menu/shop/background.png" id="2_cyj7w"]
-[ext_resource type="Texture2D" uid="uid://cw3atnkmymw6k" path="res://menu/shop/coin.png" id="3_cyj7w"]
+[ext_resource type="Texture2D" uid="uid://cw3atnkmymw6k" path="res://menu/shop/items/coin.png" id="3_cyj7w"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="3_whncf"]
+[ext_resource type="Texture2D" uid="uid://lnjqijsauw8a" path="res://menu/shop/items/skin_box.png" id="5_cinaw"]
+[ext_resource type="Texture2D" uid="uid://dvh0b4o4tjklm" path="res://menu/shop/items/coins0.png" id="5_idaoj"]
+[ext_resource type="Texture2D" uid="uid://bqdfll3jv7f18" path="res://menu/shop/items/coins1.png" id="6_yhc8g"]
+[ext_resource type="Texture2D" uid="uid://hh4x3ybix143" path="res://menu/shop/items/equip_box.png" id="7_no6pl"]
+[ext_resource type="Texture2D" uid="uid://pdi5jmhwo5gp" path="res://menu/shop/items/coins2.png" id="7_ra5ts"]
+[ext_resource type="Texture2D" uid="uid://cn4p5ailtorvn" path="res://menu/shop/items/skin_elite_box.png" id="8_6qdfj"]
+[ext_resource type="Texture2D" uid="uid://dh3ddsi6clkih" path="res://menu/shop/items/coins3.png" id="8_ydjaf"]
+[ext_resource type="Texture2D" uid="uid://ddusjrxo4wc32" path="res://menu/shop/icons/coin_icon.png" id="9_cinaw"]
+[ext_resource type="Texture2D" uid="uid://pe2tiyyv7sgp" path="res://menu/shop/items/equip_elite_box.png" id="9_xdsol"]
+[ext_resource type="Texture2D" uid="uid://mmujgn3kvw4x" path="res://menu/shop/icons/enter_promocode.png" id="14_6qdfj"]
+[ext_resource type="PackedScene" uid="uid://dr6d6ux533fuy" path="res://menu/shop/promocodes.tscn" id="15_xdsol"]
+
+[sub_resource type="Gradient" id="Gradient_rwxlr"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.19557196, 1)
+colors = PackedColorArray(0.69411767, 1, 0.9137255, 1, 0.26666668, 0.5176471, 0.85490197, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rish6"]
+gradient = SubResource("Gradient_rwxlr")
+width = 240
+height = 240
+fill = 1
+fill_from = Vector2(0.5, 0.8)
+fill_to = Vector2(0.5, 0.1)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_d50xx"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.19557196, 1)
+colors = PackedColorArray(1, 0.7607843, 0.27450982, 1, 0.5372549, 0.3254902, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_200u0"]
+gradient = SubResource("Gradient_d50xx")
+width = 240
+height = 240
+fill = 1
+fill_from = Vector2(0.5, 0.8)
+fill_to = Vector2(0.5, 0.1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_i3jto"]
+gradient = SubResource("Gradient_rwxlr")
+width = 240
+height = 240
+fill = 1
+fill_from = Vector2(0.5, 0.8)
+fill_to = Vector2(0.5, 0.1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6dce8"]
+gradient = SubResource("Gradient_d50xx")
+width = 240
+height = 240
+fill = 1
+fill_from = Vector2(0.5, 0.8)
+fill_to = Vector2(0.5, 0.1)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_no6pl"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.19557196, 1)
+colors = PackedColorArray(1, 0.99607843, 0, 1, 0.85490197, 0.58431375, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6qdfj"]
+gradient = SubResource("Gradient_no6pl")
+width = 240
+height = 240
+fill = 1
+fill_from = Vector2(0.5, 0.8)
+fill_to = Vector2(0.5, 0.1)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_no6pl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cinaw"]
+resource_name = "not_enough"
+length = 2.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 0.5, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6qdfj"]
+_data = {
+&"RESET": SubResource("Animation_no6pl"),
+&"not_enough": SubResource("Animation_cinaw")
+}
 
 [node name="Shop" type="Control"]
 layout_mode = 3
@@ -23,6 +156,26 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_cyj7w")
 stretch_mode = 6
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 4.0
+offset_right = 832.0
+offset_bottom = 51.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+placeholder_text = "лут через запятую"
+alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 836.0
+offset_top = 4.0
+offset_right = 1130.0
+offset_bottom = 51.0
+size_flags_vertical = 4
+text = "Очистить полученные предметы"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -91,24 +244,520 @@ icon = ExtResource("3_whncf")
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+scroll_horizontal = 887
+horizontal_scroll_mode = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="LineEdit" type="LineEdit" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-placeholder_text = "лут через запятую"
 alignment = 1
 
-[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+[node name="SpecialOffers" type="PanelContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 4
-text = "Очистить полученные предметы"
 
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/SpecialOffers"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/SpecialOffers/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderSmall"
+text = "Особые предложения"
+
+[node name="SpecialOffersContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/SpecialOffers/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DailyOffers" type="PanelContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/DailyOffers"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/DailyOffers/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderSmall"
+text = "Ежедневные предложения"
+
+[node name="DailyOffersContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/DailyOffers/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NoDailyOffers" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/DailyOffers/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.50390625, 0.50390625, 0.50390625, 1)
+text = "Нет предложений"
+
+[node name="Boxes" type="PanelContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderSmall"
+text = "Ящики"
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+columns = 2
+
+[node name="SkinBox" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_rish6")
+expand_mode = 1
+
+[node name="Texture" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_cinaw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Buy" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinBox"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -41.5
+offset_top = -60.0
+offset_right = 41.5
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"BigFontButton"
+text = "80"
+icon = ExtResource("9_cinaw")
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinBox"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderSmallOutlined"
+text = "Ящик со скинами"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="EquipBox" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_200u0")
+expand_mode = 1
+
+[node name="Texture" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_no6pl")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Buy" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipBox"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -41.5
+offset_top = -60.0
+offset_right = 41.5
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"BigFontButton"
+text = "200"
+icon = ExtResource("9_cinaw")
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipBox"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderSmallOutlined"
+text = "Ящик с экипировкой"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="EliteSkinBox" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_i3jto")
+expand_mode = 1
+
+[node name="Texture" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteSkinBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_6qdfj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Buy" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteSkinBox"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -47.5
+offset_top = -60.0
+offset_right = 47.5
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"BigFontButton"
+text = "200"
+icon = ExtResource("9_cinaw")
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteSkinBox"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderSmallOutlined"
+text = "Элитный ящик со скинами"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="EliteEquipBox" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_6dce8")
+expand_mode = 1
+
+[node name="Texture" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteEquipBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_xdsol")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Buy" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteEquipBox"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -41.5
+offset_top = -60.0
+offset_right = 41.5
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"BigFontButton"
+text = "500"
+icon = ExtResource("9_cinaw")
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteEquipBox"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderSmallOutlined"
+text = "Элитный ящик с экипировкой"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Coins" type="PanelContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderSmall"
+text = "Монеты"
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+columns = 2
+
+[node name="Coins0" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_6qdfj")
+expand_mode = 1
+
+[node name="Texture" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer/Coins0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_idaoj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Buy" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer/Coins0"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -56.0
+offset_right = 72.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"BigFontButton"
+disabled = true
+text = "Недоступно"
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer/Coins0"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderSmallOutlined"
+text = "1000 монет"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Coins1" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_6qdfj")
+expand_mode = 1
+
+[node name="Texture" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer/Coins1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_yhc8g")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Buy" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer/Coins1"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -56.0
+offset_right = 72.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"BigFontButton"
+disabled = true
+text = "Недоступно"
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer/Coins1"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderSmallOutlined"
+text = "2000 монет"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Coins2" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_6qdfj")
+expand_mode = 1
+
+[node name="Texture" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer/Coins2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_ra5ts")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Buy" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer/Coins2"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -56.0
+offset_right = 72.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"BigFontButton"
+disabled = true
+text = "Недоступно"
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer/Coins2"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderSmallOutlined"
+text = "4000 монет"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Coins3" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(240, 240)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_6qdfj")
+expand_mode = 1
+
+[node name="Texture" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer/Coins3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_ydjaf")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Buy" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer/Coins3"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -56.0
+offset_right = 72.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"BigFontButton"
+disabled = true
+text = "Недоступно"
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins/VBoxContainer/GridContainer/Coins3"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderSmallOutlined"
+text = "8000 монет"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Promocodes" type="PanelContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
+custom_minimum_size = Vector2(288, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Promocodes"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Promocodes/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderSmall"
+text = "Промокоды"
+
+[node name="EnterPromocode" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Promocodes/VBoxContainer"]
+custom_minimum_size = Vector2(192, 192)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_constants/icon_max_width = 160
+text = "Ввести промокод"
+icon = ExtResource("14_6qdfj")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="NoCoins" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -171.5
+offset_right = 20.0
+offset_bottom = -148.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderSmallOutlined"
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Недостаточно монет!"
+horizontal_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="NoCoins"]
+libraries = {
+&"": SubResource("AnimationLibrary_6qdfj")
+}
+
+[node name="Purchase" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+title = "Подтверждение покупки"
+size = Vector2i(540, 112)
+unresizable = true
+ok_button_text = "Купить"
+dialog_autowrap = true
+cancel_button_text = "Отмена"
+
+[node name="Promocodes" parent="." instance=ExtResource("15_xdsol")]
+visible = false
+
+[connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Title/Quit" to="." method="_on_quit_pressed"]
-[connection signal="text_submitted" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinBox/Buy" to="." method="buy" binds= [80, "skin_box:1"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipBox/Buy" to="." method="buy" binds= [200, "equip_box:1"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteSkinBox/Buy" to="." method="buy" binds= [200, "skin_elite_box:1"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteEquipBox/Buy" to="." method="buy" binds= [500, "equip_elite_box:1"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Promocodes/VBoxContainer/EnterPromocode" to="Promocodes" method="popup_centered"]

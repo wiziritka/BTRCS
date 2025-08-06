@@ -136,65 +136,33 @@ func open_screen(screen_scene: PackedScene) -> Control:
 ## Добавляет на сохранение и показывает добычу из массива [param loot].
 ## Этот метод - корутина, его можно подождать с помощью [code]await[/code].
 func receive_loot(loot: Array[String]) -> void:
-	loot = loot.duplicate()
 	print_verbose("Loot receive requested: %s." % str(loot))
-	for idx: int in range(loot.size() - 1, -1, -1):
-		var splits: PackedStringArray = loot[idx].split(':')
-		if splits.size() != 2:
-			push_warning("Incorrect format of item %s, ignoring." % loot[idx])
-			loot.remove_at(idx)
-			continue
-		
-		var type: String = Utils.strip_string(splits[0])
-		var value: String = Utils.strip_string(splits[1])
+	loot = verify_loot(loot)
+	if loot.is_empty():
+		print_verbose("No loot to show, ignoring.")
+		return
+	
+	for item: String in loot:
+		var type: String = Utils.strip_string(item.get_slice(':', 0))
+		var value: String = Utils.strip_string(item.get_slice(':', 1))
 		match type:
 			"coins":
 				Globals.set_int("coins", Globals.get_int("coins") + int(value))
 			"weapon":
 				var unlocked_weapons: Array[String] = \
 						Globals.get_variant("unlocked_weapons", [] as Array[String])
-				if value in unlocked_weapons:
-					print_verbose("Weapon %s already obtained, ignoring." % value)
-					loot.remove_at(idx)
-				elif not value in Globals.items_db.weapons_by_id:
-					push_warning("Weapon %s doesn't exist, ignoring." % value)
-					loot.remove_at(idx)
-				else:
-					unlocked_weapons.append(value)
-					Globals.set_variant("unlocked_weapons", unlocked_weapons)
-			"skill":
-				var unlocked_skills: Array[String] = \
-						Globals.get_variant("unlocked_skills", [] as Array[String])
-				if value in unlocked_skills:
-					print_verbose("Skill %s already obtained, ignoring." % value)
-					loot.remove_at(idx)
-				elif not value in Globals.items_db.skills_by_id:
-					push_warning("Skill %s doesn't exist, ignoring." % value)
-					loot.remove_at(idx)
-				else:
-					unlocked_skills.append(value)
-					Globals.set_variant("unlocked_skills", unlocked_skills)
+				unlocked_weapons.append(value)
+				Globals.set_variant("unlocked_weapons", unlocked_weapons)
 			"skin":
 				var unlocked_skins: Array[String] = \
 						Globals.get_variant("unlocked_skins", [] as Array[String])
-				if value in unlocked_skins:
-					print_verbose("Skin %s already obtained, ignoring." % value)
-					loot.remove_at(idx)
-				elif not value in Globals.items_db.skins_by_id:
-					push_warning("Skin %s doesn't exist, ignoring." % value)
-					loot.remove_at(idx)
-				else:
-					unlocked_skins.append(value)
-					Globals.set_variant("unlocked_skins", unlocked_skins)
-			"equip_box", "equip_elite_box", "skin_box", "skin_elite_box":
-				# Распознаём предметы но не выдаём пока что, это сделает Loot
-				pass
-			_:
-				push_warning("Item type %s doesn't exist, ignoring item %s." % [type, loot[idx]])
-				loot.remove_at(idx)
-	if loot.is_empty():
-		print_verbose("No loot to show, ignoring.")
-		return
+				unlocked_skins.append(value)
+				Globals.set_variant("unlocked_skins", unlocked_skins)
+			"skill":
+				var unlocked_skills: Array[String] = \
+						Globals.get_variant("unlocked_skills", [] as Array[String])
+				unlocked_skills.append(value)
+				Globals.set_variant("unlocked_skills", unlocked_skills)
 	
 	var music_volume_changed := false
 	if menu_music.volume_linear > 0.6:
@@ -211,6 +179,59 @@ func receive_loot(loot: Array[String]) -> void:
 	
 	if music_volume_changed:
 		menu_music.volume_linear = 1.0
+
+
+## Проверяет добычу из массива [param loot] на существование и прочее. Возвращает изменённый массив.
+func verify_loot(loot: Array[String]) -> Array[String]:
+	loot = loot.duplicate()
+	for idx: int in range(loot.size() - 1, -1, -1):
+		var splits: PackedStringArray = loot[idx].split(':')
+		if splits.size() != 2:
+			push_warning("Incorrect format of item %s, ignoring." % loot[idx])
+			loot.remove_at(idx)
+			continue
+		
+		var type: String = Utils.strip_string(splits[0])
+		var value: String = Utils.strip_string(splits[1])
+		var valid := true
+		match type:
+			"coins":
+				if not value.is_valid_int():
+					push_warning("Coins value is not int, ignoring.")
+					valid = false
+			"weapon":
+				if value in Globals.get_variant("unlocked_weapons", [] as Array[String]):
+					print_verbose("Weapon %s already obtained, ignoring." % value)
+					valid = false
+				elif not value in Globals.items_db.weapons_by_id:
+					push_warning("Weapon %s doesn't exist, ignoring." % value)
+					valid = false
+			"skill":
+				if value in Globals.get_variant("unlocked_skills", [] as Array[String]):
+					print_verbose("Skill %s already obtained, ignoring." % value)
+					valid = false
+				elif not value in Globals.items_db.skills_by_id:
+					push_warning("Skill %s doesn't exist, ignoring." % value)
+					valid = false
+			"skin":
+				if value in Globals.get_variant("unlocked_skins", [] as Array[String]):
+					print_verbose("Skin %s already obtained, ignoring." % value)
+					valid = false
+				elif not value in Globals.items_db.skins_by_id:
+					push_warning("Skin %s doesn't exist, ignoring." % value)
+					valid = false
+			"equip_box", "equip_elite_box", "skin_box", "skin_elite_box":
+				if not value.is_valid_int():
+					push_warning("Box' %s value is not int, ignoring.")
+					valid = false
+			_:
+				push_warning("Item type %s doesn't exist, ignoring item %s." % [type, loot[idx]])
+				valid = false
+		if not valid:
+			loot.remove_at(idx)
+		else:
+			loot[idx] = type + ':' + value
+	return loot
 
 
 ## Выдаёт критическую ошибку, которая останавливает всю игру. Использовать только в безвыходных
@@ -587,8 +608,9 @@ func _loading_preload_resources() -> void:
 	
 	var counter: int = 1
 	var to_preload: Array[String]
-	to_preload.append_array(resources_to_preload_paths)
-	# оставляем простор для предзагрузки не только указанных ресурсов
+	if not Globals.headless: # сервер между экранами очень редко переключается
+		to_preload.append_array(resources_to_preload_paths)
+		# оставляем простор для предзагрузки не только указанных ресурсов
 	var to_preload_count: int = to_preload.size()
 	
 	var last_ticks: int = Time.get_ticks_msec()
