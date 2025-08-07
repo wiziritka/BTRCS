@@ -1,20 +1,25 @@
-[gd_scene load_steps=27 format=3 uid="uid://bj723c8k8la6y"]
+[gd_scene load_steps=32 format=3 uid="uid://bj723c8k8la6y"]
 
 [ext_resource type="Script" uid="uid://dfbi48lj1pb8n" path="res://menu/shop/shop.gd" id="1_4yet2"]
 [ext_resource type="Texture2D" uid="uid://c3kh0ourvde3l" path="res://menu/shop/background.png" id="2_cyj7w"]
-[ext_resource type="Texture2D" uid="uid://cw3atnkmymw6k" path="res://menu/shop/items/coin.png" id="3_cyj7w"]
+[ext_resource type="Texture2D" uid="uid://cw3atnkmymw6k" path="res://menu/shop/coins/coin.png" id="3_cyj7w"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="3_whncf"]
-[ext_resource type="Texture2D" uid="uid://lnjqijsauw8a" path="res://menu/shop/items/skin_box.png" id="5_cinaw"]
-[ext_resource type="Texture2D" uid="uid://dvh0b4o4tjklm" path="res://menu/shop/items/coins0.png" id="5_idaoj"]
-[ext_resource type="Texture2D" uid="uid://bqdfll3jv7f18" path="res://menu/shop/items/coins1.png" id="6_yhc8g"]
-[ext_resource type="Texture2D" uid="uid://hh4x3ybix143" path="res://menu/shop/items/equip_box.png" id="7_no6pl"]
-[ext_resource type="Texture2D" uid="uid://pdi5jmhwo5gp" path="res://menu/shop/items/coins2.png" id="7_ra5ts"]
-[ext_resource type="Texture2D" uid="uid://cn4p5ailtorvn" path="res://menu/shop/items/skin_elite_box.png" id="8_6qdfj"]
-[ext_resource type="Texture2D" uid="uid://dh3ddsi6clkih" path="res://menu/shop/items/coins3.png" id="8_ydjaf"]
-[ext_resource type="Texture2D" uid="uid://ddusjrxo4wc32" path="res://menu/shop/icons/coin_icon.png" id="9_cinaw"]
-[ext_resource type="Texture2D" uid="uid://pe2tiyyv7sgp" path="res://menu/shop/items/equip_elite_box.png" id="9_xdsol"]
-[ext_resource type="Texture2D" uid="uid://mmujgn3kvw4x" path="res://menu/shop/icons/enter_promocode.png" id="14_6qdfj"]
-[ext_resource type="PackedScene" uid="uid://dr6d6ux533fuy" path="res://menu/shop/promocodes.tscn" id="15_xdsol"]
+[ext_resource type="Texture2D" uid="uid://lnjqijsauw8a" path="res://menu/shop/boxes/skin_box.png" id="5_cinaw"]
+[ext_resource type="Texture2D" uid="uid://dvh0b4o4tjklm" path="res://menu/shop/coins/coins0.png" id="5_idaoj"]
+[ext_resource type="Texture2D" uid="uid://bqdfll3jv7f18" path="res://menu/shop/coins/coins1.png" id="6_yhc8g"]
+[ext_resource type="Texture2D" uid="uid://hh4x3ybix143" path="res://menu/shop/boxes/equip_box.png" id="7_no6pl"]
+[ext_resource type="Texture2D" uid="uid://pdi5jmhwo5gp" path="res://menu/shop/coins/coins2.png" id="7_ra5ts"]
+[ext_resource type="Texture2D" uid="uid://cn4p5ailtorvn" path="res://menu/shop/boxes/skin_elite_box.png" id="8_6qdfj"]
+[ext_resource type="Texture2D" uid="uid://dh3ddsi6clkih" path="res://menu/shop/coins/coins3.png" id="8_ydjaf"]
+[ext_resource type="Texture2D" uid="uid://ddusjrxo4wc32" path="res://menu/shop/coins/coin_icon.png" id="9_cinaw"]
+[ext_resource type="Texture2D" uid="uid://pe2tiyyv7sgp" path="res://menu/shop/boxes/equip_elite_box.png" id="9_xdsol"]
+[ext_resource type="Texture2D" uid="uid://mmujgn3kvw4x" path="res://menu/shop/promocodes/enter_promocode.png" id="14_6qdfj"]
+[ext_resource type="PackedScene" uid="uid://dr6d6ux533fuy" path="res://menu/shop/promocodes/promocodes.tscn" id="15_xdsol"]
+[ext_resource type="Texture2D" uid="uid://dmpm2a2wq3u4p" path="res://menu/shop/coins/coins_offer.png" id="16_200u0"]
+[ext_resource type="Texture2D" uid="uid://dx36ekj6pm8tr" path="res://menu/shop/boxes/equip_box_offer.png" id="17_i3jto"]
+[ext_resource type="Texture2D" uid="uid://1e2hpb4yqrq3" path="res://menu/shop/boxes/equip_elite_box_offer.png" id="18_6dce8"]
+[ext_resource type="Texture2D" uid="uid://u3uysy5do7nd" path="res://menu/shop/boxes/skin_box_offer.png" id="19_1ovia"]
+[ext_resource type="Texture2D" uid="uid://bagp5s7stcybl" path="res://menu/shop/boxes/skin_elite_box_offer.png" id="20_ix43u"]
 
 [sub_resource type="Gradient" id="Gradient_rwxlr"]
 interpolation_mode = 2
@@ -287,6 +292,7 @@ text = "Ежедневные предложения"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+alignment = 1
 
 [node name="NoDailyOffers" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/DailyOffers/VBoxContainer"]
 unique_name_in_owner = true
@@ -751,6 +757,9 @@ cancel_button_text = "Отмена"
 
 [node name="Promocodes" parent="." instance=ExtResource("15_xdsol")]
 visible = false
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [PackedStringArray("coins_offer", "equip_box_offer", "equip_elite_box_offer", "skin_box_offer", "skin_elite_box_offer"), [ExtResource("16_200u0"), ExtResource("17_i3jto"), ExtResource("18_6dce8"), ExtResource("19_1ovia"), ExtResource("20_ix43u")]]
 
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

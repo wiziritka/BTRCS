@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://ciktx11hqv3ox" path="res://game/events/common/event.gd" id="1_kxt6o"]
 [ext_resource type="Script" uid="uid://c5wn8p7yq48wc" path="res://game/shared/ui/chat/chat.gd" id="3_8d55t"]
 [ext_resource type="Script" uid="uid://buk2lt6westdi" path="res://game/events/common/event_ui.gd" id="4_10cmx"]
-[ext_resource type="Texture2D" uid="uid://cndb4a0hg0r5l" path="res://menu/shop/items/coin_small.png" id="8_nrcab"]
+[ext_resource type="Texture2D" uid="uid://cndb4a0hg0r5l" path="res://menu/shop/coins/coin_small.png" id="8_nrcab"]
 [ext_resource type="Texture2D" uid="uid://dwtddg0cmagg1" path="res://game/shared/ui/chat/chat_send.png" id="9_2uw6w"]
 [ext_resource type="AudioStream" uid="uid://hs3bh8qllach" path="res://game/music/defeat.ogg" id="12_jddfk"]
 [ext_resource type="Texture2D" uid="uid://durmmh0vjl0eg" path="res://menu/theme/icons/exit.png" id="13_j0bsh"]

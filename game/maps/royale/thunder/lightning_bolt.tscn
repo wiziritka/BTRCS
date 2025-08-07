@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://dm2xehxg7nb8e"]
+[gd_scene load_steps=13 format=3 uid="uid://dm2xehxg7nb8e"]
 
 [ext_resource type="Script" uid="uid://bgvirlnion8wa" path="res://game/entity/attack/attack.gd" id="1_eqin4"]
 [ext_resource type="Script" uid="uid://ccr5t8s5ui45t" path="res://game/entity/attack/area_detector.gd" id="2_7vs7y"]
 [ext_resource type="AudioStream" uid="uid://dpbcslu6rdmnm" path="res://game/maps/royale/thunder/lightning_bolt.wav" id="3_868mv"]
 [ext_resource type="Texture2D" uid="uid://cppo6vvr4qygh" path="res://game/maps/royale/thunder/lightning_bolt.png" id="4_uhaos"]
+[ext_resource type="Material" uid="uid://ycrf3plbb4ca" path="res://game/shared/shaders/materials/fake_light.tres" id="5_uhaos"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_868mv"]
 radius = 320.0
@@ -73,26 +74,26 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("PointLight2D:energy")
+tracks/5/path = NodePath("Light:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.0]
+"update": 1,
+"values": [false]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("PointLight2D:enabled")
+tracks/6/path = NodePath("Light:self_modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_868mv"]
@@ -102,7 +103,7 @@ stream_0/stream = ExtResource("3_868mv")
 
 [sub_resource type="Animation" id="Animation_sfshw"]
 resource_name = "Strike"
-length = 4.0
+length = 4.3
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -111,7 +112,7 @@ tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.7, 0.75, 0.9),
+"times": PackedFloat32Array(0, 1, 1.05, 1.2),
 "transitions": PackedFloat32Array(1, 1e-05, 1, 1),
 "update": 0,
 "values": [Color(1, 0, 0, 0), Color(1, 0, 0, 0.313726), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -123,7 +124,7 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(4),
+"times": PackedFloat32Array(4.3),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -137,7 +138,7 @@ tracks/2/path = NodePath("Sprite2D:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.7),
+"times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -149,7 +150,7 @@ tracks/3/path = NodePath("Sprite2D:self_modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.95, 1.1),
+"times": PackedFloat32Array(0, 1.25, 1.4000001),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -161,7 +162,7 @@ tracks/4/path = NodePath("AreaDetector/CollisionShape2D:disabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.7, 0.9),
+"times": PackedFloat32Array(0, 1, 1.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [true, false, true]
@@ -173,7 +174,7 @@ tracks/5/path = NodePath("Sprite2D:frame")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0.7, 0.8, 0.9, 1),
+"times": PackedFloat32Array(1, 1.1, 1.2, 1.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3]
@@ -190,32 +191,32 @@ tracks/6/keys = {
 "start_offset": 0.0,
 "stream": SubResource("AudioStreamRandomizer_868mv")
 }],
-"times": PackedFloat32Array(0.7)
+"times": PackedFloat32Array(1)
 }
 tracks/6/use_blend = true
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("PointLight2D:energy")
+tracks/7/path = NodePath("Light:visible")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0, 0.7, 1.2),
+"times": PackedFloat32Array(0, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [2.0, 2.0, 0.0]
+"update": 1,
+"values": [false, true, false]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("PointLight2D:enabled")
+tracks/8/path = NodePath("Light:self_modulate")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0, 0.7, 1.2),
+"times": PackedFloat32Array(0, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, true, false]
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qji2t"]
@@ -274,11 +275,13 @@ hframes = 4
 max_distance = 6400.0
 bus = &"SFX"
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="Light" type="Sprite2D" parent="."]
+visible = false
+show_behind_parent = true
 visibility_layer = 4
-enabled = false
-range_z_max = 9
+z_index = 5
+material = ExtResource("5_uhaos")
+scale = Vector2(16, 16)
 texture = SubResource("GradientTexture2D_uhaos")
-texture_scale = 16.0
 
 [connection signal="draw" from="." to="." method="draw_circle" binds= [Vector2(0, 0), 320.0, Color(1, 1, 1, 1)]]

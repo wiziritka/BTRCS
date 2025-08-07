@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lnjqijsauw8a"
-path="res://.godot/imported/skin_box.png-adad60cc694e9b18f2fa827716fef655.ctex"
+uid="uid://pe2tiyyv7sgp"
+path="res://.godot/imported/equip_elite_box.png-ea2fec6b6fccfd2a7688c732f2d18493.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://menu/shop/items/skin_box.png"
-dest_files=["res://.godot/imported/skin_box.png-adad60cc694e9b18f2fa827716fef655.ctex"]
+source_file="res://menu/shop/boxes/equip_elite_box.png"
+dest_files=["res://.godot/imported/equip_elite_box.png-ea2fec6b6fccfd2a7688c732f2d18493.ctex"]
 
 [params]
 

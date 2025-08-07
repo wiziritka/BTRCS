@@ -65,12 +65,12 @@ func _ready() -> void:
 func activate_promocode(promocode: String) -> void:
 	promocode = Utils.strip_string(promocode).to_lower()
 	if not promocode in _promocodes_comments:
-		_comment.text = "Введён неверный промокод."
+		_comment.text = "Введён неверный промокод"
 		print_verbose("Promocode %s not found." % promocode)
 		return
 	var used_promocodes: Array[String] = Globals.get_variant("used_promocodes", [] as Array[String])
 	if promocode in used_promocodes:
-		_comment.text = "Этот промокод уже использован."
+		_comment.text = "Этот промокод уже использован"
 		print_verbose("Promocode %s was already used." % promocode)
 		return
 	

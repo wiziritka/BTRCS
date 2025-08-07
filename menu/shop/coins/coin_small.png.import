@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cn4p5ailtorvn"
-path="res://.godot/imported/skin_elite_box.png-e0ec434d8a8742b9c642bfdaebe08f7d.ctex"
+uid="uid://cndb4a0hg0r5l"
+path="res://.godot/imported/coin_small.png-0b14394d86fc9cb69bd6d1ffa5cc2374.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://menu/shop/items/skin_elite_box.png"
-dest_files=["res://.godot/imported/skin_elite_box.png-e0ec434d8a8742b9c642bfdaebe08f7d.ctex"]
+source_file="res://menu/shop/coins/coin_small.png"
+dest_files=["res://.godot/imported/coin_small.png-0b14394d86fc9cb69bd6d1ffa5cc2374.ctex"]
 
 [params]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b1ipe4g6uueie"]
 
-[ext_resource type="Texture2D" uid="uid://cndb4a0hg0r5l" path="res://menu/shop/items/coin_small.png" id="1_jbgge"]
+[ext_resource type="Texture2D" uid="uid://cndb4a0hg0r5l" path="res://menu/shop/coins/coin_small.png" id="1_jbgge"]
 
 [node name="Reward" type="HBoxContainer"]
 

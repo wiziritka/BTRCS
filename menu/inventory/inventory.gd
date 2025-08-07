@@ -119,7 +119,7 @@ func _show_item(type: ItemsDB.Item, idx: int) -> void:
 					% Globals.items_db.skins_lines[_find_skins_line_idx(idx)].name
 			
 			description += "\n\nРедкость: [outline_size=2][color=#%s]%s[/color][/outline_size]" % [
-				Globals.items_db.RARITY_COLORS[skin.rarity].to_html(false),
+				ItemsDB.RARITY_COLORS[skin.rarity].to_html(false),
 				ItemsDB.RARITY_NAMES[skin.rarity],
 			]
 			
@@ -139,7 +139,7 @@ func _show_item(type: ItemsDB.Item, idx: int) -> void:
 				description = skill.description.format(skill.stats)
 			
 			description += "\n\nРедкость: [outline_size=2][color=#%s]%s[/color][/outline_size]" % [
-				Globals.items_db.RARITY_COLORS[skill.rarity].to_html(false),
+				ItemsDB.RARITY_COLORS[skill.rarity].to_html(false),
 				ItemsDB.RARITY_NAMES[skill.rarity],
 			]
 			
@@ -156,7 +156,7 @@ func _show_item(type: ItemsDB.Item, idx: int) -> void:
 				description = weapon.description.format(weapon.stats)
 			
 			description += "\n\nРедкость: [outline_size=2][color=#%s]%s[/color][/outline_size]" % [
-				Globals.items_db.RARITY_COLORS[weapon.rarity].to_html(false),
+				ItemsDB.RARITY_COLORS[weapon.rarity].to_html(false),
 				ItemsDB.RARITY_NAMES[weapon.rarity],
 			]
 			
