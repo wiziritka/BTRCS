@@ -14,7 +14,34 @@ const ITEMS_NAMES: Dictionary[String, String] = {
 	"equip_elite_box": "Элитный ящик с экипировкой",
 }
 
-# TODO: переменные для ящиков
+# См. Loot для подробностей, и держите в синхронизации с ним
+@export_group("Box Chances", "box_chance_")
+@export_range(0.0, 100.0, 0.01) var box_chance_rare := 67.0
+@export_range(0.0, 100.0, 0.01) var box_chance_epic := 26.0
+@export_range(0.0, 100.0, 0.01) var box_chance_legendary := 7.0
+@export_range(0.0, 100.0, 0.01) var box_chance_increase := 10.0
+
+@export_group("Elite Box Chances", "elite_box_chance_")
+@export_range(0.0, 100.0, 0.01) var elite_box_chance_rare := 40.0
+@export_range(0.0, 100.0, 0.01) var elite_box_chance_epic := 45.0
+@export_range(0.0, 100.0, 0.01) var elite_box_chance_legendary := 15.0
+@export_range(0.0, 100.0, 0.01) var elite_box_chance_increase := 17.0
+
+@export_group("Items Costs")
+@export_subgroup("Equip", "cost_equip_")
+@export var cost_equip_rare: int = 160
+@export var cost_equip_epic: int = 700
+@export var cost_equip_legendary: int = 2500
+@export var cost_equip_box: int = 200
+@export var cost_equip_elite_box: int = 500
+@export_subgroup("Skin", "cost_skin_")
+@export var cost_skin_rare: int = 65
+@export var cost_skin_epic: int = 280
+@export var cost_skin_legendary: int = 1000
+@export var cost_skin_box: int = 80
+@export var cost_skin_elite_box: int = 200
+
+var _listed_offers: Dictionary[int, Array]
 
 var _items_offer_icons: Dictionary[String, Texture2D] = {
 	"coins": load("uid://dmpm2a2wq3u4p"),
@@ -29,8 +56,16 @@ var _offer_item_scene: PackedScene = preload("uid://dbnx3sb61pp2")
 
 
 func _ready() -> void:
-	# TODO: генерация и листинг офферов
-	_list_offer(50, "coins:100,equip_box:1", "Подарок)", 100, 1)
+	_list_online_offers()
+	_list_special_offers()
+	
+	var current_day: int = Time.get_datetime_dict_from_system()["day"]
+	if Globals.get_int("last_daily_offers_day", -1) != current_day \
+			and Globals.get_int("last_daily_offers_ut", -1) < Time.get_unix_time_from_system():
+		Globals.set_int("last_daily_offers_day", current_day)
+		Globals.set_int("last_daily_offers_ut", int(Time.get_unix_time_from_system()))
+		_generate_daily_offers()
+	_list_daily_offers()
 	
 	Globals.main.loot_received.connect(_update_shop)
 	_update_shop()
@@ -90,6 +125,368 @@ func buy(cost: int, rewards_str: String, offer_id: int = -1) -> void:
 	print_verbose("Waiting for purchase confirmation...")
 
 
+func _list_online_offers() -> void:
+	if not Globals.data_file:
+		print_verbose("Online offers are not available.")
+		return
+	print_verbose("Listing online offers...")
+	
+	for section: String in Globals.data_file.get_sections():
+		if not section.begins_with("offer_"):
+			continue
+		var offer: String = Utils.strip_string(section.right(-6))
+		if offer.is_empty() or not offer.is_valid_int():
+			print_verbose("Found invalid online offer, ignoring.")
+			continue
+		var offer_id := int(offer)
+		if offer_id < ONLINE_OFFERS_START_ID:
+			print_verbose("Found invalid online offer %s: ID should start from %d." % [
+				offer,
+				ONLINE_OFFERS_START_ID,
+			])
+			continue
+		
+		if not (Globals.data_file.has_section_key(section, "name") \
+				and typeof(Globals.data_file.get_value(section, "name")) == TYPE_STRING):
+			print_verbose("Found invalid online offer %s: no name, ignoring." % offer)
+			continue
+		var offer_name: String = Globals.data_file.get_value(section, "name")
+		
+		if not (Globals.data_file.has_section_key(section, "cost") \
+				and typeof(Globals.data_file.get_value(section, "cost")) == TYPE_INT):
+			print_verbose("Found invalid online offer %s: no cost, ignoring." % offer)
+			continue
+		var cost: int = Globals.data_file.get_value(section, "cost")
+		
+		if not (Globals.data_file.has_section_key(section, "sale") \
+				and typeof(Globals.data_file.get_value(section, "sale")) == TYPE_INT):
+			print_verbose("Found invalid online offer %s: no sale, ignoring." % offer)
+			continue
+		var sale: int = Globals.data_file.get_value(section, "sale")
+		
+		if not (Globals.data_file.has_section_key(section, "rewards") \
+				and typeof(Globals.data_file.get_value(section, "rewards")) == TYPE_ARRAY):
+			print_verbose("Found invalid online offer %s: no rewards, ignoring." % offer)
+			continue
+		var rewards: Array = Globals.data_file.get_value(section, "rewards")
+		if rewards.get_typed_builtin() != TYPE_STRING:
+			print_verbose("Found invalid online offer %s: no rewards, ignoring." % offer)
+			continue
+		if rewards != Globals.main.verify_loot(rewards):
+			print_verbose("Found online offer %s with incorrect or already obtained items." % offer)
+			continue
+		
+		if Globals.data_file.has_section_key(section, "only_for_ids") \
+				and typeof(Globals.data_file.get_value(section, "only_for_ids")) == TYPE_ARRAY:
+			var only_for_ids: Array = Globals.data_file.get_value(section, "only_for_ids")
+			if only_for_ids.get_typed_builtin() == TYPE_STRING \
+					and not Globals.get_string("save_id") in only_for_ids:
+				# нам не предназначен
+				continue
+		
+		_list_offer(cost, ','.join(rewards), offer_name, sale, offer_id)
+	
+	print_verbose("Done listing online offers.")
+
+
+func _list_special_offers() -> void:
+	print_verbose("Listing special offers...")
+	var special_offers: Array[Dictionary] = \
+			Globals.get_variant("special_offers", [] as Array[Dictionary])
+	for offer: Dictionary in special_offers:
+		var offer_id: int = offer["id"]
+		if offer_id < SPECIAL_OFFERS_START_ID:
+			print_verbose("Found special offer with ID less than %d." % SPECIAL_OFFERS_START_ID)
+			continue
+		var offer_name: String = offer["name"]
+		var cost: int = offer["cost"]
+		var sale: int = offer["sale"]
+		var rewards: Array[String] = offer["rewards"]
+		_list_offer(cost, ','.join(rewards), offer_name, sale, offer_id)
+	print_verbose("Done listing special offers.")
+
+
+func _list_daily_offers() -> void:
+	print_verbose("Listing daily offers...")
+	var daily_offers: Array[Dictionary] = \
+			Globals.get_variant("daily_offers", [] as Array[Dictionary])
+	for offer: Dictionary in daily_offers:
+		var offer_id: int = offer["id"]
+		if offer_id >= SPECIAL_OFFERS_START_ID:
+			print_verbose("Found daily offer with ID greater than %d." % SPECIAL_OFFERS_START_ID)
+			continue
+		var offer_name: String = offer["name"]
+		var cost: int = offer["cost"]
+		var sale: int = offer["sale"]
+		var rewards: Array[String] = offer["rewards"]
+		_list_offer(cost, ','.join(rewards), offer_name, sale, offer_id)
+	print_verbose("Done listing daily offers.")
+
+
+func _generate_daily_offers() -> void:
+	print_verbose("Generating daily offers...")
+	var daily_offers: Array[Dictionary]
+	
+	var gift_offer := {
+		"name": "Подарок",
+		"cost": 0,
+		"sale": 0,
+		"id": 0,
+	}
+	var gift_rewards: Array[String]
+	match randi() % 4:
+		0, 1: # монеты
+			gift_rewards.append("coins:%d" % (randi_range(7, 25) * 10))
+		2: # ящик с экипировкой
+			gift_rewards.append("equip_box:1")
+		3: # ящик со скином
+			gift_rewards.append("skin_box:1")
+	gift_offer["rewards"] = gift_rewards
+	daily_offers.append(gift_offer)
+	
+	var locked_skins: Array[SkinData]
+	var locked_weapons: Array[WeaponData]
+	var locked_skills: Array[SkillData]
+	for skin: SkinData in Globals.items_db.skins:
+		if skin in Globals.items_db.other_skins:
+			continue
+		if not skin.rarity in [
+			ItemsDB.Rarity.RARE,
+			ItemsDB.Rarity.EPIC,
+			ItemsDB.Rarity.LEGENDARY
+		]:
+			continue
+		if Globals.items_db.has_equip_item(skin.id, ItemsDB.Item.SKIN):
+			continue
+		locked_skins.append(skin)
+	for weapon: WeaponData in Globals.items_db.weapons:
+		if weapon in Globals.items_db.other_weapons:
+			continue
+		if not weapon.rarity in [
+			ItemsDB.Rarity.RARE,
+			ItemsDB.Rarity.EPIC,
+			ItemsDB.Rarity.LEGENDARY
+		]:
+			continue
+		if Globals.items_db.has_equip_item(weapon.id, ItemsDB.Item.WEAPON):
+			continue
+		locked_weapons.append(weapon)
+	for skill: SkillData in Globals.items_db.skills:
+		if skill in Globals.items_db.other_skills:
+			continue
+		if not skill.rarity in [
+			ItemsDB.Rarity.RARE,
+			ItemsDB.Rarity.EPIC,
+			ItemsDB.Rarity.LEGENDARY
+		]:
+			continue
+		if Globals.items_db.has_equip_item(skill.id, ItemsDB.Item.SKILL):
+			continue
+		locked_skills.append(skill)
+	
+	var offers_count: int = randi_range(3, 6)
+	var offers_types: Array[int] = [0, 0, 0, 1, 1, 2, 2, 3]
+	if not locked_skins.is_empty():
+		offers_types.append_array([4, 4])
+		if locked_skins.size() >= 2:
+			offers_types.append(5)
+	if not locked_weapons.is_empty() or not locked_skills.is_empty():
+		offers_types.append_array([6, 6])
+		if not locked_weapons.is_empty() and not locked_skills.is_empty():
+			offers_types.append(7)
+	if not locked_skins.is_empty() and \
+			(not locked_weapons.is_empty() or not locked_skills.is_empty()):
+		offers_types.append(8)
+	
+	var existing_rewards: Array[Array]
+	while true:
+		if existing_rewards.size() == offers_count:
+			break
+		var offer := {}
+		match offers_types.pick_random():
+			0: # Ящик
+				offer["name"] = "Акция"
+				var discount: float = [0.9, 0.9, 0.8, 0.75].pick_random()
+				offer["sale"] = 100 - int(100 * discount)
+				var count: int = randi_range(1, 3)
+				if randi() % 2 == 0:
+					offer["cost"] = int(cost_equip_box * discount) * count
+					offer["rewards"] = ["equip_box:%d" % count] as Array[String]
+				else:
+					offer["cost"] = int(cost_skin_box * discount) * count
+					offer["rewards"] = ["skin_box:%d" % count] as Array[String]
+			1: # Элитный ящик
+				offer["name"] = "Акция"
+				var discount: float = [0.95, 0.95, 0.9, 0.85].pick_random()
+				offer["sale"] = 100 - int(100 * discount)
+				var count: int = randi_range(1, 2)
+				if randi() % 2 == 0:
+					offer["cost"] = int(cost_equip_elite_box * discount) * count
+					offer["rewards"] = ["equip_elite_box:%d" % count] as Array[String]
+				else:
+					offer["cost"] = int(cost_skin_elite_box * discount) * count
+					offer["rewards"] = ["skin_elite_box:%d" % count] as Array[String]
+			2: # Два ящика разных типов
+				offer["name"] = "Двойная акция"
+				var discount: float = [0.85, 0.85, 0.75, 0.7].pick_random()
+				offer["sale"] = 100 - int(100 * discount)
+				var count_skin: int = randi_range(1, 2)
+				var count_equip: int = randi_range(1, 2)
+				offer["cost"] = int((cost_equip_box * count_equip + cost_skin_box * count_skin)
+						* discount)
+				offer["rewards"] = [
+					"equip_box:%d" % count_equip,
+					"skin_box:%d" % count_skin,
+				] as Array[String]
+			3: # Два элитных ящика разных типов
+				offer["name"] = "Двойная акция"
+				var discount: float = [0.9, 0.9, 0.85, 0.8].pick_random()
+				offer["sale"] = 100 - int(100 * discount)
+				var count_skin: int = randi_range(1, 2)
+				var count_equip: int = randi_range(1, 2)
+				offer["cost"] = int((cost_equip_elite_box * count_equip
+						+ cost_skin_elite_box * count_skin) * discount)
+				offer["rewards"] = [
+					"equip_elite_box:%d" % count_equip,
+					"skin_elite_box:%d" % count_skin,
+				] as Array[String]
+			4: # Скин
+				offer["name"] = "Скин"
+				offer["sale"] = 0
+				var skin: SkinData = locked_skins.pick_random()
+				match skin.rarity:
+					ItemsDB.Rarity.RARE:
+						offer["cost"] = cost_skin_rare
+					ItemsDB.Rarity.EPIC:
+						offer["cost"] = cost_skin_epic
+					ItemsDB.Rarity.LEGENDARY:
+						offer["cost"] = cost_skin_legendary
+				offer["rewards"] = ["skin:%s" % skin.id] as Array[String]
+			5: # Два скина
+				offer["name"] = "Набор скинов"
+				var discount: float = [0.95, 0.95, 0.9, 0.85].pick_random()
+				offer["sale"] = 100 - int(100 * discount)
+				locked_skins.shuffle()
+				var skin0: SkinData = locked_skins[0]
+				var skin1: SkinData = locked_skins[1]
+				var cost: int = 0
+				match skin0.rarity:
+					ItemsDB.Rarity.RARE:
+						cost += cost_skin_rare
+					ItemsDB.Rarity.EPIC:
+						cost += cost_skin_epic
+					ItemsDB.Rarity.LEGENDARY:
+						cost += cost_skin_legendary
+				match skin1.rarity:
+					ItemsDB.Rarity.RARE:
+						cost += cost_skin_rare
+					ItemsDB.Rarity.EPIC:
+						cost += cost_skin_epic
+					ItemsDB.Rarity.LEGENDARY:
+						cost += cost_skin_legendary
+				offer["cost"] = int(cost * discount)
+				offer["rewards"] = ["skin:%s" % skin0.id, "skin:%s" % skin1.id] as Array[String]
+			6: # Экипировка
+				offer["name"] = "Экипировка"
+				offer["sale"] = 0
+				var equip: Resource = (locked_weapons + locked_skills).pick_random()
+				var weapon := equip as WeaponData
+				if weapon:
+					match weapon.rarity:
+						ItemsDB.Rarity.RARE:
+							offer["cost"] = cost_equip_rare
+						ItemsDB.Rarity.EPIC:
+							offer["cost"] = cost_equip_epic
+						ItemsDB.Rarity.LEGENDARY:
+							offer["cost"] = cost_equip_legendary
+					offer["rewards"] = ["weapon:%s" % weapon.id] as Array[String]
+				else:
+					var skill := equip as SkillData
+					match skill.rarity:
+						ItemsDB.Rarity.RARE:
+							offer["cost"] = cost_equip_rare
+						ItemsDB.Rarity.EPIC:
+							offer["cost"] = cost_equip_epic
+						ItemsDB.Rarity.LEGENDARY:
+							offer["cost"] = cost_equip_legendary
+					offer["rewards"] = ["skill:%s" % skill.id] as Array[String]
+			7: # Экипировка (навык И оружие)
+				offer["name"] = "Набор экипировки"
+				var discount: float = [0.95, 0.95, 0.9, 0.85].pick_random()
+				offer["sale"] = 100 - int(100 * discount)
+				var weapon: WeaponData = locked_weapons.pick_random()
+				var skill: SkillData = locked_skills.pick_random()
+				var cost: int = 0
+				match weapon.rarity:
+					ItemsDB.Rarity.RARE:
+						cost += cost_equip_rare
+					ItemsDB.Rarity.EPIC:
+						cost += cost_equip_epic
+					ItemsDB.Rarity.LEGENDARY:
+						cost += cost_equip_legendary
+				match skill.rarity:
+					ItemsDB.Rarity.RARE:
+						cost += cost_equip_rare
+					ItemsDB.Rarity.EPIC:
+						cost += cost_equip_epic
+					ItemsDB.Rarity.LEGENDARY:
+						cost += cost_equip_legendary
+				offer["cost"] = int(cost * discount)
+				offer["rewards"] = ["skill:%s" % skill.id, "weapon:%s" % weapon.id] as Array[String]
+			8: # Скин и экипировка
+				offer["name"] = "Набор"
+				var discount: float = [0.95, 0.95, 0.9, 0.85].pick_random()
+				offer["sale"] = 100 - int(100 * discount)
+				var cost: int = 0
+				var offer_rewards: Array[String]
+				
+				var skin: SkinData = locked_skins.pick_random()
+				match skin.rarity:
+					ItemsDB.Rarity.RARE:
+						cost += cost_skin_rare
+					ItemsDB.Rarity.EPIC:
+						cost += cost_skin_epic
+					ItemsDB.Rarity.LEGENDARY:
+						cost += cost_skin_legendary
+				offer_rewards.append("skin:%s" % skin.id)
+				
+				var equip: Resource = (locked_weapons + locked_skills).pick_random()
+				var weapon := equip as WeaponData
+				if weapon:
+					match weapon.rarity:
+						ItemsDB.Rarity.RARE:
+							cost += cost_equip_rare
+						ItemsDB.Rarity.EPIC:
+							cost += cost_equip_epic
+						ItemsDB.Rarity.LEGENDARY:
+							cost += cost_equip_legendary
+					offer_rewards.append("weapon:%s" % weapon.id)
+				else:
+					var skill := equip as SkillData
+					match skill.rarity:
+						ItemsDB.Rarity.RARE:
+							cost += cost_equip_rare
+						ItemsDB.Rarity.EPIC:
+							cost += cost_equip_epic
+						ItemsDB.Rarity.LEGENDARY:
+							cost += cost_equip_legendary
+					offer_rewards.append("skill:%s" % skill.id)
+				
+				offer["cost"] = int(cost * discount)
+				offer["rewards"] = offer_rewards
+		
+		var rewards: Array[String] = offer["rewards"]
+		rewards.sort()
+		offer["rewards"] = rewards
+		if rewards in existing_rewards:
+			continue
+		existing_rewards.append(rewards)
+		offer["id"] = existing_rewards.size()
+		daily_offers.append(offer)
+	
+	Globals.set_variant("daily_offers", daily_offers)
+
+
 func _list_offer(cost: int, rewards_str: String, offer_name: String, sale: int, id: int) -> void:
 	var offer: PanelContainer = _offer_scene.instantiate()
 	offer.name = str(id)
@@ -147,6 +544,7 @@ func _list_offer(cost: int, rewards_str: String, offer_name: String, sale: int, 
 		%SpecialOffersContainer.add_child(offer)
 	else:
 		%DailyOffersContainer.add_child(offer)
+	_listed_offers[id] = rewards
 	print_verbose("Listed offer %s with ID %d: cost - %d, rewards - %s, sale - %d." % [
 		offer_name,
 		id,
@@ -157,6 +555,7 @@ func _list_offer(cost: int, rewards_str: String, offer_name: String, sale: int, 
 
 
 func _delete_offer(id: int) -> void:
+	_listed_offers.erase(id)
 	if id >= SPECIAL_OFFERS_START_ID:
 		var offer: PanelContainer = %SpecialOffersContainer.get_node(str(id))
 		%SpecialOffersContainer.remove_child(offer)
@@ -180,12 +579,18 @@ func _delete_offer(id: int) -> void:
 		if not id in used_online_offers:
 			used_online_offers.append(id)
 			Globals.set_variant("used_online_offers", used_online_offers)
+	
+	print_verbose("Deleted offer with ID %d." % id)
 
 
 func _update_shop() -> void:
 	(%CoinsCount as Label).text = str(Globals.get_int("coins"))
 	
-	# TODO: чекать и удалять акции
+	for offer_id: int in _listed_offers.keys():
+		var rewards: Array[String] = _listed_offers[offer_id]
+		if Globals.main.verify_loot(rewards) != rewards:
+			print_verbose("Offer with ID %d contains obtained items, deleting." % offer_id)
+			_delete_offer(offer_id)
 	
 	(%SpecialOffers as CanvasItem).visible = %SpecialOffersContainer.get_child_count() > 0
 	(%NoDailyOffers as CanvasItem).visible = %DailyOffersContainer.get_child_count() == 0
@@ -202,16 +607,3 @@ func _on_purchase_confirmed(cost: int, rewards: Array[String], offer_id: int = -
 
 func _on_quit_pressed() -> void:
 	queue_free()
-
-# TEST
-func _on_line_edit_text_submitted(new_text: String) -> void:
-	var loot: Array[String]
-	loot.assign(new_text.split(','))
-	Globals.main.receive_loot(loot)
-
-
-func _on_button_pressed() -> void:
-	Globals.set_variant("unlocked_weapons", [] as Array[String])
-	Globals.set_variant("unlocked_skins", [] as Array[String])
-	Globals.set_variant("unlocked_skills", [] as Array[String])
-	Globals.set_variant("used_promocodes", [] as Array[String])

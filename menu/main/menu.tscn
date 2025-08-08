@@ -197,7 +197,7 @@ BaCat86, Kaurt, MilDeV, ZeroHero135, smilecov_07 - скины
 [font_size=20][center]Другое[/center][/font_size]
 Скины эмоджи взяты с [url]https://openmoji.org/[/url].
 Музыка карты Гроза - [url=https://www.newgrounds.com/audio/listen/638150]Waterflame - Thunderzone v2[/url].
-Не играй в шутер в 3 часа ночи..."
+Если хочешь депнуть мне - давай скорей!"
 autowrap_mode = 2
 
 [node name="Close" type="Button" parent="About/MarginContainer/VBoxContainer"]

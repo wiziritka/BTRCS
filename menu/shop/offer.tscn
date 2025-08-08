@@ -5,6 +5,7 @@
 
 [node name="Offer" type="PanelContainer"]
 custom_minimum_size = Vector2(240, 0)
+mouse_filter = 1
 
 [node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 2

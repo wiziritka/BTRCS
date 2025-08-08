@@ -151,6 +151,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4yet2")
+box_chance_increase = 7.0
+elite_box_chance_increase = 10.0
+cost_equip_epic = 500
+cost_equip_legendary = 1600
+cost_skin_epic = 200
+cost_skin_legendary = 650
 
 [node name="Image" type="TextureRect" parent="."]
 layout_mode = 1
@@ -161,26 +167,6 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_cyj7w")
 stretch_mode = 6
-
-[node name="LineEdit" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 130.0
-offset_top = 4.0
-offset_right = 832.0
-offset_bottom = 51.0
-size_flags_horizontal = 3
-size_flags_vertical = 4
-placeholder_text = "лут через запятую"
-alignment = 1
-
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 836.0
-offset_top = 4.0
-offset_right = 1130.0
-offset_bottom = 51.0
-size_flags_vertical = 4
-text = "Очистить полученные предметы"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -260,6 +246,7 @@ alignment = 1
 [node name="SpecialOffers" type="PanelContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/SpecialOffers"]
 layout_mode = 2
@@ -278,6 +265,7 @@ size_flags_vertical = 3
 [node name="DailyOffers" type="PanelContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/DailyOffers"]
 layout_mode = 2
@@ -305,6 +293,7 @@ text = "Нет предложений"
 
 [node name="Boxes" type="PanelContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes"]
 layout_mode = 2
@@ -502,6 +491,7 @@ autowrap_mode = 3
 
 [node name="Coins" type="PanelContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Coins"]
 layout_mode = 2
@@ -700,6 +690,7 @@ autowrap_mode = 3
 [node name="Promocodes" type="PanelContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 custom_minimum_size = Vector2(288, 0)
 layout_mode = 2
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Promocodes"]
 layout_mode = 2
@@ -761,8 +752,6 @@ visible = false
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 resources = [PackedStringArray("coins_offer", "equip_box_offer", "equip_elite_box_offer", "skin_box_offer", "skin_elite_box_offer"), [ExtResource("16_200u0"), ExtResource("17_i3jto"), ExtResource("18_6dce8"), ExtResource("19_1ovia"), ExtResource("20_ix43u")]]
 
-[connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Title/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinBox/Buy" to="." method="buy" binds= [80, "skin_box:1"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipBox/Buy" to="." method="buy" binds= [200, "equip_box:1"]]

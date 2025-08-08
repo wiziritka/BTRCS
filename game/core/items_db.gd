@@ -216,7 +216,7 @@ func has_equip_item(id: String, type: Item) -> bool:
 			return weapon.rarity == Rarity.COMMON \
 					or id in Globals.get_variant("unlocked_weapons", [] as Array[String])
 		_:
-			push_error("Callend with invalid item type: %d." % type)
+			push_error("Called with invalid item type: %d." % type)
 	return false
 
 
