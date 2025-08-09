@@ -77,9 +77,9 @@ func pan_to_target(to: Node2D, duration: float, ease_type := Tween.EASE_OUT,
 	_pan_tween.set_trans(trans_type).set_ease(ease_type)
 	_pan_tween.tween_method(_lerp_to.bind(from, to), 0.0, 1.0, duration)
 	await _pan_tween.finished
-	to.tree_exiting.disconnect(_cleanup_pan_tween)
 	pan_finished.emit()
 	if is_instance_valid(to):
+		to.tree_exiting.disconnect(_cleanup_pan_tween)
 		target = to
 
 

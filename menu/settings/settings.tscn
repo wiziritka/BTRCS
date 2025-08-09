@@ -1322,6 +1322,13 @@ placeholder_text = "Новое имя..."
 [node name="Confirm" parent="ManageSaveDialog/Dialogs/NameDialog/MarginContainer/VBoxContainer" index="2"]
 text = "Сменить"
 
+[node name="AndroidInfoDialog" type="ConfirmationDialog" parent="ManageSaveDialog/Dialogs"]
+oversampling_override = 1.0
+title = "Информация"
+size = Vector2i(322, 112)
+ok_button_text = "Импортировать"
+cancel_button_text = "Отмена"
+
 [node name="Background" type="ColorRect" parent="ManageSaveDialog"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -1476,6 +1483,7 @@ visible = false
 [connection signal="confirmed" from="ManageSaveDialog/Dialogs/EraseDataDialog" to="." method="_on_reset_data_dialog_confirmed"]
 [connection signal="close_requested" from="ManageSaveDialog/Dialogs/NameDialog" to="ManageSaveDialog/Dialogs/NameDialog" method="hide"]
 [connection signal="name_accepted" from="ManageSaveDialog/Dialogs/NameDialog" to="." method="_on_name_dialog_name_accepted"]
+[connection signal="confirmed" from="ManageSaveDialog/Dialogs/AndroidInfoDialog" to="." method="_on_android_info_dialog_confirmed"]
 [connection signal="pressed" from="ManageSaveDialog/VBoxContainer/Actions/CopySaveId" to="." method="_on_copy_save_id_pressed"]
 [connection signal="pressed" from="ManageSaveDialog/VBoxContainer/Actions/ChangeName" to="." method="_on_change_name_pressed"]
 [connection signal="pressed" from="ManageSaveDialog/VBoxContainer/Actions2/Export" to="." method="_on_export_pressed"]

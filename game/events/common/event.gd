@@ -245,6 +245,7 @@ func _get_rewards() -> Dictionary[String, int]:
 func _on_player_killed(by: int, player: Player) -> void:
 	var message_text: String
 	if by > 0:
+		_increment_players_kills.rpc_id(by)
 		message_text = "[outline_size=4][color=#%s]%s[/color][/outline_size] убивает игрока \
 [outline_size=4][color=#%s]%s[/color][/outline_size]!" % [
 			Entity.TEAM_COLORS[players_teams[by]].to_html(false),
@@ -258,8 +259,6 @@ func _on_player_killed(by: int, player: Player) -> void:
 			players_names[player.id],
 		]
 	event_ui.chat.post_message.rpc("> " + message_text)
-	
-	_increment_players_kills.rpc_id(by)
 	_player_killed(by, player)
 
 

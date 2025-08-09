@@ -170,14 +170,13 @@ stretch_mode = 6
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 14
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -512.0
+offset_left = 128.0
 offset_top = -320.0
-offset_right = 512.0
+offset_right = -128.0
 offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -236,6 +235,7 @@ icon = ExtResource("3_whncf")
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 4
+vertical_scroll_mode = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/ScrollContainer"]
 layout_mode = 2
@@ -752,9 +752,13 @@ visible = false
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 resources = [PackedStringArray("coins_offer", "equip_box_offer", "equip_elite_box_offer", "skin_box_offer", "skin_elite_box_offer"), [ExtResource("16_200u0"), ExtResource("17_i3jto"), ExtResource("18_6dce8"), ExtResource("19_1ovia"), ExtResource("20_ix43u")]]
 
+[node name="UpdateDayTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Title/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinBox/Buy" to="." method="buy" binds= [80, "skin_box:1"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipBox/Buy" to="." method="buy" binds= [200, "equip_box:1"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteSkinBox/Buy" to="." method="buy" binds= [200, "skin_elite_box:1"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteEquipBox/Buy" to="." method="buy" binds= [500, "equip_elite_box:1"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Promocodes/VBoxContainer/EnterPromocode" to="Promocodes" method="popup_centered"]
+[connection signal="timeout" from="UpdateDayTimer" to="." method="_on_update_day_timer_timeout"]

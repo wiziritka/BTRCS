@@ -233,14 +233,14 @@ func show_loot(loot: Array[String]) -> void:
 					_anim.seek(0.0, true)
 					get_viewport().gui_snap_controls_to_pixels = false
 					
-					($Box/Box/Normal as TextureRect).texture = _boxes_textures[type]
-					($Box/Box/Open as TextureRect).texture = _boxes_textures[type + "_open"]
+					($Box/Anchor/Box/Normal as TextureRect).texture = _boxes_textures[type]
+					($Box/Anchor/Box/Open as TextureRect).texture = _boxes_textures[type + "_open"]
 					if "elite" in type:
-						($Box/Box/Stars as CanvasItem).show()
-						($Box/Box/Stars as CPUParticles2D).restart()
+						($Box/Anchor/Box/Stars as CanvasItem).show()
+						($Box/Anchor/Box/Stars as CPUParticles2D).restart()
 					else:
-						($Box/Box/Stars as CanvasItem).hide()
-						($Box/Box/Stars as CPUParticles2D).emitting = false
+						($Box/Anchor/Box/Stars as CanvasItem).hide()
+						($Box/Anchor/Box/Stars as CPUParticles2D).emitting = false
 					
 					await proceeded
 					get_viewport().gui_snap_controls_to_pixels = true

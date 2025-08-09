@@ -68,7 +68,7 @@ var state := State.CLOSED
 ## Ссылка на мир.
 var world: World
 ## IP-адреса заблокированных игроков. Не имеет эффекта на клиентах.
-## Сбрасывается после пересоздания комнаты.
+## Сбрасывается после смены админа.
 var banned_ips: Array[String]
 
 var _scene_multiplayer: SceneMultiplayer
@@ -144,7 +144,6 @@ func create(port: int = DEFAULT_PORT) -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	_scene_multiplayer.peer_authenticating.connect(_on_peer_authenticating)
 	_scene_multiplayer.peer_authentication_failed.connect(_on_peer_authentication_failed)
-	banned_ips.clear()
 	state = State.LOBBY
 	created.emit()
 	print_verbose("Created server at port %d." % port)
@@ -477,6 +476,18 @@ func _process_console_command(command: PackedStringArray) -> bool:
 			join(command[1])
 		else:
 			join(command[1], int(command[2]))
+	elif command[0] == "unban" and command.size() == 2:
+		if not multiplayer.is_server():
+			printerr("This command only available on server.")
+			return recognized
+		recognized = true
+		banned_ips.erase(command[1])
+	elif command[0] == "unban-all" and command.size() == 1:
+		if not multiplayer.is_server():
+			printerr("This command only available on server.")
+			return recognized
+		recognized = true
+		banned_ips.clear()
 	return recognized
 
 
@@ -484,6 +495,8 @@ func _print_help() -> void:
 	print("close - Closes server or client.")
 	print("join <address> [port] - Joins server by address and port.")
 	print("create [port] - Creates server at specified port.")
+	print("unban <ip> - Unbans player with specified IP. Only available on server.")
+	print("unban-all - Unbans all players. Only available on server.")
 
 
 func _authenticate_callback(peer: int, data: PackedByteArray) -> void:

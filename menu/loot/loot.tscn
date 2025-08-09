@@ -190,14 +190,14 @@ tracks/12/keys = {
 tracks/13/type = "value"
 tracks/13/imported = false
 tracks/13/enabled = true
-tracks/13/path = NodePath("Box/Box:position")
+tracks/13/path = NodePath("Box/Anchor/Box:position")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(640, 360)]
+"values": [Vector2(0, 0)]
 }
 tracks/14/type = "value"
 tracks/14/imported = false
@@ -214,7 +214,7 @@ tracks/14/keys = {
 tracks/15/type = "value"
 tracks/15/imported = false
 tracks/15/enabled = true
-tracks/15/path = NodePath("Box/Box:scale")
+tracks/15/path = NodePath("Box/Anchor/Box:scale")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/keys = {
@@ -226,7 +226,7 @@ tracks/15/keys = {
 tracks/16/type = "value"
 tracks/16/imported = false
 tracks/16/enabled = true
-tracks/16/path = NodePath("Box/Box/Normal:visible")
+tracks/16/path = NodePath("Box/Anchor/Box/Normal:visible")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/keys = {
@@ -238,7 +238,7 @@ tracks/16/keys = {
 tracks/17/type = "value"
 tracks/17/imported = false
 tracks/17/enabled = true
-tracks/17/path = NodePath("Box/Box/Open:visible")
+tracks/17/path = NodePath("Box/Anchor/Box/Open:visible")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/keys = {
@@ -298,7 +298,7 @@ tracks/21/keys = {
 tracks/22/type = "value"
 tracks/22/imported = false
 tracks/22/enabled = true
-tracks/22/path = NodePath("Box/Box:modulate")
+tracks/22/path = NodePath("Box/Anchor/Box:modulate")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/keys = {
@@ -387,14 +387,14 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Box/Box:position")
+tracks/0/path = NodePath("Box/Anchor/Box:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4, 0.5, 0.7),
 "transitions": PackedFloat32Array(1.5, 1, 1, 1),
 "update": 0,
-"values": [Vector2(640, -96), Vector2(640, 360), Vector2(640, 366.00003), Vector2(640, 360)]
+"values": [Vector2(0, -456), Vector2(0, 0), Vector2(0, 6), Vector2(0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -411,7 +411,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Box/Box:scale")
+tracks/2/path = NodePath("Box/Anchor/Box:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -423,7 +423,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Box/Box:modulate")
+tracks/3/path = NodePath("Box/Anchor/Box:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -435,7 +435,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Box/Box/Normal:visible")
+tracks/4/path = NodePath("Box/Anchor/Box/Normal:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -447,7 +447,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Box/Box/Open:visible")
+tracks/5/path = NodePath("Box/Anchor/Box/Open:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -525,7 +525,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Box/Box:scale")
+tracks/0/path = NodePath("Box/Anchor/Box:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -537,14 +537,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Box/Box:position")
+tracks/1/path = NodePath("Box/Anchor/Box:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(640, 360), Vector2(640, 365)]
+"values": [Vector2(0, 0), Vector2(0, 5)]
 }
 
 [sub_resource type="Animation" id="Animation_ykg3r"]
@@ -554,19 +554,19 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Box/Box:position")
+tracks/0/path = NodePath("Box/Anchor/Box:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.25, 0.35000002, 0.6),
 "transitions": PackedFloat32Array(0.75, 1, 0.65, 1),
 "update": 0,
-"values": [Vector2(640, 360), Vector2(640, 372.00003), Vector2(640, 372.00003), Vector2(640, 274)]
+"values": [Vector2(0, 0), Vector2(0, 12), Vector2(0, 12), Vector2(0, -86)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Box/Box:scale")
+tracks/1/path = NodePath("Box/Anchor/Box:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -590,7 +590,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Box/Box/Normal:visible")
+tracks/3/path = NodePath("Box/Anchor/Box/Normal:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -602,7 +602,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Box/Box/Open:visible")
+tracks/4/path = NodePath("Box/Anchor/Box/Open:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -691,19 +691,19 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Box/Box:position")
+tracks/2/path = NodePath("Box/Anchor/Box:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(640, 430)]
+"values": [Vector2(0, 70)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Box/Box:scale")
+tracks/3/path = NodePath("Box/Anchor/Box:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -715,7 +715,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Box/Box:modulate")
+tracks/4/path = NodePath("Box/Anchor/Box:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -1430,7 +1430,7 @@ scale = Vector2(1.5, 1.5)
 pivot_offset = Vector2(150, 150)
 texture = ExtResource("2_vsfh1")
 
-[node name="Box" type="Control" parent="Box"]
+[node name="Anchor" type="Control" parent="Box"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1440,7 +1440,17 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Normal" type="TextureRect" parent="Box/Box"]
+[node name="Box" type="Control" parent="Box/Anchor"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Normal" type="TextureRect" parent="Box/Anchor/Box"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1455,7 +1465,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("12_m3yfk")
 
-[node name="Open" type="TextureRect" parent="Box/Box"]
+[node name="Open" type="TextureRect" parent="Box/Anchor/Box"]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -1471,7 +1481,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("8_ntulc")
 
-[node name="Stars" type="CPUParticles2D" parent="Box/Box"]
+[node name="Stars" type="CPUParticles2D" parent="Box/Anchor/Box"]
 visible = false
 amount = 4
 texture = ExtResource("4_d0q4r")

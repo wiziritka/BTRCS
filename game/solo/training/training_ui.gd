@@ -20,6 +20,12 @@ func _ready() -> void:
 	_items_grid.item_selected.connect(_on_item_selected)
 
 
+func _notification(what: int) -> void:
+	match what:
+		NOTIFICATION_WM_GO_BACK_REQUEST when ($UI/Main as CanvasItem).visible:
+			($QuitDialog as Window).popup_centered()
+
+
 func _change_map() -> void:
 	(%CurrentMap as Label).text = "Загрузка карты..."
 	(%ReturnToTraining as CanvasItem).show()
@@ -125,19 +131,21 @@ func _on_map_changed() -> void:
 		return
 	
 	var map_data: PackedByteArray = _training.get_map_data()
-	var image := Image.create_empty(50, 50, false, Image.FORMAT_RGBA8)
+	var image := Image.create_empty(Training.MAP_SIZE.x, Training.MAP_SIZE.y,
+			false, Image.FORMAT_RGBA8)
 	
 	var enemies_coords: Array[Vector2i]
 	for enemy_data: Training.EnemyData in _training.enemies_data:
 		enemies_coords.append(enemy_data.coords)
 	
-	for x: int in 50:
-		for y: int in 50:
+	for x: int in Training.MAP_SIZE.x:
+		for y: int in Training.MAP_SIZE.y:
 			var coords := Vector2i(x, y)
 			if coords in enemies_coords:
 				image.set_pixelv(coords, Color.RED)
 			else:
-				image.set_pixelv(coords, Training.BLOCK_COLORS[map_data[y * 50 + x]])
+				image.set_pixelv(coords,
+						Training.BLOCK_COLORS[map_data[y * Training.MAP_SIZE.x + x]])
 	
 	var img_tex := ImageTexture.create_from_image(image)
 	(%MapPreview as TextureRect).texture = img_tex

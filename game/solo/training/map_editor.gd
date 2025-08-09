@@ -43,11 +43,13 @@ func _process(_delta: float) -> void:
 
 func _initialize() -> void:
 	_map_data = _training.get_map_data().duplicate()
-	_map_image = Image.create_empty(50, 50, false, Image.FORMAT_RGBA8)
-	for x: int in 50:
-		for y: int in 50:
+	_map_image = Image.create_empty(Training.MAP_SIZE.x, Training.MAP_SIZE.y,
+			false, Image.FORMAT_RGBA8)
+	for x: int in Training.MAP_SIZE.x:
+		for y: int in Training.MAP_SIZE.y:
 			if _is_safe_coord(x, y):
-				_map_image.set_pixel(x, y, Training.BLOCK_COLORS[_map_data[y * 50 + x]])
+				_map_image.set_pixel(x, y,
+						Training.BLOCK_COLORS[_map_data[y * Training.MAP_SIZE.x + x]])
 			else:
 				_map_image.set_pixel(x, y, Color.RED)
 	
@@ -68,14 +70,19 @@ func _initialize() -> void:
 
 
 func _draw_line(from: Vector2, to: Vector2) -> void:
-	var points: Array[Vector2i] = Geometry2D.bresenham_line(
-			Vector2i(from.floor()).clampi(0, 49), Vector2i(to.floor()).clampi(0, 49))
+	var start_coord := Vector2i(from.floor())
+	start_coord.x = clampi(start_coord.x, 0, Training.MAP_SIZE.x - 1)
+	start_coord.y = clampi(start_coord.y, 0, Training.MAP_SIZE.y - 1)
+	var end_coord := Vector2i(to.floor())
+	end_coord.x = clampi(end_coord.x, 0, Training.MAP_SIZE.x - 1)
+	end_coord.y = clampi(end_coord.y, 0, Training.MAP_SIZE.y - 1)
 	
+	var points: Array[Vector2i] = Geometry2D.bresenham_line(start_coord, end_coord)
 	for point: Vector2i in points:
 		if not _is_safe_coord(point.x, point.y):
 			continue
 		_map_image.set_pixel(point.x, point.y, Training.BLOCK_COLORS[_block_type])
-		_map_data[point.y * 50 + point.x] = _block_type
+		_map_data[point.y * Training.MAP_SIZE.x + point.x] = _block_type
 	_map_image_dirty = true
 	
 	if _block_type == Training.BlockType.GRASS:
@@ -95,16 +102,18 @@ func _draw_line(from: Vector2, to: Vector2) -> void:
 
 func _draw_rect(from: Vector2, to: Vector2) -> void:
 	var start_coord := Vector2i(floori(minf(from.x, to.x)), floori(minf(from.y, to.y)))
-	start_coord = start_coord.clampi(0, 49)
+	start_coord.x = clampi(start_coord.x, 0, Training.MAP_SIZE.x - 1)
+	start_coord.y = clampi(start_coord.y, 0, Training.MAP_SIZE.y - 1)
 	var end_coord := Vector2i(floori(maxf(from.x, to.x)), floori(maxf(from.y, to.y)))
-	end_coord = end_coord.clampi(0, 49)
+	end_coord.x = clampi(end_coord.x, 0, Training.MAP_SIZE.x - 1)
+	end_coord.y = clampi(end_coord.y, 0, Training.MAP_SIZE.y - 1)
 	
 	for x: int in range(start_coord.x, end_coord.x + 1):
 		for y: int in range(start_coord.y, end_coord.y + 1):
 			if not _is_safe_coord(x, y):
 				continue
 			_map_image.set_pixel(x, y, Training.BLOCK_COLORS[_block_type])
-			_map_data[y * 50 + x] = _block_type
+			_map_data[y * Training.MAP_SIZE.x + x] = _block_type
 	_map_image_dirty = true
 	
 	if _block_type == Training.BlockType.GRASS:
@@ -133,7 +142,7 @@ func _place_enemy(where: Vector2) -> void:
 	var coords := Vector2i(where.floor())
 	if not _is_safe_coord(coords.x, coords.y):
 		return
-	if _map_data[coords.y * 50 + coords.x] != Training.BlockType.GRASS:
+	if _map_data[coords.y * Training.MAP_SIZE.x + coords.x] != Training.BlockType.GRASS:
 		return
 	
 	var enemy_data := Training.EnemyData.new(_enemy_type, coords)
@@ -147,7 +156,7 @@ func _move_enemy(where: Vector2) -> void:
 	var coords := Vector2i(where.floor())
 	if not _is_safe_coord(coords.x, coords.y):
 		return
-	if _map_data[coords.y * 50 + coords.x] != Training.BlockType.GRASS:
+	if _map_data[coords.y * Training.MAP_SIZE.x + coords.x] != Training.BlockType.GRASS:
 		return
 	
 	for idx: int in _enemies_data.size():
@@ -203,7 +212,8 @@ func _edit_enemy(idx: int) -> void:
 
 
 func _is_safe_coord(x: int, y: int) -> bool:
-	return x < 23 or x > 26 or y < 23 or y > 26
+	return x < (Training.MAP_SIZE.x / 2.0) - 2 or x > (Training.MAP_SIZE.x / 2.0) + 1 \
+			or y < (Training.MAP_SIZE.y / 2.0) - 2 or y > (Training.MAP_SIZE.y / 2.0) + 1
 
 
 func _on_edit_map_pressed() -> void:
@@ -241,7 +251,7 @@ func _on_reset_dialog_confirmed() -> void:
 func _on_zoom_in_pressed() -> void:
 	_map.scale += Vector2.ONE * 2.5
 	_map.scale = _map.scale.clampf(10.0, 30.0)
-	_map.get_parent_control().custom_minimum_size = _map.scale * 50.0
+	_map.get_parent_control().custom_minimum_size = _map.scale.x * Training.MAP_SIZE
 	
 	for child: Control in _map.get_children():
 		child.scale = Vector2.ONE / _map.scale
@@ -250,7 +260,7 @@ func _on_zoom_in_pressed() -> void:
 func _on_zoom_out_pressed() -> void:
 	_map.scale -= Vector2.ONE * 2.5
 	_map.scale = _map.scale.clampf(10.0, 30.0)
-	_map.get_parent_control().custom_minimum_size = _map.scale * 50.0
+	_map.get_parent_control().custom_minimum_size = _map.scale.x * Training.MAP_SIZE
 	
 	for child: Control in _map.get_children():
 		child.scale = Vector2.ONE / _map.scale

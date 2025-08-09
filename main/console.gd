@@ -34,6 +34,7 @@ Players are specified by starting letters of their names (case-sensitive).")
 		print("Always available commands:")
 		print("quit - Quits game.")
 		print("restart [args] - Restarts game with given args.")
+		print("set-setting <setting> <value> - Sets specified setting to given value.")
 		print("Note: restarting with --console may not work as expected.")
 		print("Current available commands:")
 		for callable: Callable in help_processors:
@@ -43,10 +44,13 @@ Players are specified by starting letters of their names (case-sensitive).")
 	elif command[0] == "restart":
 		var args: PackedStringArray = command.slice(1)
 		Globals.quit(true, args)
+	elif command[0] == "set-setting" and command.size() == 3:
+		var setting: String = command[1]
+		var value: String = command[2]
+		Globals.set_setting_variant(setting, str_to_var(value))
 	else:
 		var recognized := false
 		for callable: Callable in command_processors:
 			recognized = callable.call(command) or recognized
-		
 		if not recognized:
 			printerr('Command "%s" not recognized. Use "help" to see available.' % command_str)

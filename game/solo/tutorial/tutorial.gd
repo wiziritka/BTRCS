@@ -23,6 +23,12 @@ func _exit_tree() -> void:
 	Globals.set_controls_bool("joystick_fire", _prev_joystick_fire)
 
 
+func _notification(what: int) -> void:
+	match what:
+		NOTIFICATION_WM_GO_BACK_REQUEST:
+			($UI/QuitDialog as Window).popup_centered()
+
+
 func _initialize() -> void:
 	($Music as AudioStreamPlayer).stream = tracks.pick_random()
 	($Music as AudioStreamPlayer).play()

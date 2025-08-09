@@ -29,6 +29,8 @@ const DEFAULT_SAVE_FILE_SECTION := "save"
 const SETTINGS_SAVE_FILE_SECTION := "settings"
 ## Секция файла сохранения для настроек управления (в частности переназначения клавиш).
 const CONTROLS_SAVE_FILE_SECTION := "controls"
+## Название пакета игры (применимо для Android).
+const PACKAGE_NAME := "ru.diamondstudiogames.circleshot"
 
 ## Версия игры. Извлекается из [ProjectSettings].
 var version: String = ProjectSettings.get_setting("application/config/version")
@@ -299,16 +301,16 @@ func setup_controls_settings() -> void:
 	set_controls_int("anchors_preset_move_js",
 			get_controls_int("anchors_preset_move_js", Control.PRESET_BOTTOM_LEFT))
 	set_controls_vector2("offsets_lt_move_js",
-			get_controls_vector2("offsets_lt_move_js", Vector2(128.0, -328.0)))
+			get_controls_vector2("offsets_lt_move_js", Vector2(192.0, -360.0)))
 	set_controls_vector2("offsets_rb_move_js",
-			get_controls_vector2("offsets_rb_move_js", Vector2(328.0, -128.0)))
+			get_controls_vector2("offsets_rb_move_js", Vector2(392.0, -160.0)))
 	
 	set_controls_int("anchors_preset_aim_js",
 			get_controls_int("anchors_preset_aim_js", Control.PRESET_BOTTOM_RIGHT))
 	set_controls_vector2("offsets_lt_aim_js",
-			get_controls_vector2("offsets_lt_aim_js", Vector2(-328.0, -328.0)))
+			get_controls_vector2("offsets_lt_aim_js", Vector2(-392.0, -360.0)))
 	set_controls_vector2("offsets_rb_aim_js",
-			get_controls_vector2("offsets_rb_aim_js", Vector2(-128.0, -128.0)))
+			get_controls_vector2("offsets_rb_aim_js", Vector2(-192.0, -160.0)))
 	
 	set_controls_int("anchors_preset_weapon",
 			get_controls_int("anchors_preset_weapon", Control.PRESET_CENTER_RIGHT))

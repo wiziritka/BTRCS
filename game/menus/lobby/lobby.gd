@@ -401,6 +401,9 @@ func _set_admin(admin: int) -> void:
 				Globals.get_int("selected_event"), selected_maps[Globals.get_int("selected_event")])
 	else:
 		(%ClientHint as Label).text = "Начать игру может только админ."
+	
+	if multiplayer.is_server():
+		_game.banned_ips.clear()
 	print_verbose("Admin set: %d (this client: %s)." % [admin_id, str(_is_admin())])
 
 

@@ -37,6 +37,8 @@ const BLOCK_COLORS: Dictionary[BlockType, Color] = {
 	BlockType.WALL : Color.GOLD,
 	BlockType.HOLE : Color.SADDLE_BROWN,
 }
+## Размер карты в блоках.
+const MAP_SIZE := Vector2i(50, 50)
 
 ## Сопоставление типов врагов и их иконок.
 @export var enemies_icons: Dictionary[EnemyType, Texture2D]
@@ -117,10 +119,10 @@ func load_default_map() -> void:
 		var walls_layer: TileMapLayer = map.get_node(^"TileMapLayers/Walls")
 		var minimap_layer: TileMapLayer = map.get_node(^"Minimap/MinimapTiles")
 		
-		for x: int in 50:
-			for y: int in 50:
-				var map_coords := Vector2i(x - 25, y - 25)
-				match map_data[y * 50 + x]:
+		for x: int in MAP_SIZE.x:
+			for y: int in MAP_SIZE.y:
+				var map_coords := Vector2i(x, y) - MAP_SIZE / 2
+				match map_data[y * MAP_SIZE.x + x]:
 					BlockType.GRASS:
 						floor_layer.set_cell(map_coords, 1, Vector2i(0, 0))
 						walls_layer.erase_cell(map_coords)
@@ -154,7 +156,7 @@ func load_default_map() -> void:
 	for enemy_data: EnemyData in enemies_data:
 		var sprite := Sprite2D.new()
 		sprite.texture = enemies_icons[enemy_data.type]
-		sprite.position = Vector2(enemy_data.coords - Vector2i.ONE * 25) * 160
+		sprite.position = Vector2(enemy_data.coords - MAP_SIZE / 2) * 160
 		sprite.position += Vector2.ONE * 80
 		sprite.z_index = -4
 		sprite.modulate = Color(1.0, 1.0, 1.0, 0.5)
@@ -177,18 +179,19 @@ func load_default_map() -> void:
 			nav_polygon.source_geometry_group_name = &"navigation_polygon_source"
 			nav_polygon.agent_radius = 77.0
 			
+			var chunk_size := Vector2(Training.MAP_SIZE / 5 * 160.0) + Vector2.ONE * 320
 			nav_polygon.add_outline(PackedVector2Array([
-				Vector2(-960.0, -960.0),
-				Vector2(960.0, -960.0),
-				Vector2(960.0, 960.0),
-				Vector2(-960.0, 960.0),
+				-chunk_size,
+				chunk_size * Vector2(1.0, -1.0),
+				chunk_size,
+				chunk_size * Vector2(-1.0, 1.0),
 			]))
-			nav_polygon.baking_rect = Rect2(Vector2.ONE * -960.0, Vector2.ONE * 1920.0)
+			nav_polygon.baking_rect = Rect2(-chunk_size / 2, chunk_size)
 			nav_polygon.border_size = 160.0
 			
 			var nav_region := NavigationRegion2D.new()
 			nav_region.name = "NavigationRegion2D%d" % ((y + 2) * 5 + x + 3)
-			nav_region.position = Vector2(1600.0 * x, 1600.0 * y)
+			nav_region.position = Vector2((chunk_size.x - 320.0) * x, (chunk_size.y - 320.0) * y)
 			nav_region.navigation_polygon = nav_polygon
 			_current_map.get_node(^"NavigationRegions").add_child(nav_region)
 			
@@ -242,7 +245,7 @@ func load_map(event_idx: int, map_idx: int) -> void:
 
 ## Возвращает данные карты (размещение блоков) в виде [PackedByteArray]. Зная [code]x[/code] и
 ## [code]y[/code] можно узнать блок в этих координатах следующим образом:
-## [code]map_data[y * 50 + x][/code].
+## [code]map_data[y * MAP_SIZE.x + x][/code].
 func get_map_data() -> PackedByteArray:
 	if _current_map is Map or not is_instance_valid(_current_map):
 		push_error("Current map must be default to get map data.")
@@ -251,21 +254,24 @@ func get_map_data() -> PackedByteArray:
 		return Globals.get_variant("custom_training_map", PackedByteArray())
 	
 	var data := PackedByteArray()
-	data.resize(50 * 50)
+	data.resize(MAP_SIZE.x * MAP_SIZE.y)
 	
 	var floor_layer: TileMapLayer = _current_map.get_node(^"TileMapLayers/Floor")
-	for x: int in 50:
-		for y: int in 50:
-			# отнимаем 25 т.к. в карте есть отрицательные координаты
-			var atlas_coords: Vector2i = floor_layer.get_cell_atlas_coords(Vector2i(x - 25, y - 25))
-			data[y * 50 + x] = BlockType.HOLE if atlas_coords == Vector2i(0, 1) else BlockType.GRASS
+	for x: int in MAP_SIZE.x:
+		for y: int in MAP_SIZE.y:
+			# отнимаем полразмера т.к. в карте есть отрицательные координаты
+			var atlas_coords: Vector2i = floor_layer.get_cell_atlas_coords(
+						Vector2i(x, y) - MAP_SIZE / 2)
+			data[y * MAP_SIZE.x + x] = BlockType.HOLE \
+					if atlas_coords == Vector2i(0, 1) else BlockType.GRASS
 	
 	var walls_layer: TileMapLayer = _current_map.get_node(^"TileMapLayers/Walls")
-	for x: int in 50:
-		for y: int in 50:
-			var atlas_coords: Vector2i = walls_layer.get_cell_atlas_coords(Vector2i(x - 25, y - 25))
+	for x: int in MAP_SIZE.x:
+		for y: int in MAP_SIZE.y:
+			var atlas_coords: Vector2i = walls_layer.get_cell_atlas_coords(
+					Vector2i(x, y) - MAP_SIZE / 2)
 			if atlas_coords == Vector2i(1, 0):
-				data[y * 50 + x] = BlockType.WALL
+				data[y * MAP_SIZE.x + x] = BlockType.WALL
 	
 	return data
 
