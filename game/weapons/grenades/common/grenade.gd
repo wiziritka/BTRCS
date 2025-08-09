@@ -25,7 +25,10 @@ var _no_ammo := false
 @onready var _anim: AnimationPlayer = $AnimationPlayer
 @onready var _throw_point: Marker2D = $ThrowPivot/ThrowPoint
 @onready var _throw_pivot: Marker2D = $ThrowPivot
+
 @onready var _reload_timer: Timer = $ReloadTimer
+@onready var _reload_indicator: Node2D = $ReloadIndicator
+@onready var _reload_indicator_progress: TextureProgressBar = $ReloadIndicator/Progress
 
 @onready var _aim: Line2D = $ThrowPivot/ThrowPoint/Aim
 @onready var _aim_outline: Line2D = $ThrowPivot/ThrowPoint/Aim/Outline
@@ -51,6 +54,9 @@ func _process(_delta: float) -> void:
 				- projectile_damping / 2 * time * time
 		_aim.points[1].x = distance
 		_aim_outline.points[1].x = distance
+	
+	if _reload_indicator.visible:
+		_reload_indicator_progress.value = 1.0 - _reload_timer.time_left / _reload_timer.wait_time
 
 
 func _physics_process(_delta: float) -> void:
@@ -94,8 +100,8 @@ func _shoot(throw_direction := Vector2.ZERO) -> void:
 		unblock_shooting()
 		return
 	
-	ammo_in_stock -= 1
 	_reloading = true
+	ammo_in_stock -= 1
 	_reload_timer.start()
 	
 	if multiplayer.is_server():
@@ -136,6 +142,9 @@ func _ammo_changed(in_stock: bool) -> void:
 		unblock_shooting()
 		if player.current_weapon == self:
 			_make_current()
+	elif _reloading and ammo_in_stock > 0:
+		_reload_indicator.show()
+		_reload_indicator_progress.value = 0.0
 
 
 func get_ammo_text() -> String:
@@ -156,6 +165,7 @@ func _on_reload_timer_timeout() -> void:
 	_reloading = false
 	if ammo_in_stock > 0:
 		unblock_shooting()
+		_reload_indicator.hide()
 		if player.current_weapon == self:
 			_make_current()
 	else:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cjunrr6nv2rhr"]
+[gd_scene load_steps=20 format=3 uid="uid://cjunrr6nv2rhr"]
 
 [ext_resource type="Script" uid="uid://dca2v3ej3y82n" path="res://game/weapons/other/teleporter/teleporter.gd" id="1_cvmrr"]
 [ext_resource type="Texture2D" uid="uid://dj31vxe6j5ys0" path="res://game/weapons/other/teleporter/base.png" id="2_q2iwe"]
@@ -7,7 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://8i36qrobry1d" path="res://game/weapons/other/teleporter/button1.png" id="4_crsid"]
 [ext_resource type="Texture2D" uid="uid://bm7k7msd2ias0" path="res://game/weapons/other/teleporter/button2.png" id="5_vrh83"]
 [ext_resource type="AudioStream" uid="uid://b7h86apen7cxs" path="res://game/weapons/other/teleporter/activation.wav" id="7_6ye5t"]
+[ext_resource type="Texture2D" uid="uid://gkvmyprh8f31" path="res://game/weapons/other/teleporter/red_button.png" id="7_rmo4a"]
 [ext_resource type="Texture2D" uid="uid://beh735ahnn4gt" path="res://game/weapons/other/teleporter/aim.png" id="8_6ye5t"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqdtl"]
+atlas = ExtResource("7_rmo4a")
+region = Rect2(8, 44, 32, 17)
 
 [sub_resource type="Animation" id="Animation_eqdtl"]
 length = 0.001
@@ -420,6 +425,31 @@ texture = ExtResource("5_vrh83")
 offset = Vector2(0, 24)
 region_enabled = true
 region_rect = Rect2(0, 48, 48, 32)
+
+[node name="RedButton" type="Sprite2D" parent="Base/Buttons"]
+texture = ExtResource("7_rmo4a")
+offset = Vector2(0, 12)
+region_enabled = true
+region_rect = Rect2(8, 40, 32, 24)
+
+[node name="ReloadIndicator" type="TextureProgressBar" parent="Base"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -48.0
+offset_right = -8.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.0010000000038417
+value = 1.0
+fill_mode = 3
+texture_progress = SubResource("AtlasTexture_eqdtl")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

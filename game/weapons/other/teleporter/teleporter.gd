@@ -13,6 +13,7 @@ var _teleport_vfx_scene: PackedScene = preload("uid://2p44r4a1hf7")
 @onready var _collision_check: ShapeCast2D = $CollisionCheck
 @onready var _border_check: RayCast2D = $BorderCheck
 @onready var _reload_timer: Timer = $ReloadTimer
+@onready var _reload_indicator: TextureProgressBar = $Base/ReloadIndicator
 
 
 func _process(_delta: float) -> void:
@@ -23,6 +24,9 @@ func _process(_delta: float) -> void:
 		_aim.global_position = _collision_check.global_position
 		_aim.self_modulate = Color.RED if _collision_check.is_colliding() or \
 				_border_check.is_colliding() else Color.WHITE
+	
+	if _reload_indicator.visible:
+		_reload_indicator.value = 1.0 - _reload_timer.time_left / _reload_timer.wait_time
 
 
 func _physics_process(_delta: float) -> void:
@@ -55,7 +59,7 @@ func _shoot(success := false) -> void:
 		unblock_shooting()
 		return
 	
-	_show_teleport_vfx(player.global_position)
+	_show_teleport_vfx(player.global_position, false)
 	if multiplayer.is_server():
 		player.teleport_to.rpc(destination)
 		_show_teleport_vfx.rpc(destination)
@@ -66,6 +70,8 @@ func _shoot(success := false) -> void:
 	ammo_in_stock -= 1
 	_reloading = true
 	_reload_timer.start()
+	_reload_indicator.show()
+	_reload_indicator.value = 0.0
 
 
 func _make_current() -> void:
@@ -110,9 +116,11 @@ func get_ammo_text() -> String:
 
 
 @rpc("unreliable", "authority", "call_local", 5)
-func _show_teleport_vfx(where: Vector2) -> void:
+func _show_teleport_vfx(where: Vector2, play_sfx := true) -> void:
 	var teleport_vfx: Node2D = _teleport_vfx_scene.instantiate()
 	teleport_vfx.position = where
+	if not play_sfx:
+		teleport_vfx.get_node(^"AudioStreamPlayer2D").free()
 	get_tree().get_first_node_in_group(&"vfx_parent").add_child(teleport_vfx)
 
 
@@ -128,6 +136,7 @@ func _update_casts() -> void:
 
 func _on_cooldown_timer_timeout() -> void:
 	_reloading = false
+	_reload_indicator.hide()
 	if ammo_in_stock > 0:
 		unblock_shooting()
 		_buttons.modulate = Color.WHITE

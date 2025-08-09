@@ -64,7 +64,7 @@ func _ready() -> void:
 			and Globals.get_int("last_daily_offers_ut", -1) < Time.get_unix_time_from_system():
 		Globals.set_int("last_daily_offers_day", current_day)
 		Globals.set_int("last_daily_offers_ut", int(Time.get_unix_time_from_system()))
-		_generate_daily_offers()
+	_generate_daily_offers()
 	_list_daily_offers()
 	
 	Globals.main.loot_received.connect(_update_shop)
@@ -558,11 +558,9 @@ func _delete_offer(id: int) -> void:
 	_listed_offers.erase(id)
 	if id >= SPECIAL_OFFERS_START_ID:
 		var offer: PanelContainer = %SpecialOffersContainer.get_node(str(id))
-		%SpecialOffersContainer.remove_child(offer)
 		offer.queue_free()
 	else:
 		var offer: PanelContainer = %DailyOffersContainer.get_node(str(id))
-		%DailyOffersContainer.remove_child(offer)
 		offer.queue_free()
 	
 	if id < ONLINE_OFFERS_START_ID:
@@ -591,10 +589,6 @@ func _update_shop() -> void:
 		if Globals.main.verify_loot(rewards) != rewards:
 			print_verbose("Offer with ID %d contains obtained items, deleting." % offer_id)
 			_delete_offer(offer_id)
-	
-	(%SpecialOffers as CanvasItem).visible = %SpecialOffersContainer.get_child_count() > 0
-	(%NoDailyOffers as CanvasItem).visible = %DailyOffersContainer.get_child_count() == 0
-	(%DailyOffersContainer as CanvasItem).visible = %DailyOffersContainer.get_child_count() > 0
 
 
 func _on_purchase_confirmed(cost: int, rewards: Array[String], offer_id: int = -1) -> void:
@@ -603,6 +597,19 @@ func _on_purchase_confirmed(cost: int, rewards: Array[String], offer_id: int = -
 		_delete_offer(offer_id)
 	Globals.set_int("coins", Globals.get_int("coins") - cost)
 	Globals.main.receive_loot(rewards)
+
+
+func _on_special_offers_container_child_order_changed() -> void:
+	if is_queued_for_deletion():
+		return
+	(%SpecialOffers as CanvasItem).visible = %SpecialOffersContainer.get_child_count() > 0
+
+
+func _on_daily_offers_container_child_order_changed() -> void:
+	if is_queued_for_deletion():
+		return
+	(%NoDailyOffers as CanvasItem).visible = %DailyOffersContainer.get_child_count() == 0
+	(%DailyOffersContainer as CanvasItem).visible = %DailyOffersContainer.get_child_count() > 0
 
 
 func _on_update_day_timer_timeout() -> void:
@@ -614,7 +621,7 @@ func _on_update_day_timer_timeout() -> void:
 	Globals.set_int("last_daily_offers_ut", int(Time.get_unix_time_from_system()))
 	_generate_daily_offers()
 	for child: Node in %DailyOffersContainer.get_children():
-		%DailyOffersContainer.remove_child(child)
+		child.name += "Outdated"
 		child.queue_free()
 	_list_daily_offers()
 

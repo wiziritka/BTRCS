@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b5t5tgu043bm"]
+[gd_scene load_steps=3 format=3 uid="uid://b5t5tgu043bm"]
 
 [ext_resource type="Script" uid="uid://uhm74338rvh5" path="res://game/weapons/grenades/common/grenade.gd" id="1_34i6u"]
+[ext_resource type="Texture2D" uid="uid://dja7sjvk720pq" path="res://game/weapons/grenades/common/reload_indicator.png" id="2_kms28"]
 
 [node name="Grenade" type="Node2D"]
 script = ExtResource("1_34i6u")
@@ -9,6 +10,32 @@ ammo_total = 3
 aim_camera_distance = 200.0
 shoot_on_joystick_release = true
 metadata/_custom_type_script = "uid://uhm74338rvh5"
+
+[node name="ReloadIndicator" type="Node2D" parent="."]
+visible = false
+position = Vector2(-80, 0)
+
+[node name="Visual" type="Node2D" parent="ReloadIndicator"]
+modulate = Color(0.627451, 0.627451, 0.627451, 0.627451)
+
+[node name="Progress" type="TextureProgressBar" parent="ReloadIndicator"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+max_value = 1.0
+step = 0.0010000000038417
+fill_mode = 5
+nine_patch_stretch = true
+texture_progress = ExtResource("2_kms28")
 
 [node name="ThrowPivot" type="Marker2D" parent="."]
 

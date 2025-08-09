@@ -10,3 +10,6 @@ func _on_player_health_changed(old: int, new: int) -> void:
 	if old > new:
 		_anim.play(&"hurt")
 		_anim.seek(0.0)
+	elif old < new:
+		_anim.play(&"heal")
+		_anim.seek(0.0)

@@ -6,6 +6,10 @@
 [node name="Mob" instance=ExtResource("1_ahg27")]
 script = ExtResource("2_6pkcb")
 vision_distance = 3200.0
+find_target_min_time = 0.9
+find_target_max_time = 1.1
+update_target_min_time = 0.3
+update_target_max_time = 0.4
 
 [node name="TargetRayCast" type="RayCast2D" parent="." index="7"]
 enabled = false
@@ -18,9 +22,12 @@ path_max_distance = 320.0
 path_metadata_flags = 5
 
 [node name="FindTargetTimer" type="Timer" parent="." index="9"]
+process_callback = 0
+one_shot = true
 
 [node name="UpdateTargetTimer" type="Timer" parent="." index="10"]
-wait_time = 0.4
+process_callback = 0
+one_shot = true
 
 [connection signal="timeout" from="FindTargetTimer" to="." method="_on_find_target_timer_timeout"]
 [connection signal="timeout" from="UpdateTargetTimer" to="." method="_on_update_target_timer_timeout"]

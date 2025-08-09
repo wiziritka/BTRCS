@@ -215,16 +215,22 @@ texture = ExtResource("2_uiy3x")
 [node name="Tick" type="Sprite2D" parent="Grenade" index="0"]
 texture = ExtResource("3_6c0ck")
 
-[node name="ThrowPivot" parent="." index="1"]
+[node name="Grenade" type="Sprite2D" parent="ReloadIndicator/Visual" index="0"]
+texture = ExtResource("2_uiy3x")
+
+[node name="Tick" type="Sprite2D" parent="ReloadIndicator/Visual/Grenade" index="0"]
+texture = ExtResource("3_6c0ck")
+
+[node name="ThrowPivot" parent="." index="2"]
 position = Vector2(-32, -32)
 
 [node name="ThrowPoint" parent="ThrowPivot" index="0"]
 position = Vector2(104, 0)
 
-[node name="ReloadTimer" parent="." index="2"]
+[node name="ReloadTimer" parent="." index="3"]
 wait_time = 17.0
 
-[node name="AnimationPlayer" parent="." index="3"]
+[node name="AnimationPlayer" parent="." index="4"]
 libraries = {
 &"": SubResource("AnimationLibrary_v4ym2")
 }

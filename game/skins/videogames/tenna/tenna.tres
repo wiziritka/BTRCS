@@ -5,11 +5,12 @@
 [resource]
 script = ExtResource("1_0dx43")
 name = "Тенна"
-rarity = 2
+rarity = 3
 id = "tenna"
 brief_description = "ЭТО ТВ ЧАС!!!"
 custom_hurt_vfx = true
 custom_death_vfx = true
+custom_blood_vfx = true
 custom_animations = true
 scene_path = "uid://csyhjqdonjsfw"
 image_path = "uid://bytuadxeyrrf"

@@ -245,6 +245,7 @@ alignment = 1
 
 [node name="SpecialOffers" type="PanelContainer" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 mouse_filter = 1
 
@@ -284,7 +285,6 @@ alignment = 1
 
 [node name="NoDailyOffers" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/DailyOffers/VBoxContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
@@ -756,6 +756,8 @@ resources = [PackedStringArray("coins_offer", "equip_box_offer", "equip_elite_bo
 autostart = true
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Title/Quit" to="." method="_on_quit_pressed"]
+[connection signal="child_order_changed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/SpecialOffers/VBoxContainer/SpecialOffersContainer" to="." method="_on_special_offers_container_child_order_changed"]
+[connection signal="child_order_changed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/DailyOffers/VBoxContainer/DailyOffersContainer" to="." method="_on_daily_offers_container_child_order_changed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinBox/Buy" to="." method="buy" binds= [80, "skin_box:1"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipBox/Buy" to="." method="buy" binds= [200, "equip_box:1"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteSkinBox/Buy" to="." method="buy" binds= [200, "skin_elite_box:1"]]

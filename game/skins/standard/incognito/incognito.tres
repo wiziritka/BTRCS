@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SkinData" load_steps=2 format=3 uid="uid://cl41a8btdv2id"]
+
+[ext_resource type="Script" uid="uid://d6lhqjoo2iuf" path="res://game/player/equip/skin_data.gd" id="1_7bea5"]
+
+[resource]
+script = ExtResource("1_7bea5")
+name = "Инкогнито"
+rarity = 1
+id = "incognito"
+brief_description = "Он знает твою историю поиска..."
+scene_path = "uid://d03pjxg0f51m8"
+image_path = "uid://cdobv2fica6jd"
+metadata/_custom_type_script = "uid://d6lhqjoo2iuf"

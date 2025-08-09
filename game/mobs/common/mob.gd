@@ -8,6 +8,15 @@ extends Entity
 
 ## Дистанция, с которой моб может видеть цель.
 @export var vision_distance := 3200.0
+@export_group("Target Timers")
+## Минимальное время между поисками цели.
+@export var find_target_min_time := 0.9
+## Максимальное время между поисками цели.
+@export var find_target_max_time := 1.1
+## Минимальное время между обновлениями цели.
+@export var update_target_min_time := 0.3
+## Максимальное время между обновлениями цели.
+@export var update_target_max_time := 0.4
 
 ## Текущая цель моба.
 var target: Entity
@@ -17,19 +26,16 @@ var target: Entity
 ## [RayCast2D] используемый для проверки, может ли моб стрелять в цель.
 @onready var target_ray_cast: RayCast2D = $TargetRayCast
 
+@onready var _find_target_timer: Timer = $FindTargetTimer
+@onready var _update_target_timer: Timer = $UpdateTargetTimer
+
 
 func _ready() -> void:
 	super()
 	if not multiplayer.is_server():
 		return
-	
-	var find_target_timer_default_time: float = ($FindTargetTimer as Timer).wait_time
-	($FindTargetTimer as Timer).start(randf_range(0.05, find_target_timer_default_time))
-	($FindTargetTimer as Timer).wait_time = find_target_timer_default_time
-	
-	var update_target_timer_default_time: float = ($UpdateTargetTimer as Timer).wait_time
-	($UpdateTargetTimer as Timer).start(randf_range(0.05, update_target_timer_default_time))
-	($UpdateTargetTimer as Timer).wait_time = update_target_timer_default_time
+	_find_target_timer.start(randf_range(0.05, find_target_max_time))
+	_update_target_timer.start(randf_range(0.05, update_target_max_time))
 
 
 func _physics_process(delta: float) -> void:
@@ -103,6 +109,7 @@ func _on_find_target_timer_timeout() -> void:
 		_target_reset()
 	
 	_on_update_target_timer_timeout()
+	_find_target_timer.start(randf_range(find_target_min_time, find_target_max_time))
 
 
 func _on_update_target_timer_timeout() -> void:
@@ -111,3 +118,5 @@ func _on_update_target_timer_timeout() -> void:
 	target_ray_cast.target_position = to_local(target.global_position)
 	target_ray_cast.force_raycast_update()
 	_target_updated()
+	if _update_target_timer.is_stopped():
+		_update_target_timer.start(randf_range(update_target_min_time, update_target_max_time))
