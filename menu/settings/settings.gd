@@ -88,7 +88,7 @@ func _ready() -> void:
 	(%SaveInfo/Name as Label).text = Globals.get_string("player_name")
 	(%SaveInfo/SaveId as Label).text = "ID сохранения: %s" % Globals.get_string("save_id")
 	_show_played_time()
-	(Globals.main.get_node(^"PlayedTimeTimer") as Timer).timeout.connect(_show_played_time)
+	(Globals.get_node(^"PlayedTimeTimer") as Timer).timeout.connect(_show_played_time)
 	
 	# UPnP
 	var upnp_status := "Отключён"
@@ -114,7 +114,7 @@ func _ready() -> void:
 	# Скрытие настроек
 	if not OS.has_feature("pc"):
 		(%FullscreenCheck.get_parent().get_parent() as CanvasItem).hide()
-	if not OS.has_feature("mobile"):
+	if not OS.has_feature("mobile") and Input.get_connected_joypads().is_empty():
 		(%VibrationCheck.get_parent().get_parent() as CanvasItem).hide()
 	if OS.has_feature("editor"):
 		(%PatchesCheck.get_parent().get_parent() as CanvasItem).hide()

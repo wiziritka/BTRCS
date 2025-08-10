@@ -337,6 +337,8 @@ func _loading_init() -> void:
 		print("--console: Enables built-in console.")
 		print("--reset-window: Don't restore saved window state.")
 		print("--set-setting <setting>=<value>: Sets <setting> to <value>.")
+		if OS.is_debug_build():
+			print("--debug-menu: Enables debug menu.")
 		print()
 		print("These arguments should be written after ++ or -- separator.")
 		print("You always can use engine arguments, such as --headless or --verbose.")
@@ -503,13 +505,6 @@ func _loading_init_systems() -> void:
 	add_child(menu_music)
 	move_child(menu_music, 0)
 	
-	var played_time_timer := Timer.new()
-	played_time_timer.name = &"PlayedTimeTimer"
-	played_time_timer.autostart = true
-	played_time_timer.ignore_time_scale = true
-	played_time_timer.timeout.connect(_on_played_time_timer_timeout)
-	add_child(played_time_timer)
-	
 	print_verbose("Done initializing systems.")
 	loading_stage_finished.emit(true)
 
@@ -650,8 +645,7 @@ func _loading_upnp() -> void:
 	
 	var upnp := UPNPManager.new()
 	upnp.name = &"UPNPManager"
-	add_child(upnp)
-	
+	Globals.add_child(upnp)
 	Globals.upnp = upnp
 	
 	upnp.discover()
@@ -784,7 +778,3 @@ func _on_patch_http_request_completed(result: HTTPRequest.Result,
 	patches[Globals.version] = new_patch_code
 	Globals.set_variant("patches", patches)
 	loading_stage_finished.emit(true)
-
-
-func _on_played_time_timer_timeout() -> void:
-	Globals.set_int("played_time", Globals.get_int("played_time") + 1)

@@ -12,7 +12,7 @@ enum InputMethod {
 	TOUCH = 1,
 }
 ## Перечисление с допустимыми типами событий для действия при использовании
-## [enum Globals.InputMethod.KEYBOARD_AND_MOUSE].
+## [enum InputMethod.KEYBOARD_AND_MOUSE].
 enum EncodedInputEventType {
 	## События типа [InputEventKey].
 	KEY = 0,
@@ -107,6 +107,18 @@ func initialize_systems() -> void:
 			console = Console.new()
 			console.name = &"Console"
 			add_child(console)
+	
+	var played_time_timer := Timer.new()
+	played_time_timer.name = &"PlayedTimeTimer"
+	played_time_timer.autostart = true
+	played_time_timer.ignore_time_scale = true
+	played_time_timer.timeout.connect(_on_played_time_timer_timeout)
+	add_child(played_time_timer)
+	
+	if OS.is_debug_build() and "--debug-menu" in OS.get_cmdline_user_args():
+		var debug_menu: Window = (load("uid://c52l5dk238iag") as PackedScene).instantiate()
+		debug_menu.hide()
+		add_child(debug_menu)
 
 
 ## Выходит из игры. Если [param restart] равен [code]true[/code], перезапускает игру с аргументами,
@@ -114,10 +126,10 @@ func initialize_systems() -> void:
 func quit(restart := false, args := PackedStringArray()) -> void:
 	if save_file:
 		if get_window().mode == Window.MODE_WINDOWED:
-			Globals.set_int("window_size_x", get_window().size.x)
-			Globals.set_int("window_size_y", get_window().size.y)
-			Globals.set_int("window_pos_x", get_window().position.x)
-			Globals.set_int("window_pos_y", get_window().position.y)
+			set_int("window_size_x", get_window().size.x)
+			set_int("window_size_y", get_window().size.y)
+			set_int("window_pos_x", get_window().position.x)
+			set_int("window_pos_y", get_window().position.y)
 		save_file.save_encrypted_pass(SAVE_FILE_PATH, SAVE_FILE_PASSWORD)
 	if upnp:
 		upnp.finalize()
@@ -187,7 +199,7 @@ func import_save(path: String) -> Error:
 	save_file = new_save_file
 	set_string("save_id", _generate_save_id())
 	print_verbose("Save imported from file %s. Restarting...")
-	Globals.quit(true)
+	quit(true)
 	return OK
 
 
@@ -577,3 +589,7 @@ func _generate_save_id() -> String:
 			save_id += char(ord('0') + remainder - 26)
 		save_id_num = floori(save_id_num / 36.0)
 	return save_id
+
+
+func _on_played_time_timer_timeout() -> void:
+	set_int("played_time", get_int("played_time") + 1)

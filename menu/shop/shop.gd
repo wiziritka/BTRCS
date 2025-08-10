@@ -64,7 +64,7 @@ func _ready() -> void:
 			and Globals.get_int("last_daily_offers_ut", -1) < Time.get_unix_time_from_system():
 		Globals.set_int("last_daily_offers_day", current_day)
 		Globals.set_int("last_daily_offers_ut", int(Time.get_unix_time_from_system()))
-	_generate_daily_offers()
+		_generate_daily_offers()
 	_list_daily_offers()
 	
 	Globals.main.loot_received.connect(_update_shop)
@@ -144,6 +144,9 @@ func _list_online_offers() -> void:
 				offer,
 				ONLINE_OFFERS_START_ID,
 			])
+			continue
+		if offer_id in Globals.get_variant("used_online_offers", [] as Array[int]):
+			print_verbose("Found already used offer with ID %d." % offer_id)
 			continue
 		
 		if not (Globals.data_file.has_section_key(section, "name") \

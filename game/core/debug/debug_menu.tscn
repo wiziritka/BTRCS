@@ -1,0 +1,221 @@
+[gd_scene load_steps=2 format=3 uid="uid://c52l5dk238iag"]
+
+[ext_resource type="Script" uid="uid://cqnasgmnex77w" path="res://game/core/debug/debug_menu.gd" id="1_4t3ub"]
+
+[node name="DebugMenu" type="Window"]
+oversampling_override = 1.0
+title = "Меню отладки"
+size = Vector2i(960, 440)
+script = ExtResource("1_4t3ub")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="Get" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="KeyEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Get"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Ключ..."
+clear_button_enabled = true
+
+[node name="Value" type="Label" parent="ScrollContainer/VBoxContainer/Get"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+text = "Значение появится здесь"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Get" type="Button" parent="ScrollContainer/VBoxContainer/Get"]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+text = "Получить"
+
+[node name="Set" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="KeyEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Set"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Ключ..."
+clear_button_enabled = true
+
+[node name="ValueEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Set"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+placeholder_text = "Значение..."
+clear_button_enabled = true
+
+[node name="Set" type="Button" parent="ScrollContainer/VBoxContainer/Set"]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+text = "Задать"
+
+[node name="GetSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="KeyEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/GetSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Ключ настройки..."
+clear_button_enabled = true
+
+[node name="Value" type="Label" parent="ScrollContainer/VBoxContainer/GetSetting"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+text = "Значение появится здесь"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="GetSetting" type="Button" parent="ScrollContainer/VBoxContainer/GetSetting"]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+text = "Получить"
+
+[node name="SetSetting" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="KeyEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/SetSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Ключ настройки..."
+clear_button_enabled = true
+
+[node name="ValueEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/SetSetting"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+placeholder_text = "Значение настройки..."
+clear_button_enabled = true
+
+[node name="SetSetting" type="Button" parent="ScrollContainer/VBoxContainer/SetSetting"]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+text = "Задать"
+
+[node name="GetControls" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="KeyEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/GetControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Ключ настройки управления..."
+clear_button_enabled = true
+
+[node name="Value" type="Label" parent="ScrollContainer/VBoxContainer/GetControls"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+text = "Значение появится здесь"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="GetControls" type="Button" parent="ScrollContainer/VBoxContainer/GetControls"]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+text = "Получить"
+
+[node name="SetControls" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="KeyEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/SetControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Ключ настройки управления..."
+clear_button_enabled = true
+
+[node name="ValueEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/SetControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+placeholder_text = "Значение настройки управления..."
+clear_button_enabled = true
+
+[node name="SetControls" type="Button" parent="ScrollContainer/VBoxContainer/SetControls"]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+text = "Задать"
+
+[node name="ReceiveLoot" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LootEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/ReceiveLoot"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Выдать награды (через запятую)..."
+clear_button_enabled = true
+
+[node name="ReceiveLoot" type="Button" parent="ScrollContainer/VBoxContainer/ReceiveLoot"]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+text = "Выдать"
+
+[node name="Forget" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/Forget"]
+layout_mode = 2
+text = "Забыть"
+
+[node name="ForgetOnlineOffers" type="Button" parent="ScrollContainer/VBoxContainer/Forget"]
+layout_mode = 2
+text = "Онлайн-предложения"
+
+[node name="ForgetPromocodes" type="Button" parent="ScrollContainer/VBoxContainer/Forget"]
+layout_mode = 2
+text = "Промокоды"
+
+[node name="ForgetUnlockedItems" type="Button" parent="ScrollContainer/VBoxContainer/Forget"]
+layout_mode = 2
+text = "Разблокированные предметы"
+
+[node name="ForgetCurrentDay" type="Button" parent="ScrollContainer/VBoxContainer/Forget"]
+layout_mode = 2
+text = "Текущий день"
+
+[connection signal="close_requested" from="." to="." method="hide"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Get/Get" to="." method="_on_get_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Set/Set" to="." method="_on_set_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/GetSetting/GetSetting" to="." method="_on_get_setting_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/SetSetting/SetSetting" to="." method="_on_set_setting_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/GetControls/GetControls" to="." method="_on_get_controls_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/SetControls/SetControls" to="." method="_on_set_controls_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/ReceiveLoot/ReceiveLoot" to="." method="_on_receive_loot_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Forget/ForgetOnlineOffers" to="." method="_on_forget_online_offers_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Forget/ForgetPromocodes" to="." method="_on_forget_promocodes_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Forget/ForgetUnlockedItems" to="." method="_on_forget_unlocked_items_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Forget/ForgetCurrentDay" to="." method="_on_forget_current_day_pressed"]
