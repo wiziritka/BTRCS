@@ -65,9 +65,16 @@ func _ready() -> void:
 	(%SFXVolumeSlider as Range).set_value_no_signal(Globals.get_setting_float("sfx_volume"))
 	(%CustomTracksCheck as BaseButton).set_pressed_no_signal(
 			Globals.get_setting_bool("custom_tracks"))
-	_on_custom_tracks_check_toggled((%CustomTracksCheck as BaseButton).button_pressed)
+	_on_custom_tracks_check_toggled((%CustomTracksCheck as BaseButton).button_pressed, false)
 	(%OfficialTracksCheck as BaseButton).set_pressed_no_signal(
 			Globals.get_setting_bool("official_tracks"))
+	if Globals.get_setting_bool("menu_tracks"):
+		if Globals.get_setting_bool("separate_menu_tracks"):
+			(%MenuTracksOptions as OptionButton).selected = 2
+		else:
+			(%MenuTracksOptions as OptionButton).selected = 1
+	else:
+		(%MenuTracksOptions as OptionButton).selected = 0
 	# Управление
 	(%InputOptions as OptionButton).selected = Globals.get_controls_int("input_method")
 	_toggle_input_method_settings_visibility(Globals.get_controls_int("input_method"))
@@ -109,7 +116,21 @@ func _ready() -> void:
 		for track: String in Globals.main.custom_tracks:
 			var label := Label.new()
 			label.text = track
+			label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			%LoadedTracks.add_child(label)
+	
+	(%MenuTracks as CanvasItem).visible = Globals.get_setting_bool("separate_menu_tracks")
+	(%MenuTracksPath as Label).text = "Путь к папке с треками для меню: %s" \
+			% Globals.main.menu_music_path
+	if not Globals.main.custom_menu_tracks.is_empty():
+		for node: Node in %LoadedMenuTracks.get_children():
+			node.queue_free()
+		
+		for track: String in Globals.main.custom_menu_tracks:
+			var label := Label.new()
+			label.text = track
+			label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			%LoadedMenuTracks.add_child(label)
 	
 	# Скрытие настроек
 	if not OS.has_feature("pc"):
@@ -472,7 +493,7 @@ func _on_sfx_volume_slider_value_changed(value: float) -> void:
 	Globals.apply_settings()
 
 
-func _on_custom_tracks_check_toggled(toggled_on: bool) -> void:
+func _on_custom_tracks_check_toggled(toggled_on: bool, update_menu_music := true) -> void:
 	if toggled_on and OS.has_feature("android"):
 		var perms: PackedStringArray = OS.get_granted_permissions()
 		if not (
@@ -489,11 +510,23 @@ func _on_custom_tracks_check_toggled(toggled_on: bool) -> void:
 			toggled_on = false
 	(%CustomTracksSettings as CanvasItem).visible = toggled_on
 	Globals.set_setting_bool("custom_tracks", toggled_on)
+	if Globals.get_setting_bool("menu_tracks") and update_menu_music:
+		Globals.main.update_menu_music()
 	Globals.apply_settings()
 
 
 func _on_official_tracks_check_toggled(toggled_on: bool) -> void:
 	Globals.set_setting_bool("official_tracks", toggled_on)
+	if Globals.get_setting_bool("menu_tracks"):
+		Globals.main.update_menu_music()
+
+
+func _on_menu_tracks_options_item_selected(index: int) -> void:
+	Globals.set_setting_bool("menu_tracks", index > 0)
+	Globals.set_setting_bool("separate_menu_tracks", index > 1)
+	(%MenuTracks as CanvasItem).visible = index > 1
+	Globals.apply_settings()
+	Globals.main.update_menu_music()
 #endregion
 
 

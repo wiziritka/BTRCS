@@ -243,6 +243,8 @@ func setup_settings() -> void:
 	set_setting_float("sfx_volume", get_setting_float("sfx_volume", 1.0))
 	set_setting_bool("custom_tracks", get_setting_bool("custom_tracks", OS.has_feature("pc")))
 	set_setting_bool("official_tracks", get_setting_bool("official_tracks", true))
+	set_setting_bool("menu_tracks", get_setting_bool("menu_tracks", false))
+	set_setting_bool("separate_menu_tracks", get_setting_bool("separate_menu_tracks", false))
 	
 	override_file.save("user://engine_settings.cfg")
 
@@ -384,6 +386,8 @@ func apply_settings() -> void:
 			get_window().mode = Window.MODE_WINDOWED
 	if get_setting_bool("custom_tracks"):
 		DirAccess.make_dir_recursive_absolute(main.music_path)
+		if get_setting_bool("separate_menu_tracks"):
+			DirAccess.make_dir_recursive_absolute(main.menu_music_path)
 	var max_fps: int = get_setting_int("max_fps")
 	Engine.max_fps = max_fps if max_fps < 125 else 0
 	get_viewport().set_canvas_cull_mask_bit(2, not get_setting_bool("low_graphics"))

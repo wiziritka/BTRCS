@@ -43,7 +43,7 @@ Forward Mobile - современный метод отрисовки, одна�
 Клавитура и мышь - управления с клавиатуры и прицеливание с помощью мыши. Предназначено для ПК, однако может использоваться и на телефонах, если подключены физические устройства ввода.", "Если включено, прицел всегда смотрит в сторону мыши.
 Если отключено, прицел повернётся в сторону мыши при нажатии действия ПОКАЗАТЬ ПРИЦЕЛ.", "Включает загрузку пользовательских треков.
 Максимум одновременно загруженых треков - 20.
-Максимальный размер трека - 15 МБ. Если трек имеет больший размер, он не будет загружен.
+Максимальный размер трека - 10 МБ. Если трек имеет больший размер, он не будет загружен.
 Поддерживаемые форматы треков: MP3, WAV и OGG.
 Требуется предоставить разрешение на чтение файлов на Android.
 Если включить эту опцию не получается, то попробуйте в настройках приложения самостоятельно выдать нужное разрешение.
@@ -55,7 +55,10 @@ Forward Mobile - современный метод отрисовки, одна�
 Статусы UPnP:
  - Отключён: попытка открытия портов не была выполнена, необходим перезапуск.
  - Активен: порты успешно открыты, можно подключаться по глобальному IP-адресу.
- - Неактивен: открытие портов не удалось (на роутере не включён UPnP либо нет его поддержки, ...), для повторной попытки необходим перезапуск.", "Настраивает мёртвую зону прицеливания, в которой направление прицела остаётся неизменным вне зависимости от положения курсора.", "Настраивает зону прицеливания, в которой расстояние курсора от центра определяет дальность прицеливания (например, насколько сильно должна быть брошена граната). Если курсор выходит за пределы этой зоны, дальность прицеливания считается максимальной.", "Отключение мини-карты может повысить производительность на слабых устройствах.", "Если включено, созданная комната может быть найдена другими игроками в локальной сети. Иначе подключение может быть выполнено только по IP-адресу.", "Если включено, убирает некоторые детали для повышения производительности.", "Если отключено, официальные треки, встроенные в игру, не будут случайно попадаться."])
+ - Неактивен: открытие портов не удалось (на роутере не включён UPnP либо нет его поддержки, ...), для повторной попытки необходим перезапуск.", "Настраивает мёртвую зону прицеливания, в которой направление прицела остаётся неизменным вне зависимости от положения курсора.", "Настраивает зону прицеливания, в которой расстояние курсора от центра определяет дальность прицеливания (например, насколько сильно должна быть брошена граната). Если курсор выходит за пределы этой зоны, дальность прицеливания считается максимальной.", "Отключение мини-карты может повысить производительность на слабых устройствах.", "Если включено, созданная комната может быть найдена другими игроками в локальной сети. Иначе подключение может быть выполнено только по IP-адресу.", "Если включено, убирает некоторые детали для повышения производительности.", "Если отключено, встроенные в игру официальные треки не будут случайно попадаться.", "Управляет польовательскими треками в меню.
+Отключено - в меню будет один официальный трек.
+Использовать треки для боя - в меню будут использоваться те же пользовательские треки, что и в бою.
+Использовать отдельные треки - в меню будут использоваться треки, загруженные из отдельной папки. Ограничения по количеству и размеров треков те же, что и у треков для боя."])
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -187,6 +190,7 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="General" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -733,7 +737,6 @@ size_flags_horizontal = 4
 theme_type_variation = &"HeaderSmall"
 
 [node name="Sound" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -889,12 +892,45 @@ layout_mode = 2
 icon = ExtResource("1_xh6xh")
 expand_icon = true
 
+[node name="CustomMenuTracks" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/CustomMenuTracks"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_type_variation = &"HeaderSmall"
+text = "Пользовательские треки в меню"
+vertical_alignment = 1
+
+[node name="Setting" type="HBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/CustomMenuTracks"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MenuTracksOptions" type="OptionButton" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/CustomMenuTracks/Setting"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 3
+popup/item_0/text = "Отключить"
+popup/item_0/id = 0
+popup/item_1/text = "Использовать треки для боя"
+popup/item_1/id = 1
+popup/item_2/text = "Использовать отдельные треки"
+popup/item_2/id = 2
+
+[node name="Help" type="Button" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/CustomMenuTracks/Setting"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+icon = ExtResource("1_xh6xh")
+expand_icon = true
+
 [node name="CustomTracksPath" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 theme_type_variation = &"HeaderSmall"
-text = "Путь к папке с треками: "
 vertical_alignment = 1
 autowrap_mode = 3
 
@@ -914,6 +950,40 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Empty" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/PanelContainer/LoadedTracks"]
+layout_mode = 2
+text = "Нет треков"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuTracks" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="MenuTracksPath" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/MenuTracks"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="LoadedTracksLabel" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/MenuTracks"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Загруженные треки для меню"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/MenuTracks"]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="LoadedMenuTracks" type="VBoxContainer" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/MenuTracks/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Empty" type="Label" parent="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/MenuTracks/PanelContainer/LoadedMenuTracks"]
 layout_mode = 2
 text = "Нет треков"
 horizontal_alignment = 1
@@ -1457,6 +1527,8 @@ visible = false
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracks/Setting/Help" to="." method="show_help" binds= [8]]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/OfficialTracks/Setting/OfficialTracksCheck" to="." method="_on_official_tracks_check_toggled"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/OfficialTracks/Setting/Help" to="." method="show_help" binds= [16]]
+[connection signal="item_selected" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/CustomMenuTracks/Setting/MenuTracksOptions" to="." method="_on_menu_tracks_options_item_selected"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Sound/CustomTracksSettings/CustomMenuTracks/Setting/Help" to="." method="show_help" binds= [17]]
 [connection signal="item_selected" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Controls/InputMethod/Setting/InputOptions" to="." method="_on_input_options_item_selected"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Controls/InputMethod/Setting/Help" to="." method="show_help" binds= [6]]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/MarginContainer/HBoxContainer/ScrollContainer/Sections/Controls/KeyboardSettings/FollowMouse/Setting/FollowMouseCheck" to="." method="_on_follow_mouse_check_toggled"]

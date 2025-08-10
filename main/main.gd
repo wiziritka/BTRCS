@@ -18,11 +18,9 @@ const MAX_ASPECT_RATIO := 2.34
 const MIN_ASPECT_RATIO := 1.5
 ## Разрешённые расширения файлов для загрузки в качестве пользовательских треков.
 const ALLOWED_MUSIC_FILE_EXTENSIONS: Array[String] = ["mp3", "ogg", "wav"]
-## Максимальная длина названия файла пользовательского трека. Лишнее обрезается.
-const MAX_MUSIC_FILE_NAME_LENGTH: int = 45
 ## Максимальный размер файла пользовательского трека. Если размер больше максимального,
 ## он не будет загружен.
-const MAX_MUSIC_FILE_SIZE_MB := 15.0
+const MAX_MUSIC_FILE_SIZE_MB := 10.0
 ## Максимальное количество пользовательских треков.
 const MAX_CUSTOM_TRACKS: int = 20
 
@@ -39,6 +37,8 @@ var screens: Array[Control]
 var menu_music: AudioStreamPlayer
 ## Словарь загруженных пользовательских треков в формате "<имя файла> - <ресурс трека>".
 var custom_tracks: Dictionary[String, AudioStream]
+## Словарь загруженных пользовательских треков для меню в формате "<имя файла> - <ресурс трека>".
+var custom_menu_tracks: Dictionary[String, AudioStream]
 
 var _preloaded_resources: Array[Resource]
 var _download_http: HTTPRequest
@@ -46,6 +46,9 @@ var _download_http: HTTPRequest
 ## Путь до папки с пользовательскими треками.
 @onready var music_path: String = OS.get_system_dir(OS.SYSTEM_DIR_MUSIC).path_join(
 		str(ProjectSettings.get_setting("application/config/name")))
+## Путь до папки с пользовательскими треками для меню.
+@onready var menu_music_path: String = OS.get_system_dir(OS.SYSTEM_DIR_MUSIC).path_join(
+		str(ProjectSettings.get_setting("application/config/name")) + " Menu")
 
 @onready var _default_window_content_width: int = \
 		ProjectSettings.get_setting("display/window/size/viewport_width")
@@ -235,6 +238,23 @@ func verify_loot(loot: Array[String]) -> Array[String]:
 		else:
 			loot[idx] = type + ':' + value
 	return loot
+
+
+## Выбирает случайный трек для музыки меню из официальных и/или пользовательских и вопроизводит его.
+func update_menu_music() -> void:
+	var tracks_to_play: Array[AudioStream] = [load("uid://dbrfe66ser7ub")] # оф. музыка меню
+	if Globals.get_setting_bool("custom_tracks") and Globals.get_setting_bool("menu_tracks"):
+		if not Globals.get_setting_bool("official_tracks"):
+			tracks_to_play.clear()
+		if Globals.get_setting_bool("separate_menu_tracks"):
+			tracks_to_play.append_array(custom_menu_tracks.values())
+		else:
+			tracks_to_play.append_array(custom_tracks.values())
+	if tracks_to_play.is_empty():
+		menu_music.stop()
+		return
+	menu_music.stream = tracks_to_play.pick_random()
+	menu_music.play()
 
 
 ## Выдаёт критическую ошибку, которая останавливает всю игру. Использовать только в безвыходных
@@ -497,13 +517,15 @@ func _loading_init_systems() -> void:
 	
 	Globals.initialize_systems()
 	
+	_preloaded_resources.append(load("uid://dbrfe66ser7ub"))
 	menu_music = AudioStreamPlayer.new()
 	menu_music.name = &"MenuMusic"
 	menu_music.bus = &"Music"
-	menu_music.autoplay = true
-	menu_music.stream = load("uid://dbrfe66ser7ub")
+	menu_music.finished.connect(update_menu_music)
 	add_child(menu_music)
 	move_child(menu_music, 0)
+	if not (Globals.get_setting_bool("custom_tracks") and Globals.get_setting_bool("menu_tracks")):
+		update_menu_music()
 	
 	print_verbose("Done initializing systems.")
 	loading_stage_finished.emit(true)
@@ -530,12 +552,35 @@ func _loading_custom_tracks() -> void:
 		return
 	
 	var to_load: Dictionary[String, String]
+	var to_load_is_menu: Dictionary[String, bool]
 	for file: String in dir.get_files():
 		if to_load.size() >= MAX_CUSTOM_TRACKS:
 			break
 		if file.get_extension() in ALLOWED_MUSIC_FILE_EXTENSIONS:
-			to_load[dir.get_current_dir().path_join(file)] = file.get_extension()
-			print_verbose("Found track: %s." % dir.get_current_dir().path_join(file))
+			var path: String = dir.get_current_dir().path_join(file)
+			to_load[path] = file.get_extension()
+			to_load_is_menu[path] = false
+			print_verbose("Found track: %s." % path)
+	
+	if Globals.get_setting_bool("separate_menu_tracks"):
+		dir = DirAccess.open(menu_music_path)
+		if not dir:
+			push_error("Failed creating DirAccess at path %s. Error: %s." % [
+				menu_music_path,
+				error_string(DirAccess.get_open_error()),
+			])
+			loading_stage_finished.emit(false)
+			return
+		
+		var normal_tracks_count: int = to_load.size()
+		for file: String in dir.get_files():
+			if to_load.size() >= MAX_CUSTOM_TRACKS + normal_tracks_count:
+				break
+			if file.get_extension() in ALLOWED_MUSIC_FILE_EXTENSIONS:
+				var path: String = dir.get_current_dir().path_join(file)
+				to_load[path] = file.get_extension()
+				to_load_is_menu[path] = true
+				print_verbose("Found menu track: %s." % path)
 	
 	var to_load_count: int = to_load.size()
 	var counter: int = 0
@@ -557,7 +602,7 @@ func _loading_custom_tracks() -> void:
 				"mp3":
 					var mp3 := AudioStreamMP3.load_from_buffer(file.get_buffer(file.get_length()))
 					if mp3:
-						mp3.loop = true
+						mp3.loop = not to_load_is_menu[path]
 						stream = mp3
 					else:
 						valid = false
@@ -565,24 +610,28 @@ func _loading_custom_tracks() -> void:
 					var ogg := AudioStreamOggVorbis.load_from_buffer(
 							file.get_buffer(file.get_length()))
 					if ogg:
-						ogg.loop = true
+						ogg.loop = not to_load_is_menu[path]
 						stream = ogg
 					else:
 						valid = false
 				"wav":
 					var wav := AudioStreamWAV.load_from_buffer(file.get_buffer(file.get_length()))
 					if wav:
-						wav.loop_mode = AudioStreamWAV.LOOP_FORWARD
-						wav.loop_end = floori(wav.get_length() * wav.mix_rate)
+						if to_load_is_menu[path]:
+							wav.loop_mode = AudioStreamWAV.LOOP_DISABLED
+						else:
+							wav.loop_mode = AudioStreamWAV.LOOP_FORWARD
+							wav.loop_end = floori(wav.get_length() * wav.mix_rate)
 						stream = wav
 					else:
 						valid = false
 		
 		if valid:
 			print_verbose("Loaded track: %s." % path)
-			custom_tracks[
-				path.get_file().get_basename().left(MAX_MUSIC_FILE_NAME_LENGTH)
-			] = stream
+			if to_load_is_menu[path]:
+				custom_menu_tracks[path.get_file().get_basename()] = stream
+			else:
+				custom_tracks[path.get_file().get_basename()] = stream
 		else:
 			print_verbose("Track at %s is invalid." % path)
 		
@@ -591,6 +640,9 @@ func _loading_custom_tracks() -> void:
 		if Time.get_ticks_msec() - last_ticks > 16:
 			await get_tree().process_frame
 			last_ticks = Time.get_ticks_msec()
+	
+	if Globals.get_setting_bool("custom_tracks") and Globals.get_setting_bool("menu_tracks"):
+		update_menu_music()
 	
 	_load_progress_bar.value = 100.0
 	await get_tree().process_frame
