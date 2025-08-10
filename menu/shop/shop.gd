@@ -14,6 +14,7 @@ const ITEMS_NAMES: Dictionary[String, String] = {
 	"equip_elite_box": "Элитный ящик с экипировкой",
 }
 
+@export_multiline var box_info_text := ""
 # См. Loot для подробностей, и держите в синхронизации с ним
 @export_group("Box Chances", "box_chance_")
 @export_range(0.0, 100.0, 0.01) var box_chance_rare := 67.0
@@ -123,6 +124,43 @@ func buy(cost: int, rewards_str: String, offer_id: int = -1) -> void:
 	_purchase_dialog.confirmed.connect(_on_purchase_confirmed.bind(cost, rewards, offer_id))
 	_purchase_dialog.popup_centered(Vector2i(_purchase_dialog.size.x, 0))
 	print_verbose("Waiting for purchase confirmation...")
+
+
+func show_box_info(type: String) -> void:
+	($BoxInfo/VBoxContainer/BoxType as Label).text = ITEMS_NAMES[type]
+	
+	var chances: Array[float]
+	var chance_increase: float
+	if "elite" in type:
+		chances = Utils.calculate_box_chances(
+				elite_box_chance_rare, elite_box_chance_epic, elite_box_chance_legendary,
+				elite_box_chance_increase, Globals.get_int(type + "_rare_got"),
+				Globals.get_int(type + "_epic_got"), Globals.get_int(type + "_legendary_got")
+		)
+		chance_increase = elite_box_chance_increase
+	else:
+		chances = Utils.calculate_box_chances(
+				box_chance_rare, box_chance_epic, box_chance_legendary, box_chance_increase,
+				Globals.get_int(type + "_rare_got"), Globals.get_int(type + "_epic_got"),
+				Globals.get_int(type + "_legendary_got")
+		)
+		chance_increase = box_chance_increase
+	
+	($BoxInfo/VBoxContainer/RichTextLabel as RichTextLabel).text = box_info_text.format({
+		"rare_color": ItemsDB.RARITY_COLORS[ItemsDB.Rarity.RARE].to_html(false),
+		"rare_chance": str(int(chances[0])) if is_equal_approx(chances[0], int(chances[0]))
+				else str(chances[0]),
+		"epic_color": ItemsDB.RARITY_COLORS[ItemsDB.Rarity.EPIC].to_html(false),
+		"epic_chance": str(int(chances[1])) if is_equal_approx(chances[1], int(chances[1]))
+				else str(chances[1]),
+		"legendary_color": ItemsDB.RARITY_COLORS[ItemsDB.Rarity.LEGENDARY].to_html(false),
+		"legendary_chance": str(int(chances[2])) if is_equal_approx(chances[2], int(chances[2]))
+				else str(chances[2]),
+		"chance_increase": str(int(chance_increase))
+				if is_equal_approx(chance_increase, int(chance_increase)) else str(chance_increase),
+	})
+	
+	($BoxInfo as Window).popup_centered()
 
 
 func _list_online_offers() -> void:

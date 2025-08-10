@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bj723c8k8la6y"]
+[gd_scene load_steps=33 format=3 uid="uid://bj723c8k8la6y"]
 
 [ext_resource type="Script" uid="uid://dfbi48lj1pb8n" path="res://menu/shop/shop.gd" id="1_4yet2"]
 [ext_resource type="Texture2D" uid="uid://c3kh0ourvde3l" path="res://menu/shop/background.png" id="2_cyj7w"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://lnjqijsauw8a" path="res://menu/shop/boxes/skin_box.png" id="5_cinaw"]
 [ext_resource type="Texture2D" uid="uid://dvh0b4o4tjklm" path="res://menu/shop/coins/coins0.png" id="5_idaoj"]
 [ext_resource type="Texture2D" uid="uid://bqdfll3jv7f18" path="res://menu/shop/coins/coins1.png" id="6_yhc8g"]
+[ext_resource type="Texture2D" uid="uid://b0j3g7rkerkdm" path="res://menu/theme/icons/help.png" id="7_i3jto"]
 [ext_resource type="Texture2D" uid="uid://hh4x3ybix143" path="res://menu/shop/boxes/equip_box.png" id="7_no6pl"]
 [ext_resource type="Texture2D" uid="uid://pdi5jmhwo5gp" path="res://menu/shop/coins/coins2.png" id="7_ra5ts"]
 [ext_resource type="Texture2D" uid="uid://cn4p5ailtorvn" path="res://menu/shop/boxes/skin_elite_box.png" id="8_6qdfj"]
@@ -151,6 +152,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4yet2")
+box_info_text = "Шансы получить предмет определённой редкости:
+[outline_size=2][color=#{rare_color}]Редкий[/color][/outline_size] предмет: {rare_chance}%
+[outline_size=2][color=#{epic_color}]Эпический[/color][/outline_size] предмет: {epic_chance}%
+[outline_size=2][color=#{legendary_color}]Легендарный[/color][/outline_size] предмет: {legendary_chance}%
+Когда все предметы какой-то редкости разблокированы, в ящике эта редкость заменяется на \"Повышение шансов\", которое работает следующим образом: шансы на предметы других редкостей растут на {chance_increase}%, а шанс на предмет полученной редкости понижается на сумму процентов, на которые повысились остальные, но не может опуститься ниже 20% от базового шанса полученной редкости. Повышенные шансы сбрасываются при получении любого предмета из этого ящика.
+Когда все предметы этого ящика разблокированы, содержимое меняется на монеты, количество которых зависит от полученной редкости при открытии ящика."
 box_chance_increase = 7.0
 elite_box_chance_increase = 10.0
 cost_equip_epic = 500
@@ -344,6 +351,22 @@ theme_type_variation = &"BigFontButton"
 text = "80"
 icon = ExtResource("9_cinaw")
 
+[node name="Info" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinBox"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -52.0
+offset_top = -52.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/icon_max_width = 24
+icon = ExtResource("7_i3jto")
+
 [node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinBox"]
 layout_mode = 1
 anchors_preset = 10
@@ -389,6 +412,22 @@ theme_type_variation = &"BigFontButton"
 text = "200"
 icon = ExtResource("9_cinaw")
 
+[node name="Info" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipBox"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -52.0
+offset_top = -52.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/icon_max_width = 24
+icon = ExtResource("7_i3jto")
+
 [node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipBox"]
 layout_mode = 1
 anchors_preset = 10
@@ -400,13 +439,13 @@ text = "Ящик с экипировкой"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="EliteSkinBox" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer"]
+[node name="SkinEliteBox" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(240, 240)
 layout_mode = 2
 texture = SubResource("GradientTexture2D_i3jto")
 expand_mode = 1
 
-[node name="Texture" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteSkinBox"]
+[node name="Texture" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinEliteBox"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -417,7 +456,7 @@ texture = ExtResource("8_6qdfj")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Buy" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteSkinBox"]
+[node name="Buy" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinEliteBox"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -434,7 +473,23 @@ theme_type_variation = &"BigFontButton"
 text = "200"
 icon = ExtResource("9_cinaw")
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteSkinBox"]
+[node name="Info" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinEliteBox"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -52.0
+offset_top = -52.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/icon_max_width = 24
+icon = ExtResource("7_i3jto")
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinEliteBox"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -445,13 +500,13 @@ text = "Элитный ящик со скинами"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="EliteEquipBox" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer"]
+[node name="EquipEliteBox" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(240, 240)
 layout_mode = 2
 texture = SubResource("GradientTexture2D_6dce8")
 expand_mode = 1
 
-[node name="Texture" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteEquipBox"]
+[node name="Texture" type="TextureRect" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipEliteBox"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -462,7 +517,7 @@ texture = ExtResource("9_xdsol")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Buy" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteEquipBox"]
+[node name="Buy" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipEliteBox"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -479,7 +534,23 @@ theme_type_variation = &"BigFontButton"
 text = "500"
 icon = ExtResource("9_cinaw")
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteEquipBox"]
+[node name="Info" type="Button" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipEliteBox"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -52.0
+offset_top = -52.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/icon_max_width = 24
+icon = ExtResource("7_i3jto")
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipEliteBox"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -750,6 +821,44 @@ cancel_button_text = "Отмена"
 [node name="Promocodes" parent="." instance=ExtResource("15_xdsol")]
 visible = false
 
+[node name="BoxInfo" type="Window" parent="."]
+oversampling_override = 1.0
+title = "Информация о ящике"
+size = Vector2i(640, 400)
+visible = false
+transient = true
+exclusive = true
+unresizable = true
+
+[node name="Background" type="ColorRect" parent="BoxInfo"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BoxInfo"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="BoxType" type="Label" parent="BoxInfo/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"HeaderSmall"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="BoxInfo/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
+horizontal_alignment = 1
+
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
 resources = [PackedStringArray("coins_offer", "equip_box_offer", "equip_elite_box_offer", "skin_box_offer", "skin_elite_box_offer"), [ExtResource("16_200u0"), ExtResource("17_i3jto"), ExtResource("18_6dce8"), ExtResource("19_1ovia"), ExtResource("20_ix43u")]]
 
@@ -760,8 +869,13 @@ autostart = true
 [connection signal="child_order_changed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/SpecialOffers/VBoxContainer/SpecialOffersContainer" to="." method="_on_special_offers_container_child_order_changed"]
 [connection signal="child_order_changed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/DailyOffers/VBoxContainer/DailyOffersContainer" to="." method="_on_daily_offers_container_child_order_changed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinBox/Buy" to="." method="buy" binds= [80, "skin_box:1"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinBox/Info" to="." method="show_box_info" binds= ["skin_box"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipBox/Buy" to="." method="buy" binds= [200, "equip_box:1"]]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteSkinBox/Buy" to="." method="buy" binds= [200, "skin_elite_box:1"]]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EliteEquipBox/Buy" to="." method="buy" binds= [500, "equip_elite_box:1"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipBox/Info" to="." method="show_box_info" binds= ["equip_box"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinEliteBox/Buy" to="." method="buy" binds= [200, "skin_elite_box:1"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/SkinEliteBox/Info" to="." method="show_box_info" binds= ["skin_elite_box"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipEliteBox/Buy" to="." method="buy" binds= [500, "equip_elite_box:1"]]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Boxes/VBoxContainer/GridContainer/EquipEliteBox/Info" to="." method="show_box_info" binds= ["equip_elite_box"]]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/ScrollContainer/HBoxContainer/Promocodes/VBoxContainer/EnterPromocode" to="Promocodes" method="popup_centered"]
+[connection signal="close_requested" from="BoxInfo" to="BoxInfo" method="hide"]
 [connection signal="timeout" from="UpdateDayTimer" to="." method="_on_update_day_timer_timeout"]
