@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://f6bay2nx1wy3"]
+[gd_scene load_steps=45 format=3 uid="uid://f6bay2nx1wy3"]
 
 [ext_resource type="PackedScene" uid="uid://bkvfj405l2gvw" path="res://game/core/world.tscn" id="1_6jugc"]
 [ext_resource type="Script" uid="uid://cq53u6g7rseun" path="res://game/solo/training/training.gd" id="2_lrvjq"]
@@ -40,6 +40,8 @@
 [ext_resource type="Texture2D" uid="uid://qsfdp7ao1pbj" path="res://game/solo/training/icons/enemies/dummy.png" id="28_4ik32"]
 [ext_resource type="Texture2D" uid="uid://dn7x0uuvkhfal" path="res://game/solo/training/icons/enemies/robot_p350.png" id="29_8ojcx"]
 [ext_resource type="Texture2D" uid="uid://b1u3v2dc3jemk" path="res://menu/theme/icons/delete.png" id="33_xt344"]
+[ext_resource type="Texture2D" uid="uid://c2jp45c7cybbs" path="res://game/solo/training/icons/editor/spikes.png" id="38_4j2vv"]
+[ext_resource type="PackedScene" uid="uid://davg83gsduoyq" path="res://game/solo/training/spikes.tscn" id="42_npibf"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_5ylsm"]
 
@@ -461,7 +463,15 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_ew6j5")
 icon = ExtResource("27_1jf6s")
 
-[node name="Dummy" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="3"]
+[node name="Spikes" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="3"]
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/icon_max_width = 64
+toggle_mode = true
+button_group = SubResource("ButtonGroup_ew6j5")
+icon = ExtResource("38_4j2vv")
+
+[node name="Dummy" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="4"]
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/icon_max_width = 64
@@ -469,7 +479,7 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_ew6j5")
 icon = ExtResource("28_4ik32")
 
-[node name="RobotP350" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="4"]
+[node name="RobotP350" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="5"]
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/icon_max_width = 64
@@ -477,7 +487,7 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_ew6j5")
 icon = ExtResource("29_8ojcx")
 
-[node name="RobotAK74" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="5"]
+[node name="RobotAK74" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="6"]
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/icon_max_width = 64
@@ -485,7 +495,7 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_ew6j5")
 icon = ExtResource("5_8ojcx")
 
-[node name="RobotKnife" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="6"]
+[node name="RobotKnife" type="Button" parent="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer" index="7"]
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/icon_max_width = 64
@@ -703,7 +713,7 @@ dialog_text = "Ты действительно хочешь выйти из тр
 cancel_button_text = "Отмена"
 
 [node name="ResourcePreloaderTraining" type="ResourcePreloader" parent="." index="12"]
-resources = [PackedStringArray("default_map"), [ExtResource("3_36lnl")]]
+resources = [PackedStringArray("default_map", "spikes"), [ExtResource("3_36lnl"), ExtResource("42_npibf")]]
 
 [node name="RespawnTimer" type="Timer" parent="." index="13"]
 wait_time = 3.0
@@ -742,6 +752,7 @@ one_shot = true
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/Grass" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [0]]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/Block" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [1]]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/Hole" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [2]]
+[connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/Spikes" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_block_pressed" binds= [3]]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/Dummy" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [0]]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/RobotP350" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [1]]
 [connection signal="pressed" from="UI/Menu/PanelContainer/MapEditor/Main/Placeables/MarginContainer/VBoxContainer/RobotAK74" to="UI/Menu/PanelContainer/MapEditor" method="_on_place_enemy_pressed" binds= [2]]

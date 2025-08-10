@@ -13,6 +13,8 @@ enum BlockType {
 	WALL = 1,
 	## Дыра. Непроходимая, но простреливаемая.
 	HOLE = 2,
+	## Шипы. Наносят урон.
+	SPIKES = 3,
 }
 ## Перечисление типов врагов.
 enum EnemyType {
@@ -36,6 +38,7 @@ const BLOCK_COLORS: Dictionary[BlockType, Color] = {
 	BlockType.GRASS : Color.LIME_GREEN,
 	BlockType.WALL : Color.GOLD,
 	BlockType.HOLE : Color.SADDLE_BROWN,
+	BlockType.SPIKES : Color.GRAY,
 }
 ## Размер карты в блоках.
 const MAP_SIZE := Vector2i(50, 50)
@@ -55,6 +58,8 @@ var enemies_data: Array[EnemyData]
 var _player: Player
 var _current_map: Node2D
 var _spawn_point: Marker2D
+
+var _spikes_scene: PackedScene = load("uid://davg83gsduoyq")
 
 
 func _initialize() -> void:
@@ -118,6 +123,7 @@ func load_default_map() -> void:
 		var floor_layer: TileMapLayer = map.get_node(^"TileMapLayers/Floor")
 		var walls_layer: TileMapLayer = map.get_node(^"TileMapLayers/Walls")
 		var minimap_layer: TileMapLayer = map.get_node(^"Minimap/MinimapTiles")
+		var spikes_parent: AreaDetector = map.get_node(^"Spikes/AreaDetector")
 		
 		for x: int in MAP_SIZE.x:
 			for y: int in MAP_SIZE.y:
@@ -135,6 +141,14 @@ func load_default_map() -> void:
 						floor_layer.set_cell(map_coords, 1, Vector2i(0, 1))
 						walls_layer.erase_cell(map_coords)
 						minimap_layer.set_cell(map_coords, 0, Vector2i(1, 0))
+					BlockType.SPIKES:
+						floor_layer.set_cell(map_coords, 1, Vector2i(0, 0))
+						walls_layer.erase_cell(map_coords)
+						minimap_layer.set_cell(map_coords, 0, Vector2i(0, 1))
+						
+						var spikes: CollisionShape2D = _spikes_scene.instantiate()
+						spikes.position = map_coords * 160.0 + Vector2.ONE * 80
+						spikes_parent.add_child(spikes)
 	
 	enemies_data.clear()
 	if Globals.get_variant("custom_training_enemies", [{}]) == [{}]:

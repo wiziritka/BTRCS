@@ -365,6 +365,8 @@ func _on_place_block_pressed(type: Training.BlockType) -> void:
 			_status.text = "Стена"
 		Training.BlockType.HOLE:
 			_status.text = "Дыра"
+		Training.BlockType.SPIKES:
+			_status.text = "Шипы"
 
 
 func _on_place_enemy_pressed(type: Training.EnemyType) -> void:
